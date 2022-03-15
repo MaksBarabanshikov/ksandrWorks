@@ -2,7 +2,7 @@ import Block from "../common/Block";
 import userImage from "../../image/header/User_light.svg"
 import BellImage from "../../image/header/Bell_light.svg"
 import {useEffect, useState} from "react";
-// import "./Header.scss"
+import "./Header.scss"
 
 let push = "1"
 

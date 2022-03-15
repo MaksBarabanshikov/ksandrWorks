@@ -2,14 +2,55 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  margin-bottom: 30px;
 
   &-title {
     display: flex;
     align-items: end;
   }
 
-   &-buttons {
-     display: flex;
-     align-items: end;
-   }
+  &-buttons {
+    display: flex;
+    align-items: center;
+
+    button {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: #ffffff;
+      position: relative;
+      border: 1px solid transparent;
+      padding: 0;
+      
+      &:hover {
+        background-color: #fff;
+        border-color: #666;
+      }
+
+      &:first-child {
+        margin-right: 8px;
+      }
+
+      .header-count {
+        position: absolute;
+        font-size: 12px;
+        font-weight: 400;
+        right: -5px;
+        top: -3px;
+        display: inline-flex;
+        width: 20px;
+        height: 20px;
+        background-color: #6F3DDB;
+        color: #fff;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  &-date {
+    margin-left: 22px;
+  }
 }
+

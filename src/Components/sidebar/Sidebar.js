@@ -1,8 +1,7 @@
 import Block from "../common/Block"
 import SidebarList from "../common/SidebarList"
 import logo from "../../image/logo.jpg"
-// import "./Sidebar.scss"
-
+import "./Sidebar.scss"
 
 const Sidebar = () => {
     return (

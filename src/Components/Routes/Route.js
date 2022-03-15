@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import Autoreg from "../pages/Autoreg/Autoreg";
 import Parsing from "../pages/Parsing/Parsing";
 import Invite from "../pages/Invite/Invite";
@@ -13,11 +13,14 @@ import Faq from "../pages/Faq/Faq";
 import Help from "../pages/Help/Help";
 import Exit from "../pages/Exit/Exit";
 
+
+
 const Routing = () => {
   return(
     <Routes>
         <Route path="/" element={<Autoreg/>}/>
-        <Route path="/parsing" element={<Parsing/>}/>
+        <Route path="/parsing" element={<Navigate to={"/parsing/telegram"} replace/>}/>
+          <Route path="/parsing/:id" element={<Parsing/>}/>
         <Route path="/invite" element={<Invite/>}/>
         <Route path="/mailing" element={<Mailing/>}/>
         <Route path="/chat" element={<Chat/>}/>

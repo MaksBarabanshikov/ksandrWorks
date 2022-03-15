@@ -1,0 +1,52 @@
+.parsing {
+  .input-label {
+    input {
+      margin-top: 10px;
+    }
+  }
+
+  &-row.big-input {
+    margin-bottom: 51px;
+    justify-content: space-between;
+
+    .input-label {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 385px;
+      font-size: 16px;
+      color: rgba(2, 6, 20, 1);
+      input {
+        width: 100%;
+        max-width: 100%;
+        text-align: left;
+        padding: 11px 30px;
+        align-items: normal;
+      }
+    }
+  }
+  &-block-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &:first-child {
+      margin-bottom: 22px;
+    }
+  }
+  &-text {
+    color: rgba(2, 6, 20, 1);
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 11px;
+  }
+  &-column {
+    flex: 1 1 180px;
+    margin-left: 60px;
+  }
+  &-title {
+    font-size: 16px;
+    color: rgba(2, 6, 20, 1);
+    margin-bottom: 22px;
+  }
+}
+

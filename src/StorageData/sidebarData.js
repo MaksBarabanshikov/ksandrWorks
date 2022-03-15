@@ -1,3 +1,5 @@
+import {pathName} from "./navigateData";
+
 import regImage from "../image/sidebar/Key_alt_light.svg";
 import parsingImage from "../image/sidebar/Load_circle.svg";
 import userImage from "../image/sidebar/User_add.svg";
@@ -13,23 +15,23 @@ import commentImage from "../image/sidebar/comment_light.svg";
 import exitImage from "../image/sidebar/exit.svg";
 
 export const sidebarTop = [
-            {img: regImage, text: "Авторег", path: "/"},
-            {img: parsingImage, text: "Парсинг", path: "/parsing"},
-            {img: userImage, text: "Инвайтинг", path: "/invite"},
-            {img: mailImage, text: "Рассылка", path: "/mailing"},
-            {img: chatImage, text: "Диалоги", path: "/chat"},
-            {img: checkImage, text: "Чекер", path: "/checker"},
-            {img: timeImage, text: "Сессии", path: "/session"}
+            {img: regImage, text: pathName.autoreg.state, path: pathName.autoreg.path},
+            {img: parsingImage, text: pathName.parsing.state, path: pathName.parsing.path},
+            {img: userImage, text: pathName.invite.state, path: pathName.invite.path},
+            {img: mailImage, text: pathName.mailing.state, path: pathName.mailing.path},
+            {img: chatImage, text: pathName.chat.state, path: pathName.chat.path},
+            {img: checkImage, text: pathName.checker.state, path: pathName.checker.path},
+            {img: timeImage, text: pathName.session.state, path: pathName.session.path}
 ]
 
 export const  sidebarMiddle = [
-    {img: settingImage, text: "Настройки", path: "/setting"},
-    {img: cardImage, text: "Оплата", path: "/payment"},
-    {img: bookImage, text: "Инструкция", path: "/instruction"},
-    {img: questionImage, text: "FAQ", path: "/faq"}
+    {img: settingImage, text: pathName.setting.state, path: pathName.setting.path},
+    {img: cardImage, text: pathName.payment.state, path: pathName.payment.path},
+    {img: bookImage, text: pathName.instruction.state, path: pathName.instruction.path},
+    {img: questionImage, text: pathName.faq.state, path: pathName.faq.path}
 ]
 
 export const sidebarBottom = [
-    {img: commentImage, text: "Помощь", path: "/help"},
-    {img: exitImage, text: "Выход", path: "/exit"}
+    {img: commentImage, text: pathName.help.state, path: pathName.help.path},
+    {img: exitImage, text: pathName.exit.state, path: pathName.exit.path}
 ]

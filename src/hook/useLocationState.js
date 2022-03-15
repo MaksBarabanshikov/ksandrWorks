@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {pathName} from "../../StorageData/navigateData";
+import {pathName} from "../StorageData/navigateData";
 
 function useLocationState(locationPathName, locationState) {
     const getState = () => {

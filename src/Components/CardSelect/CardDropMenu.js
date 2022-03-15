@@ -1,14 +1,27 @@
-import Block from "./Block";
+import Block from "../common/Block";
+import {dropMenuCountries} from "../../StorageData/dropMenuData";
+import CardDropMenuItem from "./CardDropMenuItem";
+import {useState} from "react";
 
-const CardDropMenu = () => {
+const CardDropMenu = (props) => {
+    const cloneDropMenu = JSON.parse(JSON.stringify(dropMenuCountries))
+    const [activeItem, setActiveItem] = useState(cloneDropMenu)
+
+    const handleSetActive = (item) => {
+        const addActive = JSON.parse(JSON.stringify(cloneDropMenu))
+        item.selected = true
+        for (const key in addActive) {
+            if (addActive[key].text === item.text) {
+                addActive[key].selected = true
+                setActiveItem(addActive)
+            }
+        }
+    }
+
     return(
         <Block stylees="card-select-drop">
-            <ul className="card-select-drop-list">
-                <li className="card-select-drop-item">Россия</li>
-                <li className="card-select-drop-item">Украина</li>
-                <li className="card-select-drop-item">Беларусь</li>
-                <li className="card-select-drop-item">Эстония</li>
-            </ul>
+            <p className="card-select-drop-title">Выберите город</p>
+                <CardDropMenuItem items={activeItem} handleSetActive={handleSetActive} select={props.select} />
         </Block>
     )
 }

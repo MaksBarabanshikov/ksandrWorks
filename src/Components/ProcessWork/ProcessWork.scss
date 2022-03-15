@@ -1,0 +1,20 @@
+.title-main-block {
+  margin-bottom: 25px;
+}
+
+.process-work-list {
+  li {
+    display: flex;
+    border: 1px solid rgba(179, 179, 179, 0.5);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 14px;
+    justify-content: space-between;
+    line-height: 17px;
+    margin-bottom: 11px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

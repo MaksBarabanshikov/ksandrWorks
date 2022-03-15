@@ -1,41 +1,130 @@
-
+@import "normalize-scss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-//$gray: #666;
-//
-//* {
-//  margin: 0;
-//  padding: 0;
-//  box-sizing: border-box;
-//}
-//
-//body {
-//  font-family: 'Inter', sans-serif;
-//  background-color: #F7F9FD;
-//  color: $gray;
-//}
-//
-//.App {
-//  display: flex;
-//  min-height: 100vh;
-//}
-//
-//.logo-image {
-//  max-width: 70px;
-//  max-height: 70px;
-//}
-//
-//a {
-//  text-decoration: none;
-//  color: $gray;
-//}
-//
-//.content {
-//  width: 100%;
-//  padding: 35px 75px 0 70px;
-//}
-//
-//h5 {
-//  color: #020614;
-//  font-size: 18px;
-//}
+$gray: #666;
+$black: #020614;
+$red: #EF9B9B;
+$purple: #6F3DDB;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F7F9FD;
+  color: $gray;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.App {
+  display: flex;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+}
+
+.logo-image {
+  max-width: 70px;
+  max-height: 70px;
+}
+
+a {
+  text-decoration: none;
+  color: $gray;
+}
+
+.content {
+  width: 100%;
+  padding: 35px 75px 0 70px;
+}
+
+ul {
+  list-style: none;
+}
+
+h5 {
+  color: $black;
+  font-size: 18px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  transition: all .25s ease-out;
+  display: block;
+  padding: 7px 0;
+  background-color: $purple;
+  color: #fff;
+  border-radius: 10px;
+  max-height: 35px;
+
+  &:hover {
+    background-color: #724ac9;
+  }
+}
+
+.block.left {
+  flex: 2 1 70%;
+  background-color: #fff;
+  margin-right: 47px;
+  padding: 32px 45px 83px;
+  height: 100%;
+  box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
+  border-radius: 10px;
+
+  &-transparent {
+    flex: 2 1 70%;
+    margin-right: 47px;
+
+    .block.left {
+      width: 100%;
+    }
+  }
+}
+
+.process-work {
+  background-color: #fff;
+  flex: 1 1 30%;
+  padding: 24px 22px;
+  height: 100%;
+  box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
+  border-radius: 10px;
+}
+
+.container {
+  justify-content: space-between;
+  height: 100%;
+}
+
+
+.flex {
+  display: flex;
+}
+
+.block-title {
+  color: $black;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 13px;
+}
+
+.big-input {
+  input {
+    height: 100%;
+  }
+}
+
+
+
+
+
+
+.red {
+  color: $red;
+}
