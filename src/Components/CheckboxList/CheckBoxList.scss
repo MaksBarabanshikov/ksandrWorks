@@ -1,0 +1,46 @@
+.checkbox-list {
+  display: flex;
+  margin-bottom: 46px;
+  .input-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    border: 1px solid rgba(102, 102, 102, 0.7);
+    border-radius: 10px;
+    flex: 0 0 calc(25% - 11px);
+    margin-right: 14px;
+    padding: 5px 16px;
+    cursor: pointer;
+    transition: 0.2s all linear;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      color: #6F3DDB;
+      border-color: #6F3DDB;
+    }
+
+    input {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      margin: 0!important;
+      transition: 0.2s all linear;
+      outline: none;
+      background-color: transparent;
+      border-color: rgba(102,102,102,0.7);
+      padding: 3px;
+      cursor: pointer;
+
+      &:checked {
+        border-color: rgba(131, 183, 142, 1);
+        background-color: rgba(131, 183, 142, 1);
+        background-clip: content-box;
+      }
+    }
+  }
+}

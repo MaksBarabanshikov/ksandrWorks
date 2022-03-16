@@ -21,3 +21,15 @@ export const twoCheckboxValue = {
     login: true,
     number: true
 }
+
+export const checkboxThree = [
+    {id: 1, isLabel: true, labelText: "Отлеженные", type: "checkbox", name: "tracking"},
+    {id: 2, isLabel: true, labelText: "Все", type: "checkbox", name: "all"},
+    {id: 3, isLabel: true, labelText: "Дальнейшие диалоги", type: "checkbox", name: "furtherDialogues"},
+]
+
+export const threeCheckboxValue = {
+    tracking: true,
+    all: true,
+    furtherDialogues: true
+}

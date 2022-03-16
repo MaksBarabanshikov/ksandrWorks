@@ -19,9 +19,14 @@
 
     input {
       background-color: transparent;
+      &:focus{
+        outline: none;
+      }
 
-      &:focus {
-        border-color: #6b32e3;
+      &.focus {
+        &:focus {
+          border-color: #6b32e3;
+        }
       }
     }
   }
@@ -31,6 +36,7 @@
 
     button {
       margin-left: 20px;
+      cursor: pointer;
     }
   }
 

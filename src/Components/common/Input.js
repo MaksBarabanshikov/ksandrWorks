@@ -6,7 +6,7 @@ const Input = (props) => {
         return (
             <label className={classNames("input-label", props.stylesLabel)}>
                 <span>{props.labelText}</span>
-                <input className={props.stylees} type={props.type} placeholder={props.placeholder}/>
+                <input className={props.stylees} type={props.type} placeholder={props.placeholder} defaultValue={props.defaultValue}/>
             </label>
         )
     } else if (props.type === "checkbox") {

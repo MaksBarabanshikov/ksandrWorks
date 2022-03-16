@@ -1,10 +1,10 @@
 import Block from "../common/Block";
 import Input from "../common/Input";
 import {useState} from "react";
+import "./CheckBoxList.scss"
 
 const CheckBoxList = ({checkboxs, radio}) => {
     const [checked, setChecked] = useState({...radio})
-    console.log(checked)
 
     const handleSetChecked = (event) => {
         const {name,checked} = event.target
@@ -15,7 +15,6 @@ const CheckBoxList = ({checkboxs, radio}) => {
                 [name]: checked
             }
         })
-        console.log(checked)
 
     }
 

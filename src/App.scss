@@ -120,6 +120,7 @@ button.purple-btn {
 .big-input {
   textarea {
     height: 100%;
+    line-height: 9px;
   }
 }
 
@@ -127,7 +128,6 @@ button.purple-btn {
   display: flex;
   flex-direction: column;
   flex: 0 0 70%;
-
   textarea {
     margin-top: 10px;
     border-radius: 10px;

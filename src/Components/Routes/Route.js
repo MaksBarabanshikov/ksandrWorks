@@ -13,8 +13,6 @@ import Faq from "../pages/Faq/Faq";
 import Help from "../pages/Help/Help";
 import Exit from "../pages/Exit/Exit";
 
-
-
 const Routing = () => {
   return(
     <Routes>
