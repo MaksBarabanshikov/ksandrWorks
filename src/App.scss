@@ -16,8 +16,6 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: #F7F9FD;
   color: $gray;
-  height: 100vh;
-  overflow: hidden;
 }
 
 .App {
@@ -27,6 +25,7 @@ body {
 
 .container {
   display: flex;
+  min-height: 93vh;
 }
 
 .logo-image {
@@ -55,6 +54,14 @@ h5 {
 
 button {
   border: none;
+  background: none;
+  cursor: pointer;
+  transition: all .25s ease-out;
+  display: block;
+}
+
+button.purple-btn {
+  border: none;
   cursor: pointer;
   transition: all .25s ease-out;
   display: block;
@@ -74,7 +81,6 @@ button {
   background-color: #fff;
   margin-right: 47px;
   padding: 32px 45px 83px;
-  height: 100%;
   box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
   border-radius: 10px;
 
@@ -92,16 +98,13 @@ button {
   background-color: #fff;
   flex: 1 1 30%;
   padding: 24px 22px;
-  height: 100%;
   box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
   border-radius: 10px;
 }
 
 .container {
   justify-content: space-between;
-  height: 100%;
 }
-
 
 .flex {
   display: flex;
@@ -115,14 +118,31 @@ button {
 }
 
 .big-input {
-  input {
+  textarea {
     height: 100%;
   }
 }
 
+.textarea-label {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 70%;
 
-
-
+  textarea {
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 11px 26px;
+    resize: none;
+    width: 100%;
+    border: none;
+    background-color: #F6F6F6;
+    display: flex;
+    flex-direction: column;
+    outline: none;
+    color: rgba(102, 102, 102, 1);
+    font-size: 14px;
+  }
+}
 
 
 .red {

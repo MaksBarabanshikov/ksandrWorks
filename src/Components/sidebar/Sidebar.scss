@@ -1,8 +1,9 @@
 
 .sidebar {
   flex: 0 0 210px;
-  padding: 27px 27px 87px 27px;
+  padding: 27px 27px 0 27px;
   background-color: #fff;
+  flex-grow: 1;
 
   .block {
     text-align: center;
