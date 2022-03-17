@@ -1,0 +1,175 @@
+
+.mailing-constructor {
+  height: 800px;
+
+  &-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-cell {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mailing-constructor-main {
+  background-color: #fff;
+  box-shadow: 0 12px 23px 0 #0000000A;
+  padding: 32px 22px;
+  border-radius: 10px;
+
+  .mailing-constructor-row.flex {
+    border: 1px solid rgba(178, 178, 178, 0.5);
+    padding: 15px 39px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+
+    .mailing-constructor-cell {
+      span {
+        margin-left: 5px;
+      }
+
+      .networkLogo {
+        width: 26px;
+        height: 26px;
+        margin-left: 15px;
+      }
+
+      button {
+        margin-right: 3px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        img {
+        }
+      }
+    }
+  }
+
+  .mailing-constructor-new-message {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+    position: relative;
+
+    .mailing-add-message {
+      color: #6F3DDB;
+      padding: 20px;
+      text-align: center;
+      border: 1px dashed #6F3DDB;
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+
+  .mailing-constructor-drop-add-message {
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    background-color: #fff;
+    padding: 30px 55px;
+    box-shadow: 0 12px 23px 0 #0000000A;
+    border-radius: 18px;
+
+
+    .mailing-constructor-row {
+      label {
+        span {
+        }
+
+        input {
+        }
+      }
+    }
+
+    .mailing-constructor-create {
+      span {
+      }
+
+      .mailing-constructor-row {
+        .mailing-constructor-cell {
+          button {
+            margin-right: 24px;
+
+            &:last-child {
+              margin-right: 0;
+            }
+
+            img {
+            }
+          }
+        }
+      }
+
+      .mailing-constructor-textarea {
+        width: 100%;
+        border: none;
+        background-color: #f6f6f6;
+        resize: none;
+        padding: 18px 20px;
+        outline: none;
+        border-radius: 10px;
+        font-size: 14px;
+        height: auto;
+        min-height: 100px;
+        margin-bottom: 10px;
+      }
+
+      .mailing-constructor-row {
+        margin-bottom: 30px;
+      }
+
+      .mailing-constructor-buttons {
+        display: flex;
+
+        button {
+          &:first-child {
+            margin-right: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .favorites {
+    position: absolute;
+    top: 0;
+    left: 103%;
+    width: 270px;
+    background-color: #fff;
+    padding: 30px 24px;
+    box-shadow: 0 12px 23px 0 #0000000A;
+    border-radius: 18px;
+    height: 100%;
+
+    span {
+    }
+
+      &-list {
+        margin-top: 12px;
+      }
+      &-list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 7px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .favorites-item-text {
+          border: 1px solid #6b32e3;
+          padding: 10px 4px 10px 18px;
+          font-size: 14px;
+          border-radius: 10px;
+        }
+
+      }
+    }
+
+}
+
+

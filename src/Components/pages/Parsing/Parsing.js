@@ -12,7 +12,7 @@ import "./Parsing.scss"
 const Parsing = () => {
     return (
         <Block stylees="parsing block left-transparent">
-            <SocialSelect/>
+            <SocialSelect page="parsing"/>
             <Block stylees="left">
                 <Textarea stylees="parsing-row" label="Логины чатов:">
                     <Block stylees="parsing-column">

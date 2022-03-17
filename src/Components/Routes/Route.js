@@ -20,7 +20,8 @@ const Routing = () => {
         <Route path="/parsing" element={<Navigate to={"/parsing/telegram"} replace/>}/>
           <Route path="/parsing/:id" element={<Parsing/>}/>
         <Route path="/invite" element={<Invite/>}/>
-        <Route path="/mailing" element={<Mailing/>}/>
+        <Route path="/mailing" element={<Navigate to={"/mailing/telegram"} replace/>}/>
+        <Route path="/mailing/:id" element={<Mailing/>}/>
         <Route path="/chat" element={<Chat/>}/>
         <Route path="/checker" element={<Checker/>}/>
         <Route path="/session" element={<Session/>}/>
