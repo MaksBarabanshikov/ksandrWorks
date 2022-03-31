@@ -1,6 +1,6 @@
 import Block from "../common/Block"
 import SidebarList from "../common/SidebarList"
-import logo from "../../image/logo.jpg"
+import logo from "../../image/logo.png"
 import "./Sidebar.scss"
 
 const Sidebar = () => {
@@ -10,11 +10,8 @@ const Sidebar = () => {
                 <img className="logo-image" src={logo} alt="logo"/>
                 <Block stylees="logo__text">
                     <h6 className="logo__title">
-                        KsandrWorks
+                        TeleSpace
                     </h6>
-                    <p className="logo__subtitle">
-                        UI Designer
-                    </p>
                 </Block>
             </Block>
             <Block stylees="column">

@@ -23,6 +23,7 @@ const Routing = () => {
         <Route path="/mailing" element={<Navigate to={"/mailing/telegram"} replace/>}/>
         <Route path="/mailing/:id" element={<Mailing/>}/>
         <Route path="/chat" element={<Chat/>}/>
+            <Route path="/chat/:id" element={<Chat/>}/>
         <Route path="/checker" element={<Checker/>}/>
         <Route path="/session" element={<Session/>}/>
 

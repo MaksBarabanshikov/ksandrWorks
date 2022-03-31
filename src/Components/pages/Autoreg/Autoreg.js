@@ -4,6 +4,7 @@ import CardSelect from "../../CardSelect/CardSelect";
 import Input from "../../common/Input";
 import Button from "../../common/Button";
 import "./Autoreg.scss"
+import ProcessWork from "../../ProcessWork/ProcessWork";
 
 
 const Autoreg = () => {
@@ -25,6 +26,7 @@ const Autoreg = () => {
                         </Block>
                     </Block>
                 </Block>
+                <ProcessWork/>
         </>
     )
 }

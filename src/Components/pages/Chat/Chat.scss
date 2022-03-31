@@ -1,0 +1,60 @@
+
+.chat {
+  width:100%;
+  display: flex;
+  &-interlocutors {
+    flex: 0 0 30%;
+    background-color: #fff;
+    box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
+    padding: 40px 0;
+    margin-right: 40px;
+    border-radius: 10px;
+
+    &-title {
+      padding: 0 16px 0 16px;
+      margin-bottom: 20px;
+
+      &-text {
+        border-bottom: 1px solid #d9d9d9;
+        padding-bottom: 50px;
+      }
+    }
+  }
+
+  &-selected-dialog {
+    flex: 0 0 70%;
+    background-color: #fff;
+    box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+    position: relative;
+  }
+
+  &-footer {
+    padding: 0 16px 43px 16px;
+
+    &-container {
+      padding-top: 34px;
+      border-top: 1px solid #d9d9d9;
+    }
+
+    &-form {
+      display: flex;
+      position: relative;
+
+
+      input[type="text"] {
+        text-align: left;
+        flex: 0 0 100%;
+        max-width: 100%;
+        overflow: hidden;
+        padding: 10px 0 10px 40px;
+      }
+      button {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}

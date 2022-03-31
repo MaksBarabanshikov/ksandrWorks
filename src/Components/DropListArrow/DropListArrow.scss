@@ -1,0 +1,71 @@
+.Drop-List {
+  position: relative;
+  margin-top: 5px;
+
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  &-flex {
+    align-items: center;
+  }
+
+  &-arrow {
+    transition: all .1s linear;
+  }
+
+  &-social {
+    max-width: 25px;
+    max-height: 25px;
+    margin-right: 10px;
+  }
+
+  &-hide-list {
+    opacity: 0;
+    position: absolute;
+    top: 120%;
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0 12px 23px 0 #0000000a;
+    padding: 0 10px 0 10px;
+    border-radius: 18px;
+    border: 1px solid #9197a3;
+    transition: opacity .25s linear;
+    z-index: -1000;
+  }
+
+  &-hide-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    cursor: pointer;
+    border-bottom: 1px solid #9197a3;
+    transition: all .25s linear;
+
+    &:last-child {
+      border: none;
+    }
+
+    &:hover {
+      border-color: #6b32e3;
+      color: #6b32e3;
+    }
+
+    img {
+      margin-right: 10px;
+    }
+  }
+
+  &.active {
+    .Drop-List-arrow {
+      transform: rotate(-180deg);
+    }
+    .Drop-List-hide-list {
+      opacity: 1;
+      z-index: 100;
+    }
+  }
+}

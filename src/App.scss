@@ -3,6 +3,7 @@
 
 $gray: #666;
 $black: #020614;
+$white: #fff;
 $red: #EF9B9B;
 $purple: #6F3DDB;
 
@@ -58,28 +59,56 @@ button {
   cursor: pointer;
   transition: all .25s ease-out;
   display: block;
-}
+  box-shadow: none;
 
-button.purple-btn {
-  border: none;
-  cursor: pointer;
-  transition: all .25s ease-out;
-  display: block;
-  padding: 7px 0;
-  background-color: $purple;
-  color: #fff;
-  border-radius: 10px;
-  max-height: 35px;
-  max-width: 180px;
-  width: 100%;
+  &.purple-btn {
+    padding: 7px 0;
+    background-color: $purple;
+    color: #fff;
+    border-radius: 10px;
+    max-height: 35px;
+    max-width: 180px;
+    width: 100%;
+    border: 1px solid transparent;
 
-  &:hover {
-    background-color: #724ac9;
+    &:hover {
+      background-color: transparent;
+      color: $purple;
+      border-color: $purple;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px $purple;
+    }
+  }
+  &.red-btn {
+    background-color: $red;
+    color: $white;
+    width: 100%;
+    max-width: 80%;
+    margin: auto;
+    font-size: 18px;
+    border: 1px solid transparent;
+    transition: all .25s linear;
+    border-radius: 18px;
+    padding: 10px 0;
+    font-weight: 700;
+
+    &:hover {
+      background-color: transparent;
+      color: $red;
+      border-color: $red;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px $red;
+    }
   }
 }
 
 .block.left {
-  flex: 2 1 70%;
+  max-width: 75%;
+  width: 100%;
   background-color: #fff;
   margin-right: 47px;
   padding: 32px 45px 83px;
@@ -87,25 +116,15 @@ button.purple-btn {
   border-radius: 10px;
 
   &-transparent {
-    flex: 2 1 70%;
     margin-right: 47px;
+    max-width: 75%;
+    width: 100%;
 
     .block.left {
+      max-width: 100%;
       width: 100%;
     }
   }
-}
-
-.process-work {
-  background-color: #fff;
-  flex: 1 1 30%;
-  padding: 24px 22px;
-  box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
-  border-radius: 10px;
-}
-
-.container {
-  justify-content: space-between;
 }
 
 .flex {
@@ -130,6 +149,7 @@ button.purple-btn {
   display: flex;
   flex-direction: column;
   flex: 0 0 70%;
+
   textarea {
     margin-top: 10px;
     border-radius: 10px;

@@ -4,7 +4,6 @@ import Block from "./Components/common/Block";
 import "./App.scss";
 import Header from "./Components/header/Header";
 import Container from "./Components/common/Container";
-import ProcessWork from "./Components/ProcessWork/ProcessWork";
 import React from "react";
 
 function App() {
@@ -15,7 +14,6 @@ function App() {
                     <Header title="Авторег"/>
                     <Container>
                         <Routing/>
-                        <ProcessWork/>
                     </Container>
                 </Block>
         </div>

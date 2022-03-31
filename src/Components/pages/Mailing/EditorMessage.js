@@ -16,16 +16,16 @@ import insertImage from "../../../image/mailing/insertImage.svg"
 import smile from "../../../image/mailing/smile.svg"
 import "./EditorMessage.scss"
 
-
-
-const EditorMessage = () => {
+const EditorMessage = (props) => {
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
     const  [convertedContent, setConvertedContent] = useState(null);
+
     const handleEditorChange = (state) => {
         setEditorState(state);
         convertContentToHTML();
+        console.log(state)
     }
     const convertContentToHTML = () => {
         let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
@@ -36,12 +36,6 @@ const EditorMessage = () => {
             __html: DOMPurify.sanitize(html)
         }
     }
-
-    useEffect(() => {
-        return () => {
-            console.log(convertedContent)
-        };
-    });
 
 
     return (
@@ -94,6 +88,28 @@ const EditorMessage = () => {
                     }
                 }}
             />
+            <div className="mailing-constructor-row">
+                <div>
+                    #userid
+                </div>
+                <div>
+                    #username
+                </div>
+                <div>
+                    #billingurl
+                </div>
+                <div>
+                    Больше
+                </div>
+            </div>
+            <div className="mailing-constructor-buttons">
+                <button className="purple-btn" onClick={() => props.handleSetMessage(editorState.toJS())}>
+                    Сохранить
+                </button>
+                <button className="purple-btn" onClick={() => props.handleSetFavorites(convertedContent)}>
+                    Добавить в избранное
+                </button>
+            </div>
             {/*<div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}/>*/}
         </>
 

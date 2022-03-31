@@ -1,0 +1,12 @@
+.session-selects {
+  display: flex;
+  justify-content: space-between;
+
+
+  &-input {
+    border: 1px solid #CED4DA;
+    background-color: #fff;
+    max-width: 200px;
+    border-radius: 4px;
+  }
+}

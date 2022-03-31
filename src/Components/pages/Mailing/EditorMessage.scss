@@ -4,6 +4,21 @@
   min-height: 80px;
   border-radius: 10px;
   margin-bottom: 10px;
+
+  a {
+    color: #6b32e3;
+    font-weight: 700;
+
+    &:hover {
+      img {
+        display: none;
+      }
+    }
+  }
+
+  .public-DraftStyleDefault-block {
+    margin: 0!important;
+  }
 }
 
 .toolbar {

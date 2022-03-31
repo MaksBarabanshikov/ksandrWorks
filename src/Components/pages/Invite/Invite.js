@@ -7,10 +7,12 @@ import CheckBoxList from "../../CheckboxList/CheckBoxList";
 import Textarea from "../../common/Textarea";
 import {checkboxThree,threeCheckboxValue} from "../../../StorageData/checkboxData";
 import "./Invite.scss";
+import ProcessWork from "../../ProcessWork/ProcessWork";
 
 
 const Invite = () => {
   return(
+      <>
           <Block stylees="left invite">
               <CardSelect/>
               <Block stylees="invite-amount flex">
@@ -19,16 +21,16 @@ const Invite = () => {
                       <Input isLabel={true} type="text" labelText="Количество аккаунтов для работы:" defaultValue={5}/>
                   </div>
                   <div className="invite-button">
-                          <p className="invite-text">Загрузить контакты:</p>
-                          <Button>
-                              Загрузить
-                          </Button>
+                      <p className="invite-text">Загрузить контакты:</p>
+                      <Button>
+                          Загрузить
+                      </Button>
                   </div>
               </Block>
               <CheckBoxList checkboxs={checkboxThree} radio={threeCheckboxValue} />
               <Block stylees="invite-big-inputs flex">
-                    <Textarea stylees="invite-big-input" label="Логин чата для инвайтинга:"/>
-                    <Textarea stylees="invite-big-input" label="Избранное:"/>
+                  <Textarea stylees="invite-big-input" label="Логин чата для инвайтинга:"/>
+                  <Textarea stylees="invite-big-input" label="Избранное:"/>
               </Block>
               <Block stylees="invite-btn">
                   <Button>
@@ -36,6 +38,9 @@ const Invite = () => {
                   </Button>
               </Block>
           </Block>
+          <ProcessWork/>
+      </>
+
   )
 }
 
