@@ -1,4 +1,13 @@
+import RefillCard from "./RefillCard";
+import {useState} from "react";
+
 const Refill = ({refill}) => {
+    const [selectedCard, setSelectedCard] = useState({})
+
+    const handleSetCard = (type) => {
+        setSelectedCard({...selectedCard, type: type})
+    }
+
     return (
         <div className="payment-refill">
             <h4 className="payment-title">
@@ -10,20 +19,14 @@ const Refill = ({refill}) => {
                         Выберите способ пополнения счета:
                     </span>
                     <ul className="payment-refill-method-list">
-                        {refill.map(card => {
-                            if (card.type === "Visa") {
-                                return (
-                                    <li key={card.type} className="visa-invert">
-                                        <img src={card.img} alt=""/>
-                                    </li>
-                                )
-                            }
-                            return (
-                                <li key={card.type}>
-                                    <img src={card.img} alt=""/>
-                                </li>
-                            )
-                        })}
+                        {refill.map(refill => (
+                            <RefillCard key={refill.type}
+                                        img={refill.img}
+                                        type={refill.type}
+                                        handleSetCard={handleSetCard}
+                                        active={selectedCard}
+                            />
+                        ))}
                     </ul>
                     <label>
                         <span>Введите сумму пополнения счета:</span>

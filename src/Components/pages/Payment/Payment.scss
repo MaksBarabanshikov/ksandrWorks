@@ -130,9 +130,15 @@
       }
     }
 
-    .visa-invert {
+    .refill-card-Visa {
       img {
         filter: invert(1);
+      }
+
+      &.active {
+        img {
+          filter: invert(0);
+        }
       }
     }
   }

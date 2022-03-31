@@ -43,7 +43,6 @@ return (
                                readOnly={true}
                                onClick={handleChangeReadOnly}
                                onBlur={handleBlur}/>
-                        {/*{row.resultsName}*/}
                         <button onClick={handleChangeReadOnly}>
                             <img src={renameImg} alt="Изменить"/>
                         </button>

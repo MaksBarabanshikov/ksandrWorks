@@ -8,11 +8,11 @@ import Avatar4 from "../../../image/chat/avatar4.png"
 import "./SessionOutput.scss"
 
 const sessionField = [
-  {img: Avatar1, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
-  {img: Avatar2, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
-  {img: Avatar3, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
-  {img: Avatar4, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
-  {img: Avatar1, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"}
+  {id: 0,img: Avatar1, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
+  {id: 1,img: Avatar2, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
+  {id: 2,img: Avatar3, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
+  {id: 3,img: Avatar4, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"},
+  {id: 4,img: Avatar1, fio: "Елисеев Е.Е", tel: "+79996669999", country: "Росиия", status: "Активен", days: 7, invite: 7, mailing: 7, type:"Внешний", reg: "02.02.2022"}
 ]
 
 const SessionOutput = () => {
@@ -83,7 +83,7 @@ const SessionOutput = () => {
           <div className="session-main">
             {sessionField.map(session => {
               return (
-                  <div className="session-main-row">
+                  <div key={session.id} className="session-main-row">
                     <div className="session-cell">
                       <input type="checkbox"/>
                     </div>

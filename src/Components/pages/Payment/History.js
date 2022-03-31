@@ -62,7 +62,7 @@ const History = ({history}) => {
         <div className="payment-history">
             <h4 className="payment-title">
                 История транзакций
-                <button className="purple-btn">
+                <button className="purple-btn" onClick={() => alert( JSON.stringify(history, null, 2) )}>
                     <img src={downloadLogo} alt=""/>
                     Скачать историю
                 </button>

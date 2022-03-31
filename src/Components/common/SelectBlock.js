@@ -11,10 +11,6 @@ const options = [
 const SelectBlock = (props) => {
     const [selectedOption, setSelectedOption] = useState(null)
 
-    useEffect(()=> {
-        console.log(selectedOption)
-    },[selectedOption])
-
   return(
       <div className="app-select">
         <Select
