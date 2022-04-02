@@ -3,8 +3,12 @@ import edit from "../../../image/mailing/edit.svg"
 import trash from "../../../image/mailing/trash.svg"
 import inputLogo from "../../../image/payment/ic_input.svg"
 import outputLogo from "../../../image/payment/ic_output.svg"
+import {useEffect, useState} from "react";
+import HistoryItem from "./HistoryItem";
 
 const History = ({history}) => {
+    const [mainChecked, setMainChecked] = useState(false)
+    const [transaction, setTransaction] = useState([...history])
 
     const createType = type => {
         switch (type) {
@@ -58,11 +62,46 @@ const History = ({history}) => {
         }
     }
 
+    const handleSetMainChecked = () => {
+        setMainChecked(!mainChecked)
+    }
+
+    const handleSetChecked = (operation) => {
+        setTransaction(
+            transaction.map(item => {
+                if (item.operation === operation) {
+                    item.checked = !item.checked
+                }
+                return item
+            })
+        )
+    }
+
+    const handleExportSession = () => {
+
+        let selectedTransaction = []
+        transaction.map(item => {
+            if (item.checked) {
+                selectedTransaction = [...selectedTransaction, item]
+            }
+        })
+        alert(JSON.stringify(selectedTransaction, null, 2))
+    }
+
+    useEffect(() => {
+        setTransaction(
+            transaction.map(item => {
+                item.checked = mainChecked
+                return item
+            })
+        )
+    },[mainChecked])
+
     return (
         <div className="payment-history">
             <h4 className="payment-title">
                 История транзакций
-                <button className="purple-btn" onClick={() => alert( JSON.stringify(history, null, 2) )}>
+                <button className="purple-btn" onClick={handleExportSession}>
                     <img src={downloadLogo} alt=""/>
                     Скачать историю
                 </button>
@@ -70,7 +109,7 @@ const History = ({history}) => {
             <div className="payment-activity">
                 <div className="payment-activity-title">
                     <div className="payment-cell">
-                        <input type="checkbox"/>
+                        <input type="checkbox" checked={mainChecked} onChange={ handleSetMainChecked }/>
                     </div>
                     <div className="payment-cell">
                         <span>Операция</span>
@@ -101,35 +140,15 @@ const History = ({history}) => {
                 </div>
                 <div className="payment-activity-main">
                     {
-                        history.map(transaction => {
-                            return(
-                                <div key={transaction.operation} className="payment-activity-transaction">
-                                    <div className="payment-cell">
-                                        <input type="checkbox"/>
-                                    </div>
-                                    <div className="payment-cell">
-                                        {transaction.operation}
-                                    </div>
-                                    <div className="payment-cell">
-                                        {transaction.date}
-                                    </div>
-                                    <div className="payment-cell">
-                                        {transaction.sum}
-                                    </div>
-                                    <div className="payment-cell">
-                                        { createType(transaction.type) }
-                                    </div>
-                                    <div className="payment-cell">
-                                        { createStatus(transaction.status) }
-                                    </div>
-                                    <div className="payment-cell">
-                                        <div className="payment-options">
-                                            <span className="payment-options-circle"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
+                        history.map(transaction => (
+                            <HistoryItem
+                                key = {transaction.operation}
+                                transaction = {transaction}
+                                createType={createType}
+                                createStatus={createStatus}
+                                setChecked = {handleSetChecked}
+                            />
+                        ))
                     }
                 </div>
             </div>

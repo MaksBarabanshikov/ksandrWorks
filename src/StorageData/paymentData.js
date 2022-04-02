@@ -35,9 +35,9 @@ export const paymentRateData = [
 ]
 
 export const paymentHistoryData = [
-    {operation: "#12341", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "enrolment", status: "waiting"},
-    {operation: "#12342", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "withdrawal", status: "completed"},
-    {operation: "#12343", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "withdrawal", status: "error"},
-    {operation: "#12344", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "enrolment", status: "canceled"},
-    {operation: "#12345", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "enrolment", status: "waiting"}
+    {operation: "#12341", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "enrolment", status: "waiting", checked: false},
+    {operation: "#12342", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "withdrawal", status: "completed", checked: false},
+    {operation: "#12343", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "withdrawal", status: "error", checked: false},
+    {operation: "#12344", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "enrolment", status: "canceled", checked: false},
+    {operation: "#12345", date: "June 1, 2020, 08:22 AM", sum: "$783.22", type: "enrolment", status: "waiting", checked: false}
 ]

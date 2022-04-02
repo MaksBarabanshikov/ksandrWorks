@@ -24,8 +24,8 @@
   &-title {
     display: grid;
     gap: 27px;
-    grid-template-columns: 0.5fr 0.5fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
-    padding: 23px 0;
+    grid-template-columns: 24px 0.5fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+    padding: 23px 0 23px 18px;
     border-bottom: 1px solid #F4F4F4;
     color: #666;
     font-weight: 500;
@@ -37,29 +37,55 @@
     place-items: center;
   }
 
-  input {
-    min-width: 15px;
-    max-width: 15px;
-    min-height: 15px;
-    max-height: 15px;
+  input[type="checkbox"] {
+    appearance: none;
+    max-height: 20px;
+    border-radius: 5px;
+    border: 2px solid #bebebe;
+    background-color: transparent;
+    transition: border .2s ease-in-out;
+
+    &:checked {
+      border-color: #6b32e3;
+      background-image: url("../../../image/checkbox/line.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
   }
 }
 
 .session-main {
   &-row {
+    position: relative;
     display: grid;
     gap: 27px;
-    grid-template-columns: 0.5fr 0.5fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
-    padding: 15px 0;
+    grid-template-columns: 24px 0.5fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+    padding: 15px 0 15px 18px;
     border-bottom: 1px solid #F4F4F4;
     color: #000;
     font-size: 16px;
     font-weight: 400;
+    &:before {
+      content: "";
+      height: 0;
+      width: 3px;
+      position: absolute;
+      left: 0;
+      background-color: transparent;
+      transition: all .2s ease-in-out;
+    }
 
 
     img {
       max-width: 50px;
       max-height: 50px;
+    }
+
+    &.checked {
+      &:before{
+        background-color: #6b32e3;
+        height: 100%;
+      }
     }
   }
 }

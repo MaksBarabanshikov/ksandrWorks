@@ -238,6 +238,7 @@
       background: #FFFFFF;
       box-shadow: 0 12px 23px rgba(62, 73, 84, 0.04);
       border-radius: 10px;
+      overflow: hidden;
 
       &-title {
         display: grid;
@@ -261,6 +262,7 @@
         display: grid;
         grid-template-columns: 0.3fr 1fr 2fr 1fr 1fr 1fr 0.3fr;
         padding: 23px 30px;
+        position: relative;
 
         .payment-type {
           display: flex;
@@ -345,6 +347,23 @@
             margin-bottom: 4px;
           }
         }
+
+        &:before {
+          content: "";
+          height: 0;
+          width: 3px;
+          position: absolute;
+          left: 0;
+          background-color: transparent;
+          transition: all .2s ease-in-out;
+        }
+
+        &.checked {
+          &:before{
+            background-color: #6b32e3;
+            height: 100%;
+          }
+        }
       }
 
       .payment-cell {
@@ -352,12 +371,28 @@
         align-items: center;
 
         input[type="checkbox"] {
-          max-width: 18px;
-          max-height: 18px;
+          max-width: 24px;
+          max-height: 24px;
           cursor: pointer;
         }
       }
 
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      max-height: 20px;
+      border-radius: 5px;
+      border: 2px solid #bebebe;
+      background-color: transparent;
+      transition: border .2s ease-in-out;
+
+      &:checked {
+        border-color: #6b32e3;
+        background-image: url("../../../image/checkbox/line.svg");
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
     }
   }
 
