@@ -10,8 +10,12 @@
   width: 440px;
   overflow: hidden;
   max-height: 0;
-  transform: translateX(-15%);
   transition: max-height .25s, padding .25s;
+
+  &-wrapper {
+    max-height: 560px;
+    overflow: auto;
+  }
 
   &-item {
     display: flex;

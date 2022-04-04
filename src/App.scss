@@ -54,7 +54,8 @@ h5 {
   font-size: 18px;
 }
 
-button {
+button,
+input[type="submit"] {
   border: none;
   background: none;
   cursor: pointer;

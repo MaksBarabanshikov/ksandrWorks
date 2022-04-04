@@ -10,7 +10,6 @@
   width: 880px;
   overflow: hidden;
   max-height: 0;
-  transform: translateX(-15%);
   transition: max-height .25s, padding .25s;
 
   &-form {
@@ -34,12 +33,14 @@
     }
 
     .user-data {
-      margin-bottom: 30px;
+      margin-bottom: 50px;
     }
 
     .user-label {
+      position: relative;
       display: block;
-      margin-bottom: 23px;
+      margin-bottom: 34px;
+
       span {
         display: block;
         margin-bottom: 8px;
@@ -59,6 +60,24 @@
         line-height: 12px;
         text-align: left;
         padding-top: 0;
+      }
+
+      .input-error {
+        border-bottom: 1px solid #EF9B9B;
+      }
+
+      .user-errors {
+        display: inline-flex;
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+
+        p {
+          white-space: nowrap;
+          color: #EF9B9B;
+          font-size: 12px;
+          margin: 0;
+        }
       }
 
       &:last-child {

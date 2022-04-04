@@ -13,26 +13,28 @@ const Notify = ({notify, visibility, removeNotify}) => {
     }
     return (
         <div className={`header-notify notify ${visibility ? "notify-visible" : ""}`}>
-            {
-                notify.map(notifyItem => {
-                    return (
-                        <div key={notifyItem.id} className={`notify-item notify-${notifyItem.status}`}>
-                            {correctImage(notifyItem.status)}
-                            <div className="notify-content">
-                                <h4 className="notify-title">
-                                    {notifyItem.title}
-                                </h4>
-                                <p className="notify-text">
-                                    {notifyItem.text}
-                                </p>
-                                <span className="notify-date">
+            <div className="notify-wrapper">
+                {
+                    notify.map(notifyItem => {
+                        return (
+                            <div key={notifyItem.id} className={`notify-item notify-${notifyItem.status}`}>
+                                {correctImage(notifyItem.status)}
+                                <div className="notify-content">
+                                    <h4 className="notify-title">
+                                        {notifyItem.title}
+                                    </h4>
+                                    <p className="notify-text">
+                                        {notifyItem.text}
+                                    </p>
+                                    <span className="notify-date">
                                       {notifyItem.date}
                                   </span>
+                                </div>
                             </div>
-                        </div>
-                    )
-                })
-            }
+                        )
+                    })
+                }
+            </div>
             <button className="purple-btn" onClick={removeNotify}>
                 Очистить все
             </button>
