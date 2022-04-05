@@ -1,15 +1,13 @@
 import SelectBlock from "../../common/SelectBlock"
+import {selectOptions} from "../../../StorageData/sessionData";
 import "./Selects.scss"
 
 const Selects = () => {
     return (
         <div className="session-selects">
-            <SelectBlock placeholder="Выбор страны"/>
-            <SelectBlock placeholder="Выбор по активности"/>
-            <SelectBlock placeholder="С ...."/>
-            <SelectBlock placeholder="По ...."/>
-            <SelectBlock placeholder="Выбор формата"/>
-            <input className="session-selects-input" type="text" placeholder="Количество действий"/>
+            {selectOptions.map(item => (
+                <SelectBlock item={item}/>
+            ))}
         </div>
     )
 }

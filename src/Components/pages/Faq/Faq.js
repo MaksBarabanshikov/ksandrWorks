@@ -1,6 +1,8 @@
 import Accordion from "./Accordion";
 import "./Faq.scss"
 import {FaqData} from "../../../StorageData/FaqData";
+import Header from "../../header/Header";
+import React from "react";
 
 
 const pagesNum = [
@@ -12,23 +14,27 @@ const pagesNum = [
 const Faq = () => {
 
   return(
-      <div className="faq">
-          <div className="faq-container">
-              {FaqData.map(accordion => (
-                  <Accordion key={accordion.id} title={accordion.title} content={accordion.content}/>
-              ))}
+      <>
+          <Header title="FAQ"/>
+          <div className="faq">
+              <div className="faq-container">
+                  {FaqData.map(accordion => (
+                      <Accordion key={accordion.id} title={accordion.title} content={accordion.content}/>
+                  ))}
 
+              </div>
+
+              <ul className="faq-pages">
+
+                  {pagesNum.map(pages => {
+                      return(
+                          <li key={pages.id} className={pages.active ? "active": null}>{pages.page}</li>
+                      )
+                  })}
+              </ul>
           </div>
+      </>
 
-          <ul className="faq-pages">
-
-              {pagesNum.map(pages => {
-                  return(
-                      <li key={pages.id} className={pages.active ? "active": null}>{pages.page}</li>
-                  )
-              })}
-          </ul>
-      </div>
   )
 }
 

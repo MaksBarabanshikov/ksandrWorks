@@ -9,10 +9,12 @@ import {checkboxFour, checkboxTwo, fourCheckboxValue, twoCheckboxValue} from "..
 import {resultsData} from "../../../StorageData/resultsData";
 import "./Parsing.scss"
 import ProcessWork from "../../ProcessWork/ProcessWork";
+import Header from "../../header/Header";
 
 const Parsing = () => {
     return (
         <>
+            <Header title="Парсинг"/>
             <Block stylees="parsing block left-transparent">
                 <SocialSelect page="parsing"/>
                 <Block stylees="left">

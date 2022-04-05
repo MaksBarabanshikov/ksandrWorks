@@ -6,6 +6,7 @@ $black: #020614;
 $white: #fff;
 $red: #EF9B9B;
 $purple: #6F3DDB;
+$green: #92D799;
 
 * {
   margin: 0;
@@ -26,7 +27,11 @@ body {
 }
 
 .container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 42px auto;
+  gap: 30px;
+  position: relative;
   min-height: 93vh;
 }
 
@@ -56,22 +61,21 @@ h5 {
 
 button,
 input[type="submit"] {
-  border: none;
   background: none;
   cursor: pointer;
   transition: all .25s ease-out;
   display: block;
   box-shadow: none;
+  padding: 7px 0;
+  color: #fff;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  max-height: 35px;
+  max-width: 180px;
+  width: 100%;
 
   &.purple-btn {
-    padding: 7px 0;
     background-color: $purple;
-    color: #fff;
-    border-radius: 10px;
-    max-height: 35px;
-    max-width: 180px;
-    width: 100%;
-    border: 1px solid transparent;
 
     &:hover {
       background-color: transparent;
@@ -93,7 +97,7 @@ input[type="submit"] {
     border: 1px solid transparent;
     transition: all .25s linear;
     border-radius: 18px;
-    padding: 10px 0;
+    padding: 7px 0;
     font-weight: 700;
 
     &:hover {
@@ -106,13 +110,26 @@ input[type="submit"] {
       box-shadow: 0 0 0 2px $red;
     }
   }
+  &.green-btn {
+    background-color: $green;
+
+    &:hover {
+      background-color: transparent;
+      color: $green;
+      border-color: $green;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px $green;
+    }
+
+  }
 }
 
 .block.left {
   max-width: 75%;
   width: 100%;
   background-color: #fff;
-  margin-right: 47px;
   padding: 32px 45px 83px;
   box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
   border-radius: 10px;

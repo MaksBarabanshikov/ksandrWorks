@@ -3,6 +3,7 @@ import Interlocutors from "./Interlocutors";
 import Dialog from "./Dialog";
 import './Chat.scss'
 import searchLogo from "../../../image/chat/search.svg"
+import Header from "../../header/Header";
 
 const Chat = () => {
     const [person, setPerson] = useState(null)
@@ -14,6 +15,7 @@ const Chat = () => {
 
   return(
       <>
+          <Header title="Диалоги"/>
           <div className="chat">
               <div className="chat-interlocutors">
                     <div className="chat-interlocutors-title">

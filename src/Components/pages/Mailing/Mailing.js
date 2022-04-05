@@ -8,10 +8,12 @@ import MailingConstructor from "./MailingConstructor";
 import Input from "../../common/Input";
 import {checkboxThree, threeCheckboxValue} from "../../../StorageData/checkboxData";
 import ProcessWork from "../../ProcessWork/ProcessWork";
+import Header from "../../header/Header";
 
 const Mailing = () => {
     return (
         <>
+            <Header title="Рассылка"/>
             <Block stylees="parsing block left-transparent">
                 <SocialSelect page="mailing"/>
                 <Block stylees="left">

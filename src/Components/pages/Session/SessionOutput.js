@@ -129,7 +129,7 @@ const SessionOutput = () => {
                         Сессии:<span>{session.length}</span>
                     </h5>
                 </div>
-                <button className="purple-btn">
+                <button className="green-btn">
                     Проверить аккаунты
                 </button>
                 <button className="purple-btn">

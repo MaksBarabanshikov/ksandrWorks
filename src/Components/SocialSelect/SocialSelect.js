@@ -1,17 +1,38 @@
 import {SocialData} from "../../StorageData/SocialData"
 import "./SocialSelect.scss"
-import {NavLink} from "react-router-dom";
+import SocialSelectItem from "./SocialSelectItem";
+import {useEffect, useState} from "react";
 
-const SocialSelect = (props) => {
+const SocialSelect = () => {
+    const [network, setNetwork] = useState([...SocialData])
+
+
+    const handleSetActive = (item) => {
+        if (!item.active) {
+            setNetwork(
+                network.map(net => {
+                    net.active = false
+                    if (net.id === item.id) {
+                        net.active = !net.active
+                    }
+                    return net
+                })
+            )
+        }
+    }
+
     return (
         <div className="social-select flex">
-            {SocialData.map(item => {
-                return <NavLink className="social-select-card" key={item.text} to={`/${props.page}/${item.text}`}>
-                    <p>{item.text}</p>
-                    <img src={item.img} alt=""/>
-                </NavLink>
-            })
-            }
+            {network.map(item =>
+                (
+                    <SocialSelectItem
+                        key={item.id}
+                        className="social-select-card"
+                        network={item}
+                        handleSetActive={handleSetActive}
+                    />
+                )
+            )}
         </div>
     )
 

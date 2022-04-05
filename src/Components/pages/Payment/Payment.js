@@ -10,15 +10,20 @@ import History from "./History"
 import Refill from "./Refill"
 import Rate from "./Rate"
 import "./Payment.scss"
+import Header from "../../header/Header";
 
 const Payment = () => {
   return(
-      <div className="payment">
-          <Balance balance={ paymentBalanceData } />
-          <Refill refill={ paymentRefillData } />
-          <Rate rate={paymentRateData} />
-          <History history={paymentHistoryData} />
-      </div>
+      <>
+          <Header title="Оплата"/>
+          <div className="payment">
+              <Balance balance={ paymentBalanceData } />
+              <Refill refill={ paymentRefillData } />
+              <Rate rate={paymentRateData} />
+              <History history={paymentHistoryData} />
+          </div>
+      </>
+
   )
 }
 

@@ -8,11 +8,13 @@ import {resultsData} from "../../../StorageData/resultsData";
 import React from "react";
 import CardSelect from "../../CardSelect/CardSelect";
 import ProcessWork from "../../ProcessWork/ProcessWork";
+import Header from "../../header/Header";
 
 
 const Checker = () => {
   return(
       <>
+          <Header title="Чекер"/>
           <Block stylees="left">
               <CardSelect/>
               <Textarea stylees="parsing-row" label="Логины чатов:">

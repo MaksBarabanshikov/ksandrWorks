@@ -8,17 +8,19 @@ import Textarea from "../../common/Textarea";
 import {checkboxThree,threeCheckboxValue} from "../../../StorageData/checkboxData";
 import "./Invite.scss";
 import ProcessWork from "../../ProcessWork/ProcessWork";
+import Header from "../../header/Header";
 
 
 const Invite = () => {
   return(
       <>
+          <Header title="Инвайтинг"/>
           <Block stylees="left invite">
               <CardSelect/>
               <Block stylees="invite-amount flex">
                   <div className="invite-inputs">
-                      <Input isLabel={true} type="text" labelText="Количество аккаунтов для работы:" defaultValue={5}/>
-                      <Input isLabel={true} type="text" labelText="Количество аккаунтов для работы:" defaultValue={5}/>
+                      <Input isLabel={true} type="text" labelText="Количество инвайтов на аккаунт" defaultValue={5}/>
+                      <Input isLabel={true} type="text" labelText="Количество сообщений на аккаунт" defaultValue={5}/>
                   </div>
                   <div className="invite-button">
                       <p className="invite-text">Загрузить контакты:</p>

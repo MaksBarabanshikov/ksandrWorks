@@ -13,27 +13,28 @@ const Header = (props) => {
         "notifyVisible": false,
         "userVisible": false
     })
+
+
     const today = new Date()
     let date = today.getDate() + "." + (today.getMonth() + 2) + "." + today.getFullYear();
 
     const handleSetVisible = (key) => {
         if (key === "notifyVisible") {
-            setVisibility(prevState => {
+          return  setVisibility(prevState => {
                 return {
                     ...prevState,
                     [key]: !visibility[key],
                     "userVisible": false
                 }
             })
-        } else {
-            setVisibility(prevState => {
+        }
+         return setVisibility(prevState => {
                 return {
                     ...prevState,
                     [key]: !visibility[key],
                     "notifyVisible": false
                 }
             })
-        }
     }
 
     const handleRemoveNotify = () => {
