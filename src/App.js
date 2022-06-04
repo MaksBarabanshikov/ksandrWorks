@@ -4,11 +4,12 @@ import Block from "./Components/common/Block";
 import "./App.scss";
 import Container from "./Components/common/Container";
 import React from "react";
+import NewSideBar from "./Components/newSideBar/newSideBar";
 
 function App() {
     return (
         <div className="App">
-                <Sidebar/>
+                <NewSideBar/>
                 <Block stylees="content">
                     <Container>
                         <Routing/>

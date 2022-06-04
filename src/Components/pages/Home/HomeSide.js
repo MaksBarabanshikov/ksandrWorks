@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import HomeComment from "./HomeComment";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faToggleOff} from "@fortawesome/free-solid-svg-icons"
@@ -16,9 +16,21 @@ const HomeSide = ({favorit}) => {
 
     const selectAllHandler = () => {
         setSelectAllBtn(() => !selectAllBtn)
+
     }
     const removeAllSelect = () => {
         setComments(comments.filter(item => !item.selected))
+        setSelectAllBtn(false)
+
+    }
+
+    const canselAllSelect = () => {
+        setComments(comments.map(item => {
+            item.selected = false
+            return item
+        }))
+        setSelectAllBtn(false)
+
     }
 
     const selectHandle = (item) => {
@@ -83,7 +95,10 @@ const HomeSide = ({favorit}) => {
                     <span>Удалить отмеченные</span>
                 </label>
                 <label className={'flex align-center'}>
-                    <button className="hashtag__side-control_select-all" type={"button"}>
+                    <button className="hashtag__side-control_select-all"
+                            type={"button"}
+                            onClick={() => canselAllSelect()}
+                    >
                         <FontAwesomeIcon icon={faRotateLeft}/>
                     </button>
                     <span>Отменить все</span>

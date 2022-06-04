@@ -1,5 +1,5 @@
 .hashtag__side {
-  height: 88vh;
+  height: 100%;
   overflow: hidden;
   &-control {
     color: #919191;
@@ -23,7 +23,7 @@
     }
   }
   &_main {
-    height: 550px;
+    height: 590px;
     overflow: auto;
     padding-bottom: 30px;
   }

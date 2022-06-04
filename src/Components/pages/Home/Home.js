@@ -4,22 +4,33 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
-import './Home.scss';
 import HomeSide from "./HomeSide";
+import {useForm} from "react-hook-form";
+import './Home.scss';
+import HelloModal from "../../Modal/HelloModal";
 
 
 const Home = () => {
     const refInput1 = useRef()
     const refInput2 = useRef()
     const [favorit, setFavorit] = useState(null)
+    const { register, handleSubmit } = useForm()
 
     const addFavorites = () => {
-        setFavorit(()=>(
-            [{
-                value1: refInput1.current.value,
-                value2: refInput2.current.value
-            }]
-        ))
+        if (refInput1.current.value && refInput2.current.value) {
+            setFavorit(() => (
+                [{
+                    value1: refInput1.current.value,
+                    value2: refInput2.current.value
+                }]
+            ))
+            refInput1.current.value = ""
+            refInput2.current.value = ""
+            refInput1.current.focus()
+        }
+    }
+    const onSubmit = data => {
+        console.log(data.files[0])
     }
 
     return (
@@ -67,7 +78,12 @@ const Home = () => {
                                         </label>
                                     </div>
                                     <div className="button-group flex mb-20">
-                                        <button className="button blue-btn_invert upload-btn">Загрузить список</button>
+                                        <form className="hashtag__form" onChange={handleSubmit(onSubmit)}>
+                                            <label className="btn blue-btn-invert">
+                                                Загрузить список
+                                                <input {...register('files')} type="file" accept={'.txt'}/>
+                                            </label>
+                                        </form>
                                         <button
                                             className="button blue-btn btn-fav"
                                             onClick={() => addFavorites()}
@@ -87,7 +103,7 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="hashtag__block mb-20">
+                    <div className="hashtag__block">
                         <div className="top mb-20">
                             <h1 className="title">
                                 Процессы
@@ -109,6 +125,7 @@ const Home = () => {
                     <HomeSide favorit={favorit}/>
                 </div>
             </div>
+            <HelloModal/>
         </>
     )
 }

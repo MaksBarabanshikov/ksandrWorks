@@ -5,7 +5,11 @@ import User from "./User"
 import {notifyData} from "../../StorageData/notifyData"
 import userImage from "../../image/header/User_light.svg"
 import BellImage from "../../image/header/Bell_light.svg"
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faChartPie} from "@fortawesome/free-solid-svg-icons"
+import {faWallet} from "@fortawesome/free-solid-svg-icons"
 import "./Header.scss"
+import Modal from "../Modal/Modal";
 
 const Header = (props) => {
     const [notify, setNotify] = useState([...notifyData])
@@ -48,6 +52,10 @@ const Header = (props) => {
                 <h5>{props.title}</h5>
             </Block>
             <Block stylees="header-buttons">
+                {props.title === "Главная"?
+                    <Modal/> :
+                    null
+                }
                 <button className="header-btn-notify" onClick={() => handleSetVisible("notifyVisible")}>
                     <img src={BellImage} alt=""/>
                     <span className="header-count">{notify.length}</span>
@@ -55,9 +63,12 @@ const Header = (props) => {
                 <button className="header-btn-user" onClick={() => handleSetVisible("userVisible")}>
                     <img src={userImage} alt=""/>
                 </button>
-                <Block stylees="header-date">
-                    <p className="red">
-                        Услуга оплачена до {date.toString()}
+                <Block stylees="header-date flex align-center">
+                    <p>
+                        <FontAwesomeIcon icon={faWallet}></FontAwesomeIcon>
+                        <span>
+                            Услуга оплачена до {date.toString()}
+                        </span>
                     </p>
                 </Block>
             </Block>

@@ -1,16 +1,19 @@
 import Block from "../common/Block"
 import SidebarList from "../common/SidebarList"
-import logo from "../../image/logo.png"
+import logo from "../../image/Logotype-Facebook.svg"
 import "./Sidebar.scss"
 
-const NewSidebar = () => {
+const Sidebar = () => {
     return (
         <section className="sidebar">
             <Block stylees="logo" >
                 <img className="logo-image" src={logo} alt="logo"/>
                 <Block stylees="logo__text">
+                    <h3>
+                        Account FB
+                    </h3>
                     <h6 className="logo__title">
-                        TeleSpace
+                        ID#415234678
                     </h6>
                 </Block>
             </Block>
@@ -23,4 +26,4 @@ const NewSidebar = () => {
     )
 }
 
-export default NewSidebar
+export default Sidebar

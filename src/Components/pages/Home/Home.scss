@@ -123,4 +123,28 @@
       background-color: #0066EA;
     }
   }
+
+  &__form {
+    width: 100%;
+    height: 40px;
+  }
+  label.blue-btn-invert {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    border: 1px solid #0a66b7;
+    border-radius: 12px;
+    color: #0a66b7;
+    cursor: pointer;
+    height: 100%;
+    &:hover {
+      background-color: #0a66b7;
+      color: #fff;
+
+    }
+    input[type='file'] {
+      display: none;
+    }
+  }
 }

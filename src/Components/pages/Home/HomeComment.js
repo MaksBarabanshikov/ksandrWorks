@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons"
 import {faCheckCircle} from "@fortawesome/free-regular-svg-icons"
@@ -6,8 +6,6 @@ import {faBox} from "@fortawesome/free-solid-svg-icons"
 
 
 const HomeComment = ({item, handleSelect, handleRemove, index}) => {
-    const [commentInputOne, setCommentInputOne] = useState('')
-    const [commentInputTwo, setCommentInputTwo] = useState('')
 
     return (
         <div className={`hashtag__comment ${item.selected ? 'selected' : ''}`}>
@@ -35,12 +33,10 @@ const HomeComment = ({item, handleSelect, handleRemove, index}) => {
                     <input
                         type="text"
                         id={item.key[0]}
-                        value={item.text1}
-                        onInput={event => setCommentInputOne(event.target.value)}
+                        defaultValue={item.text1}
                         className={"w-100"}
                     />
                     <label
-                        className={commentInputOne !== '' ? "active" : ''}
                         htmlFor={item.key[0]}
                     >
                         Комментарий 1
@@ -49,7 +45,7 @@ const HomeComment = ({item, handleSelect, handleRemove, index}) => {
                 <div className="input-field">
                     <textarea
                         id={item.key[1]}
-                        value={item.text2}
+                        defaultValue={item.text2}
                         className={"w-100"}
                     />
                     <label
