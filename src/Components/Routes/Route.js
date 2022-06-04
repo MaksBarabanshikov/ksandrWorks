@@ -1,4 +1,5 @@
 import {Routes, Route, Navigate} from "react-router-dom";
+import Home from "../pages/Home/Home";
 import Autoreg from "../pages/Autoreg/Autoreg";
 import Parsing from "../pages/Parsing/Parsing";
 import Invite from "../pages/Invite/Invite";
@@ -16,7 +17,8 @@ import Exit from "../pages/Exit/Exit";
 const Routing = () => {
     return (
         <Routes>
-            <Route path="/" element={<Autoreg/>}/>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/autoreg" element={<Autoreg/>}/>
             <Route path="/parsing" element={<Parsing/>}/>
             <Route path="/invite" element={<Invite/>}/>
             <Route path="/mailing" element={<Mailing/>}/>

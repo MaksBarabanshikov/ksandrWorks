@@ -8,7 +8,7 @@ const SelectBlock = ({item}) => {
         return (
             <div className="app-select">
                 <Select
-                    defaultValue={selectedOption}
+                    value={selectedOption}
                     onChange={setSelectedOption}
                     options={item.options}
                     placeholder={item.placeholder}

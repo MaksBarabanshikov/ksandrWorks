@@ -1,6 +1,10 @@
 export const pathName = {
-    autoreg: {
+    home: {
         path: "/",
+        state: "Главная"
+    },
+    autoreg: {
+        path: "/autoreg",
         state: "Авторег"
     },
     parsing: {

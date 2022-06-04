@@ -1,5 +1,6 @@
 import {pathName} from "./navigateData";
 
+
 import regImage from "../image/sidebar/Key_alt_light.svg";
 import parsingImage from "../image/sidebar/Load_circle.svg";
 import userImage from "../image/sidebar/User_add.svg";
@@ -15,6 +16,7 @@ import commentImage from "../image/sidebar/comment_light.svg";
 import exitImage from "../image/sidebar/exit.svg";
 
 export const sidebarTop = [
+            {img: regImage, text: pathName.home.state, path: pathName.home.path},
             {img: regImage, text: pathName.autoreg.state, path: pathName.autoreg.path},
             {img: parsingImage, text: pathName.parsing.state, path: pathName.parsing.path},
             {img: userImage, text: pathName.invite.state, path: pathName.invite.path},

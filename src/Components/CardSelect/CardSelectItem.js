@@ -1,20 +1,21 @@
-import {useState} from "react";
-import CardDropMenu from "./CardDropMenu";
-import classNames from "classnames";
+import Select from "react-select"
+import {useState} from "react"
 
-const CardSelectItem = (props) => {
-    const [visible, setVisible] = useState(false);
 
-    const handleVisible = () => {
-        setVisible(!visible)
-    }
-
+const CardSelectItem = ({item}) => {
+    const [selectedOption, setSelectedOption] = useState(null)
     return (
-        <li className={classNames("card-select-item", {"active": visible})}>
-            <h4 className="card-select-title">{props.title}</h4>
-
-            <span className="card-select-add" onClick={handleVisible}>+</span>
-            <CardDropMenu select={handleVisible}/>
+        <li className={`card-select-item`}>
+            <h4 className="card-select-title">{item.title}</h4>
+            <Select
+                classNamePrefix="custom-select"
+                value={selectedOption}
+                onChange={setSelectedOption}
+                options={item.options}
+                isSearchable={false}
+                placeholder={"+"}
+                components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
+            />
         </li>
     )
 }

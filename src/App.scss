@@ -7,6 +7,10 @@ $white: #fff;
 $red: #EF9B9B;
 $purple: #6F3DDB;
 $green: #92D799;
+$blue: #1D69CB;
+$blue-gradient: linear-gradient(265.76deg, #0066EA 14.94%, #1D69CB 92.19%);
+$gray-opacity: rgba(145,145,145,0.5);
+$black-opacity: #09090980;
 
 * {
   margin: 0;
@@ -15,10 +19,84 @@ $green: #92D799;
   user-select: none;
 }
 
+html {
+  @font-face {
+    font-family: "Gilroy";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Gilroy"),
+    url("../src/fonts/gilroy-regular.ttf") format('ttf');
+  }
+  @font-face {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 500;
+    src: local("Gilroy"),
+    url("../src/fonts/gilroy-medium.ttf") format('ttf');
+  }
+  @font-face {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 600;
+    src: local("Gilroy"),
+    url("../src/fonts/gilroy-semibold.ttf") format('ttf');
+  }
+  @font-face {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 600;
+    src: local("Gilroy"),
+    url("../src/fonts/gilroy-bold.ttf") format('ttf');
+  }
+
+  //::-webkit-scrollbar {
+  //  width: 30px;
+  //  height: calc(100% - 12px);
+  //}
+  //
+  //::-webkit-scrollbar-track {
+  //  background: rgba(36, 36, 36, 0.1);
+  //  border-radius: 10px;
+  //  padding-left: 10px;
+  //
+  //}
+  //
+  //::-webkit-scrollbar-thumb {
+  //  background: #0066EA;
+  //  border-radius: 10px;
+  //  border-left: 10px solid white ;
+  //  border-right: 10px solid white ;
+
+  ::-webkit-scrollbar {
+    width: 30px;
+    height: 0;
+  }
+  ::-webkit-scrollbar-thumb {
+    height: 1em;
+    border: 12px solid rgba(0, 0, 0, 0);  /* Transparent border together with `background-clip: padding-box` does the trick */
+    background-clip: padding-box;
+    -webkit-border-radius: 1em;
+    background-color: #0066EA;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.025);
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}
+
 body {
-  font-family: 'Inter', sans-serif;
   background-color: #F7F9FD;
   color: $gray;
+  margin: 0;
+  padding: 0;
+  font-family: "Gilroy", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App {
@@ -70,8 +148,6 @@ input[type="submit"] {
   color: #fff;
   border-radius: 10px;
   border: 1px solid transparent;
-  max-height: 35px;
-  max-width: 180px;
   width: 100%;
 
   &.purple-btn {
@@ -123,6 +199,124 @@ input[type="submit"] {
       box-shadow: 0 0 0 2px $green;
     }
 
+  }
+  &.blue-btn {
+    background: $blue-gradient;
+    color: $white;
+    height: 40px;
+
+    &:hover {
+      border: 1px solid $blue;
+      color: $blue;
+      background: transparent;
+    }
+  }
+  &.blue-btn_invert {
+    border: 1px solid $blue;
+    color: $blue;
+    height: 40px;
+
+    &:hover {
+      background: $blue-gradient;
+      color: $white;
+      border-color:transparent;
+    }
+  }
+  &.gray-btn {
+    background-color: $gray-opacity;
+    color: $white;
+    height: 40px;
+
+    &:hover {
+      border: 1px solid $gray-opacity;
+      color: $gray-opacity;
+      background-color: transparent;
+    }
+  }
+  &.black-opacity {
+    border:1px solid $black-opacity;
+    color: $black-opacity;
+    height: 40px;
+    transition: all 0.2s linear;
+
+    &:hover {
+      border-color:transparent;
+      color: #fff;
+      background-color: $black-opacity;
+    }
+  }
+}
+
+.black-opacity_text {
+  color: $black-opacity;
+}
+
+.w-100 {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 33px;
+  color: #090909;
+}
+
+.gray-text {
+  color: #919191;
+  line-height: 24px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid rgba(36, 36, 36, 0.05);
+  padding-bottom: 27px;
+}
+
+.mt-25 {
+  margin-top: 25px!important;
+}
+.mr-25 {
+  margin-right: 25px!important;
+}
+.mb-25 {
+  margin-bottom: 25px!important;
+}
+.ml-25 {
+  margin-left: 25px!important;
+}
+
+.mt-20 {
+  margin-top: 20px!important;
+}
+.mr-20 {
+  margin-right: 20px!important;
+}
+.mb-20 {
+  margin-bottom: 20px!important;
+}
+.ml-20 {
+  margin-left: 20px!important;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-btn-strong {
+  button {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
   }
 }
 
@@ -184,7 +378,6 @@ input[type="submit"] {
     font-size: 14px;
   }
 }
-
 
 .red {
   color: $red;
