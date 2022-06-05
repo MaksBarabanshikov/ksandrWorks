@@ -5,6 +5,8 @@ import inputLogo from "../../../image/payment/ic_input.svg"
 import outputLogo from "../../../image/payment/ic_output.svg"
 import {useEffect, useState} from "react";
 import HistoryItem from "./HistoryItem";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faDownload} from "@fortawesome/free-solid-svg-icons";
 
 const History = ({history}) => {
     const [mainChecked, setMainChecked] = useState(false)
@@ -101,8 +103,8 @@ const History = ({history}) => {
         <div className="payment-history">
             <h4 className="payment-title">
                 История транзакций
-                <button className="purple-btn" onClick={handleExportSession}>
-                    <img src={downloadLogo} alt=""/>
+                <button className="blue-btn" onClick={handleExportSession}>
+                    <FontAwesomeIcon icon={faDownload}/>
                     Скачать историю
                 </button>
             </h4>

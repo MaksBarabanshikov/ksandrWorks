@@ -129,7 +129,7 @@ const User = ({visible}) => {
                         </Block>
                     </Block>
                     <img src={subtract} alt=""/>
-                    <input type="submit" className="purple-btn" value="Подтвердить"/>
+                    <input type="submit" className="blue-btn" value="Подтвердить"/>
                 </div>
             </form>
         </div>

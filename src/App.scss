@@ -68,13 +68,13 @@ html {
   //  border-right: 10px solid white ;
 
   ::-webkit-scrollbar {
-    width: 30px;
+    width: 10px;
     height: 0;
   }
 
   ::-webkit-scrollbar-thumb {
     height: 1em;
-    border: 12px solid rgba(0, 0, 0, 0); /* Transparent border together with `background-clip: padding-box` does the trick */
+    border: 3px solid rgba(0, 0, 0, 0); /* Transparent border together with `background-clip: padding-box` does the trick */
     background-clip: padding-box;
     -webkit-border-radius: 1em;
     background-color: #0066EA;
@@ -331,6 +331,9 @@ input[type="submit"] {
 .justify-content-between {
   justify-content: space-between;
 }
+.justify-content-end {
+  justify-content: end;
+}
 
 .flex-column {
   display: flex;
@@ -367,6 +370,14 @@ input[type="submit"] {
 
 .flex {
   display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.gap-10 {
+  gap: 10px;
 }
 
 .block-title {
@@ -406,6 +417,11 @@ input[type="submit"] {
 
 .red {
   color: $red;
+}
+
+input[type="text"] {
+  text-align: left!important;
+  padding: 10px;
 }
 
 .new-slider-btn {

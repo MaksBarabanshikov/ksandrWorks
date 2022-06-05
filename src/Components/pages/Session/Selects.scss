@@ -1,12 +1,14 @@
 .session-selects {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 2fr 2fr 0.5fr 0.5fr 2fr 2fr;
 
 
   &-input {
     border: 1px solid #CED4DA;
     background-color: #fff;
-    max-width: 200px;
     border-radius: 4px;
+    text-align: left;
+    padding-left: 10px;
   }
 }

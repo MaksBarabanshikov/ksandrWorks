@@ -7,6 +7,7 @@ import React from "react";
 import NewSideBar from "./Components/newSideBar/newSideBar";
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
+import HelloModal from "./Components/Modal/HelloModal";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                         <Routing/>
                     </Container>
                 </Block>
+            <HelloModal/>
         </div>
     );
 }

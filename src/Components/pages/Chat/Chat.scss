@@ -30,16 +30,17 @@
   }
 
   &-footer {
+
     padding: 0 16px 43px 16px;
 
     &-container {
-      padding-top: 34px;
       border-top: 1px solid #d9d9d9;
-    }
-
-    &-form {
-      display: flex;
       position: relative;
+
+      .mt-25 {
+        position: relative;
+      }
+    }
 
 
       input[type="text"] {
@@ -50,11 +51,12 @@
         padding: 10px 0 10px 40px;
       }
       button {
+        max-width: 10px;
         position: absolute;
-        left: 10px;
+        right: 20px;
         top: 50%;
+        color: #0066EA;
         transform: translateY(-50%);
       }
     }
   }
-}

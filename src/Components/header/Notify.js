@@ -35,7 +35,7 @@ const Notify = ({notify, visibility, removeNotify}) => {
                     })
                 }
             </div>
-            <button className="purple-btn" onClick={removeNotify}>
+            <button className="blue-btn" onClick={removeNotify}>
                 Очистить все
             </button>
         </div>

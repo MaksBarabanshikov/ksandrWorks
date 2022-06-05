@@ -7,7 +7,9 @@ const Sidebar = () => {
     return (
         <section className="sidebar">
             <Block stylees="logo" >
-                <img className="logo-image" src={logo} alt="logo"/>
+                <button>
+                    <img className="logo-image" src={logo} alt="logo"/>
+                </button>
                 <Block stylees="logo__text">
                     <h3>
                         Account FB

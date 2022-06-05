@@ -80,27 +80,6 @@
     }
   }
 
-  .slider-post {
-    &__img {
-      border: 1px solid #F4F4F4;
-      padding: 10px;
-      border-radius: 10px;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    &__control {
-      &_btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-  }
-
   &__list {
     li {
       font-size: 16px;

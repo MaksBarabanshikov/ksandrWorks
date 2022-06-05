@@ -103,10 +103,10 @@ const EditorMessage = (props) => {
                 </div>
             </div>
             <div className="mailing-constructor-buttons">
-                <button className="purple-btn" onClick={() => props.handleSetMessage(editorState.toJS())}>
+                <button className="blue-btn" onClick={() => props.handleSetMessage(editorState.toJS())}>
                     Сохранить
                 </button>
-                <button className="purple-btn" onClick={() => props.handleSetFavorites(convertedContent)}>
+                <button className="blue-btn" onClick={() => props.handleSetFavorites(convertedContent)}>
                     Добавить в избранное
                 </button>
             </div>

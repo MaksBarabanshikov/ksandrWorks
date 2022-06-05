@@ -20,8 +20,8 @@
     }
 
     &.active {
-      color: #6F3DDB;
-      border-color: #6F3DDB;
+      color: #0066EA;
+      border-color: #0066EA;
     }
 
     input {
@@ -37,8 +37,8 @@
       cursor: pointer;
 
       &:checked {
-        border-color: rgba(131, 183, 142, 1);
-        background-color: rgba(131, 183, 142, 1);
+        border-color: #0066EA;
+        background-color: #0066EA;
         background-clip: content-box;
       }
     }

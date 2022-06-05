@@ -1,4 +1,3 @@
-import Button from "../../common/Button";
 import edit from "../../../image/result/rename.svg"
 import trash from "../../../image/mailing/trash.svg"
 import Avatar1 from "../../../image/chat/avatar.png"
@@ -129,15 +128,17 @@ const SessionOutput = () => {
                         Сессии:<span>{session.length}</span>
                     </h5>
                 </div>
-                <button className="green-btn">
-                    Проверить аккаунты
-                </button>
-                <button className="purple-btn">
-                    Импорт
-                </button>
-                <button className="purple-btn" onClick={ handleExportSession }>
-                    Экспорт
-                </button>
+                <div className="grid gap-10">
+                    <button className="green-btn">
+                        Проверить аккаунты
+                    </button>
+                    <button className="blue-btn">
+                        Импорт
+                    </button>
+                    <button className="blue-btn" onClick={ handleExportSession }>
+                        Экспорт
+                    </button>
+                </div>
             </div>
             <div className="session-middle">
                 <span>Все</span>

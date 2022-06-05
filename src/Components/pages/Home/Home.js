@@ -7,7 +7,6 @@ import SliderPost from "./SliderPost";
 import HomeSide from "./HomeSide";
 import {useForm} from "react-hook-form";
 import './Home.scss';
-import HelloModal from "../../Modal/HelloModal";
 
 
 const Home = () => {
@@ -30,6 +29,7 @@ const Home = () => {
         }
     }
     const onSubmit = data => {
+        alert("File in console")
         console.log(data.files[0])
     }
 
@@ -49,7 +49,7 @@ const Home = () => {
                                 комментарий с указанными вами хэштегами. После этого первый комментарий будет удален.
                             </p>
                         </div>
-                        <div className="main colm-2 all-btn-strong">
+                        <div className="main colm-2 all-btn-strong justify-content-between">
                             <div className="mr-25 flex-column justify-content-between">
                                 <div>
                                     <div className="input-field">
@@ -98,7 +98,7 @@ const Home = () => {
                                     <RemainingPosts number={30}/>
                                 </div>
                             </div>
-                            <div>
+                            <div className="flex justify-content-end">
                                 <SliderPost/>
                             </div>
                         </div>
@@ -125,7 +125,6 @@ const Home = () => {
                     <HomeSide favorit={favorit}/>
                 </div>
             </div>
-            <HelloModal/>
         </>
     )
 }

@@ -1,5 +1,6 @@
 import {NavLink} from "react-router-dom";
 import {sidebarTop,sidebarMiddle,sidebarBottom} from "../../StorageData/sidebarData";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const SidebarList = (props) => {
 
@@ -9,7 +10,7 @@ const SidebarList = (props) => {
                 {
                     sidebarTop.map(item =>
                     <NavLink key={item.text} to={item.path}>
-                        <img src={item.img} alt=""/>
+                        <FontAwesomeIcon icon={item.img}/>
                         <p className="sidebar-list__text">{item.text}</p>
                     </NavLink>
                 )}
@@ -22,7 +23,7 @@ const SidebarList = (props) => {
                 {
                     sidebarMiddle.map(item =>
                     <NavLink key={item.text} to={item.path}>
-                        <img src={item.img} alt=""/>
+                        <FontAwesomeIcon icon={item.img}/>
                         <p className="sidebar-list__text">{item.text}</p>
                     </NavLink>
                 )}
@@ -35,7 +36,7 @@ const SidebarList = (props) => {
                 {
                     sidebarBottom.map(item =>
                     <NavLink key={item.text} to={item.path}>
-                        <img src={item.img} alt=""/>
+                        <FontAwesomeIcon icon={item.img}/>
                         <p className="sidebar-list__text">{item.text}</p>
                     </NavLink>
                 )}

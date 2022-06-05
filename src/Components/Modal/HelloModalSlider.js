@@ -5,7 +5,7 @@ import NewPrevArrow from "../common/NewPrevArrow";
 import NewNextArrow from "../common/NewNextArrow";
 
 const HelloModalSlider = () => {
-    let settings = {
+    const settings = {
         dots: false,
         infinite: false,
         speed: 500,
@@ -15,7 +15,7 @@ const HelloModalSlider = () => {
         prevArrow: <NewPrevArrow />
     }
 
-    let images = [
+    const images = [
         {src: img, key: 0},
         {src: img, key: 1},
         {src: img, key: 2},

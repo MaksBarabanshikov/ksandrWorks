@@ -4,7 +4,7 @@ const BuyProxy = () => {
     return (
         <div className="setting-buy-proxy">
             <span>
-                Покупка
+                Покупка прокси
             </span>
             <div className="setting-buy-proxy-row">
                 <label>

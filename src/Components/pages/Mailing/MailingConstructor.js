@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react"
+import React, {useRef, useState} from "react"
 import {SocialData} from "../../../StorageData/SocialData"
 import Block from "../../common/Block"
 import "./MailingConstructor.scss"

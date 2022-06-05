@@ -11,6 +11,13 @@
   justify-content: space-between;
   margin-bottom: 13px;
   padding: 0 18px;
+
+  .grid {
+    grid-template-columns: 2fr 1fr 1fr;
+    button {
+      padding: 0 10px;
+    }
+  }
 }
 
 .session-middle {
@@ -44,9 +51,10 @@
     border: 2px solid #bebebe;
     background-color: transparent;
     transition: border .2s ease-in-out;
+    cursor: pointer;
 
     &:checked {
-      border-color: #6b32e3;
+      border-color: #0066EA;
       background-image: url("../../../image/checkbox/line.svg");
       background-repeat: no-repeat;
       background-position: center center;
@@ -83,7 +91,7 @@
 
     &.checked {
       &:before{
-        background-color: #6b32e3;
+        background-color: #0066EA;
         height: 100%;
       }
     }
