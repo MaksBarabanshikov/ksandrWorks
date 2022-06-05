@@ -1,8 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
+import HelloModalSlider from "./HelloModalSlider";
 
 const HelloModal = () => {
     const [isOpen, setIsOpen] = useState(true)
@@ -16,9 +17,14 @@ const HelloModal = () => {
     const handleNextStep = () => {
         setStep(step+1)
     }
+
+    useEffect(() => {
+        console.log("render")
+    },[isOpen, step])
+
     return (
-        isOpen && <div className="modal">
-            <div className="modal__body hello-modal">
+        <div className={`modal ${isOpen? "" : "hidden"}`}>
+            <div className={`modal__body hello-modal ${isOpen? "open" : ''}`}>
                 {step === 1 && <div className="step-1">
                     <div className="modal__body_top flex justify-content-between align-center border-bottom">
                         <div>
@@ -96,7 +102,7 @@ const HelloModal = () => {
                         </button>
                     </div>
                     <div className="modal__body_main">
-                        <div className="modal__body_main-tab border-bottom">
+                        <div className="modal__body_main-tab">
                             <div>
                                 <div>
                                     <FontAwesomeIcon icon={faCircleChevronRight}/>
@@ -121,6 +127,7 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
+                        <HelloModalSlider/>
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
@@ -163,14 +170,13 @@ const HelloModal = () => {
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
-                                onClick={() => handleNextStep()}
+                                onClick={() => handleClose()}
                             >
                                 Далее
                             </button>
                         </div>
                     </div>
                 </div>}
-                {step === 4 ? handleClose() : null}
             </div>
         </div>
     )

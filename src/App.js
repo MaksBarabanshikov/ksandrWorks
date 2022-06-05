@@ -5,6 +5,8 @@ import "./App.scss";
 import Container from "./Components/common/Container";
 import React from "react";
 import NewSideBar from "./Components/newSideBar/newSideBar";
+import "slick-carousel/slick/slick.scss";
+import "slick-carousel/slick/slick-theme.scss";
 
 function App() {
     return (

@@ -21,8 +21,8 @@ const Modal = () => {
                 <p>Статистика</p>
             </button>
 
-            {isOpen && <div className="modal">
-                <div className="modal__body">
+            <div className={`modal modal-stat ${isOpen? "" : "hidden"}`}>
+                <div className={`modal__body ${isOpen? "open" : ''}`}>
                     <div className="modal__body_top flex justify-content-between align-center border-bottom">
                         <h1 className="title">
                             Статистика блоков по статусам
@@ -108,7 +108,7 @@ const Modal = () => {
                         </div>
                     </div>
                 </div>
-            </div>}
+            </div>
         </>
     )
 }
