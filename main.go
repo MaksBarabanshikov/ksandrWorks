@@ -69,10 +69,23 @@ var PostsIds = []CurrentPostType{{"18156954172144798"}}
 //	Children     string `json:"children"`
 //}
 
-var AccessToken = "EAAH3gvyh1AsBAMHDowFZCvTmAbojWyTu7tBxX8Nk4T3ZBZAco7fcFtlol6nOkKzHNRfsmZC0XfAzLkZCWqnUdef1N3SEU4OhFtimc6lZB3oIgyJm4gKmQZBZCvr0GFxlvqf10mmS2KNZC9TgX53ZB70wh4JXwjjscsz9eY42ZBV4pgj7wZAcQfZB6SeZCJJZCLCQbtt79hH1hBScPIFZBo8ZAOUFiDZBOAqUUDyeU6MrsZD"
 var MyClient = http.Client{}
 var Graph = "https://graph.facebook.com/v14.0/"
 var FirstComment string = "Wed"
+
+func ReadAccess() string {
+	var TokenFile, err = os.Open("access.txt")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer TokenFile.Close()
+
+	var AccessByte, _ = os.ReadFile("access.txt")
+	return string(AccessByte)
+}
+
+var AccessToken = ReadAccess()
 
 func GetInstaId(Token string) string {
 	MyPage, err := MyClient.Get(Graph + "me/accounts?access_token=" + Token)
@@ -248,7 +261,7 @@ func Hashtaging(ReplyBody string) {
 
 	time.Sleep(4 * time.Second)
 
-	reply, err := MyClient.PostForm("https://graph.facebook.com/v14.0/"+CurrentComment.CommentId+"/replies", ReplyValues)
+	reply, err := MyClient.PostForm(Graph+CurrentComment.CommentId+"/replies", ReplyValues)
 
 	if err != nil {
 		fmt.Println(err)
@@ -341,7 +354,7 @@ func main() {
 	//route.Run() // listen and serve on 0.0.0.0:8080
 
 	//fmt.Println("начинаем создавать комменты")
-
+	ReadAccess()
 	CreateHash()
 
 	for T := 1; T < len(NewStore)-1; T = T + 24 {
