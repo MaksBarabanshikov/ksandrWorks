@@ -7,6 +7,7 @@ import SliderPost from "./SliderPost";
 import HomeSide from "./HomeSide";
 import {useForm} from "react-hook-form";
 import './Home.scss';
+import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 
 
 const Home = () => {
@@ -35,7 +36,7 @@ const Home = () => {
 
     return (
         <>
-            <Header title="Главная"/>
+            <Header title="Хештеги" icon={faHashtag}/>
             <div className="hashtag">
                 <div>
                     <div className="hashtag__block mb-25">
@@ -112,10 +113,10 @@ const Home = () => {
                         <div className="main">
                             <ul className="hashtag__list">
                                 <li>
-                                    Необходимо переподключить токен. Сделайте это по соответствующей кнопке
+                                    <div>Необходимо переподключить токен. Сделайте это по соответствующей кнопке</div>
                                 </li>
                                 <li>
-                                    Процесс находиться на паузе
+                                    <div>Процесс находиться на паузе</div>
                                 </li>
                             </ul>
                         </div>

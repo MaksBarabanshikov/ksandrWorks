@@ -8,6 +8,7 @@ const CardSelect = () => {
             {dropMenuData.map(item => (
                 <CardSelectItem
                     item={item}
+                    key={item.id}
                 />
             ))}
         </ul>

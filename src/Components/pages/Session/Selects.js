@@ -6,7 +6,7 @@ const Selects = () => {
     return (
         <div className="session-selects">
             {selectOptions.map(item => (
-                <SelectBlock item={item}/>
+                <SelectBlock item={item} key={item.id}/>
             ))}
         </div>
     )

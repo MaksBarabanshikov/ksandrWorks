@@ -45,6 +45,15 @@ const HomeSide = ({favorit}) => {
     const removeHandler = (item) => {
         setComments(comments.filter(comment => !(comment.id === item.id)))
     }
+    const saveHandler = (item, inputValue, textareaValue) => {
+        setComments(comments.map(comment => {
+            if (comment.id === item.id) {
+                comment.text1 = inputValue
+                comment.text2 = textareaValue
+            }
+            return comment
+        }))
+    }
 
     useEffect(() => {
         setComments(
@@ -65,7 +74,7 @@ const HomeSide = ({favorit}) => {
                 text2: favorit[0].value2
             }]))
         }
-    },[favorit])
+    }, [favorit])
 
     return (
         <div className="hashtag__side hashtag__block">
@@ -108,16 +117,17 @@ const HomeSide = ({favorit}) => {
                 <div className="hashtag__side_main-cont">
                     {
                         comments.length ?
-                            comments.map((item,index) => (
+                            comments.map((item, index) => (
                                 <HomeComment
                                     key={item.key[0]}
                                     item={item}
                                     handleSelect={selectHandle}
                                     handleRemove={removeHandler}
+                                    handleSave={saveHandler}
                                     index={index}
                                 />
                             )) :
-                            <div>пусто</div>
+                            <div className="text-center">Вы пока ничего не добавили</div>
                     }
                 </div>
             </div>

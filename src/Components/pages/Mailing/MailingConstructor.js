@@ -12,6 +12,7 @@ import DropListArrow from "../../DropListArrow/DropListArrow";
 const MailingConstructor = () => {
     const [message, setMessage] = useState({});
     const [favorites, setFavorites] = useState([])
+    const [active, setActive] = useState(false)
 
     const titleRef = useRef()
 
@@ -47,7 +48,6 @@ const MailingConstructor = () => {
         console.log(message)
     }
 
-    console.log(favorites)
     return (
         <Block stylees="mailing-constructor">
             <h5 className="mailing-constructor-title">
@@ -75,10 +75,13 @@ const MailingConstructor = () => {
                     </div>
                 </div>
                 <div className="mailing-constructor-new-message">
-                    <button className="mailing-add-message">
+                    <button
+                        className="mailing-add-message"
+                        onClick={() => setActive(!active)}
+                    >
                         + Новое сообщение
                     </button>
-                    <div className="mailing-constructor-drop-add-message">
+                    {active? <div className="mailing-constructor-drop-add-message">
                         <div className="mailing-constructor-row">
                             <label htmlFor="constructorTitle">
                                 <span>Заголовок</span>
@@ -94,7 +97,7 @@ const MailingConstructor = () => {
                             <EditorMessage handleSetMessage={handleSetMessage} handleSetFavorites={handleSetFavorites}/>
                         </div>
                         <Favorites favorites={favorites} remove={handleRemoveFavorites} changeConstructor={handleChangeConstructor}/>
-                    </div>
+                    </div>: null}
                 </div>
             </div>
         </Block>

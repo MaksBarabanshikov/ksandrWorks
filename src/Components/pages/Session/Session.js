@@ -3,11 +3,12 @@ import Selects from "./Selects"
 import SessionOutput from "./SessionOutput"
 import "./Session.scss"
 import Header from "../../header/Header";
+import {faStopwatch} from "@fortawesome/free-solid-svg-icons";
 
 const Session = () => {
     return (
         <>
-            <Header title="Сессии"/>
+            <Header title="Сессии" icon={faStopwatch}/>
             <div className="session">
                 <Selects/>
                 <SessionOutput/>

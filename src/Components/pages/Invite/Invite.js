@@ -6,6 +6,7 @@ import Button from "../../common/Button";
 import CheckBoxList from "../../CheckboxList/CheckBoxList";
 import Textarea from "../../common/Textarea";
 import {checkboxThree,threeCheckboxValue} from "../../../StorageData/checkboxData";
+import {faUserPlus} from "@fortawesome/free-solid-svg-icons/faUserPlus";
 import "./Invite.scss";
 import ProcessWork from "../../ProcessWork/ProcessWork";
 import Header from "../../header/Header";
@@ -14,7 +15,7 @@ import Header from "../../header/Header";
 const Invite = () => {
   return(
       <>
-          <Header title="Инвайтинг"/>
+          <Header title="Инвайтинг" icon={faUserPlus}/>
           <Block stylees="left invite">
               <CardSelect/>
               <Block stylees="invite-amount flex">

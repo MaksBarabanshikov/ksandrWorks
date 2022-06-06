@@ -9,12 +9,13 @@ import React from "react";
 import CardSelect from "../../CardSelect/CardSelect";
 import ProcessWork from "../../ProcessWork/ProcessWork";
 import Header from "../../header/Header";
+import {faCheckCircle} from "@fortawesome/free-regular-svg-icons";
 
 
 const Checker = () => {
   return(
       <>
-          <Header title="Чекер"/>
+          <Header title="Чекер" icon={faCheckCircle}/>
           <Block stylees="left">
               <CardSelect/>
               <Textarea stylees="parsing-row" label="Логины чатов:">

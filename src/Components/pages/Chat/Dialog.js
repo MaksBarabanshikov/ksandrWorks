@@ -1,6 +1,7 @@
 import "./Dialog.scss"
 import classNames from "classnames";
-import microLogo from "../../../image/chat/micro.svg"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 const Dialog = ({person}) => {
 
     if (person === null) {
@@ -47,7 +48,7 @@ const Dialog = ({person}) => {
                 <div className="dialog-input">
                     <input type="text" placeholder="Введите ваше сообщение в данное поле ........."/>
                     <button className="dialog--micro">
-                        <img src={microLogo} alt=""/>
+                        <FontAwesomeIcon icon={faPaperPlane}/>
                     </button>
                 </div>
             </div>

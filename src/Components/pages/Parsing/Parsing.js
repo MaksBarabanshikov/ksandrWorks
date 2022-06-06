@@ -10,11 +10,12 @@ import {resultsData} from "../../../StorageData/resultsData";
 import "./Parsing.scss"
 import ProcessWork from "../../ProcessWork/ProcessWork";
 import Header from "../../header/Header";
+import {faFileDownload} from "@fortawesome/free-solid-svg-icons/faFileDownload";
 
 const Parsing = () => {
     return (
         <>
-            <Header title="Парсинг"/>
+            <Header title="Парсинг" icon={faFileDownload}/>
             <Block stylees="parsing block left-transparent">
                 <SocialSelect page="parsing"/>
                 <Block stylees="left">

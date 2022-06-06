@@ -2,6 +2,7 @@ import "./Instruction.scss"
 import posterLogo from "../../../image/video.jpg"
 import Header from "../../header/Header";
 import React from "react";
+import {faBookOpen} from "@fortawesome/free-solid-svg-icons/faBookOpen";
 
 const pagesNum = [
     {id: 0 , page: 1 , active: true},
@@ -12,7 +13,7 @@ const pagesNum = [
 const Instruction = () => {
     return (
         <>
-            <Header title="Инструкция"/>
+            <Header title="Инструкция" icon={faBookOpen}/>
             <div className="instruction">
                 <div className="instruction-title">
                     <h6>Как работать с программой. Вступление и краткое обучение за 5 минут!</h6>

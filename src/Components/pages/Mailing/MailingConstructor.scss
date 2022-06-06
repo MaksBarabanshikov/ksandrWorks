@@ -62,10 +62,10 @@
     position: relative;
 
     .mailing-add-message {
-      color: #6F3DDB;
+      color: #0066EA;
       padding: 20px;
       text-align: center;
-      border: 1px dashed #6F3DDB;
+      border: 1px dashed #0066EA;
       width: 100%;
       border-radius: 10px;
     }
@@ -168,7 +168,7 @@
           margin-bottom: 0;
         }
         .favorites-item-text {
-          border: 1px solid #6b32e3;
+          border: 1px solid #0066EA;
           padding: 10px 4px 10px 18px;
           font-size: 14px;
           border-radius: 10px;
@@ -180,7 +180,7 @@
           transition: all .25s linear;
 
           &:hover {
-            background-color: #6b32e3;
+            background-color: #0066EA;
             color: #fff;
           }
         }

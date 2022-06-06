@@ -1,13 +1,13 @@
 @import "normalize-scss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-$gray: #666;
+$gray: #919191;
 $black: #020614;
 $white: #fff;
 $red: #EF9B9B;
 $purple: #6F3DDB;
 $green: #92D799;
-$blue: #1D69CB;
+$blue: #0066EA;
 $blue-gradient: linear-gradient(265.76deg, #0066EA 14.94%, #1D69CB 92.19%);
 $gray-opacity: rgba(145, 145, 145, 0.5);
 $black-opacity: #09090980;
@@ -24,29 +24,25 @@ html {
     font-family: "Gilroy";
     font-style: normal;
     font-weight: 400;
-    src: local("Gilroy"),
-    url("../src/fonts/gilroy-regular.ttf") format('ttf');
+    src: url("../src/fonts/gilroy-regular.ttf") format('ttf');
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 500;
-    src: local("Gilroy"),
-    url("../src/fonts/gilroy-medium.ttf") format('ttf');
+    src: url("../src/fonts/gilroy-medium.ttf") format('ttf');
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
-    src: local("Gilroy"),
-    url("../src/fonts/gilroy-semibold.ttf") format('ttf');
+    src: url("../src/fonts/gilroy-semibold.ttf") format('ttf');
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
-    src: local("Gilroy"),
-    url("../src/fonts/gilroy-bold.ttf") format('ttf');
+    src: url("../src/fonts/gilroy-bold.ttf") format('ttf');
   }
 
   //::-webkit-scrollbar {
@@ -378,6 +374,10 @@ input[type="submit"] {
 
 .gap-10 {
   gap: 10px;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .block-title {

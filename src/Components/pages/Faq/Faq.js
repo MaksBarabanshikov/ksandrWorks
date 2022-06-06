@@ -3,6 +3,7 @@ import "./Faq.scss"
 import {FaqData} from "../../../StorageData/FaqData";
 import Header from "../../header/Header";
 import React from "react";
+import {faQuestionCircle} from "@fortawesome/free-regular-svg-icons";
 
 
 const pagesNum = [
@@ -15,7 +16,7 @@ const Faq = () => {
 
   return(
       <>
-          <Header title="FAQ"/>
+          <Header title="FAQ" icon={faQuestionCircle}/>
           <div className="faq">
               <div className="faq-container">
                   {FaqData.map(accordion => (

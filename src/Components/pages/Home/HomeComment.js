@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useRef} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons"
 import {faCheckCircle} from "@fortawesome/free-regular-svg-icons"
 import {faBox} from "@fortawesome/free-solid-svg-icons"
 
 
-const HomeComment = ({item, handleSelect, handleRemove, index}) => {
+const HomeComment = ({item, handleSelect, handleRemove,handleSave, index}) => {
+    const inputRef = useRef()
+    const textareaRef = useRef()
 
     return (
         <div className={`hashtag__comment ${item.selected ? 'selected' : ''}`}>
@@ -14,23 +16,24 @@ const HomeComment = ({item, handleSelect, handleRemove, index}) => {
                     Блок #{index + 1}
                 </h2>
                 <div className="hashtag__comment-control flex">
-                    <button onClick={() => handleRemove(item)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_remove" onClick={() => handleRemove(item)}>
                         <FontAwesomeIcon icon={faCircleXmark}/>
                     </button>
-                    <button onClick={() => handleSelect(item)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_check" onClick={() => handleSelect(item)}>
                         <FontAwesomeIcon icon={faCheckCircle}/>
                     </button>
-                    <button>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_save" onClick={() => handleSave(item, inputRef.current.value, textareaRef.current.value)}>
                         <FontAwesomeIcon icon={faBox}/>
                     </button>
                 </div>
             </div>
             <div>
-                <button className={"blue-btn_invert mb-20"}>
+                <div className={"hashtag__comment_block mb-20"}>
                     Первый комментарий не был отправлен
-                </button>
+                </div>
                 <div className="input-field mb-20">
                     <input
+                        ref={inputRef}
                         type="text"
                         id={item.key[0]}
                         defaultValue={item.text1}
@@ -44,6 +47,7 @@ const HomeComment = ({item, handleSelect, handleRemove, index}) => {
                 </div>
                 <div className="input-field">
                     <textarea
+                        ref={textareaRef}
                         id={item.key[1]}
                         defaultValue={item.text2}
                         className={"w-100"}

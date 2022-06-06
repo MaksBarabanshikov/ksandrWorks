@@ -49,6 +49,7 @@ const Header = (props) => {
     return (
         <header className="header">
             <Block stylees="header-title">
+                <FontAwesomeIcon icon={props.icon}/>
                 <h5>{props.title}</h5>
             </Block>
             <Block stylees="header-buttons">

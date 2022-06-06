@@ -11,11 +11,12 @@ import Refill from "./Refill"
 import Rate from "./Rate"
 import "./Payment.scss"
 import Header from "../../header/Header";
+import {faWallet} from "@fortawesome/free-solid-svg-icons/faWallet";
 
 const Payment = () => {
   return(
       <>
-          <Header title="Оплата"/>
+          <Header title="Оплата" icon={faWallet}/>
           <div className="payment">
               <Balance balance={ paymentBalanceData } />
               <Refill refill={ paymentRefillData } />

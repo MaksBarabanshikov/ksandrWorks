@@ -6,6 +6,7 @@ import searchLogo from "../../../image/chat/search.svg"
 import Header from "../../header/Header";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons/faSearch";
+import {faComment} from "@fortawesome/free-solid-svg-icons";
 
 const Chat = () => {
     const [person, setPerson] = useState(null)
@@ -16,7 +17,7 @@ const Chat = () => {
 
     return (
         <>
-            <Header title="Диалоги"/>
+            <Header title="Диалоги" icon={faComment}/>
             <div className="chat">
                 <div className="chat-interlocutors flex-column justify-content-between">
                     <div>
@@ -24,18 +25,14 @@ const Chat = () => {
                             <div className="chat-interlocutors-title-text">
                                 Собеседники
                             </div>
-                        </div>
-                        <Interlocutors setDialog={handleSetPerson}/>
-                    </div>
-                    <div className="chat-footer">
-                        <div className="chat-footer-container">
-                            <div className="mt-25">
+                            <div className="chat-interlocutors-search">
                                 <button>
                                     <FontAwesomeIcon icon={faSearch}/>
                                 </button>
                                 <input type="text" placeholder='Поиск по сообщениям'/>
                             </div>
                         </div>
+                        <Interlocutors setDialog={handleSetPerson}/>
                     </div>
                 </div>
                 <div className="chat-selected-dialog">

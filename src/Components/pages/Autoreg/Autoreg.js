@@ -6,12 +6,14 @@ import Button from "../../common/Button";
 import "./Autoreg.scss"
 import ProcessWork from "../../ProcessWork/ProcessWork";
 import Header from "../../header/Header";
+import {faKey} from "@fortawesome/free-solid-svg-icons/faKey";
+
 
 
 const Autoreg = () => {
     return (
         <>
-            <Header title="Авторег"/>
+            <Header title="Авторег" icon={faKey}/>
             <Block stylees="left">
                 <CardSelect/>
                 <Block stylees="column-amount">

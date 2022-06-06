@@ -1,27 +1,33 @@
 .hashtag__side {
   height: 100%;
   overflow: hidden;
+
   &-control {
     color: #919191;
     margin-bottom: 30px;
+
     button {
       width: auto;
       margin-right: 10px;
       color: #919191;
       font-size: 18px;
     }
+
     span {
       font-weight: 500;
       font-size: 16px;
       line-height: 150%;
     }
+
     label.active {
       color: #0066EA;
-      button{
+
+      button {
         color: #0066EA;
       }
     }
   }
+
   &_main {
     height: 590px;
     overflow: auto;
@@ -35,22 +41,30 @@
   padding: 16px;
   margin-bottom: 12px;
   transition: border 0.2s linear;
+
   &:last-child {
     margin-bottom: 0;
+  }
+
+  &-control {
+    button {
+      &:hover {
+        color: #0066EA;
+      }
+    }
   }
 
   &.selected {
     border-color: #0066EA;
 
     .hashtag__comment-control {
-      button {
+      &_save {
         color: #0066EA;
       }
     }
   }
 
-
-    &_title {
+  &_title {
     font-weight: 600;
     font-size: 16px;
     line-height: 19px;
@@ -61,10 +75,15 @@
     margin-bottom: 12px;
   }
 
-  .blue-btn_invert {
+  &_block {
     font-weight: 500;
     font-size: 12px;
     line-height: 150%;
+    border: 1px solid #0066EA;
+    color: #0066EA;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
   }
 
   &-control {
@@ -72,6 +91,7 @@
       color: #090909;
       font-size: 15px;
       margin-right: 8px;
+
       &:last-child {
         margin-right: 0;
       }

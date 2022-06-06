@@ -9,11 +9,12 @@ import Input from "../../common/Input";
 import {checkboxThree, threeCheckboxValue} from "../../../StorageData/checkboxData";
 import ProcessWork from "../../ProcessWork/ProcessWork";
 import Header from "../../header/Header";
+import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
 
 const Mailing = () => {
     return (
         <>
-            <Header title="Рассылка"/>
+            <Header title="Рассылка" icon={faEnvelope}/>
             <Block stylees="parsing block left-transparent">
                 <SocialSelect page="mailing"/>
                 <Block stylees="left">

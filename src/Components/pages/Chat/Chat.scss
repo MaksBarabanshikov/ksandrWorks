@@ -6,17 +6,33 @@
     flex: 0 0 30%;
     background-color: #fff;
     box-shadow: 0 12px 23px rgba(0, 0, 0, 0.04);
-    padding: 40px 0;
+    padding: 20px 0;
     margin-right: 40px;
     border-radius: 10px;
 
     &-title {
       padding: 0 16px 0 16px;
       margin-bottom: 20px;
+      border-bottom: 1px solid #d9d9d9;
+    }
 
-      &-text {
-        border-bottom: 1px solid #d9d9d9;
-        padding-bottom: 50px;
+    &-search {
+      position: relative;
+      margin: 20px 0;
+      input[type="text"] {
+        text-align: left;
+        flex: 0 0 100%;
+        max-width: 100%;
+        overflow: hidden;
+        padding: 10px 0 10px 40px;
+      }
+      button {
+        max-width: 10px;
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        color: #0066EA;
+        transform: translateY(-50%);
       }
     }
   }
@@ -28,35 +44,4 @@
     border-radius: 10px;
     position: relative;
   }
-
-  &-footer {
-
-    padding: 0 16px 43px 16px;
-
-    &-container {
-      border-top: 1px solid #d9d9d9;
-      position: relative;
-
-      .mt-25 {
-        position: relative;
-      }
-    }
-
-
-      input[type="text"] {
-        text-align: left;
-        flex: 0 0 100%;
-        max-width: 100%;
-        overflow: hidden;
-        padding: 10px 0 10px 40px;
-      }
-      button {
-        max-width: 10px;
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        color: #0066EA;
-        transform: translateY(-50%);
-      }
-    }
   }
