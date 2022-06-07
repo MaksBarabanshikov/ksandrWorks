@@ -50,13 +50,17 @@ type CurrentPostType struct {
 	Id string `json:"id"`
 }
 
+type FileRecieve struct {
+	FileBody string `json:"file"`
+}
+
 type CommentsReplyFront struct {
 	Com string
 	Rep string
 }
 
 var NewStore = []string{} //include hashtags divided by words as elements
-
+var RecievedFile string
 var PostsIds = []CurrentPostType{{"18156954172144798"}} //include ids of posts, last one is a current id
 
 //type MediaToShow struct {
@@ -193,36 +197,44 @@ func PostId(c *gin.Context) {
 
 //Recieving an File with Hashtags from POST Method and save it on computer
 func GettingFile(c *gin.Context) {
-	File, _ := c.FormFile("file")
-	log.Println(File.Filename)
-	log.Println(File.Size)
+	//File, _ := c.FormFile("file")
+	//log.Println(File.Filename)
+	//log.Println(File.Size)
+	var BodyFile FileRecieve
+	if err := c.BindJSON(&BodyFile); err != nil {
+		return
+	}
+
+	RecievedFile = BodyFile.FileBody
+	c.IndentedJSON(http.StatusCreated, BodyFile)
 
 }
 
 //Reading file with Hashtags and putting them into NewStore slice
 func CreateHash() {
 
-	littleFile, err := os.Open("Filetst.txt")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	defer func(littleFile *os.File) {
-		err := littleFile.Close()
-		if err != nil {
-
-		}
-	}(littleFile)
-
-	BigFile, _ := os.ReadFile("Filetst.txt")
-	MyAllHes := strings.Split(string(BigFile), " ")
+	//littleFile, err := os.Open("Filetst.txt")
+	//if err != nil {
+	//	fmt.Println(err)
+	//	os.Exit(1)
+	//}
+	//defer func(littleFile *os.File) {
+	//	err := littleFile.Close()
+	//	if err != nil {
+	//
+	//	}
+	//}(littleFile)
+	//
+	//BigFile, _ := os.ReadFile("Filetst.txt")
+	MyAllHes := strings.Split(string(RecievedFile), " ")
 	var NewHash string
 	for i := 0; i < len(MyAllHes); i++ {
 		NewHash = MyAllHes[i]
 		NewStore = append(NewStore, NewHash)
 	}
 
-	fmt.Println("хэштеги прочитались и добавились в слайс")
+	//fmt.Println("хэштеги прочитались и добавились в слайс")
+
 }
 
 //Creating:
@@ -317,6 +329,7 @@ func Hashtaging(ReplyBody string) {
 	//fmt.Println("repli json", bodyReply)
 	if currentReply.ReplyId == "" {
 		color.Red(string("Fail of creating reply"))
+		return
 	} else {
 		color.Green(string(currentReply.ReplyId))
 	}
@@ -397,6 +410,7 @@ func Process(HashtagsPerPost int) {
 			//fmt.Println("S in", S)
 		}
 
+		time.Sleep(60 * time.Second)
 		Hashtaging(CurrentReplyBody)
 
 		//GetReplyAndComment(CurrentReplyBody, CommentF)
@@ -408,11 +422,11 @@ func Process(HashtagsPerPost int) {
 
 func main() {
 
-	//route := gin.Default()
+	route := gin.Default()
 	//route.GET("/hashtags", GetPosts)
 	//route.POST("/hashtags/get-post-id", PostId)
-	//route.POST("/hashtags/file-of-hashtags", GettingFile)
-	//route.Run() // listen and serve on 0.0.0.0:8080
+	route.POST("/hashtags/file-of-hashtags", GettingFile)
+	route.Run() // listen and serve on 0.0.0.0:8080
 
 	ReadAccess()
 	CreateHash()
