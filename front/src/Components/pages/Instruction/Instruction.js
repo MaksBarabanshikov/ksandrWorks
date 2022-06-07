@@ -24,7 +24,7 @@ const Instruction = () => {
                 </span>
                 </div>
                 <div className="instruction-video">
-                    <video poster={posterLogo} src="#"/>
+                    <video poster={posterLogo} src="front/src/Components/pages/Instruction/Instruction#"/>
 
                     <ul className="instruction-video-buttons">
 

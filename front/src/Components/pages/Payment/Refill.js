@@ -41,7 +41,7 @@ const Refill = ({refill}) => {
                     <button className="payment-refill-button">
                         Пополнить счет
                     </button>
-                    <a href="#">
+                    <a href="front/src/Components/pages/Payment/Refill#">
                         Служба поддержки
                     </a>
                 </div>

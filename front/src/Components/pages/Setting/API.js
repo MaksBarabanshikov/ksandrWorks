@@ -30,7 +30,7 @@ const API = () => {
                 <Button>
                     Ссылка
                 </Button>
-                <a href="#" >
+                <a href="front/src/Components/pages/Setting/API#" >
                     Инструкция
                 </a>
             </div>

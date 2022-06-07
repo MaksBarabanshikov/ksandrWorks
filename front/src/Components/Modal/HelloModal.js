@@ -48,7 +48,7 @@ const HelloModal = () => {
                                     Ваша учетная запись instagram - это бизнес учетная запись, а не учетная запись
                                     создателя
                                     контента.
-                                    <a href="#">How to create a buisness account.</a>
+                                    <a href="front/src/Components/Modal/HelloModal#">How to create a buisness account.</a>
                                 </div>
                             </div>
                             <div>
@@ -57,7 +57,7 @@ const HelloModal = () => {
                                 </div>
                                 <div>
                                     Ваш бизнес-аккаунт в instagram теперь связан с вашей фан-страницей в Facebook
-                                    <a href="#">Как подключиться к фан-странице FaceBook.</a>
+                                    <a href="front/src/Components/Modal/HelloModal#">Как подключиться к фан-странице FaceBook.</a>
                                 </div>
                             </div>
                             <div>
@@ -66,7 +66,7 @@ const HelloModal = () => {
                                 </div>
                                 <div>
                                     Вы предоставили разрешение на подключение инструментов
-                                    <a href="#">Как предоставить запрошенные разрешения. </a>
+                                    <a href="front/src/Components/Modal/HelloModal#">Как предоставить запрошенные разрешения. </a>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@ const HelloModal = () => {
                                         подключения
                                         аккаунта, где надо будет нажать кнопку <strong>“Продолжить как”</strong>
                                     </p>
-                                    <a href="#">How to create a buisness account.</a>
+                                    <a href="front/src/Components/Modal/HelloModal#">How to create a buisness account.</a>
                                 </div>
                             </div>
                             <div>

@@ -31,7 +31,7 @@ const BuyProxy = () => {
                     <Button>
                         Пополнить счет
                     </Button>
-                    <a className="setting-link" href="#">
+                    <a className="setting-link" href="front/src/Components/pages/Setting/BuyProxy#">
                         Способы оплаты
                     </a>
                 </div>
