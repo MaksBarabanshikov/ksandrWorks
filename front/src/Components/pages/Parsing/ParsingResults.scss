@@ -1,0 +1,46 @@
+.result {
+  padding: 0 20px;
+  border: 1px solid rgba(179, 179, 179, 0.5);
+  background-color: #fff;
+  border-radius: 10px;
+  min-height: 250px;
+
+  &-row.flex {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #F4F5F7;
+    padding: 20px 0 10px 0;
+  }
+
+  &-cell {
+    font-size: 14px;
+    color: rgba(102, 102, 102, 1);
+
+    input {
+      background-color: transparent;
+      &:focus{
+        outline: none;
+      }
+
+      &.focus {
+        &:focus {
+          border-color: #6b32e3;
+        }
+      }
+    }
+  }
+
+  &-cell.flex {
+    align-items: center;
+
+    button {
+      margin-left: 20px;
+      cursor: pointer;
+    }
+  }
+
+
+}
+
+

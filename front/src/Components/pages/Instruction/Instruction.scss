@@ -1,0 +1,53 @@
+.instruction {
+  &-title {
+    h6 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0066EA;
+    }
+    span {
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+
+  &-video {
+    padding: 140px 72px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #B2B2B280;
+    margin-top: 40px;
+    z-index: 100;
+    &-buttons {
+      position: absolute;
+      display: grid;
+      z-index: 1000;
+      bottom: -56px;
+      grid-template-columns: repeat(3, 32px);
+      gap: 11px;
+
+      li {
+        display: grid;
+        height: 36px;
+        border: 1px solid #D9D9D9;
+        border-radius: 4px;
+        place-items: center;
+        cursor: pointer;
+        transition: background-color .25s ease-in-out;
+
+        &:not(.active):hover {
+          background-color: rgba(0, 0, 0, 0.26);
+        }
+
+        &.active {
+          border-color: transparent;
+          background-color: #0066EA;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
