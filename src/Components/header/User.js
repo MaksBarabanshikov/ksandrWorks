@@ -6,7 +6,6 @@ import logo from "../../image/logo.png"
 import subtract from "../../image/header/user/Subtract.svg"
 import "./User.scss"
 import {parsePhoneNumber} from "libphonenumber-js";
-import {useEffect} from "react";
 
 const schema = yup.object({
     fio: yup.string().required("Поле обязательно к заполнению").min(10, "Минимум 10 символов"),
@@ -37,10 +36,6 @@ const User = ({visible}) => {
     const onSubmit = (data) => {
         alert(JSON.stringify(data, null, 2))
     }
-
-    useEffect(() => {
-        console.log(errors)
-    }, [errors])
 
     return (
         <div className={`header-user user user-${visible ? "visible" : ""}`}>

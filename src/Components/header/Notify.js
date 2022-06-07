@@ -12,9 +12,10 @@ const Notify = ({notify, visibility, removeNotify}) => {
         }
     }
     return (
-        <div className={`header-notify notify ${visibility ? "notify-visible" : ""}`}>
+        <div className={`header-notify notify ${visibility ? "notify-visible" : ""} ${!notify.length? "empty" : null}`}>
             <div className="notify-wrapper">
                 {
+                    notify.length?
                     notify.map(notifyItem => {
                         return (
                             <div key={notifyItem.id} className={`notify-item notify-${notifyItem.status}`}>
@@ -32,7 +33,8 @@ const Notify = ({notify, visibility, removeNotify}) => {
                                 </div>
                             </div>
                         )
-                    })
+                    }):
+                        <div className="text-center">Вам пока еще ничего не пришло</div>
                 }
             </div>
             <button className="blue-btn" onClick={removeNotify}>

@@ -10,6 +10,7 @@ import {faChartPie} from "@fortawesome/free-solid-svg-icons"
 import {faWallet} from "@fortawesome/free-solid-svg-icons"
 import "./Header.scss"
 import Modal from "../Modal/Modal";
+import {Link} from "react-router-dom";
 
 const Header = (props) => {
     const [notify, setNotify] = useState([...notifyData])
@@ -53,7 +54,7 @@ const Header = (props) => {
                 <h5>{props.title}</h5>
             </Block>
             <Block stylees="header-buttons">
-                {props.title === "Главная"?
+                {props.title === "Хештеги"?
                     <Modal/> :
                     null
                 }
@@ -65,12 +66,14 @@ const Header = (props) => {
                     <img src={userImage} alt=""/>
                 </button>
                 <Block stylees="header-date flex align-center">
-                    <p>
-                        <FontAwesomeIcon icon={faWallet}></FontAwesomeIcon>
-                        <span>
+                    <Link to="/payment">
+                        <div className="flex align-center">
+                            <FontAwesomeIcon icon={faWallet}></FontAwesomeIcon>
+                            <span>
                             Услуга оплачена до {date.toString()}
                         </span>
-                    </p>
+                        </div>
+                    </Link>
                 </Block>
             </Block>
             <Notify

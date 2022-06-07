@@ -12,6 +12,10 @@
     line-height: 19px;
     color: #090909;
     align-items: center;
+
+    h5 {
+      font-weight: 600;
+    }
     svg {
       margin-right: 10px;
     }
@@ -79,10 +83,9 @@
     background: linear-gradient(265.76deg, #0066EA 14.94%, #1D69CB 92.19%);
     height: 40px;
     padding: 10px;
-    color: #fff;
     border-radius: 10px;
-    p {
-      display: flex;
+    a {
+      color: #fff;
     }
     span {
       display: block;

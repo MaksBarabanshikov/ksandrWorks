@@ -6,14 +6,17 @@ import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
 import HomeSide from "./HomeSide";
 import {useForm} from "react-hook-form";
+import axios from "axios"
 import './Home.scss';
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
+import fileOfHashtags from "../../../request/POST/fileOfHashtags";
 
 
 const Home = () => {
     const refInput1 = useRef()
     const refInput2 = useRef()
     const [favorit, setFavorit] = useState(null)
+    const [fileText, setFileText] = useState(null)
     const { register, handleSubmit } = useForm()
 
     const addFavorites = () => {
@@ -29,9 +32,41 @@ const Home = () => {
             refInput1.current.focus()
         }
     }
+
+    const addFavoritesEnter = (event) => {
+        if (event.key === "Enter") {
+            addFavorites()
+        }
+    }
+
     const onSubmit = data => {
-        alert("File in console")
-        console.log(data.files[0])
+
+        if (! (window.File && window.FileReader && window.FileList && window.Blob)) {
+            alert('The File APIs are not fully supported in this browser.')
+        }
+
+        const file = data.files[0]
+
+        if (!file.type.match('text.*')) {
+            return alert(file.name + " is not a valid text file.");
+        }
+
+        const reader = new FileReader()
+        reader.readAsText(file)
+
+        reader.onload = () => {
+            fileOfHashtags(reader.result)
+            console.log(reader.result)
+
+            // const textToArray = reader.result.split(/,?\s+/).map(x => "#" + x)
+            // const size = 30; //размер подмассива
+            // const subarray = []; //массив в который будет выведен результат.
+            // for (let i = 0; i <Math.ceil(textToArray.length/size); i++){
+            //     subarray[i] = textToArray.slice((i*size), (i*size) + size);
+            // }
+            // console.log(subarray);
+            // setFileText(subarray);
+        }
     }
 
     return (
@@ -58,6 +93,7 @@ const Home = () => {
                                                id="comment1"
                                                className={"w-100"}
                                                ref={refInput1}
+                                               onKeyDown={(event) => addFavoritesEnter(event)}
                                         />
                                         <label
                                             htmlFor="comment1"
@@ -71,6 +107,7 @@ const Home = () => {
                                             id="comment2"
                                             className={"w-100"}
                                             ref={refInput2}
+                                            onKeyDown={(event) => addFavoritesEnter(event)}
                                         />
                                         <label
                                             htmlFor="comment2"
@@ -105,7 +142,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="hashtag__block">
-                        <div className="top mb-20">
+                        <div className="top border-bottom pb-25 mb-20">
                             <h1 className="title">
                                 Процессы
                             </h1>
@@ -123,7 +160,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div>
-                    <HomeSide favorit={favorit}/>
+                    <HomeSide favorit={favorit} fileText={fileText}/>
                 </div>
             </div>
         </>

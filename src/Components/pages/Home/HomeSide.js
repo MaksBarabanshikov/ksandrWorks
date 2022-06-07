@@ -1,11 +1,10 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import HomeComment from "./HomeComment";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faToggleOff} from "@fortawesome/free-solid-svg-icons"
-import {faToggleOn} from "@fortawesome/free-solid-svg-icons"
-import {faCircleXmark} from "@fortawesome/free-solid-svg-icons"
-import {faRotateLeft} from "@fortawesome/free-solid-svg-icons"
+import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-svg-icons"
+import {faSave} from "@fortawesome/free-regular-svg-icons"
 import "./HomeSide.scss"
+import TestComment from "./TestComment";
 
 const HomeSide = ({favorit}) => {
     const uniqueId = () => (
@@ -22,6 +21,11 @@ const HomeSide = ({favorit}) => {
         setComments(comments.filter(item => !item.selected))
         setSelectAllBtn(false)
 
+    }
+    const saveAllHandler = () => {
+        comments.map(item => {
+            console.log(item)
+        })
     }
 
     const canselAllSelect = () => {
@@ -106,11 +110,11 @@ const HomeSide = ({favorit}) => {
                 <label className={'flex align-center'}>
                     <button className="hashtag__side-control_select-all"
                             type={"button"}
-                            onClick={() => canselAllSelect()}
+                            onClick={() => saveAllHandler()}
                     >
-                        <FontAwesomeIcon icon={faRotateLeft}/>
+                        <FontAwesomeIcon icon={faSave}/>
                     </button>
-                    <span>Отменить все</span>
+                    <span>Сохранить все</span>
                 </label>
             </div>
             <div className="hashtag__side_main">
@@ -129,6 +133,13 @@ const HomeSide = ({favorit}) => {
                             )) :
                             <div className="text-center">Вы пока ничего не добавили</div>
                     }
+                    {/*{*/}
+                    {/*    fileText ?*/}
+                    {/*        fileText.map((item, index) => {*/}
+                    {/*            return <TestComment key={uniqueId()} item={item} index={index}/>*/}
+                    {/*        }) :*/}
+                    {/*        <div className="text-center">Вы пока ничего не добавили</div>*/}
+                    {/*}*/}
                 </div>
             </div>
         </div>

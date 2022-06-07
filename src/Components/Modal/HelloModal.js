@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
@@ -17,10 +17,6 @@ const HelloModal = () => {
     const handleNextStep = () => {
         setStep(step+1)
     }
-
-    useEffect(() => {
-        console.log("render")
-    },[isOpen, step])
 
     return (
         <div className={`modal ${isOpen? "" : "hidden"}`}>

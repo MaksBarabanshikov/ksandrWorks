@@ -12,6 +12,8 @@
   max-height: 0;
   transition: max-height .25s, padding .25s;
 
+
+
   &-wrapper {
     max-height: 560px;
     overflow: auto;
@@ -75,5 +77,8 @@
   &-visible {
     max-height: 680px;
     padding: 50px 0;
+    &.empty {
+      padding: 25px 0 !important;
+    }
   }
 }

@@ -1,27 +1,26 @@
-import React, {useRef} from "react";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCircleXmark} from "@fortawesome/free-solid-svg-icons"
-import {faCheckCircle,faSave} from "@fortawesome/free-regular-svg-icons"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faSave} from "@fortawesome/free-regular-svg-icons";
+import React from "react";
 
-
-const HomeComment = ({item, handleSelect, handleRemove,handleSave, index}) => {
-    const inputRef = useRef()
-    const textareaRef = useRef()
-
-    return (
-        <div className={`hashtag__comment ${item.selected ? 'selected' : ''}`}>
+const TestComment = ({item, index}) => {
+    const uniqueId = () => (
+        Math.random().toString(16).slice(2)
+    )
+    return(
+        <div className={`hashtag__comment`}>
             <div className="hashtag__comment_top flex justify-content-between align-center">
                 <h2 className="hashtag__comment_title">
-                    Блок #{index + 1}
+                    Блок № {index + 1}
                 </h2>
                 <div className="hashtag__comment-control flex">
-                    <button className="hashtag__comment-control_btn hashtag__comment-control_remove" onClick={() => handleRemove(item)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_remove">
                         <FontAwesomeIcon icon={faCircleXmark}/>
                     </button>
-                    <button className="hashtag__comment-control_btn hashtag__comment-control_check" onClick={() => handleSelect(item)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_check">
                         <FontAwesomeIcon icon={faCheckCircle}/>
                     </button>
-                    <button className="hashtag__comment-control_btn hashtag__comment-control_save" onClick={() => handleSave(item, inputRef.current.value, textareaRef.current.value)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_save">
                         <FontAwesomeIcon icon={faSave}/>
                     </button>
                 </div>
@@ -32,27 +31,21 @@ const HomeComment = ({item, handleSelect, handleRemove,handleSave, index}) => {
                 </div>
                 <div className="input-field mb-20">
                     <input
-                        ref={inputRef}
                         type="text"
-                        id={item.key[0]}
-                        defaultValue={item.text1}
                         className={"w-100"}
+                        defaultValue={uniqueId()}
                     />
                     <label
-                        htmlFor={item.key[0]}
                     >
                         Комментарий 1
                     </label>
                 </div>
                 <div className="input-field">
                     <textarea
-                        ref={textareaRef}
-                        id={item.key[1]}
-                        defaultValue={item.text2}
                         className={"w-100"}
+                        defaultValue={item.join(" ")}
                     />
                     <label
-                        htmlFor={item.key[1]}
                     >
                         Комментарий 2
                     </label>
@@ -62,4 +55,4 @@ const HomeComment = ({item, handleSelect, handleRemove,handleSave, index}) => {
     )
 }
 
-export default HomeComment
+export default TestComment
