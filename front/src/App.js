@@ -1,4 +1,3 @@
-import Sidebar from "./Components/sidebar/Sidebar";
 import Routing from "./Components/Routes/Route";
 import Block from "./Components/common/Block";
 import "./App.scss";

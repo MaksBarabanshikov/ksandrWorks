@@ -10,6 +10,7 @@ import axios from "axios"
 import './Home.scss';
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import fileOfHashtags from "../../../request/POST/fileOfHashtags";
+import {initFacebookSdk} from "../../../FB/FBConnect";
 
 
 const Home = () => {
@@ -17,7 +18,7 @@ const Home = () => {
     const refInput2 = useRef()
     const [favorit, setFavorit] = useState(null)
     const [fileText, setFileText] = useState(null)
-    const { register, handleSubmit } = useForm()
+    const {register, handleSubmit} = useForm()
 
     const addFavorites = () => {
         if (refInput1.current.value && refInput2.current.value) {
@@ -41,7 +42,7 @@ const Home = () => {
 
     const onSubmit = data => {
 
-        if (! (window.File && window.FileReader && window.FileList && window.Blob)) {
+        if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
             alert('The File APIs are not fully supported in this browser.')
         }
 
