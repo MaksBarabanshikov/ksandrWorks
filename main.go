@@ -3,15 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-
 	"github.com/gin-gonic/gin"
+	"io"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 	"time"
 )
@@ -53,6 +51,11 @@ type FileRecieve struct {
 	FileBody string `json:"file"`
 }
 
+type AcsessIdRecieve struct {
+	AccessBody string `json:accessToken`
+	UserIdBody string `json:userId`
+}
+
 type CommentsReplyFront struct {
 	Com string
 	Rep string
@@ -79,31 +82,43 @@ var HashtagAmount = 24                          //Amount of hashtags per one rep
 var MyClient = http.Client{}                    //Client to do requests
 var Graph = "https://graph.facebook.com/v14.0/" //First part of each Request
 var FirstComment = "Wed"                        //first comment
-var AccessToken = ReadAccess()                  //AccessToken from File, see each request
-var MyInstagramAccount = GetInstaId(AccessToken)
+var AccessToken = ""                            //AccessToken from File, see each request
+var UserId = ""
+var MyInstagramAccount = GetInstaId(AccessToken, UserId)
 var Posts = GetMediaToShow(MyInstagramAccount, AccessToken)
 
 //Read Access_token from file.
-func ReadAccess() string {
-	var TokenFile, err = os.Open("access.txt")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+func ReadAccess(c *gin.Context) {
+	//var TokenFile, err = os.Open("access.txt")
+	//if err != nil {
+	//	fmt.Println(err)
+	//	os.Exit(1)
+	//}
+	//defer func(TokenFile *os.File) {
+	//	err := TokenFile.Close()
+	//	if err != nil {
+	//
+	//	}
+	//}(TokenFile)
+	//
+	//var AccessByte, _ = os.ReadFile("access.txt")
+	//return string(AccessByte)
+	var BodyAccessId AcsessIdRecieve
+	if err := c.BindJSON(&BodyAccessId); err != nil {
+		log.Fatal()
 	}
-	defer func(TokenFile *os.File) {
-		err := TokenFile.Close()
-		if err != nil {
 
-		}
-	}(TokenFile)
+	AccessToken = BodyAccessId.AccessBody
+	UserId = BodyAccessId.UserIdBody
 
-	var AccessByte, _ = os.ReadFile("access.txt")
-	return string(AccessByte)
+	fmt.Println(AccessToken, UserId)
+	c.IndentedJSON(http.StatusCreated, BodyAccessId)
+
 }
 
 //Return ID os Instagram account
-func GetInstaId(Token string) string {
-	MyPage, err := MyClient.Get(Graph + "me/accounts?access_token=" + Token)
+func GetInstaId(Token string, UserId string) string {
+	MyPage, err := MyClient.Get(Graph + UserId + "/accounts?access_token=" + Token)
 	//time.Sleep(15 * time.Second)
 	if err != nil {
 		fmt.Println(err)
@@ -277,10 +292,10 @@ func Hashtaging(ReplyBody string) {
 
 	fmt.Println("post id", CurrentIDPost)
 	if CurrentComment.CommentId == "" {
-		color.Red(string("Fail of creating comment"))
+		fmt.Println("Fail of creating comment")
 	} else {
 		fmt.Println("comment id")
-		color.Blue(string(CurrentComment.CommentId))
+		fmt.Println(CurrentComment.CommentId)
 	}
 
 	//MyComment := CurrentComment.CommentId
@@ -328,10 +343,10 @@ func Hashtaging(ReplyBody string) {
 
 	//fmt.Println("repli json", bodyReply)
 	if currentReply.ReplyId == "" {
-		color.Red(string("Fail of creating reply"))
+		fmt.Println("Fail of creating reply")
 		return
 	} else {
-		color.Green(string(currentReply.ReplyId))
+		fmt.Println(currentReply.ReplyId)
 	}
 	//DelValues := url.Values{}
 	//ReplyValues.Add("message", "#swissdeam")
@@ -425,10 +440,10 @@ func main() {
 	route := gin.Default()
 	//route.GET("/hashtags", GetPosts)
 	//route.POST("/hashtags/get-post-id", PostId)
+	route.POST("/hashtags/get-access-id", ReadAccess)
 	route.POST("api/hashtags/file-of-hashtags", GettingFile)
 	route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
 
-	ReadAccess()
 	CreateHash()
 	Process(HashtagAmount)
 
