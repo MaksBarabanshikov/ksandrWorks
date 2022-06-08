@@ -23,9 +23,6 @@ const Sidebar = () => {
                     </Block>:
                     <Block stylees="logo">
                         {ReactFacebookLogin()}
-                        <button>
-                            <img className="logo-image" src={FBLogo} alt="logo"/>
-                        </button>
                         <Block stylees="logo__text">
                             <h3>
                                 Account FB
