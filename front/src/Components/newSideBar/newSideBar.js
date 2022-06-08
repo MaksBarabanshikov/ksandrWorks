@@ -1,11 +1,10 @@
 import Block from "../common/Block"
 import SidebarList from "../common/SidebarList"
-import FB from "../../image/Logotype-Facebook.svg"
+import FBLogo from "../../image/Logotype-Facebook.svg"
 import logo from "../../image/logo.png"
 import "./Sidebar.scss"
 import {useLocation} from "react-router-dom";
-
-
+import ReactFacebookLogin from "../../FB/FBConnect";
 
 const Sidebar = () => {
     const location = useLocation()
@@ -22,9 +21,10 @@ const Sidebar = () => {
                             </h6>
                         </Block>
                     </Block>:
-                    <Block stylees="logo" >
+                    <Block stylees="logo">
+                        {ReactFacebookLogin()}
                         <button>
-                            <img className="logo-image" src={FB} alt="logo"/>
+                            <img className="logo-image" src={FBLogo} alt="logo"/>
                         </button>
                         <Block stylees="logo__text">
                             <h3>
