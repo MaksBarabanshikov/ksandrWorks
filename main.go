@@ -206,6 +206,7 @@ func GettingFile(c *gin.Context) {
 	}
 
 	RecievedFile = BodyFile.FileBody
+
 	c.IndentedJSON(http.StatusCreated, BodyFile)
 
 }
@@ -425,8 +426,8 @@ func main() {
 	route := gin.Default()
 	//route.GET("/hashtags", GetPosts)
 	//route.POST("/hashtags/get-post-id", PostId)
-	route.POST("/hashtags/file-of-hashtags", GettingFile)
-	route.Run("localhost:8080") // listen and serve on 0.0.0.0:8080
+	route.POST("api/hashtags/file-of-hashtags", GettingFile)
+	route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
 
 	ReadAccess()
 	CreateHash()
