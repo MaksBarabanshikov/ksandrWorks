@@ -85,6 +85,7 @@ var Graph = "https://graph.facebook.com/v14.0/" //First part of each Request
 var AccessToken = "" //AccessToken from File, see each request
 var UserId = ""
 var MyId CurrentPostType
+var MyPageId string
 
 //Read Access_token from file.
 func ReadAccess(c *gin.Context) {
@@ -102,16 +103,15 @@ func ReadAccess(c *gin.Context) {
 
 }
 
-//Return ID os Instagram account
-func GetInstaId(Token string, UserId string) string {
+//Return the whole list of fb pages of current UserId
+func GetPage(Token string, UserId string) []byte {
 	if Token == "" || UserId == "" {
 		log.Fatal("There is no token or UserID to find Pages")
 	}
 	MyPage, err := MyClient.Get(Graph + UserId + "/accounts?access_token=" + Token)
 	//time.Sleep(15 * time.Second)
 	if err != nil {
-		fmt.Println(err)
-		return "Error in GetInstaId request"
+		log.Fatal(err)
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -124,17 +124,29 @@ func GetInstaId(Token string, UserId string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
+	return bodyPage
+}
 
-	var response RespAccounts
-	json.Unmarshal(bodyPage, &response)
+//Creating json for GET method
+func GetListOfPages(c *gin.Context) {
+	var Pages = GetPage(AccessToken, UserId)
+	c.JSON(200, Pages)
+	fmt.Println("Данные страниц должны отправится")
+	return
+}
 
-	var MyPageId string
-
-	for _, a := range response.Accounts {
-
-		MyPageId = a.PageId
+//Recieving an ID of FB page from POST method
+func PageId(c *gin.Context) {
+	if err := c.BindJSON(&MyPageId); err != nil {
+		return
 	}
-	fmt.Println("Page id", MyPageId)
+
+	c.IndentedJSON(http.StatusCreated, MyPageId)
+
+}
+
+//Return ID os Instagram account
+func GetInstaId(Token string) string {
 
 	if Token == "" || MyPageId == "" {
 		log.Fatal("there is no token or PageId to find instagram_business_account")
@@ -188,14 +200,14 @@ func GetMediaToShow(IdIg string, Token string) []byte {
 
 //Creating json to GET method
 func GetPosts(c *gin.Context) {
-	var MyInstagramAccount = GetInstaId(AccessToken, UserId)
+	var MyInstagramAccount = GetInstaId(AccessToken)
 	var Posts = GetMediaToShow(MyInstagramAccount, AccessToken)
 	c.JSON(200, Posts)
 	fmt.Println("Данные поcтов должны отправится")
 	return
 }
 
-//Recieving an ID of IG post from POST method and put it into PostsIds slice
+//Recieving an ID of IG post from POST method
 func PostId(c *gin.Context) {
 	//var MyId CurrentPostType
 	if err := c.BindJSON(&MyId); err != nil {
@@ -233,8 +245,8 @@ func GetSortedList(c *gin.Context) {
 }
 
 //Creating:
-//1.Comment at current post from PostsIds slice
-//2.Reply with ReplyBody(list of HashtagAmount Hashtags) parameter to current Id Comment
+//1.Comment at current post from PostId method
+//2.Reply with ReplyBody parameter to current Id Comment
 //3.Deleting Comment
 func Hashtaging(ReplyBody string, CommentBody string) {
 
@@ -402,6 +414,8 @@ func main() {
 
 	route := gin.Default()
 	route.POST("/api/hashtags/get-access-id", ReadAccess)
+	route.GET("/api/hashtags/get-pages", GetListOfPages)
+	route.POST("/api/hashtags/current-fb-page", PageId)
 	route.GET("/api/hashtags/all-instagram-posts", GetPosts)
 	route.POST("/api/hashtags/file-of-hashtags", GettingFile)
 	route.GET("/api/hashtags/sorted-hashtags", GetSortedList)
