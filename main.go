@@ -10,7 +10,6 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
-	"strings"
 	"time"
 )
 
@@ -52,8 +51,8 @@ type FileRecieve struct {
 }
 
 type AcsessIdRecieve struct {
-	AccessBody string `json:accessToken`
-	UserIdBody string `json:userId`
+	AccessBody string `json:"accessToken"`
+	UserIdBody string `json:"userId"`
 }
 
 type CommentsReplyFront struct {
@@ -61,9 +60,10 @@ type CommentsReplyFront struct {
 	Rep string
 }
 
-var NewStore = []string{} //include hashtags divided by words as elements
 var RecievedFile string
-var PostsIds = []CurrentPostType{{"18156954172144798"}} //include ids of posts, last one is a current id
+
+//var PostsIds = []CurrentPostType{{"18156954172144798"}} //include ids of posts, last one is a current id
+var Blocks = []CommentsReplyFront{}
 
 //type MediaToShow struct {
 //	Id           string `json:"id"`
@@ -78,31 +78,17 @@ var PostsIds = []CurrentPostType{{"18156954172144798"}} //include ids of posts, 
 
 //var proxyUrl, _ = url.Parse("http://50.207.253.118:80")
 //Transport: &http.Transport{Proxy: http.ProxyURL(proxyUrl)}//Proxy
-var HashtagAmount = 24                          //Amount of hashtags per one replie
+
 var MyClient = http.Client{}                    //Client to do requests
 var Graph = "https://graph.facebook.com/v14.0/" //First part of each Request
-var FirstComment = "Wed"                        //first comment
-var AccessToken = ""                            //AccessToken from File, see each request
+
+var AccessToken = "" //AccessToken from File, see each request
 var UserId = ""
-var MyInstagramAccount = GetInstaId(AccessToken, UserId)
-var Posts = GetMediaToShow(MyInstagramAccount, AccessToken)
+var MyId CurrentPostType
 
 //Read Access_token from file.
 func ReadAccess(c *gin.Context) {
-	//var TokenFile, err = os.Open("access.txt")
-	//if err != nil {
-	//	fmt.Println(err)
-	//	os.Exit(1)
-	//}
-	//defer func(TokenFile *os.File) {
-	//	err := TokenFile.Close()
-	//	if err != nil {
-	//
-	//	}
-	//}(TokenFile)
-	//
-	//var AccessByte, _ = os.ReadFile("access.txt")
-	//return string(AccessByte)
+
 	var BodyAccessId AcsessIdRecieve
 	if err := c.BindJSON(&BodyAccessId); err != nil {
 		log.Fatal()
@@ -118,6 +104,9 @@ func ReadAccess(c *gin.Context) {
 
 //Return ID os Instagram account
 func GetInstaId(Token string, UserId string) string {
+	if Token == "" || UserId == "" {
+		log.Fatal("There is no token or UserID to find Pages")
+	}
 	MyPage, err := MyClient.Get(Graph + UserId + "/accounts?access_token=" + Token)
 	//time.Sleep(15 * time.Second)
 	if err != nil {
@@ -147,6 +136,10 @@ func GetInstaId(Token string, UserId string) string {
 	}
 	fmt.Println("Page id", MyPageId)
 
+	if Token == "" || MyPageId == "" {
+		log.Fatal("there is no token or PageId to find instagram_business_account")
+	}
+
 	respIgAccount, err := MyClient.Get("https://graph.facebook.com/v14.0/" + MyPageId + "?fields=instagram_business_account&access_token=" + Token)
 
 	defer func(Body io.ReadCloser) {
@@ -171,6 +164,9 @@ func GetInstaId(Token string, UserId string) string {
 
 //Return full data about user's current Post
 func GetMediaToShow(IdIg string, Token string) []byte {
+	if IdIg == "" || Token == "" {
+		log.Fatal("There is no Id of Ig account or token to get media")
+	}
 	respMedias, err := MyClient.Get(Graph + IdIg + "/media?fields=id,caption,like_count,comments_count,username,media_url,timestamp,children{media_url}&access_token=" + Token)
 
 	//17841404572467898/media?fields=id,caption,like_count,comments_count,username,media_url,timestamp,comments,children{media_url,comments}&access_token=EAAH3gvyh1AsBAFTY0Bz3LTCzwoiDSOaYsIX01Fp4ll2eaH20KSOn6S2JmA9qmtLDeR7z5aMI5WHNLiwPp02af6dgGlG4TTIAgraTxeVKq6c38JKeQIZCMfJw42586Of30Lu0ScDWPeMcXykc5aKbsZCNPbJ1HX3kQCpTHjP8zqiZBI46v4qcZCkqXiWANrX0KocrXeg38gfVmaXFHeHHkpEDpsY13OgZD
@@ -192,6 +188,8 @@ func GetMediaToShow(IdIg string, Token string) []byte {
 
 //Creating json to GET method
 func GetPosts(c *gin.Context) {
+	var MyInstagramAccount = GetInstaId(AccessToken, UserId)
+	var Posts = GetMediaToShow(MyInstagramAccount, AccessToken)
 	c.JSON(200, Posts)
 	fmt.Println("Данные поcтов должны отправится")
 	return
@@ -199,21 +197,19 @@ func GetPosts(c *gin.Context) {
 
 //Recieving an ID of IG post from POST method and put it into PostsIds slice
 func PostId(c *gin.Context) {
-	var MyId CurrentPostType
+	//var MyId CurrentPostType
 	if err := c.BindJSON(&MyId); err != nil {
 		return
 	}
 
-	PostsIds = append(PostsIds, MyId)
+	//PostsIds = append(PostsIds, MyId)
 	c.IndentedJSON(http.StatusCreated, MyId)
 	//fmt.Println("Id первого поста должен добавится в слайс")
 }
 
 //Recieving an File with Hashtags from POST Method and save it on computer
 func GettingFile(c *gin.Context) {
-	//File, _ := c.FormFile("file")
-	//log.Println(File.Filename)
-	//log.Println(File.Size)
+
 	var BodyFile FileRecieve
 	if err := c.BindJSON(&BodyFile); err != nil {
 		return
@@ -225,45 +221,32 @@ func GettingFile(c *gin.Context) {
 
 }
 
-//Reading file with Hashtags and putting them into NewStore slice
-func CreateHash() {
+func Sorting() string {
+	var SortedList = RecievedFile
+	return SortedList
+}
 
-	//littleFile, err := os.Open("Filetst.txt")
-	//if err != nil {
-	//	fmt.Println(err)
-	//	os.Exit(1)
-	//}
-	//defer func(littleFile *os.File) {
-	//	err := littleFile.Close()
-	//	if err != nil {
-	//
-	//	}
-	//}(littleFile)
-	//
-	//BigFile, _ := os.ReadFile("Filetst.txt")
-	MyAllHes := strings.Split(string(RecievedFile), " ")
-	var NewHash string
-	for i := 0; i < len(MyAllHes); i++ {
-		NewHash = MyAllHes[i]
-		NewStore = append(NewStore, NewHash)
-	}
-
-	//fmt.Println("хэштеги прочитались и добавились в слайс")
-
+func GetSortedList(c *gin.Context) {
+	c.JSON(200, Sorting)
+	fmt.Println("Отсортированный лист хештегов")
+	return
 }
 
 //Creating:
 //1.Comment at current post from PostsIds slice
 //2.Reply with ReplyBody(list of HashtagAmount Hashtags) parameter to current Id Comment
 //3.Deleting Comment
-func Hashtaging(ReplyBody string) {
+func Hashtaging(ReplyBody string, CommentBody string) {
 
+	if ReplyBody == "" || CommentBody == "" {
+		log.Fatal("There is no Reply or Comment to do the process")
+	}
 	CommentValues := url.Values{}
-	CommentValues.Add("message", FirstComment)     //Body of first comment
+	CommentValues.Add("message", CommentBody)      //Body of first comment
 	CommentValues.Add("access_token", AccessToken) //accesstoken
 
-	var ReallyPost = PostsIds[len(PostsIds)-1]
-	var CurrentIDPost = ReallyPost.Id
+	//var ReallyPost = PostsIds[len(PostsIds)-1]
+	var CurrentIDPost = MyId.Id
 
 	time.Sleep(4 * time.Second)
 
@@ -301,17 +284,7 @@ func Hashtaging(ReplyBody string) {
 	//MyComment := CurrentComment.CommentId
 
 	ReplyValues := url.Values{}
-
-	//adding a "#" to each word in body of reply
-	NewTemp := strings.Split(ReplyBody, " ")
-	var RealReplyBody = ""
-	for K := 1; K < len(NewTemp)-1; K = K + 2 {
-		RealReplyBody = RealReplyBody + "#" + NewTemp[K-1] + " #" + NewTemp[K] + " "
-	}
-
-	fmt.Println(RealReplyBody)
-
-	ReplyValues.Add("message", RealReplyBody) //Body of Reply
+	ReplyValues.Add("message", ReplyBody) //Body of Reply
 	ReplyValues.Add("access_token", AccessToken)
 
 	time.Sleep(4 * time.Second)
@@ -330,8 +303,6 @@ func Hashtaging(ReplyBody string) {
 		}
 	}(reply.Body)
 
-	RealReplyBody = ""
-
 	bodyReply, err := ioutil.ReadAll(reply.Body)
 	if err != nil {
 		log.Fatal(err)
@@ -341,12 +312,10 @@ func Hashtaging(ReplyBody string) {
 
 	json.Unmarshal(bodyReply, &currentReply)
 
-	//fmt.Println("repli json", bodyReply)
 	if currentReply.ReplyId == "" {
-		fmt.Println("Fail of creating reply")
-		return
+		log.Fatal("Fail of creating reply")
 	} else {
-		fmt.Println(currentReply.ReplyId)
+		log.Println(currentReply.ReplyId)
 	}
 	//DelValues := url.Values{}
 	//ReplyValues.Add("message", "#swissdeam")
@@ -387,20 +356,16 @@ func Hashtaging(ReplyBody string) {
 
 }
 
-//Put current Comment and its Replie to Struct
-func TransportFunc(ReplyforFront string, CommentforFront string) {
-	var Transport CommentsReplyFront
-	Transport.Rep = ReplyforFront
-	Transport.Com = CommentforFront
-	//fmt.Println("Данные поcтов должны поместиться в транспорт")
-	return
-}
+//add all blocks in Blocks slice with CommentsReplyFront struct for Post method to use comment and reply in process
+func PostCommentReply(c *gin.Context) {
 
-//Creating json(from CommentsReplyFront struct) for GET method to show current Post and its Reply
-func GetCommentReply(c *gin.Context) {
-	c.JSON(200, TransportFunc)
-	fmt.Println("Данные коммента и реплая должны отправится")
-	return
+	var MyBlock CommentsReplyFront
+	if err := c.BindJSON(&MyBlock); err != nil {
+		return
+	}
+
+	Blocks = append(Blocks, MyBlock)
+	c.IndentedJSON(http.StatusCreated, MyBlock)
 }
 
 //Random func for time-waiting between requests
@@ -414,23 +379,21 @@ func random(min, max int) int {
 }
 
 //main Process of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
-func Process(HashtagsPerPost int) {
+func Process() {
 	//Creating
-	for T := 1; T < len(NewStore)-1; T = T + HashtagsPerPost {
 
-		//Creating Replie with HashtagAmount hashtags
-		var CurrentReplyBody = ""
-		for U := T; U < T+HashtagsPerPost; U = U + 2 {
-			CurrentReplyBody = CurrentReplyBody + NewStore[U-1] + " " + NewStore[U] + " "
-			//fmt.Println("S in", S)
+	var CurrentReplyBody = ""
+	var CurrentCommentBody = ""
+	for T := 0; T < len(Blocks); T = T + 1 {
+		if Blocks[T].Rep == "" || Blocks[T].Com == "" {
+			log.Fatal("There is no comment or reply to use ")
 		}
+		CurrentReplyBody = Blocks[T].Rep
+		CurrentCommentBody = Blocks[T].Com
 
 		time.Sleep(60 * time.Second)
-		Hashtaging(CurrentReplyBody)
+		Hashtaging(CurrentReplyBody, CurrentCommentBody)
 
-		//GetReplyAndComment(CurrentReplyBody, CommentF)
-		//route.GET("/hashtags/side-list", GetCommentReply)
-		//fmt.Println("Данные коммента и реплая отправились")
 	}
 
 }
@@ -438,13 +401,13 @@ func Process(HashtagsPerPost int) {
 func main() {
 
 	route := gin.Default()
-	//route.GET("/hashtags", GetPosts)
-	//route.POST("/hashtags/get-post-id", PostId)
-	route.POST("api/hashtags/get-access-id", ReadAccess)
-	route.POST("api/hashtags/file-of-hashtags", GettingFile)
-	route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-
-	CreateHash()
-	Process(HashtagAmount)
-
+	route.POST("/api/hashtags/get-access-id", ReadAccess)
+	route.GET("/api/hashtags/all-instagram-posts", GetPosts)
+	route.POST("/api/hashtags/file-of-hashtags", GettingFile)
+	route.GET("/api/hashtags/sorted-hashtags", GetSortedList)
+	route.POST("/api/hashtags/get-post-id", PostId)
+	route.POST("/api/hashtags/all-blocks", PostCommentReply)
+	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
+	route.RunTLS(":3000", "C:/Users/HP/example.com+5.pem", "C:/Users/HP/example.com+5-key.pem")
+	Process()
 }
