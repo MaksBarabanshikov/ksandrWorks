@@ -66,16 +66,16 @@ var RecievedFile string
 //var PostsIds = []CurrentPostType{{"18156954172144798"}} //include ids of posts, last one is a current id
 var Blocks = []CommentsReplyFront{}
 
-//type MediaToShow struct {
-//	Id           string `json:"id"`
-//	Caption      string `json:"caption"`
-//	LikeCount    int16  `json:"like_count"`
-//	CommentCount int16  `json:"comments_count"`
-//	TimeStampIg  string `json:"timestamp"`
-//	Username     string `json:"username"`
-//	MediaURL     string `json:"media_url"`
-//	Children     string `json:"children"`
-//}
+type MediaToShow struct {
+	Id           string `json:"id"`
+	Caption      string `json:"caption"`
+	LikeCount    int16  `json:"like_count"`
+	CommentCount int16  `json:"comments_count"`
+	TimeStampIg  string `json:"timestamp"`
+	Username     string `json:"username"`
+	MediaURL     string `json:"media_url"`
+	Children     string `json:"children"`
+}
 
 //var proxyUrl, _ = url.Parse("http://50.207.253.118:80")
 //Transport: &http.Transport{Proxy: http.ProxyURL(proxyUrl)}//Proxy
@@ -136,8 +136,6 @@ func GetPage(Token string, UserId string) []Page {
 func GetListOfPages(c *gin.Context) {
 	var Pages = GetPage(AccessToken, UserId)
 	c.JSON(200, Pages)
-
-	//c.IndentedJSON(http.StatusCreated, Pages)
 	fmt.Println("Данные страниц должны отправится")
 	fmt.Println(Pages)
 	return
@@ -148,9 +146,7 @@ func PageId(c *gin.Context) {
 	if err := c.BindJSON(&MyPageId); err != nil {
 		return
 	}
-
 	c.IndentedJSON(http.StatusCreated, MyPageId)
-
 }
 
 //Return ID os Instagram account
@@ -183,7 +179,7 @@ func GetInstaId(Token string) string {
 }
 
 //Return full data about user's current Post
-func GetMediaToShow(IdIg string, Token string) []byte {
+func GetMediaToShow(IdIg string, Token string) MediaToShow {
 	if IdIg == "" || Token == "" {
 		log.Fatal("There is no Id of Ig account or token to get media")
 	}
@@ -202,8 +198,13 @@ func GetMediaToShow(IdIg string, Token string) []byte {
 		log.Fatal(err)
 	}
 
+	var responseMedia MediaToShow
+	json.Unmarshal(bodyMedias, &responseMedia)
+
+	fmt.Println("inst id", responseMedia)
+
 	//fmt.Println("Данные постов", bodyMedias)
-	return bodyMedias
+	return responseMedia
 }
 
 //Creating json to GET method
@@ -238,12 +239,15 @@ func GettingFile(c *gin.Context) {
 	RecievedFile = BodyFile.FileBody
 
 	c.IndentedJSON(http.StatusCreated, BodyFile)
+	log.Println("file recieved")
 
 }
 
 func Sorting() string {
 	var SortedList = RecievedFile
+	log.Println("file *sorted*")
 	return SortedList
+
 }
 
 func GetSortedList(c *gin.Context) {
