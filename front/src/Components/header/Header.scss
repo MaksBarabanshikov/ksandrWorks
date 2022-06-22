@@ -35,6 +35,10 @@
       padding: 0;
       margin: 0 12px;
       box-shadow: 0 4px 16px rgba(36, 36, 36, 0.05);
+
+      @media (max-width: 992px) {
+        margin: 0 5px;
+      }
       
       &:hover {
         background-color: #fff;
@@ -43,6 +47,9 @@
 
       &:first-child {
         margin-right: 8px;
+        @media (max-width: 992px) {
+          margin-right: 5px;
+        }
       }
 
       .header-count {
@@ -74,6 +81,9 @@
 
       p {
         margin-left: 10px;
+        @media (max-width: 992px) {
+          display: none;
+        }
       }
     }
   }
@@ -84,12 +94,22 @@
     height: 40px;
     padding: 10px;
     border-radius: 10px;
+    @media (max-width: 992px) {
+      height: 42px;
+      width: 42px;
+      justify-content: center;
+      margin-left: 5px;
+    }
     a {
       color: #fff;
     }
     span {
       display: block;
       margin-left: 10px;
+
+      @media (max-width: 992px) {
+        display: none;
+      }
     }
   }
 }

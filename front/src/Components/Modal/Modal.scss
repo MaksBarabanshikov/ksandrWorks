@@ -37,6 +37,12 @@
     box-shadow: 0 4px 16px rgba(36, 36, 36, 0.05);
     transform: scale(0);
     transition: 0.5s;
+    @media (max-width: 992px) {
+      min-width: auto;
+      width: 99%;
+      height: 99%;
+      padding: 10px;
+    }
 
     &.open {
       transform: scale(1);
@@ -48,6 +54,10 @@
         font-size: 28px;
         line-height: 33px;
         color: #090909;
+
+        @media (max-width: 992px) {
+          font-size: 20px;
+        }
       }
     }
 
@@ -69,6 +79,16 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 10px;
+        @media (max-width: 992px) {
+          grid-template-columns: 1fr 1fr 1fr;
+          max-height: 500px;
+          overflow-y: scroll;
+        }
+        @media (max-width: 564px) {
+          grid-template-columns: 1fr 1fr;
+          max-height: 50%;
+          overflow-y: scroll;
+        }
       }
 
       &-btn {
@@ -155,6 +175,9 @@
       font-size: 28px;
       line-height: 33px;
       margin-bottom: 10px;
+      @media (max-width: 992px) {
+        font-size: 18px;
+      }
     }
 
     span {
@@ -162,12 +185,22 @@
       font-size: 16px;
       line-height: 19px;
       color: rgba(9, 9, 9, 0.5);
+      @media (max-width: 992px) {
+        font-size: 12px;
+      }
     }
   }
 }
 
 .hello-modal {
   max-width: 700px;
+  position: relative;
+  z-index: 10000;
+  @media (max-width: 992px) {
+    min-width: auto;
+    width: 99%;
+    height: 99%;
+  }
 
   .modal__body_top {
     .title {

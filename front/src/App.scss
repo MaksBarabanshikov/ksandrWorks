@@ -25,43 +25,29 @@ html {
     font-style: normal;
     font-weight: 400;
     src: url("./fonts/gilroy-regular.ttf") format('ttf');
+    font-display: swap;
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 500;
     src: url("./fonts/gilroy-medium.ttf") format('ttf');
+    font-display: swap;
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
     src: url("./fonts/gilroy-semibold.ttf") format('ttf');
+    font-display: swap;
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     src: url("./fonts/gilroy-bold.ttf") format('ttf');
+    font-display: swap;
   }
-
-  //::-webkit-scrollbar {
-  //  width: 30px;
-  //  height: calc(100% - 12px);
-  //}
-  //
-  //::-webkit-scrollbar-track {
-  //  background: rgba(36, 36, 36, 0.1);
-  //  border-radius: 10px;
-  //  padding-left: 10px;
-  //
-  //}
-  //
-  //::-webkit-scrollbar-thumb {
-  //  background: #0066EA;
-  //  border-radius: 10px;
-  //  border-left: 10px solid white ;
-  //  border-right: 10px solid white ;
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -96,6 +82,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 20px;
+  width: 100vw;
+  min-height: 100vh;
+
+  @media (max-width: 992px) {
+    padding: 10px;
+  }
 }
 
 .App {
@@ -106,6 +98,9 @@ body {
   @media (max-width: 1400px) {
     max-width: 1300px;
   }
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
 }
 
 .container {
@@ -115,6 +110,10 @@ body {
   gap: 30px;
   position: relative;
   min-height: 93vh;
+
+  @media (max-width: 992px) {
+    gap: 10px;
+  }
 }
 
 .logo-image {
@@ -130,6 +129,12 @@ a {
 .content {
   width: 100%;
   padding: 35px 75px 0 70px;
+  @media (max-width: 1300px) {
+    padding: 10px 0 0 20px;
+  }
+  @media (max-width: 992px) {
+    padding: 0;
+  }
 }
 
 ul {
@@ -276,6 +281,10 @@ input[type="submit"] {
   font-size: 28px;
   line-height: 33px;
   color: #090909;
+
+  @media (max-width: 992px) {
+    font-size: 20px;
+  }
 }
 
 .gray-text {
@@ -331,6 +340,7 @@ input[type="submit"] {
 .justify-content-between {
   justify-content: space-between;
 }
+
 .justify-content-end {
   justify-content: end;
 }
@@ -424,7 +434,7 @@ input[type="submit"] {
 }
 
 input[type="text"] {
-  text-align: left!important;
+  text-align: left !important;
   padding: 10px;
 }
 

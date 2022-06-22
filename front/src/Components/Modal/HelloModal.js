@@ -1,26 +1,21 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import HelloModalSlider from "./HelloModalSlider";
+import {Context} from "../../context/context";
 
 const HelloModal = () => {
-    const [isOpen, setIsOpen] = useState(true)
+    const {isOpenFB, closeModalFB} = useContext(Context)
     const [step, setStep] = useState(1)
-    const handleClose = () => {
-        setIsOpen(false)
-    }
-    const handleOpen = () => {
-        setIsOpen(true)
-    }
     const handleNextStep = () => {
         setStep(step+1)
     }
 
     return (
-        <div className={`modal ${isOpen? "" : "hidden"}`}>
-            <div className={`modal__body hello-modal ${isOpen? "open" : ''}`}>
+        <div className={`modal ${isOpenFB? "" : "hidden"}`}>
+            <div className={`modal__body hello-modal ${isOpenFB? "open" : ''}`}>
                 {step === 1 && <div className="step-1">
                     <div className="modal__body_top flex justify-content-between align-center border-bottom">
                         <div>
@@ -33,7 +28,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={() => handleClose()}
+                            onClick={closeModalFB}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -92,7 +87,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={() => handleClose()}
+                            onClick={closeModalFB}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -146,7 +141,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={() => handleClose()}
+                            onClick={closeModalFB}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -166,7 +161,7 @@ const HelloModal = () => {
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
-                                onClick={() => handleClose()}
+                                onClick={closeModalFB}
                             >
                                 Далее
                             </button>

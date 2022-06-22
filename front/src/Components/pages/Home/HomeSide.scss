@@ -32,6 +32,11 @@
     height: 590px;
     overflow: auto;
     padding-bottom: 30px;
+
+    @media (max-width: 992px) {
+      max-height: 590px;
+      height: auto;
+    }
   }
 }
 

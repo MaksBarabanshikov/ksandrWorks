@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Header from "../../header/Header";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faStar} from "@fortawesome/free-regular-svg-icons"
@@ -11,6 +11,8 @@ import './Home.scss';
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import fileOfHashtags from "../../../request/POST/fileOfHashtags";
 import {initFacebookSdk} from "../../../FB/FBConnect";
+import FBCheckConnected from "../../../FB/FBCheckConnected";
+import HelloModal from "../../Modal/HelloModal";
 
 
 const Home = () => {
@@ -57,18 +59,21 @@ const Home = () => {
 
         reader.onload = () => {
             fileOfHashtags(reader.result)
-            console.log(reader.result)
 
-            // const textToArray = reader.result.split(/,?\s+/).map(x => "#" + x)
-            // const size = 30; //размер подмассива
-            // const subarray = []; //массив в который будет выведен результат.
-            // for (let i = 0; i <Math.ceil(textToArray.length/size); i++){
-            //     subarray[i] = textToArray.slice((i*size), (i*size) + size);
-            // }
-            // console.log(subarray);
-            // setFileText(subarray);
+            const textToArray = reader.result.split(/,?\s+/).map(x => "#" + x)
+            const size = 25; //размер подмассива
+            const subarray = []; //массив в который будет выведен результат.
+            for (let i = 0; i <Math.ceil(textToArray.length/size); i++){
+                subarray[i] = textToArray.slice((i*size), (i*size) + size);
+            }
+            console.log(subarray);
+            setFileText(subarray);
         }
     }
+
+    useEffect(() => {
+        localStorage.setItem('fileText', JSON.stringify(fileText))
+    },[fileText])
 
     return (
         <>
@@ -87,7 +92,7 @@ const Home = () => {
                             </p>
                         </div>
                         <div className="main colm-2 all-btn-strong justify-content-between">
-                            <div className="mr-25 flex-column justify-content-between">
+                            <div className="hashtag__block_inputs mr-25 flex-column justify-content-between">
                                 <div>
                                     <div className="input-field">
                                         <input type="text"
@@ -137,7 +142,7 @@ const Home = () => {
                                     <RemainingPosts number={30}/>
                                 </div>
                             </div>
-                            <div className="flex justify-content-end">
+                            <div className="hashtag__block_slider flex justify-content-end">
                                 <SliderPost/>
                             </div>
                         </div>
@@ -164,6 +169,7 @@ const Home = () => {
                     <HomeSide favorit={favorit} fileText={fileText}/>
                 </div>
             </div>
+            <HelloModal/>
         </>
     )
 }

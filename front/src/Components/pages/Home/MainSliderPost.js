@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Slider from "react-slick";
 import NewNextArrow from "../../common/NewNextArrow";
 import NewPrevArrow from "../../common/NewPrevArrow";
@@ -7,6 +7,7 @@ import img2 from "../../../image/logo.png";
 import MiniSliderPost from "./MiniSliderPost";
 
 const MainSliderPost = () => {
+    const [activeSlide, setActiveSlide] = useState(0)
 
     let settings = {
         dots: false,
@@ -16,7 +17,8 @@ const MainSliderPost = () => {
         slidesToScroll: 1,
         swipe: false,
         nextArrow: <NewNextArrow/>,
-        prevArrow: <NewPrevArrow/>
+        prevArrow: <NewPrevArrow/>,
+        afterChange: current => setActiveSlide(current)
     }
 
     const images = [
@@ -81,32 +83,35 @@ const MainSliderPost = () => {
     ]
 
     return (
-        <Slider {...settings}>
-            {images.map(post => (
-                <div className="slider-post__item" key={post.id}>
-                    <div className="slider-post__item-top">
-                        <div className="post-slider__item-top_avatar">
-                            <p>{post.username}</p>
+        <>
+            <Slider {...settings}>
+                {images.map(post => (
+                    <div className="slider-post__item" key={post.id}>
+                        <div className="slider-post__item-top">
+                            <div className="post-slider__item-top_avatar">
+                                <p>{post.username}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="slider-post__item-body">
-                        {post.children ?
-                            <MiniSliderPost images={post.children.data}/> :
-                            <div style={{backgroundImage: `url(${post.media_url})`}}
-                                 className="slider-post__item-body_img"/>
-                        }
-                    </div>
-                    <div className="slider-post__item-bottom flex-column">
+                        <div className="slider-post__item-body">
+                            {post.children ?
+                                <MiniSliderPost images={post.children.data}/> :
+                                <div style={{backgroundImage: `url(${post.media_url})`}}
+                                     className="slider-post__item-body_img"/>
+                            }
+                        </div>
+                        <div className="slider-post__item-bottom flex-column">
                             <span className="post-slider__item-like">
                                 <strong>Нравится: {post.like_count}</strong>
                             </span>
-                        <span className="post-slider__item-caption ">
+                            <span className="post-slider__item-caption ">
                                 <strong>{post.username}</strong> {post.caption}
                             </span>
+                        </div>
                     </div>
-                </div>
-            ))}
-        </Slider>
+                ))}
+            </Slider>
+            <p>{activeSlide}</p>
+        </>
     )
 }
 

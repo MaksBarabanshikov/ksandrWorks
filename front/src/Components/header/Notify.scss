@@ -6,17 +6,22 @@
   position: absolute;
   z-index: 10000;
   right: 0;
-  top: 50px;
+  top: 52px;
   width: 440px;
   overflow: hidden;
   max-height: 0;
   transition: max-height .25s, padding .25s;
 
-
-
+  @media (max-width: 992px) {
+    width: 320px;
+    right: -10px;
+  }
   &-wrapper {
     max-height: 560px;
     overflow: auto;
+    @media (max-width: 992px) {
+      max-height: 400px;
+    }
   }
 
   &-item {
@@ -25,6 +30,10 @@
     margin-bottom: 13px;
     padding: 0 26px 0 61px;
     position: relative;
+
+    @media (max-width: 992px) {
+      padding: 0 20px 0 20px;
+    }
 
     img {
       margin-right: 16px;

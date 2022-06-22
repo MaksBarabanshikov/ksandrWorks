@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import Slider from "react-slick";
 import NewNextArrow from "../../common/NewNextArrow";
 import NewPrevArrow from "../../common/NewPrevArrow";
 
 const MiniSliderPost = ({images}) => {
+    const [activeSlide, setActiveSlide] = useState(0)
+
     const settings = {
         dots: true,
         infinite: false,
@@ -11,7 +13,8 @@ const MiniSliderPost = ({images}) => {
         slidesToShow: 1,
         slidesToScroll: 1,
         nextArrow: <NewNextArrow />,
-        prevArrow: <NewPrevArrow />
+        prevArrow: <NewPrevArrow />,
+        afterChange: current => setActiveSlide(current)
     }
 
   return(
@@ -24,6 +27,7 @@ const MiniSliderPost = ({images}) => {
                   </div>
               ))}
           </Slider>
+          <p>{activeSlide}</p>
       </div>
   )
 }

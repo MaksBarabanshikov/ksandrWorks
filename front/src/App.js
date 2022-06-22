@@ -1,24 +1,35 @@
+import React, {useState} from "react";
 import Routing from "./Components/Routes/Route";
 import Block from "./Components/common/Block";
-import "./App.scss";
 import Container from "./Components/common/Container";
-import React from "react";
 import NewSideBar from "./Components/newSideBar/newSideBar";
-import "slick-carousel/slick/slick.scss";
-import "slick-carousel/slick/slick-theme.scss";
 import HelloModal from "./Components/Modal/HelloModal";
+import "./App.scss";
+import "slick-carousel/slick/slick-theme.scss";
+import "slick-carousel/slick/slick.scss";
+import {Context} from "./context/context";
 
-function App() {
+const App = () => {
+    const [isOpenFB, setIsOpenFB] = useState(false)
+    const openModalFB = () => {
+        setIsOpenFB(true)
+    }
+    const closeModalFB = () => {
+        setIsOpenFB(false)
+    }
     return (
-        <div className="App">
+        <Context.Provider value={{
+            openModalFB, closeModalFB, isOpenFB
+        }}>
+            <div className="App">
                 <NewSideBar/>
                 <Block stylees="content">
                     <Container>
                         <Routing/>
                     </Container>
                 </Block>
-            <HelloModal/>
-        </div>
+            </div>
+        </Context.Provider>
     );
 }
 
