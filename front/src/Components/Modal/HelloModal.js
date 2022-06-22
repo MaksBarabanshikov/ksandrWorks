@@ -22,8 +22,9 @@ const HelloModal = () => {
     }
 
     const handlePostPage = () => {
-        handleNextStep()
+        // handleNextStep()
         currentFbPage(sliderId)
+        console.log(sliderId)
     }
 
     const getId = id => setSliderId(id)
@@ -141,7 +142,7 @@ const HelloModal = () => {
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
-                                onClick={() => handleNextStep()}
+                                onClick={() => handlePostPage()}
                             >
                                 Далее
                             </button>

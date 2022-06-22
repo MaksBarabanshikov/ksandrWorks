@@ -55,6 +55,9 @@ type AcsessIdRecieve struct {
 	AccessBody string `json:"accessToken"`
 	UserIdBody string `json:"userId"`
 }
+type PageIdRecieve struct {
+	IdPageFb string `json:"fbpage"`
+}
 
 type CommentsReplyFront struct {
 	Com string
@@ -85,7 +88,7 @@ var Graph = "https://graph.facebook.com/v14.0/" //First part of each Request
 
 var AccessToken = "" //AccessToken from File, see each request
 var UserId = ""
-var MyId CurrentPostType
+var MyId string
 var MyPageId string
 
 //Read Access_token from file.
@@ -143,10 +146,13 @@ func GetListOfPages(c *gin.Context) {
 
 //Recieving an ID of FB page from POST method
 func PageId(c *gin.Context) {
-	if err := c.BindJSON(&MyPageId); err != nil {
+	var BodyPageIdRecieve PageIdRecieve
+	if err := c.BindJSON(&BodyPageIdRecieve); err != nil {
 		return
 	}
+	MyPageId = BodyPageIdRecieve.IdPageFb
 	c.IndentedJSON(http.StatusCreated, MyPageId)
+	fmt.Println(MyPageId)
 }
 
 //Return ID os Instagram account
@@ -218,11 +224,11 @@ func GetPosts(c *gin.Context) {
 
 //Recieving an ID of IG post from POST method
 func PostId(c *gin.Context) {
-	//var MyId CurrentPostType
-	if err := c.BindJSON(&MyId); err != nil {
+	var BodyMyId CurrentPostType
+	if err := c.BindJSON(&BodyMyId); err != nil {
 		return
 	}
-
+	MyId = BodyMyId.Id
 	//PostsIds = append(PostsIds, MyId)
 	c.IndentedJSON(http.StatusCreated, MyId)
 	//fmt.Println("Id первого поста должен добавится в слайс")
@@ -270,7 +276,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	CommentValues.Add("access_token", AccessToken) //accesstoken
 
 	//var ReallyPost = PostsIds[len(PostsIds)-1]
-	var CurrentIDPost = MyId.Id
+	var CurrentIDPost = MyId
 
 	time.Sleep(4 * time.Second)
 

@@ -36,8 +36,16 @@ const HelloModalSlider = ({getId}) => {
 
 
     useEffect(() => {
-        getId(data[activeSlide].id)
+        // getId(data[activeSlide].id)
+        console.log("slide:", activeSlide)
     },[activeSlide])
+
+    useEffect(() => {
+        if (data.length){
+            getId(data[activeSlide].id)
+            console.log("data:",data)
+        }
+    },[data])
 
     if (!loading) {
         return (
