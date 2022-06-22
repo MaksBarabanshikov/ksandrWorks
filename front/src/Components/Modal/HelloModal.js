@@ -5,17 +5,32 @@ import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import HelloModalSlider from "./HelloModalSlider";
 import {Context} from "../../context/context";
+import currentFbPage from "../../request/POST/currentFbPage";
 
 const HelloModal = () => {
     const {isOpenFB, closeModalFB} = useContext(Context)
     const [step, setStep] = useState(1)
+    const [sliderId, setSliderId] = useState(null)
+
     const handleNextStep = () => {
-        setStep(step+1)
+        setStep(step + 1)
     }
 
+    const handleClose = () => {
+        closeModalFB()
+        setTimeout(() => setStep(1), 500)
+    }
+
+    const handlePostPage = () => {
+        handleNextStep()
+        currentFbPage(sliderId)
+    }
+
+    const getId = id => setSliderId(id)
+
     return (
-        <div className={`modal ${isOpenFB? "" : "hidden"}`}>
-            <div className={`modal__body hello-modal ${isOpenFB? "open" : ''}`}>
+        <div className={`modal ${isOpenFB ? "" : "hidden"}`}>
+            <div className={`modal__body hello-modal ${isOpenFB ? "open" : ''}`}>
                 {step === 1 && <div className="step-1">
                     <div className="modal__body_top flex justify-content-between align-center border-bottom">
                         <div>
@@ -28,7 +43,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={closeModalFB}
+                            onClick={() => handleClose()}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -43,7 +58,8 @@ const HelloModal = () => {
                                     Ваша учетная запись instagram - это бизнес учетная запись, а не учетная запись
                                     создателя
                                     контента.
-                                    <a href="front/src/Components/Modal/HelloModal#">How to create a buisness account.</a>
+                                    <a href="front/src/Components/Modal/HelloModal#">How to create a buisness
+                                        account.</a>
                                 </div>
                             </div>
                             <div>
@@ -52,7 +68,8 @@ const HelloModal = () => {
                                 </div>
                                 <div>
                                     Ваш бизнес-аккаунт в instagram теперь связан с вашей фан-страницей в Facebook
-                                    <a href="front/src/Components/Modal/HelloModal#">Как подключиться к фан-странице FaceBook.</a>
+                                    <a href="front/src/Components/Modal/HelloModal#">Как подключиться к фан-странице
+                                        FaceBook.</a>
                                 </div>
                             </div>
                             <div>
@@ -61,7 +78,8 @@ const HelloModal = () => {
                                 </div>
                                 <div>
                                     Вы предоставили разрешение на подключение инструментов
-                                    <a href="front/src/Components/Modal/HelloModal#">Как предоставить запрошенные разрешения. </a>
+                                    <a href="front/src/Components/Modal/HelloModal#">Как предоставить запрошенные
+                                        разрешения. </a>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +105,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={closeModalFB}
+                            onClick={() => handleClose()}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -104,7 +122,8 @@ const HelloModal = () => {
                                         подключения
                                         аккаунта, где надо будет нажать кнопку <strong>“Продолжить как”</strong>
                                     </p>
-                                    <a href="front/src/Components/Modal/HelloModal#">How to create a buisness account.</a>
+                                    <a href="front/src/Components/Modal/HelloModal#">How to create a buisness
+                                        account.</a>
                                 </div>
                             </div>
                             <div>
@@ -118,7 +137,7 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <HelloModalSlider/>
+                        <HelloModalSlider getId={getId}/>
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
@@ -141,7 +160,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={closeModalFB}
+                            onClick={() => handleClose()}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -161,7 +180,7 @@ const HelloModal = () => {
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
-                                onClick={closeModalFB}
+                                onClick={() => handleClose()}
                             >
                                 Далее
                             </button>

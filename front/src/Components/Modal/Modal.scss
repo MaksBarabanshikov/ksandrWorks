@@ -159,6 +159,12 @@
       background-size: 150%;
       margin: auto;
       overflow: hidden;
+      text-align: center;
+      span {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+      }
     }
   }
 
