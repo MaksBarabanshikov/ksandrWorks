@@ -24,7 +24,7 @@ const HelloModalSlider = () => {
     useEffect(() => {
         axios.get(`/api/hashtags/get-pages`)
             .then(res => {
-                console.log(res.data)
+                console.log(res)
                 setData(res.data)
             })
             .catch(e => {

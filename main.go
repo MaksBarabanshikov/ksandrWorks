@@ -19,7 +19,8 @@ type RespAccounts struct {
 }
 
 type Page struct {
-	PageId string `json:"id"`
+	PageId   string `json:"id"`
+	PageName string `json:"name"`
 }
 
 type RespIgAcconts struct {
@@ -104,7 +105,7 @@ func ReadAccess(c *gin.Context) {
 }
 
 //Return the whole list of fb pages of current UserId
-func GetPage(Token string, UserId string) []byte {
+func GetPage(Token string, UserId string) []Page {
 	if Token == "" || UserId == "" {
 		log.Fatal("There is no token or UserID to find Pages")
 	}
@@ -124,14 +125,21 @@ func GetPage(Token string, UserId string) []byte {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return bodyPage
+
+	var responsePage RespAccounts
+	json.Unmarshal(bodyPage, &responsePage)
+	return responsePage.Accounts
+
 }
 
 //Creating json for GET method
 func GetListOfPages(c *gin.Context) {
 	var Pages = GetPage(AccessToken, UserId)
 	c.JSON(200, Pages)
+
+	//c.IndentedJSON(http.StatusCreated, Pages)
 	fmt.Println("Данные страниц должны отправится")
+	fmt.Println(Pages)
 	return
 }
 
@@ -422,6 +430,6 @@ func main() {
 	route.POST("/api/hashtags/get-post-id", PostId)
 	route.POST("/api/hashtags/all-blocks", PostCommentReply)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	route.RunTLS(":3000", "C:/Users/HP/example.com+5.pem", "C:/Users/HP/example.com+5-key.pem")
+	route.RunTLS(":8080", "C:/Users/HP/example.com+5.pem", "C:/Users/HP/example.com+5-key.pem")
 	Process()
 }
