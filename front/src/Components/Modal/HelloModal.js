@@ -1,14 +1,17 @@
 import {useContext, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import HelloModalSlider from "./HelloModalSlider";
+import currentFbPage from "../../request/POST/currentFbPage";
+import {Context} from "../../context/context";
+import {HashtagsContext} from "../../context/HashtagsContext";
+import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
-import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
-import HelloModalSlider from "./HelloModalSlider";
-import {Context} from "../../context/context";
-import currentFbPage from "../../request/POST/currentFbPage";
+import AllInstagramPosts from "../../request/GET/allInstagramPosts";
 
 const HelloModal = () => {
     const {isOpenFB, closeModalFB} = useContext(Context)
+    const {posts, updatePosts} = useContext(HashtagsContext)
     const [step, setStep] = useState(1)
     const [sliderId, setSliderId] = useState(null)
 
@@ -22,9 +25,14 @@ const HelloModal = () => {
     }
 
     const handlePostPage = () => {
-        // handleNextStep()
         currentFbPage(sliderId)
-        console.log(sliderId)
+        handleNextStep()
+    }
+
+    const handleGetPosts = () => {
+        AllInstagramPosts()
+        handleClose()
+        // setTimeout(() => handleClose(), 1000)
     }
 
     const getId = id => setSliderId(id)
@@ -138,7 +146,9 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
+
                         <HelloModalSlider getId={getId}/>
+
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
@@ -173,7 +183,7 @@ const HelloModal = () => {
                                     <FontAwesomeIcon icon={faCheckCircle}/>
                                 </div>
                                 <div>
-                                    Ваши учетные записи в безопасности посколько интеграция происходит через официальный
+                                    Ваши учетные записи в безопасности поскольку интеграция происходит через официальный
                                     API instagram
                                 </div>
                             </div>
@@ -181,9 +191,8 @@ const HelloModal = () => {
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
-                                onClick={() => handleClose()}
+                                onClick={() => handleGetPosts()}
                             >
-                                Далее
                             </button>
                         </div>
                     </div>

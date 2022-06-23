@@ -1,13 +1,12 @@
 import React, {useState} from "react";
+import {Context} from "./context/context";
 import Routing from "./Components/Routes/Route";
 import Block from "./Components/common/Block";
 import Container from "./Components/common/Container";
 import NewSideBar from "./Components/newSideBar/newSideBar";
-import HelloModal from "./Components/Modal/HelloModal";
 import "./App.scss";
 import "slick-carousel/slick/slick-theme.scss";
 import "slick-carousel/slick/slick.scss";
-import {Context} from "./context/context";
 
 const App = () => {
     const [isOpenFB, setIsOpenFB] = useState(false)
