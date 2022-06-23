@@ -1,3 +1,4 @@
 Filetst.txt
 access.txt
-.env
+front/.env
+front/package.json
