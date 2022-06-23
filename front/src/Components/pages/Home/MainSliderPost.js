@@ -10,6 +10,7 @@ const MainSliderPost = ({posts}) => {
     const [activeSlide, setActiveSlide] = useState(0)
     const [loading, setLoading] = useState(true)
     const [slide, setSlide] = useState([posts])
+    console.log(posts)
 
     let settings = {
         dots: false,
@@ -33,7 +34,7 @@ const MainSliderPost = ({posts}) => {
         console.log(loading)
     },[loading])
 
-    if (!posts.length) {
+    if (!slide.length) {
         if (loading) {
             return <span style={{textAlign: 'center', display: "block"}}>Загрузка...</span>
         }

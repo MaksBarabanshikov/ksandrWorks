@@ -7,7 +7,7 @@ const SliderPost = ({posts}) => {
       <>
           <div className="slider-post  flex flex-column">
               <div className="slider-post__main ">
-                  <MainSliderPost posts{...posts}/>
+                  <MainSliderPost posts={posts}/>
               </div>
               <div className="slider-post__control flex align-center">
                     <span>
