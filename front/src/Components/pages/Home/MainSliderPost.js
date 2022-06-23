@@ -24,7 +24,7 @@ const MainSliderPost = ({posts}) => {
     }
 
     useEffect(() => {
-        setSlide(slide)
+        setSlide([posts])
         setLoading(false)
         console.log(posts)
     }, [posts])
@@ -42,7 +42,7 @@ const MainSliderPost = ({posts}) => {
         return (
             <>
                 <Slider {...settings}>
-                    {posts.map(post => (<div className="slider-post__item" key={post.id}>
+                    {slide.map(post => (<div className="slider-post__item" key={post.id}>
                         <div className="slider-post__item-top">
                             <div className="post-slider__item-top_avatar">
                                 <p>{post.username}</p>

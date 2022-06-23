@@ -19,6 +19,7 @@ const Home = () => {
     const [favorit, setFavorit] = useState(null)
     const [fileText, setFileText] = useState(null)
     const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
 
     const addFavorites = () => {
@@ -62,8 +63,8 @@ const Home = () => {
             const textToArray = reader.result.split(/,?\s+/).map(x => "#" + x)
             const size = 25; //размер подмассива
             const subarray = []; //массив в который будет выведен результат.
-            for (let i = 0; i <Math.ceil(textToArray.length/size); i++){
-                subarray[i] = textToArray.slice((i*size), (i*size) + size);
+            for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
+                subarray[i] = textToArray.slice((i * size), (i * size) + size);
             }
             console.log(subarray);
             setFileText(subarray);
@@ -74,15 +75,20 @@ const Home = () => {
         setPosts(data)
     }
 
+    const updateLoading = () => {
+        setLoading(false)
+    }
+
     useEffect(() => {
         localStorage.setItem('fileText', JSON.stringify(fileText))
-    },[fileText])
+    }, [fileText])
 
     return (
         <>
             <HashtagsContext.Provider value={{
-                posts, updatePosts
-            }}>
+                posts, loading, updatePosts, updateLoading
+            }}
+            >
                 <Header title="Хештеги" icon={faHashtag}/>
                 <div className="hashtag">
                     <div>
@@ -94,7 +100,8 @@ const Home = () => {
                                 <p className="border-bottom gray-text">
                                     Сервис оставит комментарий под выбранным вами сообщением, а под первым комментарием
                                     разместит
-                                    комментарий с указанными вами хэштегами. После этого первый комментарий будет удален.
+                                    комментарий с указанными вами хэштегами. После этого первый комментарий будет
+                                    удален.
                                 </p>
                             </div>
                             <div className="main colm-2 all-btn-strong justify-content-between">
@@ -162,7 +169,8 @@ const Home = () => {
                             <div className="main">
                                 <ul className="hashtag__list">
                                     <li>
-                                        <div>Необходимо переподключить токен. Сделайте это по соответствующей кнопке</div>
+                                        <div>Необходимо переподключить токен. Сделайте это по соответствующей кнопке
+                                        </div>
                                     </li>
                                     <li>
                                         <div>Процесс находиться на паузе</div>
