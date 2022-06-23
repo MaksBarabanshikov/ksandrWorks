@@ -6,10 +6,12 @@ import {Context} from "../../context/context";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
-import AllInstagramPosts from "../../request/GET/allInstagramPosts";
+import axios from "axios";
+import {HashtagsContext} from "../../context/HashtagsContext";
 
 const HelloModal = () => {
     const {isOpenFB, closeModalFB} = useContext(Context)
+    const {updatePosts} = useContext(HashtagsContext)
     const [step, setStep] = useState(1)
     const [sliderId, setSliderId] = useState(null)
 
@@ -28,8 +30,19 @@ const HelloModal = () => {
     }
 
     const handleGetPosts = () => {
-        AllInstagramPosts()
-        handleClose()
+        axios.get(`/api/hashtags/all-instagram-posts`)
+            .then(res => {
+                updatePosts(res.data)
+                console.log('Запрос. Контекст:',HashtagsContext)
+                console.log('Запрос. Обновление постов:', updatePosts)
+            })
+            .catch(e => {
+                console.log(e.response)
+            })
+            .finally(() => {
+                console.log('Запрос завершен')
+                handleClose()
+            })
     }
 
     const getId = id => setSliderId(id)
