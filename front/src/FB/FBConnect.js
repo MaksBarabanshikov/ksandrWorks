@@ -45,8 +45,8 @@ const ReactFacebookLogin = () => {
 
     if (data.isLoggedIn) {
         fbContent = (
-            <div>
-                <img style={{width: "100px", height: "100px"}} src={data.picture} alt=""/>
+            <div className="facebook__account">
+                <img src={data.picture} alt=""/>
                 <Block stylees="logo__text">
                     <h3>
                         {data.name}

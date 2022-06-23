@@ -149,7 +149,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className="hashtag__block_slider flex justify-content-end">
-                                    <SliderPost/>
+                                    <SliderPost posts={posts}/>
                                 </div>
                             </div>
                         </div>

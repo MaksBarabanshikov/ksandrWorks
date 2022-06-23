@@ -109,6 +109,20 @@
       color: rgba(21, 12, 47, 0.71);
       margin-top: 10px;
     }
+
+    .facebook__account {
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+
+      .blue-btn {
+        width: 100px;
+        padding: 10px 0;
+        margin: 10px auto;
+      }
+    }
   }
 
   &-cont {

@@ -3,7 +3,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
 import currentFbPage from "../../request/POST/currentFbPage";
 import {Context} from "../../context/context";
-import {HashtagsContext} from "../../context/HashtagsContext";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +10,6 @@ import AllInstagramPosts from "../../request/GET/allInstagramPosts";
 
 const HelloModal = () => {
     const {isOpenFB, closeModalFB} = useContext(Context)
-    const {posts, updatePosts} = useContext(HashtagsContext)
     const [step, setStep] = useState(1)
     const [sliderId, setSliderId] = useState(null)
 
@@ -32,7 +30,6 @@ const HelloModal = () => {
     const handleGetPosts = () => {
         AllInstagramPosts()
         handleClose()
-        // setTimeout(() => handleClose(), 1000)
     }
 
     const getId = id => setSliderId(id)
@@ -193,6 +190,7 @@ const HelloModal = () => {
                                 className="btn blue-btn"
                                 onClick={() => handleGetPosts()}
                             >
+                                Начать
                             </button>
                         </div>
                     </div>
