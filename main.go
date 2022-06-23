@@ -64,6 +64,10 @@ type CommentsReplyFront struct {
 	Rep string
 }
 
+type AllMediaToShow struct {
+	PostsOfAccount []MediaToShow `json:"data"`
+}
+
 var RecievedFile string
 
 //var PostsIds = []CurrentPostType{{"18156954172144798"}} //include ids of posts, last one is a current id
@@ -132,7 +136,6 @@ func GetPage(Token string, UserId string) []Page {
 	var responsePage RespAccounts
 	json.Unmarshal(bodyPage, &responsePage)
 	return responsePage.Accounts
-
 }
 
 //Creating json for GET method
@@ -185,7 +188,7 @@ func GetInstaId(Token string) string {
 }
 
 //Return full data about user's current Post
-func GetMediaToShow(IdIg string, Token string) MediaToShow {
+func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 	if IdIg == "" || Token == "" {
 		log.Fatal("There is no Id of Ig account or token to get media")
 	}
@@ -204,13 +207,13 @@ func GetMediaToShow(IdIg string, Token string) MediaToShow {
 		log.Fatal(err)
 	}
 
-	var responseMedia MediaToShow
+	var responseMedia AllMediaToShow
 	json.Unmarshal(bodyMedias, &responseMedia)
 
-	fmt.Println("inst id", responseMedia)
+	fmt.Println("media", responseMedia)
 
 	//fmt.Println("Данные постов", bodyMedias)
-	return responseMedia
+	return responseMedia.PostsOfAccount
 }
 
 //Creating json to GET method
