@@ -3,15 +3,15 @@ import axios from "axios";
 const currentFbPage = async (id) => {
     console.log(id, "перед try")
     try {
-        await axios.post("/api/hashtags/current-fb-page",
-            {
-                fbpage:id
-            },
-        {
+        await axios.post("/api/hashtags/current-fb-page", {
+            fbpage: id
+        }, {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(response => {alert(response.data.message)})
+        }).then(response => {
+            console.log(response)
+        })
     } catch (e) {
         console.log(e.request)
         console.log(e.response)
