@@ -64,6 +64,10 @@ type CommentsReplyFront struct {
 	Rep string
 }
 
+type Allblocks struct {
+	ListOfBlocks []CommentsReplyFront
+}
+
 type AllMediaToShow struct {
 	PostsOfAccount []MediaToShow `json:"data"`
 }
@@ -71,7 +75,6 @@ type AllMediaToShow struct {
 var RecievedFile string
 
 //var PostsIds = []CurrentPostType{{"18156954172144798"}} //include ids of posts, last one is a current id
-var Blocks = []CommentsReplyFront{}
 
 type MediaToShow struct {
 	Id           string            `json:"id"`
@@ -92,6 +95,8 @@ type MediaKid struct {
 	KidUrl string `json:"media_url"`
 	KidId  string `json:"id"`
 }
+
+var Blocks []CommentsReplyFront
 
 //var proxyUrl, _ = url.Parse("http://50.207.253.118:80")
 //Transport: &http.Transport{Proxy: http.ProxyURL(proxyUrl)}//Proxy
@@ -257,7 +262,7 @@ func GettingFile(c *gin.Context) {
 	RecievedFile = BodyFile.FileBody
 
 	c.IndentedJSON(http.StatusCreated, BodyFile)
-	log.Println("file recieved")
+	log.Println("file recieved", RecievedFile)
 
 }
 
@@ -401,13 +406,16 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 //add all blocks in Blocks slice with CommentsReplyFront struct for Post method to use comment and reply in process
 func PostCommentReply(c *gin.Context) {
 
-	var MyBlock CommentsReplyFront
-	if err := c.BindJSON(&MyBlock); err != nil {
+	var MyBlocks Allblocks
+	if err := c.BindJSON(&MyBlocks); err != nil {
 		return
 	}
 
-	Blocks = append(Blocks, MyBlock)
-	c.IndentedJSON(http.StatusCreated, MyBlock)
+	var Blocks []CommentsReplyFront
+	Blocks = MyBlocks.ListOfBlocks
+
+	//Blocks = append(Blocks, CurrentBlock)
+	c.IndentedJSON(http.StatusCreated, Blocks)
 }
 
 //Random func for time-waiting between requests
