@@ -74,14 +74,23 @@ var RecievedFile string
 var Blocks = []CommentsReplyFront{}
 
 type MediaToShow struct {
-	Id           string `json:"id"`
-	Caption      string `json:"caption"`
-	LikeCount    int16  `json:"like_count"`
-	CommentCount int16  `json:"comments_count"`
-	TimeStampIg  string `json:"timestamp"`
-	Username     string `json:"username"`
-	MediaURL     string `json:"media_url"`
-	Children     string `json:"children"`
+	Id           string            `json:"id"`
+	Caption      string            `json:"caption"`
+	LikeCount    int16             `json:"like_count"`
+	CommentCount int16             `json:"comments_count"`
+	TimeStampIg  string            `json:"timestamp"`
+	Username     string            `json:"username"`
+	MediaURL     string            `json:"media_url"`
+	Children     ChildrenMediaData `json:"children"`
+}
+
+type ChildrenMediaData struct {
+	MediaKidList []MediaKid `json:"data"`
+}
+
+type MediaKid struct {
+	KidUrl string `json:"media_url"`
+	KidId  string `json:"id"`
 }
 
 //var proxyUrl, _ = url.Parse("http://50.207.253.118:80")
