@@ -5,6 +5,7 @@ import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-sv
 import {faSave} from "@fortawesome/free-regular-svg-icons"
 import "./HomeSide.scss"
 import {useDispatch, useSelector} from "react-redux";
+import {getFavorites} from "../../../redux/modules/favoritesSlice";
 
 const HomeSide = () => {
     const [selectAllBtn, setSelectAllBtn] = useState(false)
