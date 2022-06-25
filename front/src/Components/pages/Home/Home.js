@@ -76,21 +76,6 @@ const Home = () => {
                 .finally(() => {
                     setTimeout(() => dispatch(getFavoritesAPI()), 500)
                 })
-
-            // const textToArray = reader.result.split(/,?\s+/).filter(x => x !== "").map(x => "#" + x)
-            // const size = 25; //размер подмассива
-            // const subarray = []; //массив в который будет выведен результат.
-            // let newFavoriteItem = []
-            // for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
-            //     subarray[i] = textToArray.slice((i * size), (i * size) + size);
-            //     newFavoriteItem.push({
-            //         selected: false,
-            //         text1: `${i + 1}`,
-            //         text2: subarray[i]
-            //     })
-            // }
-            // console.log(newFavoriteItem)
-            // setFileText(subarray);
         }
     }
 
@@ -199,7 +184,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div>
-                        <HomeSide />
+                        <HomeSide/>
                     </div>
                 </div>
                 <HelloModal/>

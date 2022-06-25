@@ -15,6 +15,7 @@ export const getFavoritesAPI = createAsyncThunk(
         return data
     }
 )
+
 export const uniqueId = () => (
     Math.random().toString(16).slice(2)
 )
@@ -38,9 +39,6 @@ const favoritesSlice = createSlice({
                 text1: action.payload[0],
                 text2: action.payload[1]
             })
-        },
-        getFavorites(state) {
-            return state.favorites
         }
     },
     extraReducers: {
@@ -50,12 +48,11 @@ const favoritesSlice = createSlice({
         },
         [getFavoritesAPI.fulfilled]: (state, action) => {
             state.status = 'resolve'
-            const textToArray = action.payload.filter(x => x !== "").map(x => "#" + x)
             const size = 25; //размер подмассива
             const subarray = []; //массив в который будет выведен результат.
             let newFavorite = state.favorites
-            for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
-                subarray[i] = textToArray.slice((i * size), (i * size) + size);
+            for (let i = 0; i < Math.ceil(action.payload.length / size); i++) {
+                subarray[i] = action.payload.slice((i * size), (i * size) + size);
                 newFavorite.push({
                     key: [uniqueId(), uniqueId()],
                     id: uniqueId(),
@@ -72,6 +69,6 @@ const favoritesSlice = createSlice({
     }
 })
 
-export const {addFavorites, getFavorites} = favoritesSlice.actions
+export const {addFavorites} = favoritesSlice.actions
 
 export default favoritesSlice.reducer
