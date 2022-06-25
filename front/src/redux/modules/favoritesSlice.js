@@ -67,7 +67,7 @@ const favoritesSlice = createSlice({
             console.log(state)
             state.favoritesFromApi = state.favorites.map(f => ({
                     text1: f.text1,
-                    text2: f.text2,
+                    text2: f.text2.join(),
                 }
             ))
         }
