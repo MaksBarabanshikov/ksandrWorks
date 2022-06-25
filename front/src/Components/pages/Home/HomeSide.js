@@ -4,12 +4,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-svg-icons"
 import {faSave} from "@fortawesome/free-regular-svg-icons"
 import "./HomeSide.scss"
+import {useDispatch, useSelector} from "react-redux";
 
-const HomeSide = ({favorit}) => {
-    const uniqueId = () => (
-        Math.random().toString(16).slice(2)
-    )
+const HomeSide = () => {
     const [selectAllBtn, setSelectAllBtn] = useState(false)
+    const dispatch = useDispatch()
+    const favorites = useSelector(state => state.favorites.favorites)
 
     const [comments, setComments] = useState([])
 
@@ -69,18 +69,6 @@ const HomeSide = ({favorit}) => {
         )
     }, [selectAllBtn])
 
-    useEffect(() => {
-        if (favorit) {
-            setComments(prevState => ([...prevState, {
-                key: [uniqueId(), uniqueId()],
-                id: uniqueId(),
-                selected: false,
-                text1: favorit[0].value1,
-                text2: favorit[0].value2
-            }]))
-        }
-    }, [favorit])
-
     return (
         <div className="hashtag__side hashtag__block">
             <div className="top border-bottom mb-20">
@@ -121,8 +109,8 @@ const HomeSide = ({favorit}) => {
             <div className="hashtag__side_main">
                 <div className="hashtag__side_main-cont">
                     {
-                        comments.length ?
-                            comments.map((item, index) => (
+                        favorites.length ?
+                            favorites.map((item, index) => (
                                 <HomeComment
                                     key={item.key[0]}
                                     item={item}

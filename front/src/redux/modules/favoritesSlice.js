@@ -32,9 +32,12 @@ const favoritesSlice = createSlice({
                 key: [uniqueId(), uniqueId()],
                 id: uniqueId(),
                 selected: false,
-                text1: action.payload.favorit,
-                text2: action.payload.favorit
+                text1: action.payload[0],
+                text2: action.payload[1]
             })
+        },
+        getFavorites(state) {
+            return state.favorites
         }
     },
     extraReducers: {
@@ -52,6 +55,6 @@ const favoritesSlice = createSlice({
     }
 })
 
-export const {addFavorites} = favoritesSlice.actions
+export const {addFavorites, getFavorites} = favoritesSlice.actions
 
 export default favoritesSlice.reducer
