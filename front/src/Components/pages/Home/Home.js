@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Header from "../../header/Header";
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
@@ -10,9 +10,10 @@ import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {HashtagsContext} from '../../../context/HashtagsContext';
-import {useDispatch} from "react-redux";
-import {addFavorites, getFavoritesAPI} from "../../../redux/modules/favoritesSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {addFavorites, getFavorites, getFavoritesAPI} from "../../../redux/modules/favoritesSlice";
 import './Home.scss';
+import axios from "axios";
 
 
 const Home = () => {
@@ -21,6 +22,7 @@ const Home = () => {
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
+    const favoritesFromApi = useSelector(state => state.favorites.favoritesFromApi)
 
     const dispatch = useDispatch()
 
@@ -32,13 +34,6 @@ const Home = () => {
             ]
 
             dispatch(addFavorites(favorites))
-
-            // setFavorit(() => (
-            //     [{
-            //         value1: refInput1.current.value,
-            //         value2: refInput2.current.value
-            //     }]
-            // ))
             refInput1.current.value = ""
             refInput2.current.value = ""
             refInput1.current.focus()
@@ -86,6 +81,29 @@ const Home = () => {
     const updateLoading = () => {
         setLoading(false)
     }
+
+    const sendFavorites = () => {
+            axios.post('/api/hashtags/post-id', {
+                    favoritesFromApi
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(e => {
+                    console.log(e)
+                }).finally(() => console.log(favoritesFromApi))
+    }
+
+    useEffect(() => {
+        if (favoritesFromApi.length) {
+            sendFavorites()
+        }
+    },[favoritesFromApi])
 
     return (
         <>
@@ -154,7 +172,7 @@ const Home = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className="blue-btn mb-20">Отправить в обработку</button>
+                                        <button className="blue-btn mb-20" onClick={() => dispatch(getFavorites())}>Отправить в обработку</button>
                                         <button className="gray-btn mb-20">Остановить обработку</button>
                                         <RemainingPosts number={30}/>
                                     </div>

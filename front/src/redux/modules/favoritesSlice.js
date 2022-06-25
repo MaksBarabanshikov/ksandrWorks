@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {initializedState} from "react-slick/lib/utils/innerSliderUtils";
 
 export const getFavoritesAPI = createAsyncThunk(
     'favorites/getFavoritesAPI',
@@ -16,6 +17,27 @@ export const getFavoritesAPI = createAsyncThunk(
     }
 )
 
+/*export const postFavoriteAPI = createAsyncThunk(
+    'favorites/postFavoriteAPI',
+    async function () {
+        const data = favoritesSlice.getInitialState.
+        axios.post('/api/hashtags/post-id', {
+            data
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(e => {
+                console.log(e)
+            }).finally(() => console.log(data))
+    }
+)*/
+
 export const uniqueId = () => (
     Math.random().toString(16).slice(2)
 )
@@ -28,7 +50,8 @@ const favoritesSlice = createSlice({
         favorites: [],
         selectAllBtn: false,
         status: null,
-        error: null
+        error: null,
+        favoritesFromApi: []
     },
     reducers: {
         addFavorites(state, action) {
@@ -39,6 +62,14 @@ const favoritesSlice = createSlice({
                 text1: action.payload[0],
                 text2: action.payload[1]
             })
+        },
+        getFavorites(state) {
+            console.log(state)
+            state.favoritesFromApi = state.favorites.map(f => ({
+                    text1: f.text1,
+                    text2: f.text2,
+                }
+            ))
         }
     },
     extraReducers: {
@@ -69,6 +100,6 @@ const favoritesSlice = createSlice({
     }
 })
 
-export const {addFavorites} = favoritesSlice.actions
+export const {addFavorites, getFavorites} = favoritesSlice.actions
 
 export default favoritesSlice.reducer

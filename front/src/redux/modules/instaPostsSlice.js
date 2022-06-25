@@ -45,7 +45,11 @@ const instaPostsSlice = createSlice({
         error: null,
         id: null
     },
-    reducers: {},
+    reducers: {
+        addPostId(state, action) {
+            state.id = action
+        }
+    },
     extraReducers: {
         [getPost.pending]: (state) => {
             state.status = 'loading'
@@ -61,6 +65,6 @@ const instaPostsSlice = createSlice({
     }
 })
 
-export const {} = instaPostsSlice.actions
+export const {addPostId} = instaPostsSlice.actions
 
 export default instaPostsSlice.reducer

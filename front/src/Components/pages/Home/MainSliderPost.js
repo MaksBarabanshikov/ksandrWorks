@@ -1,15 +1,26 @@
 import React, {useEffect, useState} from "react";
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Slider from "react-slick";
 import NewNextArrow from "../../common/NewNextArrow";
 import NewPrevArrow from "../../common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
 import axios from "axios";
+import {addPostId} from "../../../redux/modules/instaPostsSlice";
 
 const MainSliderPost = () => {
     const [activeSlide, setActiveSlide] = useState(0)
     const posts = useSelector(state => state.instagramPosts.posts)
     const status = useSelector(state => state.instagramPosts.status)
+    const id = useSelector(state => state.instagramPosts.id)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(addPostId('123123123'))
+        if (posts.length) {
+            dispatch(addPostId(posts[activeSlide].id))
+        }
+    },[activeSlide])
 
     useEffect(() => {
         if (posts.length) {
