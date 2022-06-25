@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import Header from "../../header/Header";
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
@@ -18,7 +18,6 @@ import './Home.scss';
 const Home = () => {
     const refInput1 = useRef()
     const refInput2 = useRef()
-    const [fileText, setFileText] = useState(null)
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
@@ -78,13 +77,20 @@ const Home = () => {
                     setTimeout(() => dispatch(getFavoritesAPI()), 500)
                 })
 
-            const textToArray = reader.result.split(/,?\s+/).filter(x => x !== "").map(x => "#" + x)
-            const size = 25; //размер подмассива
-            const subarray = []; //массив в который будет выведен результат.
-            for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
-                subarray[i] = textToArray.slice((i * size), (i * size) + size);
-            }
-            setFileText(subarray);
+            // const textToArray = reader.result.split(/,?\s+/).filter(x => x !== "").map(x => "#" + x)
+            // const size = 25; //размер подмассива
+            // const subarray = []; //массив в который будет выведен результат.
+            // let newFavoriteItem = []
+            // for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
+            //     subarray[i] = textToArray.slice((i * size), (i * size) + size);
+            //     newFavoriteItem.push({
+            //         selected: false,
+            //         text1: `${i + 1}`,
+            //         text2: subarray[i]
+            //     })
+            // }
+            // console.log(newFavoriteItem)
+            // setFileText(subarray);
         }
     }
 
@@ -95,11 +101,6 @@ const Home = () => {
     const updateLoading = () => {
         setLoading(false)
     }
-
-    useEffect(() => {
-        console.log('render')
-        localStorage.setItem('fileText', JSON.stringify(fileText))
-    }, [fileText])
 
     return (
         <>
@@ -198,7 +199,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div>
-                        <HomeSide fileText={fileText}/>
+                        <HomeSide />
                     </div>
                 </div>
                 <HelloModal/>

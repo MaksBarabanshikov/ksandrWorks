@@ -53,11 +53,18 @@ const favoritesSlice = createSlice({
             const textToArray = action.payload.filter(x => x !== "").map(x => "#" + x)
             const size = 25; //размер подмассива
             const subarray = []; //массив в который будет выведен результат.
+            let newFavorite = state.favorites
             for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
                 subarray[i] = textToArray.slice((i * size), (i * size) + size);
+                newFavorite.push({
+                    key: [uniqueId(), uniqueId()],
+                    id: uniqueId(),
+                    selected: false,
+                    text1: `${i + 1}`,
+                    text2: subarray[i]
+                })
             }
-
-            return state.favorites = subarray
+            state.favorites = newFavorite
         },
         [getFavoritesAPI.rejected]: state => {
             state.status = 'error'
