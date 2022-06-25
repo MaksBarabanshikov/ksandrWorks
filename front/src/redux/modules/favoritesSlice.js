@@ -5,7 +5,7 @@ export const getFavoritesAPI = createAsyncThunk(
     'favorites/getFavoritesAPI',
     async function () {
         let data
-        await axios.get('')
+        await axios.get('/api/hashtags/sorted-hashtags')
             .then(res => {
                 return data = res.data
             })
@@ -14,6 +14,9 @@ export const getFavoritesAPI = createAsyncThunk(
             })
         return data
     }
+)
+export const uniqueId = () => (
+    Math.random().toString(16).slice(2)
 )
 
 const favoritesSlice = createSlice({
@@ -25,7 +28,13 @@ const favoritesSlice = createSlice({
     },
     reducers: {
         addFavorites(state, action) {
-            state.posts = action.payload
+            state.favorites.push({
+                key: [uniqueId(), uniqueId()],
+                id: uniqueId(),
+                selected: false,
+                text1: action.payload.favorit,
+                text2: action.payload.favorit
+            })
         }
     },
     extraReducers: {
@@ -35,7 +44,7 @@ const favoritesSlice = createSlice({
         },
         [getFavoritesAPI.fulfilled]: (state, action) => {
             state.status = 'resolve'
-            state.posts = action.payload
+            state.favorites = action.payload
         },
         [getFavoritesAPI.rejected]: (state) => {
             state.status = 'error'
