@@ -83,7 +83,7 @@ const Home = () => {
     }
 
     const sendFavorites = () => {
-            axios.post('/api/hashtags/post-id', {
+            axios.post('/api/hashtags/all-blocks', {
                     favoritesFromApi
                 },
                 {
