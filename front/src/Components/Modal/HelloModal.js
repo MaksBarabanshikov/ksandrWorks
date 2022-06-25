@@ -6,14 +6,17 @@ import {Context} from "../../context/context";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import {HashtagsContext} from "../../context/HashtagsContext";
+import {useDispatch} from "react-redux";
+import {getPost} from "../../redux/modules/instaPostsSlice";
 
 const HelloModal = () => {
     const {isOpenFB, closeModalFB} = useContext(Context)
-    const {updatePosts} = useContext(HashtagsContext)
     const [step, setStep] = useState(1)
     const [sliderId, setSliderId] = useState(null)
+
+    const dispatch = useDispatch()
+
+    const getInstagramPost = () => dispatch(getPost())
 
     const handleNextStep = () => {
         setStep(step + 1)
@@ -29,20 +32,9 @@ const HelloModal = () => {
         handleNextStep()
     }
 
-    const handleGetPosts = () => {
-        axios.get(`/api/hashtags/all-instagram-posts`)
-            .then(res => {
-                updatePosts(res.data)
-                console.log('Запрос. Контекст:',HashtagsContext)
-                console.log('Запрос. Обновление постов:', updatePosts)
-            })
-            .catch(e => {
-                console.log(e.response)
-            })
-            .finally(() => {
-                console.log('Запрос завершен')
-                handleClose()
-            })
+    const  handleGetPosts = async () => {
+        await getInstagramPost()
+        handleClose()
     }
 
     const getId = id => setSliderId(id)

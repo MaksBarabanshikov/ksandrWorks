@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import Slider from "react-slick"
-import img from "../../image/slider-test.jpg"
 import NewPrevArrow from "../common/NewPrevArrow";
 import NewNextArrow from "../common/NewNextArrow";
 import axios from "axios";
@@ -33,12 +32,6 @@ const HelloModalSlider = ({getId}) => {
                 setLoading(false)
             })
     }, [])
-
-
-    useEffect(() => {
-        // getId(data[activeSlide].id)
-        console.log("slide:", activeSlide)
-    },[activeSlide])
 
     useEffect(() => {
         if (data.length){
