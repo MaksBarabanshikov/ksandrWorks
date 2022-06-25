@@ -36,7 +36,7 @@ const MainSliderPost = () => {
                         </div>
                     </div>
                     <div className="slider-post__item-body">
-                        {post.children ? <MiniSliderPost images={post.children.data}/> :
+                        {post.children.data ? <MiniSliderPost images={post.children.data}/> :
                             <div style={{backgroundImage: `url(${post.media_url})`}}
                                  className="slider-post__item-body_img"/>}
                     </div>

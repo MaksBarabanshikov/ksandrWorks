@@ -5,6 +5,6 @@ import { reducer } from "./reducer";
 const logger = createLogger()
 
 export default configureStore({
-    reducer: reducer,
+    reducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 })

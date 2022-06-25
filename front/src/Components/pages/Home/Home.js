@@ -22,6 +22,10 @@ const Home = () => {
     const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
 
+    useEffect(() => {
+        console.log('home: render')
+    })
+
     const addFavorites = () => {
         if (refInput1.current.value && refInput2.current.value) {
             setFavorit(() => (
@@ -60,13 +64,12 @@ const Home = () => {
         reader.onload = () => {
             fileOfHashtags(reader.result)
 
-            const textToArray = reader.result.split(/,?\s+/).map(x => "#" + x)
+            const textToArray = reader.result.split(/,?\s+/).filter(x => x !== "").map(x => "#" + x )
             const size = 25; //размер подмассива
             const subarray = []; //массив в который будет выведен результат.
             for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
                 subarray[i] = textToArray.slice((i * size), (i * size) + size);
             }
-            console.log(subarray);
             setFileText(subarray);
         }
     }

@@ -24,9 +24,6 @@ const instaPostsSlice = createSlice({
         error: null,
     },
     reducers: {
-        GET_POSTS(state, action) {
-            state.posts = action.payload
-        },
     },
     extraReducers: {
         [getPost.pending]: (state) => {
@@ -43,6 +40,6 @@ const instaPostsSlice = createSlice({
     }
 })
 
-export const {GET_POSTS} = instaPostsSlice.actions
+export const {} = instaPostsSlice.actions
 
 export default instaPostsSlice.reducer
