@@ -1,41 +1,40 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import HomeComment from "./HomeComment";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-svg-icons"
 import {faSave} from "@fortawesome/free-regular-svg-icons"
 import "./HomeSide.scss"
-import TestComment from "./TestComment";
 
 const HomeSide = ({favorit}) => {
     const uniqueId = () => (
         Math.random().toString(16).slice(2)
     )
     const [selectAllBtn, setSelectAllBtn] = useState(false)
+
     const [comments, setComments] = useState([])
 
     const selectAllHandler = () => {
         setSelectAllBtn(() => !selectAllBtn)
-
     }
+
     const removeAllSelect = () => {
         setComments(comments.filter(item => !item.selected))
         setSelectAllBtn(false)
-
     }
+
     const saveAllHandler = () => {
         comments.map(item => {
             console.log(item)
         })
     }
 
-    const canselAllSelect = () => {
-        setComments(comments.map(item => {
-            item.selected = false
-            return item
-        }))
-        setSelectAllBtn(false)
-
-    }
+    // const canselAllSelect = () => {
+    //     setComments(comments.map(item => {
+    //         item.selected = false
+    //         return item
+    //     }))
+    //     setSelectAllBtn(false)
+    // }
 
     const selectHandle = (item) => {
         setComments(comments.map(comment => {
@@ -46,9 +45,11 @@ const HomeSide = ({favorit}) => {
             }
         ))
     }
+
     const removeHandler = (item) => {
         setComments(comments.filter(comment => !(comment.id === item.id)))
     }
+
     const saveHandler = (item, inputValue, textareaValue) => {
         setComments(comments.map(comment => {
             if (comment.id === item.id) {

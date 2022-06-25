@@ -11,6 +11,8 @@ import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {HashtagsContext} from '../../../context/HashtagsContext';
 import './Home.scss';
+import {useDispatch} from "react-redux";
+import {addFavorites, getFavoritesAPI} from "../../../redux/modules/favoritesSlice";
 
 
 const Home = () => {
@@ -22,18 +24,28 @@ const Home = () => {
     const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
 
+    const dispatch = useDispatch()
+
+
     useEffect(() => {
         console.log('home: render')
     })
 
-    const addFavorites = () => {
+    const handleAddFavorites = () => {
         if (refInput1.current.value && refInput2.current.value) {
-            setFavorit(() => (
-                [{
-                    value1: refInput1.current.value,
-                    value2: refInput2.current.value
-                }]
-            ))
+            const favorites = [
+                refInput1.current.value,
+                refInput2.current.value
+            ]
+
+            dispatch(addFavorites(favorites))
+
+            // setFavorit(() => (
+            //     [{
+            //         value1: refInput1.current.value,
+            //         value2: refInput2.current.value
+            //     }]
+            // ))
             refInput1.current.value = ""
             refInput2.current.value = ""
             refInput1.current.focus()
@@ -42,7 +54,7 @@ const Home = () => {
 
     const addFavoritesEnter = (event) => {
         if (event.key === "Enter") {
-            addFavorites()
+            handleAddFavorites()
         }
     }
 
@@ -59,10 +71,17 @@ const Home = () => {
         }
 
         const reader = new FileReader()
+
         reader.readAsText(file)
 
         reader.onload = () => {
-            fileOfHashtags(reader.result)
+            fileOfHashtags(reader.result).then(res => {
+                console.log(res)
+            })
+                .catch(e => console.log(e))
+                .finally(() => {
+                    setTimeout(() => dispatch(getFavoritesAPI()), 500)
+                })
 
             const textToArray = reader.result.split(/,?\s+/).filter(x => x !== "").map(x => "#" + x )
             const size = 25; //размер подмассива
@@ -83,6 +102,7 @@ const Home = () => {
     }
 
     useEffect(() => {
+        console.log('render')
         localStorage.setItem('fileText', JSON.stringify(fileText))
     }, [fileText])
 
@@ -146,7 +166,7 @@ const Home = () => {
                                             </form>
                                             <button
                                                 className="button blue-btn btn-fav"
-                                                onClick={() => addFavorites()}
+                                                onClick={() => handleAddFavorites()}
                                             >
                                                 <FontAwesomeIcon icon={faStar}/>
                                             </button>
