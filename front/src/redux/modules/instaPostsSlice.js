@@ -16,15 +16,36 @@ export const getPost = createAsyncThunk(
     }
 )
 
+// export const postIdInstagram = createAsyncThunk(
+//     'instagramPosts/postIdInstagram',
+//     async function (id) {
+//         console.log(id)
+//         await axios.post('/api/hashtags/post-id', {
+//                 id
+//             },
+//             {
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 }
+//             })
+//             .then(res => {
+//                 console.log(res)
+//             })
+//             .catch(e => {
+//                 console.log(e)
+//             })
+//     }
+// )
+
 const instaPostsSlice = createSlice({
     name: 'instagramPosts',
     initialState: {
         posts: [],
         status: null,
         error: null,
+        id: null
     },
-    reducers: {
-    },
+    reducers: {},
     extraReducers: {
         [getPost.pending]: (state) => {
             state.status = 'loading'

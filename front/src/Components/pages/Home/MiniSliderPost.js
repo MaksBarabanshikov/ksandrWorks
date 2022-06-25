@@ -29,7 +29,6 @@ const MiniSliderPost = ({images}) => {
                     </div>
                 ))}
             </Slider>
-            <p>{activeSlide}</p>
         </div>
     )
 }

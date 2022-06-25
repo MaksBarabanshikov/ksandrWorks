@@ -1,14 +1,34 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from 'react-redux'
 import Slider from "react-slick";
 import NewNextArrow from "../../common/NewNextArrow";
 import NewPrevArrow from "../../common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
+import axios from "axios";
 
 const MainSliderPost = () => {
     const [activeSlide, setActiveSlide] = useState(0)
     const posts = useSelector(state => state.instagramPosts.posts)
     const status = useSelector(state => state.instagramPosts.status)
+
+    useEffect(() => {
+        if (posts.length) {
+            axios.post('/api/hashtags/post-id', {
+                    id: posts[activeSlide].id
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        }
+    },[activeSlide])
 
     let settings = {
         dots: false,
@@ -50,7 +70,6 @@ const MainSliderPost = () => {
                     </div>
                 </div>))}
             </Slider>
-            <p>{activeSlide}</p>
             <div className="slider-post__control flex align-center">
                     <span>
                         Выберите нужный пост
