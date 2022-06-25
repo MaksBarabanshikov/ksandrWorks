@@ -10,26 +10,20 @@ import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {HashtagsContext} from '../../../context/HashtagsContext';
-import './Home.scss';
 import {useDispatch} from "react-redux";
 import {addFavorites, getFavoritesAPI} from "../../../redux/modules/favoritesSlice";
+import './Home.scss';
 
 
 const Home = () => {
     const refInput1 = useRef()
     const refInput2 = useRef()
-    const [favorit, setFavorit] = useState(null)
     const [fileText, setFileText] = useState(null)
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
 
     const dispatch = useDispatch()
-
-
-    useEffect(() => {
-        console.log('home: render')
-    })
 
     const handleAddFavorites = () => {
         if (refInput1.current.value && refInput2.current.value) {
@@ -75,15 +69,16 @@ const Home = () => {
         reader.readAsText(file)
 
         reader.onload = () => {
-            fileOfHashtags(reader.result).then(res => {
-                console.log(res)
-            })
+            fileOfHashtags(reader.result)
+                .then(res => {
+                    console.log(res)
+                })
                 .catch(e => console.log(e))
                 .finally(() => {
                     setTimeout(() => dispatch(getFavoritesAPI()), 500)
                 })
 
-            const textToArray = reader.result.split(/,?\s+/).filter(x => x !== "").map(x => "#" + x )
+            const textToArray = reader.result.split(/,?\s+/).filter(x => x !== "").map(x => "#" + x)
             const size = 25; //размер подмассива
             const subarray = []; //массив в который будет выведен результат.
             for (let i = 0; i < Math.ceil(textToArray.length / size); i++) {
@@ -203,7 +198,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div>
-                        <HomeSide favorit={favorit} fileText={fileText}/>
+                        <HomeSide fileText={fileText}/>
                     </div>
                 </div>
                 <HelloModal/>
