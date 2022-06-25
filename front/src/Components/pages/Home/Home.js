@@ -84,7 +84,7 @@ const Home = () => {
 
     const sendFavorites = () => {
             axios.post('/api/hashtags/all-blocks', {
-                    favoritesFromApi
+                    data: favoritesFromApi
                 },
                 {
                     headers: {
@@ -96,7 +96,7 @@ const Home = () => {
                 })
                 .catch(e => {
                     console.log(e)
-                }).finally(() => console.log(favoritesFromApi))
+                })
     }
 
     useEffect(() => {
