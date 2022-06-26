@@ -1,74 +1,15 @@
-import {useEffect, useState} from "react";
 import HomeComment from "./HomeComment";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-svg-icons"
 import {faSave} from "@fortawesome/free-regular-svg-icons"
 import "./HomeSide.scss"
 import {useDispatch, useSelector} from "react-redux";
-import {getFavorites} from "../../../redux/modules/favoritesSlice";
+import {removeAllSelect, selectAll} from "../../../redux/modules/favoritesSlice";
 
 const HomeSide = () => {
-    const [selectAllBtn, setSelectAllBtn] = useState(false)
     const dispatch = useDispatch()
     const favorites = useSelector(state => state.favorites.favorites)
-
-    const [comments, setComments] = useState([])
-
-    const selectAllHandler = () => {
-        setSelectAllBtn(() => !selectAllBtn)
-    }
-
-    const removeAllSelect = () => {
-        setComments(comments.filter(item => !item.selected))
-        setSelectAllBtn(false)
-    }
-
-    const saveAllHandler = () => {
-        comments.map(item => {
-            console.log(item)
-        })
-    }
-
-    // const canselAllSelect = () => {
-    //     setComments(comments.map(item => {
-    //         item.selected = false
-    //         return item
-    //     }))
-    //     setSelectAllBtn(false)
-    // }
-
-    const selectHandle = (item) => {
-        setComments(comments.map(comment => {
-                if (comment.id === item.id) {
-                    comment.selected = true
-                }
-                return comment
-            }
-        ))
-    }
-
-    const removeHandler = (item) => {
-        setComments(comments.filter(comment => !(comment.id === item.id)))
-    }
-
-    const saveHandler = (item, inputValue, textareaValue) => {
-        setComments(comments.map(comment => {
-            if (comment.id === item.id) {
-                comment.text1 = inputValue
-                comment.text2 = textareaValue
-            }
-            return comment
-        }))
-    }
-
-    useEffect(() => {
-        setComments(
-            comments.map(item => {
-                item.selected = selectAllBtn
-                return item
-            })
-        )
-    }, [selectAllBtn])
+    const selectAllBtn = useSelector(state => state.favorites.selectAllBtn)
 
     return (
         <div className="hashtag__side hashtag__block">
@@ -82,7 +23,7 @@ const HomeSide = () => {
                     <button
                         className={`hashtag__side-control_select-all`}
                         type={"button"}
-                        onClick={() => selectAllHandler()}
+                        onClick={() => dispatch(selectAll())}
                     >
                         <FontAwesomeIcon icon={selectAllBtn ? faToggleOn : faToggleOff}/>
                     </button>
@@ -91,7 +32,7 @@ const HomeSide = () => {
                 <label className={'flex align-center'}>
                     <button className="hashtag__side-control_select-all"
                             type={"button"}
-                            onClick={() => removeAllSelect()}
+                            onClick={() => dispatch(removeAllSelect())}
                     >
                         <FontAwesomeIcon icon={faCircleXmark}/>
                     </button>
@@ -100,7 +41,7 @@ const HomeSide = () => {
                 <label className={'flex align-center'}>
                     <button className="hashtag__side-control_select-all"
                             type={"button"}
-                            onClick={() => saveAllHandler()}
+                            onClick={() => console.log(123)}
                     >
                         <FontAwesomeIcon icon={faSave}/>
                     </button>
@@ -113,11 +54,8 @@ const HomeSide = () => {
                         favorites.length ?
                             favorites.map((item, index) => (
                                 <HomeComment
-                                    key={item.key[0]}
-                                    item={item}
-                                    handleSelect={selectHandle}
-                                    handleRemove={removeHandler}
-                                    handleSave={saveHandler}
+                                    key={item.id}
+                                    {...item}
                                     index={index}
                                 />
                             )) :

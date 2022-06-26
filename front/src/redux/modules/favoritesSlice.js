@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {initializedState} from "react-slick/lib/utils/innerSliderUtils";
 
 export const getFavoritesAPI = createAsyncThunk(
     'favorites/getFavoritesAPI',
@@ -42,8 +41,6 @@ export const uniqueId = () => (
     Math.random().toString(16).slice(2)
 )
 
-const file = localStorage.getItem('fileText')
-
 const favoritesSlice = createSlice({
     name: 'favorites',
     initialState: {
@@ -54,22 +51,45 @@ const favoritesSlice = createSlice({
         favoritesFromApi: []
     },
     reducers: {
-        addFavorites(state, action) {
+        addFavorites: (state, action) => {
             state.favorites.push({
-                key: [uniqueId(), uniqueId()],
                 id: uniqueId(),
                 selected: false,
                 text1: action.payload[0],
                 text2: action.payload[1]
             })
         },
-        getFavorites(state) {
-            console.log(state)
+
+        getFavorites: state => {
             state.favoritesFromApi = state.favorites.map(f => ({
                     text1: f.text1,
                     text2: f.text2.join(" "),
                 }
             ))
+        },
+
+        selectAll: state => {
+            state.selectAllBtn = !state.selectAllBtn
+            state.favorites.map(f => f.selected = state.selectAllBtn)
+        },
+
+        removeAllSelect: state => {
+            state.favorites = state.favorites.filter(f => !f.selected)
+            state.selectAllBtn = false
+        },
+
+        removeHandler: (state, action) => {
+            state.favorites = state.favorites.filter(f => f.id !== action.payload.id)
+        },
+
+        selectHandler: (state, action) => {
+            const checkedFavorite = state.favorites.find(f => f.id === action.payload.id)
+            checkedFavorite.selected = !checkedFavorite.selected
+        },
+        saveHandler: (state, action) => {
+            const changedFavorite = state.favorites.find(f => f.id === action.payload.id)
+            changedFavorite.text1 = action.payload.text1
+            changedFavorite.text2 = action.payload.text2
         }
     },
     extraReducers: {
@@ -85,7 +105,6 @@ const favoritesSlice = createSlice({
             for (let i = 0; i < Math.ceil(action.payload.length / size); i++) {
                 subarray[i] = action.payload.slice((i * size), (i * size) + size);
                 newFavorite.push({
-                    key: [uniqueId(), uniqueId()],
                     id: uniqueId(),
                     selected: false,
                     text1: `${i + 1}`,
@@ -100,6 +119,14 @@ const favoritesSlice = createSlice({
     }
 })
 
-export const {addFavorites, getFavorites} = favoritesSlice.actions
+export const {
+    addFavorites,
+    getFavorites,
+    selectAll,
+    removeAllSelect,
+    removeHandler,
+    selectHandler,
+    saveHandler
+} = favoritesSlice.actions
 
 export default favoritesSlice.reducer

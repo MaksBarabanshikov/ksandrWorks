@@ -1,7 +1,6 @@
 {
   "name": "ksandrworks",
   "version": "0.1.0",
-  "proxy": "https://localhost:8080",
   "private": true,
   "scripts": {
     "predeploy": "npm run build",
@@ -9,7 +8,9 @@
     "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server -w server/db.json -p 8080",
+    "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": [
@@ -58,8 +59,8 @@
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",
     "react-slick": "^0.29.0",
-    "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
@@ -67,6 +68,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "json-server": "^0.17.0"
   }
 }

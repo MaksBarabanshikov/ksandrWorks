@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import Header from "../../header/Header";
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
@@ -9,18 +9,15 @@ import {useForm} from "react-hook-form";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {HashtagsContext} from '../../../context/HashtagsContext';
 import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, getFavorites, getFavoritesAPI} from "../../../redux/modules/favoritesSlice";
-import './Home.scss';
 import axios from "axios";
+import './Home.scss';
 
 
 const Home = () => {
     const refInput1 = useRef()
     const refInput2 = useRef()
-    const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
     const favoritesFromApi = useSelector(state => state.favorites.favoritesFromApi)
 
@@ -74,43 +71,32 @@ const Home = () => {
         }
     }
 
-    const updatePosts = data => {
-        setPosts(data)
-    }
+    const sendFavorites = useCallback(
+        () => {
+            if (favoritesFromApi.length) {
+                axios.post('/api/hashtags/all-blocks', {
+                        data: favoritesFromApi
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
+            }
+        },
+        [favoritesFromApi],
+    );
 
-    const updateLoading = () => {
-        setLoading(false)
-    }
-
-    const sendFavorites = () => {
-            axios.post('/api/hashtags/all-blocks', {
-                    data: favoritesFromApi
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => {
-                    console.log(res)
-                })
-                .catch(e => {
-                    console.log(e)
-                })
-    }
-
-    useEffect(() => {
-        if (favoritesFromApi.length) {
-            sendFavorites()
-        }
-    },[favoritesFromApi])
+    useEffect(() => sendFavorites(),[favoritesFromApi,sendFavorites])
 
     return (
         <>
-            <HashtagsContext.Provider value={{
-                posts, loading, updatePosts, updateLoading
-            }}
-            >
                 <Header title="Хештеги" icon={faHashtag}/>
                 <div className="hashtag">
                     <div>
@@ -206,7 +192,6 @@ const Home = () => {
                     </div>
                 </div>
                 <HelloModal/>
-            </HashtagsContext.Provider>
         </>
     )
 }

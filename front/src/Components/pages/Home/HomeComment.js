@@ -1,27 +1,45 @@
 import React, {useRef} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons"
-import {faCheckCircle,faSave} from "@fortawesome/free-regular-svg-icons"
+import {faCheckCircle, faSave} from "@fortawesome/free-regular-svg-icons"
+import {useDispatch} from "react-redux";
+import {removeHandler, saveHandler, selectHandler} from "../../../redux/modules/favoritesSlice";
 
 
-const HomeComment = ({item, handleSelect, handleRemove,handleSave, index}) => {
+const HomeComment = ({index, id, selected, text1, text2}) => {
     const inputRef = useRef()
     const textareaRef = useRef()
+    const dispatch = useDispatch()
+
+    const saveFavorite = () => {
+        const obj = {
+            id,
+            text1: inputRef.current.value,
+            text2: textareaRef.current.value
+        }
+        return dispatch(saveHandler(obj))
+    }
 
     return (
-        <div className={`hashtag__comment ${item.selected ? 'selected' : ''}`}>
+        <div className={`hashtag__comment ${selected ? 'selected' : ''}`}>
             <div className="hashtag__comment_top flex justify-content-between align-center">
                 <h2 className="hashtag__comment_title">
                     Блок #{index + 1}
                 </h2>
                 <div className="hashtag__comment-control flex">
-                    <button className="hashtag__comment-control_btn hashtag__comment-control_remove" onClick={() => handleRemove(item)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_remove"
+                            onClick={() => dispatch(removeHandler({id}))}
+                    >
                         <FontAwesomeIcon icon={faCircleXmark}/>
                     </button>
-                    <button className="hashtag__comment-control_btn hashtag__comment-control_check" onClick={() => handleSelect(item)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_check"
+                            onClick={() => dispatch(selectHandler({id}))}
+                    >
                         <FontAwesomeIcon icon={faCheckCircle}/>
                     </button>
-                    <button className="hashtag__comment-control_btn hashtag__comment-control_save" onClick={() => handleSave(item, inputRef.current.value, textareaRef.current.value)}>
+                    <button className="hashtag__comment-control_btn hashtag__comment-control_save"
+                            onClick={() => saveFavorite()}
+                    >
                         <FontAwesomeIcon icon={faSave}/>
                     </button>
                 </div>
@@ -34,25 +52,20 @@ const HomeComment = ({item, handleSelect, handleRemove,handleSave, index}) => {
                     <input
                         ref={inputRef}
                         type="text"
-                        id={item.key[0]}
-                        defaultValue={item.text1}
+                        defaultValue={text1}
                         className={"w-100"}
                     />
-                    <label
-                        htmlFor={item.key[0]}
-                    >
+                    <label>
                         Комментарий 1
                     </label>
                 </div>
                 <div className="input-field">
                     <textarea
                         ref={textareaRef}
-                        id={item.key[1]}
-                        defaultValue={item.text2}
+                        defaultValue={text2}
                         className={"w-100"}
                     />
                     <label
-                        htmlFor={item.key[1]}
                     >
                         Комментарий 2
                     </label>
