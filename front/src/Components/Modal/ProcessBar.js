@@ -9,26 +9,8 @@ import React, {useEffect, useState} from "react";
 const ProcessBarModal = () => {
     const [state, setState] = useState(null);
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
-    const {data: status, isLoading} = useGetProcessQuery()
-    let content
 
-    if (isLoading) {
-        content = <Loader width={50} height={50}/>
-    } else if (status) {
-        content = <h1>Осталось: {status}</h1>
-    } else {
-        content = <h1>Что-то пошло не так</h1>
-    }
-
-// if (isLoading) {
-//     return <Loader width={50} height={50}/>
-// }
-// if (status) {
-//     return <h1>Готово</h1>
-// }
-// return <h1>Что-то пошло не так</h1>
-// }
-
+    let content = GetStatus()
 
     const dispatch = useDispatch()
 
@@ -49,6 +31,7 @@ const ProcessBarModal = () => {
                 </div>
                 <div className="modal__body_main">
                     {content}
+                    {RepeatGetStatus()}
                     <div className="modal__body_main-btn flex">
                         <button
                             className="btn blue-btn"
@@ -61,6 +44,29 @@ const ProcessBarModal = () => {
             </div>
         </div>
     )
+}
+export const RepeatGetStatus = () => {
+    const {data: status, isLoading, refetch} = useRepeatGetProcessQuery()
+    setInterval(() => refetch(), 5000)
+    if (isLoading) {
+        return <Loader width={50} height={50}/>
+    }
+    if (status) {
+        return <h1>Осталось: {status}</h1>
+    }
+    return <h1>Что-то пошло не так</h1>
+}
+
+export const GetStatus = () => {
+    const {data: status, isLoading} = useRepeatGetProcessQuery()
+
+    if (isLoading) {
+        return <Loader width={50} height={50}/>
+    }
+    if (status) {
+        return <h1>Готово</h1>
+    }
+    return <h1>Что-то пошло не так</h1>
 }
 
 export default ProcessBarModal

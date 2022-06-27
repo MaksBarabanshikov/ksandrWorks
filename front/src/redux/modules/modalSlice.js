@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {useDispatch} from "react-redux";
 
 const modalSlice = createSlice({
     name: 'modalFbSlice',
@@ -14,7 +15,7 @@ const modalSlice = createSlice({
         },
         closeModalFB: state => {
             state.isOpen = false
-            resetStep()
+            setTimeout(() => state.step = 1, 500)
         },
         openModalProcess: state => {
             state.isOpenProcess = true
@@ -24,9 +25,6 @@ const modalSlice = createSlice({
         },
         nextStep: state => {
             state.step++
-        },
-        resetStep: state => {
-            setTimeout(() => state.step = 1, 500)
         },
         setId: (state, action) => {
             state.id = action.payload
