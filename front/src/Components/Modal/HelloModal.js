@@ -1,47 +1,39 @@
-import {useContext, useState} from "react";
+import { useState } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
 import currentFbPage from "../../request/POST/currentFbPage";
-import {Context} from "../../context/context";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getPost} from "../../redux/modules/instaPostsSlice";
+import {closeModalFB, nextStep} from "../../redux/modules/modalSlice";
 
 const HelloModal = () => {
-    const {isOpenFB, closeModalFB} = useContext(Context)
-    const [step, setStep] = useState(1)
+    const isOpen = useSelector(state => state.modalFb.isOpen)
+    const step = useSelector(state => state.modalFb.step)
+    // const [step, setStep] = useState(1)
     const [sliderId, setSliderId] = useState(null)
 
     const dispatch = useDispatch()
 
     const getInstagramPost = () => dispatch(getPost())
 
-    const handleNextStep = () => {
-        setStep(step + 1)
-    }
-
-    const handleClose = () => {
-        closeModalFB()
-        setTimeout(() => setStep(1), 500)
-    }
-
     const handlePostPage = () => {
         currentFbPage(sliderId)
-        handleNextStep()
+        dispatch(nextStep())
     }
 
-    const  handleGetPosts = async () => {
+    const handleGetPosts = async () => {
         await getInstagramPost()
-        handleClose()
+        dispatch(closeModalFB())
     }
 
     const getId = id => setSliderId(id)
 
     return (
-        <div className={`modal ${isOpenFB ? "" : "hidden"}`}>
-            <div className={`modal__body hello-modal ${isOpenFB ? "open" : ''}`}>
+        <div className={`modal ${isOpen ? "" : "hidden"}`}>
+            <div className={`modal__body hello-modal ${isOpen ? "open" : ''}`}>
                 {step === 1 && <div className="step-1">
                     <div className="modal__body_top flex justify-content-between align-center border-bottom">
                         <div>
@@ -54,7 +46,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={() => handleClose()}
+                            onClick={() => dispatch(closeModalFB())}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -97,7 +89,7 @@ const HelloModal = () => {
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
-                                onClick={() => handleNextStep()}
+                                onClick={() => dispatch(nextStep())}
                             >
                                 Далее
                             </button>
@@ -116,7 +108,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={() => handleClose()}
+                            onClick={() => dispatch(closeModalFB())}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>
@@ -173,7 +165,7 @@ const HelloModal = () => {
                         </div>
                         <button
                             className="modal__body_close"
-                            onClick={() => handleClose()}
+                            onClick={() => dispatch(closeModalFB())}
                         >
                             <FontAwesomeIcon icon={faTimesCircle}/>
                         </button>

@@ -3,11 +3,13 @@ import Slider from "react-slick"
 import NewPrevArrow from "../common/NewPrevArrow";
 import NewNextArrow from "../common/NewNextArrow";
 import axios from "axios";
+import {useSelector} from "react-redux";
 
 const HelloModalSlider = ({getId}) => {
     const [activeSlide, setActiveSlide] = useState(0)
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
+    const id = useSelector(state => state.modalFb.id)
 
     const settings = {
         dots: false,

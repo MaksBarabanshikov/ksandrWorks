@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import {Context} from "./context/context";
+import React from "react";
 import Routing from "./Components/Routes/Route";
 import Block from "./Components/common/Block";
 import Container from "./Components/common/Container";
@@ -9,17 +8,7 @@ import "slick-carousel/slick/slick-theme.scss";
 import "slick-carousel/slick/slick.scss";
 
 const App = () => {
-    const [isOpenFB, setIsOpenFB] = useState(false)
-    const openModalFB = () => {
-        setIsOpenFB(true)
-    }
-    const closeModalFB = () => {
-        setIsOpenFB(false)
-    }
     return (
-        <Context.Provider value={{
-            openModalFB, closeModalFB, isOpenFB
-        }}>
             <div className="App">
                 <NewSideBar/>
                 <Block stylees="content">
@@ -28,7 +17,6 @@ const App = () => {
                     </Container>
                 </Block>
             </div>
-        </Context.Provider>
     );
 }
 

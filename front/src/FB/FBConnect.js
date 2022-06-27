@@ -1,13 +1,14 @@
 import FacebookLogin, {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 import FBLogo from "../image/Logotype-Facebook.svg";
 import getAccessId from "../request/POST/getAccessId";
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import Block from "../Components/common/Block";
-import {Context} from "../context/context";
+import {useDispatch} from "react-redux";
+import {openModalFB} from "../redux/modules/modalSlice";
 
 
 const ReactFacebookLogin = () => {
-    const {openModalFB} = useContext(Context)
+    const dispatch = useDispatch()
     let localStorageFB = JSON.parse(localStorage.getItem("FB"))
     if (!localStorageFB) {
         localStorage.setItem("FB", JSON.stringify({
@@ -74,7 +75,7 @@ const ReactFacebookLogin = () => {
                 onSuccess={(response) => {
                     getAccessId(response)
                     localStorage.setItem("token_FB", JSON.stringify(response.accessToken))
-                    openModalFB()
+                    dispatch(openModalFB())
                 }}
                 onFail={(error) => {
                     console.log('Login Failed!', error);
