@@ -12,9 +12,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, getFavorites, getFavoritesAPI} from "../../redux/modules/favoritesSlice";
 import axios from "axios";
-import './Home.scss';
 import {openModalProcess} from "../../redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
+import './Home.scss';
 
 
 const Home = () => {
