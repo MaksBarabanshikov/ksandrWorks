@@ -1,28 +1,34 @@
-import {useGetProcessQuery, useRepeatGetProcessQuery} from "../../redux/services/hashtagsApi";
+import {hashtagsApi, useGetProcessQuery, useRepeatGetProcessQuery} from "../../redux/services/hashtagsApi";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 const ProcessBarModal = () => {
-
-    const {data: status, error, isLoading} = useGetProcessQuery()
-    const {data: newStatus, newError} = useRepeatGetProcessQuery()
+    const [state, setState] = useState(null);
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
-
+    const {data: status, isLoading} = useGetProcessQuery()
     let content
 
     if (isLoading) {
         content = <Loader width={50} height={50}/>
     } else if (status) {
         content = <h1>Осталось: {status}</h1>
-    } else if (error) {
+    } else {
         content = <h1>Что-то пошло не так</h1>
-    } else if (newStatus) {
-        content = <h1>Осталось: {newStatus}</h1>
     }
+
+// if (isLoading) {
+//     return <Loader width={50} height={50}/>
+// }
+// if (status) {
+//     return <h1>Готово</h1>
+// }
+// return <h1>Что-то пошло не так</h1>
+// }
+
 
     const dispatch = useDispatch()
 
