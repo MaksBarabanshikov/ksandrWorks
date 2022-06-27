@@ -56,7 +56,7 @@ const favoritesSlice = createSlice({
                 id: uniqueId(),
                 selected: false,
                 text1: action.payload[0],
-                text2: action.payload[1]
+                text2: [action.payload[1]]
             })
         },
 

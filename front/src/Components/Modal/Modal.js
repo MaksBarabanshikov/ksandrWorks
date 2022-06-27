@@ -1,7 +1,7 @@
-import "./Modal.scss"
 import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChartPie, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import "./Modal.scss"
 
 const Modal = () => {
     const [isOpen, setIsOpen] = useState(false)

@@ -13,13 +13,14 @@ import storage from 'redux-persist/lib/storage'
 import {createLogger} from "redux-logger"
 import {rootReducer} from "./reducer";
 import {postsApi} from "./services/postsApi";
+import {hashtagsApi} from "./services/hashtagsApi";
 
 const logger = createLogger()
 
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['instagramPosts', 'postsApi']
+    whitelist: ['favorites']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -30,7 +31,7 @@ const store = configureStore({
         serializableCheck: {
             ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
         }
-    }).concat(postsApi.middleware).concat(logger),
+    }).concat(postsApi.middleware, hashtagsApi.middleware, logger),
 })
 
 export const persistor = persistStore(store)
