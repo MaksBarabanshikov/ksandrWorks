@@ -48,7 +48,19 @@ export const RepeatGetStatus = () => {
     const {data, isLoading, refetch, error} = useRepeatGetProcessQuery()
     setInterval(() => refetch(), 10000)
     if (data) {
-        return <ProgressBar completed={data.percent}/>
+        return <>
+            <p>status: {data.status}</p>
+            <hr/>
+            <p>commentId: {data.commentId}</p>
+            <hr/>
+            <p>commentId: {data.commentId}</p>
+            <hr/>
+            <p>replyId: {data.replyId}</p>
+            <hr/>
+            <p>deleteStatus: {data.deleteStatus}</p>
+            <hr/>
+            <ProgressBar completed={data.percent}/>
+        </>
     } else {
         return <p className="mt-20">Подготовка к обработке</p>
     }

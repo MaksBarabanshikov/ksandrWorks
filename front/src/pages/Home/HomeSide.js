@@ -61,13 +61,6 @@ const HomeSide = () => {
                             )) :
                             <div className="text-center">Вы пока ничего не добавили</div>
                     }
-                    {/*{*/}
-                    {/*    fileText ?*/}
-                    {/*        fileText.map((item, index) => {*/}
-                    {/*            return <TestComment key={uniqueId()} item={item} index={index}/>*/}
-                    {/*        }) :*/}
-                    {/*        <div className="text-center">Вы пока ничего не добавили</div>*/}
-                    {/*}*/}
                 </div>
             </div>
         </div>
