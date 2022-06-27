@@ -53,6 +53,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
+import Loader from "../common/Loader";
+import React from "react";
 const ProcessBarModal = () => {
 
     const {data: status,error, isLoading } = useGetProcessQuery()
@@ -75,7 +77,7 @@ const ProcessBarModal = () => {
                     </button>
                 </div>
                 <div className="modal__body_main">
-                    {isLoading && <h1>Идёт загрузка...</h1>}
+                    {isLoading && <Loader width={50} height={50}/>}
                     {error && <h1>Произошла ошибка</h1>}
                     {status && <h1>Осталось: {status}</h1>}
                     <div className="modal__body_main-btn flex">
