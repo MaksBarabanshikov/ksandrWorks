@@ -1,14 +1,13 @@
 {
   "name": "ksandrworks",
   "version": "0.1.0",
-  "proxy": "https://localhost:8080",
   "private": true,
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
-    "newBuild" : "react-scripts build && compress-cra -c ./compress-cra.json",
+    "newBuild": "react-scripts build && compress-cra -c ./compress-cra.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "json-server -w server/db.json -p 8080",
@@ -40,6 +39,7 @@
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@greatsumini/react-facebook-login": "^3.2.0",
     "@hookform/resolvers": "^2.8.8",
+    "@ramonak/react-progress-bar": "^5.0.0",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",

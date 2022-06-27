@@ -4,6 +4,7 @@ import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
@@ -44,15 +45,13 @@ const ProcessBarModal = () => {
     )
 }
 export const RepeatGetStatus = () => {
-    const {data: status, isLoading, refetch, error} = useRepeatGetProcessQuery()
+    const {data, isLoading, refetch, error} = useRepeatGetProcessQuery()
     setInterval(() => refetch(), 10000)
-    if (isLoading) {
-        return <Loader width={50} height={50}/>
+    if (data) {
+        return <ProgressBar completed={data.percent}/>
+    } else {
+        return <p className="mt-20">Подготовка к обработке</p>
     }
-    if (status) {
-        return <h1>Обработалось постов: {status.status}</h1>
-    }
-    return <h1>{error.status} {JSON.stringify(error.data)}</h1>
 }
 
 export const GetStatus = () => {
