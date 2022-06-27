@@ -10,6 +10,7 @@ export const hashtagsApi = createApi({
         mode: 'no-cors',
         prepareHeaders: (headers, {getProcess}) => {
             headers.set('Access-Control-Allow-Origin', '*')
+            headers.set('"Content-Type', 'application/json')
             return headers
         }
     }),
