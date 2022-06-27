@@ -7,13 +7,12 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 )
 
-// os.("HTTP_PROXY", "http://151.106.13.219:1080")
 type RespAccounts struct {
 	Accounts []Page `json:"data"`
 }
@@ -60,12 +59,12 @@ type PageIdRecieve struct {
 }
 
 type CommentsReplyFront struct {
-	Com string
-	Rep string
+	Com string `json:"text1"`
+	Rep string `json:"text2"`
 }
 
 type Allblocks struct {
-	ListOfBlocks []CommentsReplyFront
+	ListOfBlocks []CommentsReplyFront `json:"data"`
 }
 
 type AllMediaToShow struct {
@@ -96,6 +95,13 @@ type MediaKid struct {
 	KidId  string `json:"id"`
 }
 
+type Status struct {
+	StatusText    int    `json:"status"`
+	StatusComment string `json:"commentId"`
+	StatusReply   string `json:"replyId"`
+	StatusDelete  bool   `json:"deleteStatus"`
+}
+
 var Blocks []CommentsReplyFront
 
 //var proxyUrl, _ = url.Parse("http://50.207.253.118:80")
@@ -108,8 +114,13 @@ var AccessToken = "" //AccessToken from File, see each request
 var UserId = ""
 var MyId string
 var MyPageId string
+var NewStore []string
+var StatusOfProcess Status
+var CurrentComment CommentR
+var currentReply ReplyR
+var currentDel DelR
 
-//Read Access_token from file.
+//ReadAccess Read Access_token from file.
 func ReadAccess(c *gin.Context) {
 
 	var BodyAccessId AcsessIdRecieve
@@ -125,7 +136,7 @@ func ReadAccess(c *gin.Context) {
 
 }
 
-//Return the whole list of fb pages of current UserId
+//GetPage Return the whole list of fb pages of current UserId
 func GetPage(Token string, UserId string) []Page {
 	if Token == "" || UserId == "" {
 		log.Fatal("There is no token or UserID to find Pages")
@@ -152,7 +163,7 @@ func GetPage(Token string, UserId string) []Page {
 	return responsePage.Accounts
 }
 
-//Creating json for GET method
+//GetListOfPages Creating json for GET method
 func GetListOfPages(c *gin.Context) {
 	var Pages = GetPage(AccessToken, UserId)
 	c.JSON(200, Pages)
@@ -161,7 +172,7 @@ func GetListOfPages(c *gin.Context) {
 	return
 }
 
-//Recieving an ID of FB page from POST method
+//PageId Recieving an ID of FB page from POST method
 func PageId(c *gin.Context) {
 	var BodyPageIdRecieve PageIdRecieve
 	if err := c.BindJSON(&BodyPageIdRecieve); err != nil {
@@ -172,7 +183,7 @@ func PageId(c *gin.Context) {
 	fmt.Println(MyPageId)
 }
 
-//Return ID os Instagram account
+//GetInstaId Return ID os Instagram account
 func GetInstaId(Token string) string {
 
 	if Token == "" || MyPageId == "" {
@@ -201,7 +212,7 @@ func GetInstaId(Token string) string {
 	return responseIg.IgAccounts.MyInstagramId
 }
 
-//Return full data about user's current Post
+//GetMediaToShow Return full data about user's current Post
 func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 	if IdIg == "" || Token == "" {
 		log.Fatal("There is no Id of Ig account or token to get media")
@@ -230,7 +241,7 @@ func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 	return responseMedia.PostsOfAccount
 }
 
-//Creating json to GET method
+//GetPosts Creating json to GET method
 func GetPosts(c *gin.Context) {
 	var MyInstagramAccount = GetInstaId(AccessToken)
 	var Posts = GetMediaToShow(MyInstagramAccount, AccessToken)
@@ -239,7 +250,7 @@ func GetPosts(c *gin.Context) {
 	return
 }
 
-//Recieving an ID of IG post from POST method
+//PostId Recieving an ID of IG post from POST method
 func PostId(c *gin.Context) {
 	var BodyMyId CurrentPostType
 	if err := c.BindJSON(&BodyMyId); err != nil {
@@ -247,11 +258,12 @@ func PostId(c *gin.Context) {
 	}
 	MyId = BodyMyId.Id
 	//PostsIds = append(PostsIds, MyId)
-	c.IndentedJSON(http.StatusCreated, MyId)
+	c.IndentedJSON(http.StatusOK, MyId)
+	log.Println(MyId)
 	//fmt.Println("Id первого поста должен добавится в слайс")
 }
 
-//Recieving an File with Hashtags from POST Method and save it on computer
+//GettingFile Recieving an File with Hashtags from POST Method and save it on computer
 func GettingFile(c *gin.Context) {
 
 	var BodyFile FileRecieve
@@ -266,20 +278,30 @@ func GettingFile(c *gin.Context) {
 
 }
 
-func Sorting() string {
-	var SortedList = RecievedFile
+func Sorting() []string {
+	var SortedList []string
+	SortedList = strings.Split(RecievedFile, " ")
+	var NewHash string
+	for i := 0; i < len(SortedList); i++ {
+		if SortedList[i] != "" {
+			NewHash = "#" + SortedList[i]
+			NewStore = append(NewStore, NewHash)
+		}
+	}
+
 	log.Println("file *sorted*")
-	return SortedList
+	return NewStore
 
 }
 
 func GetSortedList(c *gin.Context) {
-	c.JSON(200, Sorting)
+	var SortedListGet = Sorting()
+	c.JSON(200, SortedListGet)
 	fmt.Println("Отсортированный лист хештегов")
 	return
 }
 
-//Creating:
+//Hashtaging Creating:
 //1.Comment at current post from PostId method
 //2.Reply with ReplyBody parameter to current Id Comment
 //3.Deleting Comment
@@ -315,8 +337,6 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	var CurrentComment CommentR
 
 	json.Unmarshal(bodyComment, &CurrentComment)
 
@@ -354,8 +374,6 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	var currentReply ReplyR
 
 	json.Unmarshal(bodyReply, &currentReply)
 
@@ -395,15 +413,13 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 		log.Fatal(err)
 	}
 
-	var currentDel DelR
-
 	json.Unmarshal(bodyDelComment, &currentDel)
 
-	fmt.Println("status of delete", currentDel.DelStatus)
+	log.Println("status of delete", currentDel.DelStatus)
 
 }
 
-//add all blocks in Blocks slice with CommentsReplyFront struct for Post method to use comment and reply in process
+//PostCommentReply add all blocks in Blocks slice with CommentsReplyFront struct for Post method to use comment and reply in process
 func PostCommentReply(c *gin.Context) {
 
 	var MyBlocks Allblocks
@@ -411,25 +427,32 @@ func PostCommentReply(c *gin.Context) {
 		return
 	}
 
-	var Blocks []CommentsReplyFront
 	Blocks = MyBlocks.ListOfBlocks
 
 	//Blocks = append(Blocks, CurrentBlock)
 	c.IndentedJSON(http.StatusCreated, Blocks)
+	log.Println(Blocks)
+
+	//log.Println(Blocks[0].Com, Blocks[0].Rep, Blocks[len(Blocks)-1])
+
 }
 
 //Random func for time-waiting between requests
-func random(min, max int) int {
-	rand.Seed(time.Now().Unix())
-	if min > max {
-		return min
-	} else {
-		return rand.Intn(max-min) + min
-	}
+//func random(min, max int) int {
+//	rand.Seed(time.Now().Unix())
+//	if min > max {
+//		return min
+//	} else {
+//		return rand.Intn(max-min) + min
+//	}
+//}
+
+func StatusGet(cr *gin.Context) {
+	cr.IndentedJSON(http.StatusOK, StatusOfProcess)
 }
 
-//main Process of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
-func Process() {
+//Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
+func Process(c *gin.Context) {
 	//Creating
 
 	var CurrentReplyBody = ""
@@ -441,11 +464,21 @@ func Process() {
 		CurrentReplyBody = Blocks[T].Rep
 		CurrentCommentBody = Blocks[T].Com
 
-		time.Sleep(60 * time.Second)
 		Hashtaging(CurrentReplyBody, CurrentCommentBody)
-
+		var strT = T + 1
+		//var strLen = string(len(Blocks))
+		err := c.BindJSON(&StatusOfProcess)
+		if err != nil {
+			return
+		}
+		StatusOfProcess.StatusText = strT
+		StatusOfProcess.StatusComment = CurrentComment.CommentId
+		StatusOfProcess.StatusReply = currentReply.ReplyId
+		StatusOfProcess.StatusDelete = currentDel.DelStatus
+		//c.IndentedJSON(200, StatusOfProcess.StatusText)
+		time.Sleep(60 * time.Second)
 	}
-
+	c.JSON(200, gin.H{"status": "end of list"})
 }
 
 func main() {
@@ -457,9 +490,14 @@ func main() {
 	route.GET("/api/hashtags/all-instagram-posts", GetPosts)
 	route.POST("/api/hashtags/file-of-hashtags", GettingFile)
 	route.GET("/api/hashtags/sorted-hashtags", GetSortedList)
-	route.POST("/api/hashtags/get-post-id", PostId)
+	route.POST("/api/hashtags/post-id", PostId)
 	route.POST("/api/hashtags/all-blocks", PostCommentReply)
+	route.GET("/api/hashtags/process", Process)
+	route.GET("/api/hashtags/process/status", StatusGet)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	route.RunTLS(":8080", "C:/Users/HP/example.com+5.pem", "C:/Users/HP/example.com+5-key.pem")
-	Process()
+	err := route.RunTLS(":8080", "C:/Users/HP/example.com+5.pem", "C:/Users/HP/example.com+5-key.pem")
+	if err != nil {
+		return
+	}
+
 }
