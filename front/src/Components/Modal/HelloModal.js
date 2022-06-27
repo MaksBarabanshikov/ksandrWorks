@@ -12,7 +12,6 @@ import {closeModalFB, nextStep} from "../../redux/modules/modalSlice";
 const HelloModal = () => {
     const isOpen = useSelector(state => state.modalFb.isOpen)
     const step = useSelector(state => state.modalFb.step)
-    // const [step, setStep] = useState(1)
     const [sliderId, setSliderId] = useState(null)
 
     const dispatch = useDispatch()
