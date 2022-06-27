@@ -14,8 +14,8 @@ const modalSlice = createSlice({
             state.isOpen = true
         },
         closeModalFB: state => {
-            state.isOpen = false
             setTimeout(() => state.step = 1, 500)
+            state.isOpen = false
         },
         openModalProcess: state => {
             state.isOpenProcess = true
