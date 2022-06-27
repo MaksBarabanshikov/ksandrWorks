@@ -15,6 +15,7 @@ import axios from "axios";
 import './Home.scss';
 import {openModalProcess} from "../../redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
+import Loader from "../../Components/common/Loader";
 
 
 const Home = () => {
@@ -199,6 +200,7 @@ const Home = () => {
                 </div>
             </div>
             {isOpenProcess && <ProcessBarModal/>}
+            <Loader width={50} height={50}/>
             <HelloModal/>
 
         </>

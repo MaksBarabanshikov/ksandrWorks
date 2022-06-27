@@ -77,10 +77,7 @@ const ProcessBarModal = () => {
                 <div className="modal__body_main">
                     {isLoading && <h1>Идёт загрузка...</h1>}
                     {error && <h1>Произошла ошибка</h1>}
-                    {status && <div className="border-bottom">
-                        <h1>Осталось: {status}</h1>
-                    </div>
-                    }
+                    {status && <h1>Осталось: {status}</h1>}
                     <div className="modal__body_main-btn flex">
                         <button
                             className="btn blue-btn"
