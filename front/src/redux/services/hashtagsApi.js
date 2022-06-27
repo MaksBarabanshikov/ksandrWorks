@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 ///api/hashtags/process
 
-export const baseUrl = 'https://localhost:8080/'
+export const baseUrl = 'https://localhost:3000/'
 
 export const hashtagsApi = createApi({
     reducerPath: 'hashtagsApi',
     baseQuery: fetchBaseQuery({
         baseUrl,
-        mode: 'cors',
+        mode: 'no-cors',
         prepareHeaders: (headers, {getProcess}) => {
             headers.set('Access-Control-Allow-Origin', '*')
             return headers
