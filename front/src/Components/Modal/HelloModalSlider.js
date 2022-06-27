@@ -4,6 +4,7 @@ import NewPrevArrow from "../common/NewPrevArrow";
 import NewNextArrow from "../common/NewNextArrow";
 import axios from "axios";
 import {useSelector} from "react-redux";
+import Loader from "../common/Loader";
 
 const HelloModalSlider = ({getId}) => {
     const [activeSlide, setActiveSlide] = useState(0)
@@ -58,7 +59,7 @@ const HelloModalSlider = ({getId}) => {
         )
 
     } else {
-        return <p>Загрузка...</p>
+        return <Loader width={50} height={50}/>
     }
 
 }
