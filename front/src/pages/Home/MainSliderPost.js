@@ -5,6 +5,7 @@ import NewNextArrow from "../../Components/common/NewNextArrow";
 import NewPrevArrow from "../../Components/common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
 import axios from "axios";
+import Loader from "../../Components/common/Loader";
 //import {addPostId} from "../../../redux/modules/instaPostsSlice";
 
 const MainSliderPost = () => {
@@ -47,7 +48,7 @@ const MainSliderPost = () => {
     }
 
     if (status === 'loading') {
-        return (<span>Загрузка...</span>)
+        return (<Loader width={50} height={50}/>)
     } else if (!posts.length) {
         return <span>Постов нет</span>
     } else {
