@@ -45,13 +45,12 @@ const ProcessBarModal = () => {
 }
 export const RepeatGetStatus = () => {
     const {data: status, isLoading, refetch, error} = useRepeatGetProcessQuery()
-    setInterval(() => refetch(), 5000)
+    setInterval(() => refetch(), 10000)
     if (isLoading) {
         return <Loader width={50} height={50}/>
     }
     if (status) {
-        console.log(status)
-        return <h1>Работает</h1>
+        return <h1>Обработалось постов: {status.status}</h1>
     }
     return <h1>{error.status} {JSON.stringify(error.data)}</h1>
 }
