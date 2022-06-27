@@ -50,7 +50,8 @@ export const RepeatGetStatus = () => {
         return <Loader width={50} height={50}/>
     }
     if (status) {
-        return <h1>Осталось: {status}</h1>
+        console.log(status)
+        return <h1>Работает</h1>
     }
     return <h1>{error.status} {JSON.stringify(error.data)}</h1>
 }
