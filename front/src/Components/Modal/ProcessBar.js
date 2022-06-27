@@ -1,13 +1,11 @@
-import {hashtagsApi, useGetProcessQuery, useRepeatGetProcessQuery} from "../../redux/services/hashtagsApi";
+import {useGetProcessQuery, useRepeatGetProcessQuery} from "../../redux/services/hashtagsApi";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
-import React, {useEffect, useState} from "react";
 
 const ProcessBarModal = () => {
-    const [state, setState] = useState(null);
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
 
     let content = GetStatus()
@@ -58,7 +56,7 @@ export const RepeatGetStatus = () => {
 }
 
 export const GetStatus = () => {
-    const {data: status, isLoading} = useRepeatGetProcessQuery()
+    const {data: status, isLoading} = useGetProcessQuery()
 
     if (isLoading) {
         return <Loader width={50} height={50}/>
