@@ -47,7 +47,7 @@ const Home = () => {
 
     const onSubmit = data => {
         if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
-            alert('The File APIs are not fully supported in this browser.')
+            alert('Файловые API не полностью поддерживаются в этом браузере.')
         }
 
         const file = data.files[0]

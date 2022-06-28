@@ -45,7 +45,7 @@ const ProcessBarModal = () => {
     )
 }
 export const RepeatGetStatus = () => {
-    const {data, isLoading, refetch, error} = useRepeatGetProcessQuery()
+    const {data, refetch} = useRepeatGetProcessQuery()
     setInterval(() => refetch(), 10000)
     if (data) {
         return <>
@@ -53,18 +53,25 @@ export const RepeatGetStatus = () => {
             <hr/>
             <p>commentId: {data.commentId}</p>
             <hr/>
-            <p>commentId: {data.commentId}</p>
-            <hr/>
             <p>replyId: {data.replyId}</p>
             <hr/>
             <p>deleteStatus: {data.deleteStatus}</p>
             <hr/>
-            <ProgressBar completed={data.percent}/>
+            <ProgressBar
+                completed={data.percent}
+                animateOnRender={true}
+                baseBgColor={'#F3F3F3FF'}
+                bgColor={'#0066EAFF'}
+                height={'30px'}
+                margin={'10px 0'}
+            />
         </>
     } else {
-        return <p className="mt-20">Подготовка к обработке</p>
+        return <p>Подготовка к обработке</p>
     }
 }
+
+
 
 export const GetStatus = () => {
     const {data: status, isLoading} = useGetProcessQuery()

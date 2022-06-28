@@ -1,59 +1,35 @@
 import FacebookLogin, {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 import FBLogo from "../image/Logotype-Facebook.svg";
 import getAccessId from "../request/POST/getAccessId";
-import React, {useState} from "react";
 import Block from "../Components/common/Block";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {openModalFB} from "../redux/modules/modalSlice";
+import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
 
 
 const ReactFacebookLogin = () => {
+    const user = useSelector(state => state.facebook.user)
     const dispatch = useDispatch()
-    let localStorageFB = JSON.parse(localStorage.getItem("FB"))
-    if (!localStorageFB) {
-        localStorage.setItem("FB", JSON.stringify({
-            isLoggedIn: false,
-            userID: "",
-            name: "",
-            email: "",
-            picture: ""
-        }))
-    }
-    const [data, setData] = useState(localStorageFB)
 
     const FBLogout = () => {
         FacebookLoginClient.logout(() => {
-            setData({
-                isLoggedIn: false,
-                userID: "",
-                name: "",
-                email: "",
-                picture: ""
-            })
-            localStorage.removeItem("token_FB")
-            localStorage.setItem("FB", JSON.stringify({
-                isLoggedIn: false,
-                userID: "",
-                name: "",
-                email: "",
-                picture: ""
-            }))
+            dispatch(logoutFb())
             console.log('logout completed!')
         })
     }
 
     let fbContent
 
-    if (data.isLoggedIn) {
+    if (user.isLoggedIn) {
         fbContent = (
             <div className="facebook__account">
-                <img src={data.picture} alt=""/>
+                <img src={user.picture} alt=""/>
                 <Block stylees="logo__text">
                     <h3>
-                        {data.name}
+                        {user.name}
                     </h3>
                     <h6 className="logo__title">
-                        {data.email}
+                        {user.email}
                     </h6>
                 </Block>
                 <button className="blue-btn" onClick={() => FBLogout()}>
@@ -74,7 +50,10 @@ const ReactFacebookLogin = () => {
                 }}
                 onSuccess={(response) => {
                     getAccessId(response)
-                    localStorage.setItem("token_FB", JSON.stringify(response.accessToken))
+                    dispatch(createTokenAndUserID({
+                        token: response.accessToken,
+                        userID: response.userID
+                    }))
                     dispatch(openModalFB())
                 }}
                 onFail={(error) => {
@@ -82,14 +61,13 @@ const ReactFacebookLogin = () => {
                 }}
                 onProfileSuccess={(response) => {
                     console.log('Get Profile Success!', response);
-                    localStorage.setItem("FB", JSON.stringify({
+                    dispatch(createUser({
                         isLoggedIn: true,
                         userID: response.userID,
                         name: response.name,
                         email: response.email,
                         picture: response.picture.data.url
                     }))
-                    setData(JSON.parse(localStorage.getItem("FB")))
                 }}
                 render={({onClick}) => (
                     <img onClick={onClick} className="logo-image" src={FBLogo} alt="logo"/>

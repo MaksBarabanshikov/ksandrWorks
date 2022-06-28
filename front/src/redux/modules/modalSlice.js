@@ -35,7 +35,6 @@ export const {
     openModalFB,
     closeModalFB,
     nextStep,
-    resetStep,
     closeModalProcess,
     openModalProcess
 } = modalSlice.actions
