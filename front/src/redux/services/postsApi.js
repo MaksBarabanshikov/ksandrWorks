@@ -32,4 +32,8 @@ export const postsApi = createApi({
     }),
 })
 
-export const {useGetPostsQuery, useAddProductMutation, useDeleteProductsMutation} = postsApi
+export const {
+    useGetPostsQuery,
+    useAddProductMutation,
+    useDeleteProductsMutation,
+} = postsApi

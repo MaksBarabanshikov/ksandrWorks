@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import Header from "../../Components/header/Header";
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
@@ -10,18 +10,28 @@ import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useDispatch, useSelector} from "react-redux";
-import {addFavorites, getFavorites, getFavoritesAPI} from "../../redux/modules/favoritesSlice";
+import {addFavorites, getFavorites, getFavoritesAPI, transformFavorites} from "../../redux/modules/favoritesSlice";
 import axios from "axios";
 import {openModalProcess} from "../../redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
 import './Home.scss';
+import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} from "../../redux/services/hashtagsApi";
+import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 
 
 const Home = () => {
     const refInput1 = useRef()
     const refInput2 = useRef()
     const {register, handleSubmit} = useForm()
-    const favoritesFromApi = useSelector(state => state.favorites.favoritesFromApi)
+    const [sendFile, isFulfilled] = useSendFileMutation()
+    const {data: favorites} = useGetFavoritesQuery(isFulfilled.status === "fulfilled" ?
+        null :
+        skipToken)
+    const [sendFavorites, {}] = useSendFavoritesMutation()
+
+
+    // const favoritesFromApi = useSelector(state => state.favorites.favoritesFromApi)
+    const myFavorites = useSelector(state => state.favorites.favorites)
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
 
     const dispatch = useDispatch()
@@ -45,6 +55,12 @@ const Home = () => {
         }
     }
 
+    useEffect(() => {
+        if (favorites) {
+            dispatch(transformFavorites(favorites))
+        }
+    }, [favorites])
+
     const onSubmit = data => {
         if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
             alert('Файловые API не полностью поддерживаются в этом браузере.')
@@ -60,43 +76,50 @@ const Home = () => {
 
         reader.readAsText(file)
 
-        reader.onload = () => {
-            fileOfHashtags(reader.result)
-                .then(res => {
-                    console.log(res)
-                })
-                .catch(e => console.log(e))
-                .finally(() => {
-                    setTimeout(() => dispatch(getFavoritesAPI()), 500)
-                })
+        reader.onload = async () => {
+            await sendFile({
+                file: reader.result
+            })
+            // fileOfHashtags(reader.result)
+            //     .then(res => {
+            //         console.log(res)
+            //     })
+            //     .catch(e => console.log(e))
+            //     .finally(() => {
+            //         setTimeout(() => dispatch(getFavoritesAPI()), 500)
+            //     })
         }
     }
 
-    const sendFavorites = useCallback(
-        async () => {
-            if (favoritesFromApi.length) {
-                await axios.post('/api/hashtags/all-blocks', {
-                        data: favoritesFromApi
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(e => {
-                        console.log(e)
-                    })
-            }
-        },
-        [favoritesFromApi],
-    );
+    // const sendFavorites = useCallback(
+    //     async () => {
+    //         if (favoritesFromApi.length) {
+    //             await axios.post('/api/hashtags/all-blocks', {
+    //                     data: favoritesFromApi
+    //                 },
+    //                 {
+    //                     headers: {
+    //                         'Content-Type': 'application/json'
+    //                     }
+    //                 })
+    //                 .then(res => {
+    //                     console.log(res)
+    //                 })
+    //                 .catch(e => {
+    //                     console.log(e)
+    //                 })
+    //         }
+    //     },
+    //     [favoritesFromApi],
+    // );
 
     const sendForProcessing = async () => {
-        dispatch(getFavorites())
-        await sendFavorites()
+        const data = myFavorites.map(f => ({
+                text1: f.text1,
+                text2: f.text2.join(" "),
+            }
+        ))
+        await sendFavorites({data})
         dispatch(openModalProcess())
     }
 

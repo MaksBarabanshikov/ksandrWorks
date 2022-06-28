@@ -2,15 +2,12 @@ import React, {useEffect, useState} from "react";
 import Slider from "react-slick"
 import NewPrevArrow from "../common/NewPrevArrow";
 import NewNextArrow from "../common/NewNextArrow";
-import axios from "axios";
-import {useSelector} from "react-redux";
 import Loader from "../common/Loader";
+import {useGetPagesQuery} from "../../redux/services/hashtagsApi";
 
 const HelloModalSlider = ({getId}) => {
     const [activeSlide, setActiveSlide] = useState(0)
-    const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true)
-    const id = useSelector(state => state.modalFb.id)
+    const {data, isLoading} = useGetPagesQuery()
 
     const settings = {
         dots: false,
@@ -24,43 +21,42 @@ const HelloModalSlider = ({getId}) => {
     }
 
     useEffect(() => {
-        axios.get(`/api/hashtags/get-pages`)
-            .then(res => {
-                setData(res.data)
-            })
-            .catch(e => {
-                console.log(e)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
-    }, [])
-
-    useEffect(() => {
-        if (data.length){
+        if (data) {
             getId(data[activeSlide].id)
-            console.log("data:",data)
         }
-    },[data])
+    }, [data, activeSlide])
 
-    if (!loading) {
-        return (
-            <div className="modal__body_main-slider">
-                <Slider {...settings}>
-                    {data.map(d => (
-                        <div className="modal__body-slide-cont" key={d.id}>
-                            <div className="modal__body-slide-item">
-                                <span>{d.name}</span>
+    const content = () => {
+
+        if (isLoading) {
+            return <Loader width={50} height={50}/>
+        }
+
+        if (data) {
+            return (
+                <div className="modal__body_main-slider">
+                    <Slider {...settings}>
+                        {data.map(page => (
+                            <div className="modal__body-slide-cont" key={page.id}>
+                                <div style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }} className="modal__body-slide-item">
+                                    <span>{page.name}</span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </Slider>
-            </div>
-        )
+                        ))}
+                    </Slider>
+                </div>
+            )
+        }
 
-    } else {
-        return <Loader width={50} height={50}/>
+        return <p>Произошла ошибка</p>
+
     }
 
+
+    return content()
 }
 export default HelloModalSlider

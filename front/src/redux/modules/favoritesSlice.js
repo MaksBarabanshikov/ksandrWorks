@@ -60,12 +60,29 @@ const favoritesSlice = createSlice({
             })
         },
 
-        getFavorites: state => {
-            state.favoritesFromApi = state.favorites.map(f => ({
-                    text1: f.text1,
-                    text2: f.text2.join(" "),
-                }
-            ))
+        // getFavorites: state => {
+        //     state.favoritesFromApi = state.favorites.map(f => ({
+        //             text1: f.text1,
+        //             text2: f.text2.join(" "),
+        //         }
+        //     ))
+        // },
+
+        transformFavorites: (state, action) => {
+            const size = 25; //размер подмассива
+            const subarray = [];
+            //массив в который будет выведен результат.
+            let newFavorite = state.favorites
+            for (let i = 0; i < Math.ceil(action.payload.length / size); i++) {
+                subarray[i] = action.payload.slice((i * size), (i * size) + size);
+                newFavorite.push({
+                    id: uniqueId(),
+                    selected: false,
+                    text1: `${i + 1}`,
+                    text2: subarray[i]
+                })
+            }
+            state.favorites = newFavorite
         },
 
         selectAll: state => {
@@ -86,47 +103,48 @@ const favoritesSlice = createSlice({
             const checkedFavorite = state.favorites.find(f => f.id === action.payload.id)
             checkedFavorite.selected = !checkedFavorite.selected
         },
+
         saveHandler: (state, action) => {
             const changedFavorite = state.favorites.find(f => f.id === action.payload.id)
             changedFavorite.text1 = action.payload.text1
             changedFavorite.text2 = action.payload.text2
         }
     },
-    extraReducers: {
-        [getFavoritesAPI.pending]: state => {
-            state.status = 'loading'
-            state.error = null
-        },
-        [getFavoritesAPI.fulfilled]: (state, action) => {
-            state.status = 'resolve'
-            const size = 25; //размер подмассива
-            const subarray = []; //массив в который будет выведен результат.
-            let newFavorite = state.favorites
-            for (let i = 0; i < Math.ceil(action.payload.length / size); i++) {
-                subarray[i] = action.payload.slice((i * size), (i * size) + size);
-                newFavorite.push({
-                    id: uniqueId(),
-                    selected: false,
-                    text1: `${i + 1}`,
-                    text2: subarray[i]
-                })
-            }
-            state.favorites = newFavorite
-        },
-        [getFavoritesAPI.rejected]: state => {
-            state.status = 'error'
-        },
-    }
+    // extraReducers: {
+    //     [getFavoritesAPI.pending]: state => {
+    //         state.status = 'loading'
+    //         state.error = null
+    //     },
+    //     [getFavoritesAPI.fulfilled]: (state, action) => {
+    //         state.status = 'resolve'
+    //         const size = 25; //размер подмассива
+    //         const subarray = []; //массив в который будет выведен результат.
+    //         let newFavorite = state.favorites
+    //         for (let i = 0; i < Math.ceil(action.payload.length / size); i++) {
+    //             subarray[i] = action.payload.slice((i * size), (i * size) + size);
+    //             newFavorite.push({
+    //                 id: uniqueId(),
+    //                 selected: false,
+    //                 text1: `${i + 1}`,
+    //                 text2: subarray[i]
+    //             })
+    //         }
+    //         state.favorites = newFavorite
+    //     },
+    //     [getFavoritesAPI.rejected]: state => {
+    //         state.status = 'error'
+    //     },
+    // }
 })
 
 export const {
     addFavorites,
-    getFavorites,
     selectAll,
     removeAllSelect,
     removeHandler,
     selectHandler,
-    saveHandler
+    saveHandler,
+    transformFavorites
 } = favoritesSlice.actions
 
 export default favoritesSlice.reducer

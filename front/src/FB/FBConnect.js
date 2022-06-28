@@ -1,14 +1,15 @@
 import FacebookLogin, {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 import FBLogo from "../image/Logotype-Facebook.svg";
-import getAccessId from "../request/POST/getAccessId";
 import Block from "../Components/common/Block";
 import {useDispatch, useSelector} from "react-redux";
 import {openModalFB} from "../redux/modules/modalSlice";
 import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
+import {useSendTokenFbMutation} from "../redux/services/hashtagsApi";
 
 
 const ReactFacebookLogin = () => {
     const user = useSelector(state => state.facebook.user)
+    const [sendTokenFb, {}] = useSendTokenFbMutation()
     const dispatch = useDispatch()
 
     const FBLogout = () => {
@@ -19,6 +20,7 @@ const ReactFacebookLogin = () => {
     }
 
     let fbContent
+    dispatch(openModalFB())
 
     if (user.isLoggedIn) {
         fbContent = (
@@ -49,12 +51,14 @@ const ReactFacebookLogin = () => {
                     localStorage: true
                 }}
                 onSuccess={(response) => {
-                    getAccessId(response)
                     dispatch(createTokenAndUserID({
                         token: response.accessToken,
                         userID: response.userID
                     }))
-                    dispatch(openModalFB())
+                    sendTokenFb({
+                        accessToken: response.accessToken,
+                        userID: response.userID
+                    })
                 }}
                 onFail={(error) => {
                     console.log('Login Failed!', error);

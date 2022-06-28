@@ -1,31 +1,41 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
-import currentFbPage from "../../request/POST/currentFbPage";
+// import currentFbPage from "../../request/POST/currentFbPage";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {getPost} from "../../redux/modules/instaPostsSlice";
+// import {getPost} from "../../redux/modules/instaPostsSlice";
 import {closeModalFB, nextStep} from "../../redux/modules/modalSlice";
+import {useGetInstagramPostsQuery, useSendCurrentPageMutation} from "../../redux/services/hashtagsApi";
+import {skipToken} from "@reduxjs/toolkit/query/react";
+import {newPosts} from "../../redux/modules/instaPostsSlice";
 
 const HelloModal = () => {
     const isOpen = useSelector(state => state.modalFb.isOpen)
     const step = useSelector(state => state.modalFb.step)
     const [sliderId, setSliderId] = useState(null)
+    const [sendCurrentPage, isFulfilled ] = useSendCurrentPageMutation()
+    const {data: posts} = useGetInstagramPostsQuery(isFulfilled.status === "fulfilled"?
+        null :
+        skipToken
+    )
 
     const dispatch = useDispatch()
 
-    const getInstagramPost = () => dispatch(getPost())
+    useEffect(() => {
+        if (posts) {
+            dispatch(newPosts(posts))
+        }
+    },[posts])
 
-    const handlePostPage = () => {
-        currentFbPage(sliderId)
+    const handlePostPage = async () => {
+        await sendCurrentPage({
+            fbpage: sliderId
+        })
+        // currentFbPage(sliderId)
         dispatch(nextStep())
-    }
-
-    const handleGetPosts = async () => {
-        await getInstagramPost()
-        dispatch(closeModalFB())
     }
 
     const getId = id => setSliderId(id)
@@ -184,7 +194,7 @@ const HelloModal = () => {
                         <div className="modal__body_main-btn flex">
                             <button
                                 className="btn blue-btn"
-                                onClick={() => handleGetPosts()}
+                                onClick={() => dispatch(closeModalFB())}
                             >
                                 Начать
                             </button>
