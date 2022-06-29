@@ -13,7 +13,7 @@ const MainSliderPost = () => {
     const status = useSelector(state => state.instagramPosts.status)
     const fbPage = useSelector(state => state.facebook.fbPage)
     const {data: posts} = useGetInstagramPostsQuery(fbPage, {
-        skip: fbPage !== null
+        skip: fbPage === null
     })
     //const dispatch = useDispatch()
 

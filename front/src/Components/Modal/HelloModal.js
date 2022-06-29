@@ -18,11 +18,12 @@ const HelloModal = () => {
     const dispatch = useDispatch()
 
     const handlePostPage = async () => {
-        const fbPage = {
-            fbpage: sliderId
-        }
-        await sendCurrentPage(fbPage)
-        dispatch(createFbPage(fbPage))
+        await sendCurrentPage({
+            fbPage: sliderId
+        })
+        dispatch(createFbPage({
+            fbPage: sliderId
+        }))
         dispatch(nextStep())
     }
 

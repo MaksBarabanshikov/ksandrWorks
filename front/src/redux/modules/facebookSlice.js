@@ -25,6 +25,7 @@ const facebookSlice = createSlice({
             state.user.userID = action.payload.userID
         },
         createFbPage: (state, action) => {
+            console.log(action)
             state.user.fbPage = action.payload.fbPage
         },
         logoutFb: (state) => {
