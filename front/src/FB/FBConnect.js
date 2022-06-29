@@ -71,6 +71,7 @@ const ReactFacebookLogin = () => {
                         email: response.email,
                         picture: response.picture.data.url
                     }))
+                    dispatch(openModalFB())
                 }}
                 render={({onClick}) => (
                     <img onClick={onClick} className="logo-image" src={FBLogo} alt="logo"/>
