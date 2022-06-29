@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 ///api/hashtags/process
 
-export const baseUrl = 'https://localhost/api/hashtags/'
+export const baseUrl = 'https://localhost:3000/api/hashtags/'
 
 export const hashtagsApi = createApi({
     reducerPath: 'hashtagsApi',
