@@ -28,6 +28,8 @@ const HelloModalSlider = ({getId}) => {
 
     const content = () => {
 
+        console.log(data)
+
         if (isLoading) {
             return <Loader width={50} height={50}/>
         }
