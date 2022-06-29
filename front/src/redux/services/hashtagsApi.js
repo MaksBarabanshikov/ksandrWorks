@@ -27,12 +27,15 @@ export const hashtagsApi = createApi({
         getInstagramPosts: build.query({
             query: () => 'all-instagram-posts'
         }),
+        // Получаем pages fb
         getPages: build.query({
             query: () => `get-pages`
         }),
+        // Получаем сортированные хештеги
         getFavorites: build.query({
             query: () => 'sorted-hashtags',
         }),
+        // Отправляем токен fb
         sendTokenFb: build.mutation({
             query: (data) => ({
                 url: `get-access-id`,
@@ -40,6 +43,7 @@ export const hashtagsApi = createApi({
                 body: data
             })
         }),
+        // Отправляем выбранный page fb
         sendCurrentPage: build.mutation({
             query: (data) => ({
                 url: 'current-fb-page',
@@ -47,6 +51,7 @@ export const hashtagsApi = createApi({
                 body: data
             })
         }),
+        // Отправляем файл txt
         sendFile: build.mutation({
             query: (data) => ({
                 url: 'file-of-hashtags',
@@ -54,7 +59,8 @@ export const hashtagsApi = createApi({
                 body: data
             })
         }),
-        sendFavorites: build.mutation({
+        // Отправляем хештеги
+        sendFavorites: build.mutation( {
             query:(data) => ({
                 url: 'all-blocks',
                 method: 'POST',

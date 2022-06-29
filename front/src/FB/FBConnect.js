@@ -20,7 +20,6 @@ const ReactFacebookLogin = () => {
     }
 
     let fbContent
-    dispatch(openModalFB())
 
     if (user.isLoggedIn) {
         fbContent = (
