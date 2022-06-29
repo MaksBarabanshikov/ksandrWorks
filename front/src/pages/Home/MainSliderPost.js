@@ -6,14 +6,15 @@ import NewPrevArrow from "../../Components/common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
 import axios from "axios";
 import Loader from "../../Components/common/Loader";
-//import {addPostId} from "../../../redux/modules/instaPostsSlice";
+import {useGetInstagramPostsQuery} from "../../redux/services/hashtagsApi";
 
 const MainSliderPost = () => {
     const [activeSlide, setActiveSlide] = useState(0)
-    const posts = useSelector(state => state.instagramPosts.posts)
     const status = useSelector(state => state.instagramPosts.status)
-    // const id = useSelector(state => state.instagramPosts.id)
-
+    const fbPage = useSelector(state => state.facebook.fbPage)
+    const {data: posts} = useGetInstagramPostsQuery(fbPage,{
+        skip: fbPage !== null
+    })
     //const dispatch = useDispatch()
 
     useEffect(() => {

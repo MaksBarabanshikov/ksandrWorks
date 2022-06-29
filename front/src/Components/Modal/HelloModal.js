@@ -1,40 +1,28 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
-// import currentFbPage from "../../request/POST/currentFbPage";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-// import {getPost} from "../../redux/modules/instaPostsSlice";
 import {closeModalFB, nextStep} from "../../redux/modules/modalSlice";
-import {useGetInstagramPostsQuery, useSendCurrentPageMutation} from "../../redux/services/hashtagsApi";
-import {skipToken} from "@reduxjs/toolkit/query/react";
-import {newPosts} from "../../redux/modules/instaPostsSlice";
+import {useSendCurrentPageMutation} from "../../redux/services/hashtagsApi";
+import {createFbPage} from "../../redux/modules/facebookSlice";
 
 const HelloModal = () => {
     const isOpen = useSelector(state => state.modalFb.isOpen)
     const step = useSelector(state => state.modalFb.step)
     const [sliderId, setSliderId] = useState(null)
-    const [sendCurrentPage, isFulfilled ] = useSendCurrentPageMutation()
-    const {data: posts} = useGetInstagramPostsQuery(isFulfilled.status === "fulfilled"?
-        null :
-        skipToken
-    )
+    const [sendCurrentPage] = useSendCurrentPageMutation()
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        if (posts) {
-            dispatch(newPosts(posts))
-        }
-    },[posts])
-
     const handlePostPage = async () => {
-        await sendCurrentPage({
+        const fbPage = {
             fbpage: sliderId
-        })
-        // currentFbPage(sliderId)
+        }
+        await sendCurrentPage(fbPage)
+        dispatch(createFbPage(fbPage))
         dispatch(nextStep())
     }
 

@@ -9,7 +9,8 @@ const facebookSlice = createSlice({
             name: "",
             email: "",
             picture: "",
-            token: null
+            token: null,
+            fbPage: null
         }
     },
     reducers: {
@@ -23,6 +24,9 @@ const facebookSlice = createSlice({
             state.user.token = action.payload.token
             state.user.userID = action.payload.userID
         },
+        createFbPage: (state, action) => {
+            state.user.fbPage = action.payload.fbPage
+        },
         logoutFb: (state) => {
             state.user = {
                 isLoggedIn: false,
@@ -30,15 +34,17 @@ const facebookSlice = createSlice({
                 name: "",
                 email: "",
                 picture: "",
-                token: null
+                token: null,
+                currentFbPage: null
             }
-        }
+        },
     }
 })
 
 export const {
     createUser,
     createTokenAndUserID,
+    createFbPage,
     logoutFb
 } = facebookSlice.actions
 
