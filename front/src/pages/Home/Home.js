@@ -4,14 +4,14 @@ import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
 import HomeSide from "./HomeSide";
 import HelloModal from "../../Components/Modal/HelloModal";
-import fileOfHashtags from "../../request/POST/fileOfHashtags";
+//import fileOfHashtags from "../../request/POST/fileOfHashtags";
 import {useForm} from "react-hook-form";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, getFavorites, getFavoritesAPI, transformFavorites} from "../../redux/modules/favoritesSlice";
-import axios from "axios";
+//import axios from "axios";
 import {openModalProcess} from "../../redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
 import './Home.scss';

@@ -7,7 +7,7 @@ import {useGetPagesQuery} from "../../redux/services/hashtagsApi";
 
 const HelloModalSlider = ({getId}) => {
     const [activeSlide, setActiveSlide] = useState(0)
-    const {data, isLoading, error} = useGetPagesQuery()
+    const {data: pages, isLoading, error} = useGetPagesQuery()
 
     const settings = {
         dots: false,
@@ -21,22 +21,27 @@ const HelloModalSlider = ({getId}) => {
     }
 
     useEffect(() => {
-        if (data) {
-            getId(data[activeSlide].id)
+        if (pages) {
+            getId(pages[activeSlide].id)
         }
-    }, [data, activeSlide])
+    }, [pages, activeSlide])
 
     return (
         <div className="modal__body_main-slider">
             {isLoading && <Loader width={50} height={50}/>}
-            {data && <Slider {...settings}>
-                {data.map(page => (
+            {pages && <Slider {...settings}>
+                {pages.map(page => (
                     <div className="modal__body-slide-cont" key={page.id}>
-                        <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }} className="modal__body-slide-item">
+                        <div
+                            style={
+                                {
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }
+                            }
+                            className="modal__body-slide-item"
+                        >
                             <span>{page.name}</span>
                         </div>
                     </div>

@@ -29,7 +29,14 @@ export const hashtagsApi = createApi({
         }),
         // Получаем pages fb
         getPages: build.query({
-            query: () => `get-pages`
+            query: () => `get-pages`,
+            async onQueryStarted(body,{ dispatch, queryFulfilled }) {
+                queryFulfilled.then(res => {
+                    console.log(res)
+                }).catch(e => {
+                    console.log(e)
+                })
+            }
         }),
         // Получаем сортированные хештеги
         getFavorites: build.query({
