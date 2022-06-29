@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { useSelector } from 'react-redux'
+import {useSelector} from 'react-redux'
 import Slider from "react-slick";
 import NewNextArrow from "../../Components/common/NewNextArrow";
 import NewPrevArrow from "../../Components/common/NewPrevArrow";
@@ -12,13 +12,13 @@ const MainSliderPost = () => {
     const [activeSlide, setActiveSlide] = useState(0)
     const status = useSelector(state => state.instagramPosts.status)
     const fbPage = useSelector(state => state.facebook.fbPage)
-    const {data: posts} = useGetInstagramPostsQuery(fbPage,{
+    const {data: posts} = useGetInstagramPostsQuery(fbPage, {
         skip: fbPage !== null
     })
     //const dispatch = useDispatch()
 
     useEffect(() => {
-        if (posts.length) {
+        if (posts?.length) {
             axios.post('/api/hashtags/post-id', {
                     id: posts[activeSlide].id
                 },
@@ -34,7 +34,7 @@ const MainSliderPost = () => {
                     console.log(e)
                 })
         }
-    },[activeSlide,posts])
+    }, [activeSlide, posts])
 
     let settings = {
         dots: false,
@@ -50,9 +50,11 @@ const MainSliderPost = () => {
 
     if (status === 'loading') {
         return (<Loader width={50} height={50}/>)
-    } else if (!posts.length) {
-        return <span>Постов нет</span>
-    } else {
+    }
+    if (posts) {
+        if (!posts?.length) {
+            return <span>Постов нет, добавьте посты</span>
+        }
         return (<>
             <Slider {...settings}>
                 {posts.map(post => (<div className="slider-post__item" key={post.id}>
@@ -82,6 +84,9 @@ const MainSliderPost = () => {
                     </span>
             </div>
         </>)
+    }
+    if (!posts) {
+        return <span>Войдите в аккаунт facebook</span>
     }
 }
 
