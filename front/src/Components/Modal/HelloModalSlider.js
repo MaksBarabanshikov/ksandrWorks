@@ -7,7 +7,7 @@ import {useGetPagesQuery} from "../../redux/services/hashtagsApi";
 
 const HelloModalSlider = ({getId}) => {
     const [activeSlide, setActiveSlide] = useState(0)
-    const {data: pages, isLoading} = useGetPagesQuery()
+    const {data: pages, isLoading, error} = useGetPagesQuery()
 
     const settings = {
         dots: false,
@@ -54,7 +54,7 @@ const HelloModalSlider = ({getId}) => {
             )
         }
 
-        return <p>Произошла ошибка</p>
+        return <div>{error.status} {JSON.stringify(error.data)}</div>
 
     }
 
