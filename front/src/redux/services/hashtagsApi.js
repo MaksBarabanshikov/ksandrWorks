@@ -25,7 +25,8 @@ export const hashtagsApi = createApi({
         }),
         // Получаем посты инстаграм
         getInstagramPosts: build.query({
-            query: () => 'all-instagram-posts'
+            query: () => 'all-instagram-posts',
+            keepUnusedDataFor: 5
         }),
         // Получаем pages fb
         getPages: build.query({

@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {openModalFB} from "../redux/modules/modalSlice";
 import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
 import {useSendTokenFbMutation} from "../redux/services/hashtagsApi";
+import {clearPosts} from "../redux/modules/instaPostsSlice";
 
 
 const ReactFacebookLogin = () => {
@@ -15,6 +16,7 @@ const ReactFacebookLogin = () => {
     const FBLogout = () => {
         FacebookLoginClient.logout(() => {
             dispatch(logoutFb())
+            dispatch(clearPosts())
             console.log('logout completed!')
         })
     }

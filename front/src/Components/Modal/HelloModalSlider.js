@@ -47,7 +47,7 @@ const HelloModalSlider = ({getId}) => {
                     </div>
                 ))}
             </Slider>}
-            {error && <div>{error.status} {JSON.stringify(error.data)}</div>}
+            {error && <div>{JSON.stringify(error.data.message)}</div>}
         </div>
     )
 }
