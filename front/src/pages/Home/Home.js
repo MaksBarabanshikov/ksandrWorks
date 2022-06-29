@@ -1,17 +1,15 @@
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import Header from "../../Components/header/Header";
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
 import HomeSide from "./HomeSide";
 import HelloModal from "../../Components/Modal/HelloModal";
-//import fileOfHashtags from "../../request/POST/fileOfHashtags";
 import {useForm} from "react-hook-form";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useDispatch, useSelector} from "react-redux";
-import {addFavorites, getFavorites, getFavoritesAPI, transformFavorites} from "../../redux/modules/favoritesSlice";
-//import axios from "axios";
+import {addFavorites, transformFavorites} from "../../redux/modules/favoritesSlice";
 import {openModalProcess} from "../../redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
 import './Home.scss';
@@ -30,7 +28,6 @@ const Home = () => {
     const [sendFavorites, {}] = useSendFavoritesMutation()
 
 
-    // const favoritesFromApi = useSelector(state => state.favorites.favoritesFromApi)
     const myFavorites = useSelector(state => state.favorites.favorites)
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
 
@@ -80,38 +77,8 @@ const Home = () => {
             await sendFile({
                 file: reader.result
             })
-            // fileOfHashtags(reader.result)
-            //     .then(res => {
-            //         console.log(res)
-            //     })
-            //     .catch(e => console.log(e))
-            //     .finally(() => {
-            //         setTimeout(() => dispatch(getFavoritesAPI()), 500)
-            //     })
         }
     }
-
-    // const sendFavorites = useCallback(
-    //     async () => {
-    //         if (favoritesFromApi.length) {
-    //             await axios.post('/api/hashtags/all-blocks', {
-    //                     data: favoritesFromApi
-    //                 },
-    //                 {
-    //                     headers: {
-    //                         'Content-Type': 'application/json'
-    //                     }
-    //                 })
-    //                 .then(res => {
-    //                     console.log(res)
-    //                 })
-    //                 .catch(e => {
-    //                     console.log(e)
-    //                 })
-    //         }
-    //     },
-    //     [favoritesFromApi],
-    // );
 
     const sendForProcessing = async () => {
         const data = myFavorites.map(f => ({
