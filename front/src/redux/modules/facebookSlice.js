@@ -35,7 +35,7 @@ const facebookSlice = createSlice({
                 email: "",
                 picture: "",
                 token: null,
-                currentFbPage: null
+                fbPage: null
             }
         },
     }
