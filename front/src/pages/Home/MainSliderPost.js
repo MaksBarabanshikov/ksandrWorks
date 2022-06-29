@@ -36,6 +36,15 @@ const MainSliderPost = () => {
         }
     }, [activeSlide, posts])
 
+    console.log("render component",fbPage)
+
+    useEffect(() => {
+        return () => {
+            console.log("use effect component",fbPage)
+        };
+    }, [fbPage]);
+
+
     let settings = {
         dots: false,
         infinite: false,
