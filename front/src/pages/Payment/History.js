@@ -1,6 +1,5 @@
-import downloadLogo from "../../image/payment/download.svg"
-import edit from "../../image/mailing/edit.svg"
-import trash from "../../image/mailing/trash.svg"
+import edit from "../../image/edit.svg"
+import trash from "../../image/trash.svg"
 import inputLogo from "../../image/payment/ic_input.svg"
 import outputLogo from "../../image/payment/ic_output.svg"
 import {useEffect, useState} from "react";
