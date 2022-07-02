@@ -17,16 +17,10 @@ import {faKey} from "@fortawesome/free-solid-svg-icons";
 
 export const sidebarTop = [
     {img: faHashtag, text: pathName.hashtag.state, path: pathName.home.path},
-    {img: faKey, text: pathName.autoreg.state, path: pathName.autoreg.path},
-    {img: faFileDownload, text: pathName.parsing.state, path: pathName.parsing.path},
-    {img: faEnvelope, text: pathName.mailing.state, path: pathName.mailing.path},
-    {img: faComment, text: pathName.chat.state, path: pathName.chat.path},
-    {img: faStopwatch, text: pathName.session.state, path: pathName.session.path},
+    {img: faWallet, text: pathName.payment.state, path: pathName.payment.path},
 ]
 
 export const sidebarMiddle = [
-    {img: faCog, text: pathName.setting.state, path: pathName.setting.path},
-    {img: faWallet, text: pathName.payment.state, path: pathName.payment.path},
     {img: faBookOpen, text: pathName.instruction.state, path: pathName.instruction.path},
     {img: faQuestionCircle, text: pathName.faq.state, path: pathName.faq.path}
 ]

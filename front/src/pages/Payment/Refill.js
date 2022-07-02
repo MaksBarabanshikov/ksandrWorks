@@ -18,16 +18,18 @@ const Refill = ({refill}) => {
                     <span>
                         Выберите способ пополнения счета:
                     </span>
-                    <ul className="payment-refill-method-list">
-                        {refill.map(refill => (
-                            <RefillCard key={refill.type}
-                                        img={refill.img}
-                                        type={refill.type}
-                                        handleSetCard={handleSetCard}
-                                        active={selectedCard}
-                            />
-                        ))}
-                    </ul>
+                    <div className="payment-refill-method-cont">
+                        <ul className="payment-refill-method-list">
+                            {refill.map(refill => (
+                                <RefillCard key={refill.type}
+                                            img={refill.img}
+                                            type={refill.type}
+                                            handleSetCard={handleSetCard}
+                                            active={selectedCard}
+                                />
+                            ))}
+                        </ul>
+                    </div>
                     <label>
                         <span>Введите сумму пополнения счета:</span>
                         <input name="amountOfPayment" type="text"/>
