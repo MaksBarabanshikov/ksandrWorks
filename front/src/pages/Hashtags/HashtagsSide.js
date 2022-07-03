@@ -1,12 +1,12 @@
-import HomeComment from "./HomeComment";
+import HashtagsComment from "./HashtagsComment";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-svg-icons"
 import {faSave} from "@fortawesome/free-regular-svg-icons"
-import "./HomeSide.scss"
+import "./HashtagsSide.scss"
 import {useDispatch, useSelector} from "react-redux";
 import {removeAllSelect, selectAll} from "../../redux/modules/favoritesSlice";
 
-const HomeSide = () => {
+const HashtagsSide = () => {
     const dispatch = useDispatch()
     const favorites = useSelector(state => state.favorites.favorites)
     const selectAllBtn = useSelector(state => state.favorites.selectAllBtn)
@@ -53,7 +53,7 @@ const HomeSide = () => {
                     {
                         favorites.length ?
                             favorites.map((item, index) => (
-                                <HomeComment
+                                <HashtagsComment
                                     key={item.id}
                                     {...item}
                                     index={index}
@@ -67,4 +67,4 @@ const HomeSide = () => {
     )
 }
 
-export default HomeSide
+export default HashtagsSide
