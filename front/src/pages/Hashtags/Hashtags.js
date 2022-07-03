@@ -25,7 +25,7 @@ const Hashtags = () => {
     const {data: favorites} = useGetFavoritesQuery(isFulfilled.status === "fulfilled" ?
         null :
         skipToken)
-    const [sendFavorites, {}] = useSendFavoritesMutation()
+    const [sendFavorites] = useSendFavoritesMutation()
 
 
     const myFavorites = useSelector(state => state.favorites.favorites)
@@ -56,7 +56,7 @@ const Hashtags = () => {
         if (favorites) {
             dispatch(transformFavorites(favorites))
         }
-    }, [favorites])
+    }, [favorites, dispatch])
 
     const onSubmit = data => {
         if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
