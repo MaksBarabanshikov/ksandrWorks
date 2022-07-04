@@ -139,6 +139,8 @@ func ReadAccess(c *gin.Context) {
 	fmt.Println(AccessToken, UserId)
 	if AccessToken == "" || UserId == "" {
 		c.IndentedJSON(424, gin.H{"message": "There is no AccessToken or UserId, try login again using VPN"})
+		AccessToken = ""
+		UserId = ""
 		return
 	}
 	c.IndentedJSON(http.StatusCreated, BodyAccessId)
@@ -242,19 +244,20 @@ func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 
 	if err != nil {
 		fmt.Println(err)
-
+		return nil
 	}
 	defer respMedias.Body.Close()
 
 	bodyMedias, err := ioutil.ReadAll(respMedias.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return nil
 	}
 
 	var responseMedia AllMediaToShow
 	json.Unmarshal(bodyMedias, &responseMedia)
 
-	fmt.Println("media", responseMedia)
+	log.Println("media", responseMedia)
 
 	//fmt.Println("Данные постов", bodyMedias)
 	return responseMedia.PostsOfAccount
@@ -327,7 +330,7 @@ func Sorting() []string {
 func GetSortedList(c *gin.Context) {
 	var SortedListGet = Sorting()
 	c.JSON(200, SortedListGet)
-	fmt.Println("Отсортированный лист хештегов)")
+	log.Println("Отсортированный лист хештегов)")
 	return
 }
 
@@ -341,11 +344,14 @@ type ErrMsg struct {
 	msg  string
 }
 
+var CurErrMsg ErrMsg
+
 func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 
 	if ReplyBody == "" || CommentBody == "" {
 		log.Println("There is no Reply or Comment to do the process")
-		return ErrMsg{code: 242, msg: "There is no Reply or Comment to do the process"}
+		CurErrMsg = ErrMsg{code: 424, msg: "There is no Reply or Comment to do the process"}
+		return CurErrMsg
 	}
 	CommentValues := url.Values{}
 	CommentValues.Add("message", CommentBody)      //Body of first comment
@@ -354,7 +360,8 @@ func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 	//var ReallyPost = PostsIds[len(PostsIds)-1]
 	if MyId == "" {
 		log.Println("There is no PostID to do the process")
-		return ErrMsg{code: 242, msg: "There is no PostID to do the process"}
+		CurErrMsg = ErrMsg{code: 424, msg: "There is no PostID to do the process"}
+		return CurErrMsg
 	}
 	var CurrentIDPost = MyId
 
@@ -365,7 +372,8 @@ func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 
 	if err != nil {
 		log.Println(err)
-		return ErrMsg{code: 504, msg: "Fail of creating comment, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Fail of creating comment, try proxy or refresh access"}
+		return CurErrMsg
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -381,11 +389,12 @@ func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 
 	json.Unmarshal(bodyComment, &CurrentComment)
 
-	fmt.Println("post id", CurrentIDPost)
+	log.Println("post id", CurrentIDPost)
 	if CurrentComment.CommentId == "" {
 		log.Println("Fail of creating comment")
 		//CurrentComment.CommentId = "Fail of creating comment"
-		return ErrMsg{code: 242, msg: "Fail of creating comment"}
+		CurErrMsg = ErrMsg{code: 424, msg: "Fail of creating comment"}
+		return CurErrMsg
 	} else {
 		log.Println("comment id", CurrentComment.CommentId)
 	}
@@ -403,12 +412,12 @@ func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 
 	if err != nil {
 		log.Println(err)
-		return ErrMsg{code: 504, msg: "Fail of creating reply, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Fail of creating reply, try proxy or refresh access"}
+		return CurErrMsg
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
 		}
 	}(reply.Body)
 
@@ -422,7 +431,8 @@ func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 	if currentReply.ReplyId == "" {
 		log.Println("Fail of creating reply")
 		//currentReply.ReplyId = "Fail of creating reply"
-		return ErrMsg{code: 504, msg: "Fail of creating reply, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Fail of creating reply, try proxy or refresh access"}
+		return CurErrMsg
 	} else {
 		log.Println("Reply Id", currentReply.ReplyId)
 	}
@@ -438,14 +448,16 @@ func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 
 	if err != nil {
 		log.Println(err)
-		return ErrMsg{code: 504, msg: "Fail of deleting comment, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Fail of deleting comment, try proxy or refresh access"}
+		return CurErrMsg
 	}
 	//+"%access_token="+accessToken
 
 	RespDelComment, err := http.DefaultClient.Do(DelComment)
 	if err != nil {
 		log.Println(err)
-		return ErrMsg{code: 504, msg: "Fail of deleting comment, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Fail of deleting comment, try proxy or refresh access"}
+		return CurErrMsg
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -462,12 +474,15 @@ func Hashtaging(ReplyBody string, CommentBody string) ErrMsg {
 
 	if currentDel.DelStatus == false {
 		log.Println("There is no comment to delete")
-		return ErrMsg{code: 504, msg: "There is no comment to delete, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "There is no comment to delete, try proxy or refresh access"}
+		return CurErrMsg
 	} else {
 		log.Println("status of delete", currentDel.DelStatus)
 	}
 
-	return ErrMsg{code: 200, msg: "everything is ok with that block"}
+	CurErrMsg = ErrMsg{code: 200, msg: "everything is ok with that block"}
+
+	return CurErrMsg
 }
 
 //PostCommentReply add all blocks in Blocks slice with CommentsReplyFront struct for Post method to use comment and reply in process
@@ -508,6 +523,7 @@ func StatusGet(cr *gin.Context) {
 	} else {
 		if StatusOfProcess.IsEnd == true {
 			cr.JSON(204, StatusOfProcess)
+			return
 		} else {
 			cr.JSON(200, StatusOfProcess)
 		}
@@ -546,9 +562,15 @@ func Process(c *gin.Context) {
 		CurrentReplyBody = Blocks[T].Rep
 		CurrentCommentBody = Blocks[T].Com
 
-		if Hashtaging(CurrentReplyBody, CurrentCommentBody).code != 200 {
-			c.JSON(Hashtaging(CurrentReplyBody, CurrentCommentBody).code, gin.H{"message": Hashtaging(CurrentReplyBody, CurrentCommentBody).msg})
+		Hashtaging(CurrentReplyBody, CurrentCommentBody)
+		if CurErrMsg.code != 200 {
+			c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
+			return
 		}
+
+		//if Hashtaging(CurrentReplyBody, CurrentCommentBody).code != 200 {
+		//	c.JSON(Hashtaging(CurrentReplyBody, CurrentCommentBody).code, gin.H{"message": Hashtaging(CurrentReplyBody, CurrentCommentBody).msg})
+		//}
 		//var strT = string(T + 1)
 		//var strLen = string(len(Blocks))
 		Percent = float64(T+1) / float64(len(Blocks))
