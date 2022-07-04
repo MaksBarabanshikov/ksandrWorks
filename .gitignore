@@ -3,5 +3,3 @@ access.txt
 front/.env
 logs/
 .cert/
-go.mod
-go.sum
