@@ -7,11 +7,12 @@ import ReactFacebookLogin from "../../FB/FBConnect";
 
 const Sidebar = () => {
     const location = useLocation()
+
     return (
         <section className="sidebar">
             <div className="sidebar__main">
                 {
-                    location.pathname !== '/' ?
+                    location.pathname !== '/hashtags' ?
                         <Block stylees="logo">
                             <img className="logo-image" src={logo} alt="logo"/>
                             <Block stylees="logo__text">

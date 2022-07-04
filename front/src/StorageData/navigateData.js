@@ -4,7 +4,7 @@ export const pathName = {
         state: "Главная"
     },
     hashtag: {
-        path: "/hashtag",
+        path: "/hashtags",
         state: "Хештеги"
     },
     autoreg: {
