@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"hashtags/pkg/logging"
 	"io"
 	"io/ioutil"
+	"ksandrworks/pkg/logging"
 	"log"
 	"net/http"
 	"net/url"
@@ -573,7 +573,7 @@ func main() {
 	route.GET("/api/hashtags/process/status", StatusGet)
 	//route.GET("/api/hashtags/process/exit", ExitProcess)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	err := route.RunTLS(":8080", "C:/Users/HP/example.com+5.pem", "C:/Users/HP/example.com+5-key.pem")
+	err := route.RunTLS(":8080", "./.cert/cert.pem", "./.cert/key.pem")
 	if err != nil {
 		return
 	}
