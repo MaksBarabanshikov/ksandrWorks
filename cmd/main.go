@@ -129,7 +129,8 @@ func ReadAccess(c *gin.Context) {
 
 	var BodyAccessId AcsessIdRecieve
 	if err := c.BindJSON(&BodyAccessId); err != nil {
-		log.Fatal()
+		c.IndentedJSON(424, gin.H{"message": "Try again"})
+		return
 	}
 
 	AccessToken = BodyAccessId.AccessBody
@@ -153,7 +154,7 @@ func GetPage(Token string, UserId string) []Page {
 	//time.Sleep(15 * time.Second)
 	if err != nil {
 		log.Println(err)
-
+		return nil
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -165,6 +166,7 @@ func GetPage(Token string, UserId string) []Page {
 	bodyPage, err := ioutil.ReadAll(MyPage.Body)
 	if err != nil {
 		log.Println(err)
+		return nil
 	}
 
 	var responsePage RespAccounts
