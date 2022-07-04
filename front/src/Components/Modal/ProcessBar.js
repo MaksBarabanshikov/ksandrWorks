@@ -46,16 +46,17 @@ const ProcessBarModal = () => {
 }
 export const RepeatGetStatus = () => {
     const {data, refetch} = useRepeatGetProcessQuery()
-    const refetching = setInterval(() => {
-        refetch()
-        if (data.isEnd) {
-            clearInterval(refetching)
-        }
-    }, 30000)
-
-    refetching()
+    const refetching = () => {
+        const interval = setInterval(() => {
+            refetch()
+            if (data.isEnd) {
+                clearInterval(interval)
+            }
+        }, 30000)
+    }
 
     if (data) {
+        refetching()
         return <>
             <p>
                 {JSON.stringify(data, null, 2)}
