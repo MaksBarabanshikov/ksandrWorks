@@ -21,7 +21,10 @@ export const hashtagsApi = createApi({
         }),
         //Повторяющийся запрос на получение постов
         repeatGetProcess: build.query({
-            query: () => 'process/status'
+            query: () => 'process/status',
+            transformResponse(process, meta) {
+                return {process, status: Number(meta.response.status)}
+            }
         }),
         // Получаем посты инстаграм
         getInstagramPosts: build.query({

@@ -49,28 +49,35 @@ export const RepeatGetStatus = () => {
     const refetching = () => {
         const interval = setInterval(() => {
             refetch()
-            if (data.isEnd) {
-                clearInterval(interval)
+            if (data) {
+                if (data.status) {
+                    clearInterval(interval)
+                }
             }
         }, 30000)
     }
 
+    refetching()
+
     if (data) {
-        refetching()
-        return <>
-            <p>
-                {JSON.stringify(data, null, 2)}
-            </p>
-            <ProgressBar
-                completed={data.percent}
-                animateOnRender={true}
-                baseBgColor={'#F3F3F3FF'}
-                bgColor={'#0066EAFF'}
-                height={'30px'}
-                margin={'10px 0'}
-            />
-        </>
-    } else {
+        if (data.status !== 204) {
+            return <>
+                <p>
+                    {JSON.stringify(data, null, 2)}
+                </p>
+                <ProgressBar
+                    completed={data.process.percent}
+                    animateOnRender={true}
+                    baseBgColor={'#F3F3F3FF'}
+                    bgColor={'#0066EAFF'}
+                    height={'30px'}
+                    margin={'10px 0'}
+                />
+            </>
+        }
+        return <span>Посты успешно обработаны</span>
+    }
+    else {
         return <p>Подготовка к обработке</p>
     }
 }
