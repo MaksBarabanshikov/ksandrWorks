@@ -497,7 +497,7 @@ func StatusGet(cr *gin.Context) {
 		cr.JSON(102, gin.H{"message": "waiting"})
 	} else {
 		if StatusOfProcess.IsEnd == true {
-			cr.JSON(204, StatusOfProcess)
+			cr.JSON(200, StatusOfProcess)
 		} else {
 			cr.JSON(200, StatusOfProcess)
 		}
@@ -519,6 +519,11 @@ func StatusGet(cr *gin.Context) {
 //Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
 func Process(c *gin.Context) {
 	//Creating
+	StatusOfProcess.StatusText = 0
+	StatusOfProcess.StatusComment = ""
+	StatusOfProcess.StatusReply = ""
+	StatusOfProcess.StatusDelete = false
+	StatusOfProcess.StatusPercent = 0
 
 	for T := 0; T < len(Blocks); T = T + 1 {
 		if Blocks[T].Rep == "" || Blocks[T].Com == "" {
@@ -544,6 +549,7 @@ func Process(c *gin.Context) {
 		if (T + 1) == len(Blocks) {
 			StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", StatusOfProcess)
+			Blocks = []CommentsReplyFront{}
 			c.JSON(200, gin.H{"status": "процесс окончен"})
 			return
 
@@ -551,9 +557,6 @@ func Process(c *gin.Context) {
 			StatusOfProcess.IsEnd = false
 			time.Sleep(60 * time.Second)
 		}
-
-		log.Println("статус процесса", StatusOfProcess)
-
 	}
 
 }
@@ -575,7 +578,7 @@ func main() {
 	route.GET("/api/hashtags/process/status", StatusGet)
 	//route.GET("/api/hashtags/process/exit", ExitProcess)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	err := route.RunTLS(":8080", "C:/Users/HP/example.com+5.pem", "C:/Users/HP/example.com+5-key.pem")
+	err := route.RunTLS(":8080", ".cert/example.com+5.pem", ".cert/example.com+5-key.pem")
 	if err != nil {
 		return
 	}
