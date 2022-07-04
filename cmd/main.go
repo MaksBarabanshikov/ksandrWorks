@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"hashtags/pkg/logging"
 	"io"
 	"io/ioutil"
 	"log"
@@ -298,8 +299,8 @@ func GettingFile(c *gin.Context) {
 
 	RecievedFile = BodyFile.FileBody
 
-	c.IndentedJSON(200, BodyFile)
 	log.Println("file recieved", RecievedFile)
+	c.IndentedJSON(200, BodyFile)
 
 }
 
@@ -322,7 +323,7 @@ func Sorting() []string {
 func GetSortedList(c *gin.Context) {
 	var SortedListGet = Sorting()
 	c.JSON(200, SortedListGet)
-	fmt.Println("Отсортированный лист хештегов")
+	fmt.Println("Отсортированный лист хештегов)")
 	return
 }
 
@@ -552,10 +553,12 @@ func Process(c *gin.Context) {
 		log.Println("статус процесса", StatusOfProcess)
 
 	}
-	c.JSON(200, gin.H{"status": "end of list"})
+	c.JSON(200, gin.H{"status": "процесс окончен"})
 }
 
 func main() {
+	logger := logging.GetLogger()
+	logger.Info("starting router")
 
 	route := gin.Default()
 	route.POST("/api/hashtags/get-access-id", ReadAccess)
