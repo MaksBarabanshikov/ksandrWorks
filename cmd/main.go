@@ -493,11 +493,9 @@ func PostCommentReply(c *gin.Context) {
 func StatusGet(cr *gin.Context) {
 	if StatusOfProcess.StatusText == 0 {
 		cr.JSON(102, gin.H{"message": "waiting"})
-		return
 	} else {
 		if StatusOfProcess.IsEnd == true {
 			cr.JSON(204, StatusOfProcess)
-			return
 		} else {
 			cr.JSON(200, StatusOfProcess)
 		}
@@ -543,6 +541,8 @@ func Process(c *gin.Context) {
 		StatusOfProcess.StatusPercent = Percent * 100
 		if (T + 1) == len(Blocks) {
 			StatusOfProcess.IsEnd = true
+			log.Println("статус процесса", StatusOfProcess)
+			c.JSON(200, gin.H{"status": "процесс окончен"})
 			return
 
 		} else {
@@ -553,7 +553,7 @@ func Process(c *gin.Context) {
 		log.Println("статус процесса", StatusOfProcess)
 
 	}
-	c.JSON(200, gin.H{"status": "процесс окончен"})
+
 }
 
 func main() {
