@@ -565,6 +565,9 @@ func main() {
 	logger := logging.GetLogger()
 	logger.Info("starting router")
 
+	certfile := ".cert/cert.pem"
+	keyfile := ".cert/key.pem"
+
 	route := gin.Default()
 	route.POST("/api/hashtags/get-access-id", ReadAccess)
 	route.GET("/api/hashtags/get-pages", GetListOfPages)
@@ -578,7 +581,8 @@ func main() {
 	route.GET("/api/hashtags/process/status", StatusGet)
 	//route.GET("/api/hashtags/process/exit", ExitProcess)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	err := route.RunTLS(":8080", ".cert/example.com+5.pem", ".cert/example.com+5-key.pem")
+	err := route.RunTLS(":8080", certfile, keyfile)
+
 	if err != nil {
 		return
 	}
