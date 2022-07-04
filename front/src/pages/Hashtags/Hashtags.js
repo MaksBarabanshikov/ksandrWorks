@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from "react";
 import Header from "../../Components/header/Header";
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
-import HomeSide from "./HomeSide";
+import HashtagsSide from "./HashtagsSide";
 import HelloModal from "../../Components/Modal/HelloModal";
 import {useForm} from "react-hook-form";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
@@ -12,12 +12,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, transformFavorites} from "../../redux/modules/favoritesSlice";
 import {openModalProcess} from "../../redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
-import './Home.scss';
+import './Hashtags.scss';
 import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} from "../../redux/services/hashtagsApi";
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 
 
-const Home = () => {
+const Hashtags = () => {
     const refInput1 = useRef()
     const refInput2 = useRef()
     const {register, handleSubmit} = useForm()
@@ -25,7 +25,7 @@ const Home = () => {
     const {data: favorites} = useGetFavoritesQuery(isFulfilled.status === "fulfilled" ?
         null :
         skipToken)
-    const [sendFavorites, {}] = useSendFavoritesMutation()
+    const [sendFavorites] = useSendFavoritesMutation()
 
 
     const myFavorites = useSelector(state => state.favorites.favorites)
@@ -56,7 +56,7 @@ const Home = () => {
         if (favorites) {
             dispatch(transformFavorites(favorites))
         }
-    }, [favorites])
+    }, [favorites, dispatch])
 
     const onSubmit = data => {
         if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
@@ -185,7 +185,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div>
-                    <HomeSide/>
+                    <HashtagsSide/>
                 </div>
             </div>
             {isOpenProcess && <ProcessBarModal/>}
@@ -195,4 +195,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default Hashtags

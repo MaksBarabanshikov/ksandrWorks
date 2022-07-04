@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Slider from "react-slick";
 import NewNextArrow from "../../Components/common/NewNextArrow";
 import NewPrevArrow from "../../Components/common/NewPrevArrow";
@@ -7,15 +7,16 @@ import MiniSliderPost from "./MiniSliderPost";
 import axios from "axios";
 import Loader from "../../Components/common/Loader";
 import {useGetInstagramPostsQuery} from "../../redux/services/hashtagsApi";
+import {createFbPage} from "../../redux/modules/facebookSlice";
 
 const MainSliderPost = () => {
     const [activeSlide, setActiveSlide] = useState(0)
     const status = useSelector(state => state.instagramPosts.status)
-    const fbPage = useSelector(state => state.facebook.fbPage)
+    const fbPage = useSelector(state => state.facebook.user.fbPage)
     const {data: posts} = useGetInstagramPostsQuery(fbPage, {
-        skip: fbPage !== null
+        skip: fbPage === null
     })
-    //const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (posts?.length) {
@@ -35,15 +36,6 @@ const MainSliderPost = () => {
                 })
         }
     }, [activeSlide, posts])
-
-    console.log("render component",fbPage)
-
-    useEffect(() => {
-        return () => {
-            console.log("use effect component",fbPage)
-        };
-    }, [fbPage]);
-
 
     let settings = {
         dots: false,

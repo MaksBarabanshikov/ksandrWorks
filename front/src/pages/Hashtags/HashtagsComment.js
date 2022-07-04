@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 import {removeHandler, saveHandler, selectHandler} from "../../redux/modules/favoritesSlice";
 
 
-const HomeComment = ({index, id, selected, text1, text2}) => {
+const HashtagsComment = ({index, id, selected, text1, text2}) => {
     const inputRef = useRef()
     const textareaRef = useRef()
     const dispatch = useDispatch()
@@ -75,4 +75,4 @@ const HomeComment = ({index, id, selected, text1, text2}) => {
     )
 }
 
-export default HomeComment
+export default HashtagsComment
