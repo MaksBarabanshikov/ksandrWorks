@@ -21,7 +21,6 @@ const HelloModalSlider = ({getId}) => {
     }
 
     useEffect(() => {
-        console.log(pages)
         if (pages) {
             getId(pages[activeSlide].id)
         }

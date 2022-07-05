@@ -15,7 +15,7 @@ const MainSliderPost = () => {
     const [getInstagramPosts, {data: posts, isLoading, error, isSuccess}] = useLazyGetInstagramPostsQuery('Post')
 
     useEffect(() => {
-        if (posts?.length && fbPage) {
+        if (posts?.length && fbPage && !error) {
             axios.post('/api/hashtags/post-id', {
                     id: posts[activeSlide].id
                 },

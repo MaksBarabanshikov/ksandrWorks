@@ -1,18 +1,25 @@
-import {useGetProcessQuery, useRepeatGetProcessQuery} from "../../redux/services/hashtagsApi";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {
+    useGetProcessQuery,
+    useLazyStopProcessQuery,
+    useRepeatGetProcessQuery,
+} from "../../redux/services/hashtagsApi";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
 
 const ProcessBarModal = () => {
-
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
-
-    let content = GetStatus()
+    const [stopProcess, {data: message, isLoading, error}] = useLazyStopProcessQuery()
 
     const dispatch = useDispatch()
+
+    const handleStopProcess = async () => {
+        await stopProcess()
+        dispatch(closeModalProcess())
+    }
+
+    let content = GetStatus()
 
     return (
         <div className={`modal ${isOpenProcess ? "" : "hidden"}`}>
@@ -28,7 +35,7 @@ const ProcessBarModal = () => {
                     <div className="modal__body_main-btn flex">
                         <button
                             className="btn blue-btn"
-                            onClick={() => dispatch(closeModalProcess())}
+                            onClick={() => handleStopProcess()}
                         >
                             Остановить процесс
                         </button>
@@ -70,12 +77,10 @@ export const RepeatGetStatus = () => {
             </>
         }
         return <span>Посты успешно обработаны</span>
-    }
-    else {
+    } else {
         return <p>Подготовка к обработке</p>
     }
 }
-
 
 
 export const GetStatus = () => {

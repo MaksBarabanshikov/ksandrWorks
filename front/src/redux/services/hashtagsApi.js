@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {selectFbPage} from '../modules/facebookSlice'
 
 export const baseUrl = '/api/hashtags'
 
@@ -38,6 +37,10 @@ export const hashtagsApi = createApi({
         getFavorites: build.query({
             query: () => 'sorted-hashtags',
         }),
+        // завершение сессии
+        stopProcess: build.query({
+           query: () => 'process/exit'
+        }),
         // Отправляем токен fb
         sendTokenFb: build.mutation({
             query: (data) => ({
@@ -70,6 +73,7 @@ export const hashtagsApi = createApi({
                 body: data
             })
         }),
+        // выход fb
         exitFb: build.mutation({
             query: (data) => ({
                 url: 'exit',
@@ -86,6 +90,7 @@ export const {
     useGetPagesQuery,
     useLazyGetInstagramPostsQuery,
     useGetFavoritesQuery,
+    useLazyStopProcessQuery,
     useSendTokenFbMutation,
     useSendCurrentPageMutation,
     useSendFileMutation,
