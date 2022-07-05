@@ -45,7 +45,8 @@ const ProcessBarModal = () => {
                     <RepeatGetStatus completed={status} isExit={isSuccess}/>
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
-                        <button
+                        {status === null &&
+                            <button
                             style={{maxWidth: '200px'}}
                             className="btn blue-btn"
                             onClick={() => handleStopProcess()}
@@ -53,6 +54,15 @@ const ProcessBarModal = () => {
                         >
                             Остановить процесс
                         </button>
+                        }
+                        {status && <button
+                            style={{maxWidth: '200px'}}
+                            className="btn blue-btn"
+                            onClick={() => dispatch(closeModalProcess())}
+                            disabled={isSuccess}
+                        >
+                            Готово
+                        </button>}
                     </div>
                 </div>
             </div>
