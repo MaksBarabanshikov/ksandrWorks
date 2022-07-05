@@ -12,9 +12,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, transformFavorites} from "../../redux/modules/favoritesSlice";
 import {openModalProcess} from "../../redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
-import './Hashtags.scss';
 import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} from "../../redux/services/hashtagsApi";
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
+import './Hashtags.scss';
 
 
 const Hashtags = () => {

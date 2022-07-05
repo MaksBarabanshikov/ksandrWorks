@@ -4,20 +4,23 @@ import Block from "../Components/common/Block";
 import {useDispatch, useSelector} from "react-redux";
 import {openModalFB} from "../redux/modules/modalSlice";
 import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
-import {useSendTokenFbMutation} from "../redux/services/hashtagsApi";
+import {useExitFbMutation, useLazyExitFbQuery, useSendTokenFbMutation} from "../redux/services/hashtagsApi";
 import {clearPosts} from "../redux/modules/instaPostsSlice";
 
 
 const ReactFacebookLogin = () => {
     const user = useSelector(state => state.facebook.user)
     const [sendTokenFb, {}] = useSendTokenFbMutation()
+    const [exitFb, {isLoading}] = useExitFbMutation()
     const dispatch = useDispatch()
 
     const FBLogout = () => {
         FacebookLoginClient.logout(() => {
             dispatch(logoutFb())
             dispatch(clearPosts())
-            console.log('logout completed!')
+            exitFb({
+                userID: user.userID
+            })
         })
     }
 

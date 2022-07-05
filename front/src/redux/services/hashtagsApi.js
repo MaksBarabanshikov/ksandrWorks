@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-///api/hashtags/process
+import {selectFbPage} from '../modules/facebookSlice'
 
 export const baseUrl = '/api/hashtags'
 
@@ -29,18 +29,10 @@ export const hashtagsApi = createApi({
         // Получаем посты инстаграм
         getInstagramPosts: build.query({
             query: () => 'all-instagram-posts',
-            keepUnusedDataFor: 5
         }),
         // Получаем pages fb
         getPages: build.query({
             query: () => `get-pages`,
-            async onQueryStarted(body,{ dispatch, queryFulfilled }) {
-                queryFulfilled.then(res => {
-                    console.log(res)
-                }).catch(e => {
-                    console.log(e)
-                })
-            }
         }),
         // Получаем сортированные хештеги
         getFavorites: build.query({
@@ -52,15 +44,15 @@ export const hashtagsApi = createApi({
                 url: `/get-access-id`,
                 method: 'POST',
                 body: data
-            })
+            }),
         }),
         // Отправляем выбранный page fb
         sendCurrentPage: build.mutation({
             query: (data) => ({
                 url: 'current-fb-page',
                 method: 'POST',
-                body: data
-            })
+                body: data,
+            }),
         }),
         // Отправляем файл txt
         sendFile: build.mutation({
@@ -77,7 +69,14 @@ export const hashtagsApi = createApi({
                 method: 'POST',
                 body: data
             })
-        })
+        }),
+        exitFb: build.mutation({
+            query: (data) => ({
+                url: 'exit',
+                method: 'POST',
+                body: data
+            })
+        }),
     })
 })
 
@@ -90,5 +89,6 @@ export const {
     useSendTokenFbMutation,
     useSendCurrentPageMutation,
     useSendFileMutation,
-    useSendFavoritesMutation
+    useSendFavoritesMutation,
+    useExitFbMutation
 } = hashtagsApi

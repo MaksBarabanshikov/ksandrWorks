@@ -21,6 +21,7 @@ const HelloModalSlider = ({getId}) => {
     }
 
     useEffect(() => {
+        console.log(pages)
         if (pages) {
             getId(pages[activeSlide].id)
         }
@@ -47,7 +48,7 @@ const HelloModalSlider = ({getId}) => {
                     </div>
                 ))}
             </Slider>}
-            {error && <div>{JSON.stringify(error.data.message)}</div>}
+            {error && <h3 className="error-message">${error.data.message}</h3>}
         </div>
     )
 }

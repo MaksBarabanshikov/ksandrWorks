@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "proxy": "https://localhost:8080",
   "private": true,
-  "proxy": "https://localhost:8080/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",

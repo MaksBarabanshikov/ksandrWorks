@@ -6,16 +6,13 @@ import NewPrevArrow from "../../Components/common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
 import axios from "axios";
 import Loader from "../../Components/common/Loader";
-import {useGetInstagramPostsQuery} from "../../redux/services/hashtagsApi";
+import {hashtagsApi, useGetInstagramPostsQuery} from "../../redux/services/hashtagsApi";
 import {createFbPage} from "../../redux/modules/facebookSlice";
 
 const MainSliderPost = () => {
-    const [activeSlide, setActiveSlide] = useState(0)
-    const status = useSelector(state => state.instagramPosts.status)
     const fbPage = useSelector(state => state.facebook.user.fbPage)
-    const {data: posts} = useGetInstagramPostsQuery(fbPage, {
-        skip: fbPage === null
-    })
+    const [activeSlide, setActiveSlide] = useState(0)
+    const {data: posts, isLoading, error} = useGetInstagramPostsQuery('Post')
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -37,6 +34,10 @@ const MainSliderPost = () => {
         }
     }, [activeSlide, posts])
 
+    useEffect(() => {
+        console.log(fbPage)
+    }, [fbPage]);
+
     let settings = {
         dots: false,
         infinite: false,
@@ -49,46 +50,45 @@ const MainSliderPost = () => {
         afterChange: current => setActiveSlide(current)
     }
 
-    if (status === 'loading') {
-        return (<Loader width={50} height={50}/>)
-    }
-    if (posts) {
-        if (!posts?.length) {
-            return <span>Постов нет, добавьте посты</span>
-        }
-        return (<>
-            <Slider {...settings}>
-                {posts.map(post => (<div className="slider-post__item" key={post.id}>
-                    <div className="slider-post__item-top">
-                        <div className="post-slider__item-top_avatar">
-                            <p>{post.username}</p>
+    return (
+        <>
+            {isLoading && <Loader width={50} height={50}/>}
+            {(posts && !posts.length) && <span>Постов нет, добавьте посты</span>}
+            {posts?.length && <>
+                <Slider {...settings}>
+                    {posts.map(post => (<div className="slider-post__item" key={post.id}>
+                        <div className="slider-post__item-top">
+                            <div className="post-slider__item-top_avatar">
+                                <p>{post.username}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="slider-post__item-body">
-                        {post.children.data ? <MiniSliderPost images={post.children.data}/> :
-                            <div style={{backgroundImage: `url(${post.media_url})`}}
-                                 className="slider-post__item-body_img"/>}
-                    </div>
-                    <div className="slider-post__item-bottom flex-column">
+                        <div className="slider-post__item-body">
+                            {post.children.data ? <MiniSliderPost images={post.children.data}/> :
+                                <div style={{backgroundImage: `url(${post.media_url})`}}
+                                     className="slider-post__item-body_img"/>}
+                        </div>
+                        <div className="slider-post__item-bottom flex-column">
                             <span className="post-slider__item-like">
                                 <strong>Нравится: {post.like_count}</strong>
                             </span>
-                        <span className="post-slider__item-caption ">
+                            <span className="post-slider__item-caption ">
                                 <strong>{post.username}</strong> {post.caption}
                             </span>
-                    </div>
-                </div>))}
-            </Slider>
-            <div className="slider-post__control flex align-center">
+                        </div>
+                    </div>))}
+                </Slider>
+                <div className="slider-post__control flex align-center">
                     <span>
                         Выберите нужный пост
                     </span>
-            </div>
-        </>)
-    }
-    if (!posts) {
-        return <span>Войдите в аккаунт facebook</span>
-    }
+                </div>
+            </>
+            }
+            {error && <h4 className="error-message">{error.data.message}</h4>}
+            {(!posts && !error) && <span>Выполните вход в fb</span>}
+        </>
+    )
+
 }
 
 export default MainSliderPost

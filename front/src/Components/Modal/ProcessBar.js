@@ -7,6 +7,7 @@ import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
 
 const ProcessBarModal = () => {
+
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
 
     let content = GetStatus()
@@ -20,13 +21,6 @@ const ProcessBarModal = () => {
                     <h1 className="title">
                         Статус
                     </h1>
-
-                    <button
-                        className="modal__body_close"
-                        onClick={() => dispatch(closeModalProcess())}
-                    >
-                        <FontAwesomeIcon icon={faTimesCircle}/>
-                    </button>
                 </div>
                 <div className="modal__body_main">
                     {content}
