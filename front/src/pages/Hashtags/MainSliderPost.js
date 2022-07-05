@@ -12,10 +12,10 @@ import {createFbPage} from "../../redux/modules/facebookSlice";
 const MainSliderPost = () => {
     const fbPage = useSelector(state => state.facebook.user.fbPage)
     const [activeSlide, setActiveSlide] = useState(0)
-    const [getInstagramPosts, {data: posts, isLoading, error}] = useLazyGetInstagramPostsQuery('Post')
+    const [getInstagramPosts, {data: posts, isLoading, error, isSuccess}] = useLazyGetInstagramPostsQuery('Post')
 
     useEffect(() => {
-        if (posts?.length) {
+        if (posts?.length && fbPage) {
             axios.post('/api/hashtags/post-id', {
                     id: posts[activeSlide].id
                 },
@@ -31,7 +31,7 @@ const MainSliderPost = () => {
                     console.log(e)
                 })
         }
-    }, [activeSlide])
+    }, [activeSlide, posts, isSuccess])
 
     useEffect(() => {
             getInstagramPosts()
