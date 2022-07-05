@@ -574,15 +574,12 @@ func PostCommentReply(c *gin.Context) {
 //}
 
 func StatusGet(cr *gin.Context) {
-	if CurrentSession.StatusOfProcess.StatusText == 0 {
-		cr.JSON(102, gin.H{"message": "waiting"})
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		cr.JSON(204, CurrentSession.StatusOfProcess)
+		return
 	} else {
-		if CurrentSession.StatusOfProcess.IsEnd == true {
-			cr.JSON(204, CurrentSession.StatusOfProcess)
-			return
-		} else {
-			cr.JSON(200, CurrentSession.StatusOfProcess)
-		}
+		cr.JSON(200, CurrentSession.StatusOfProcess)
+		return
 	}
 }
 
@@ -612,8 +609,8 @@ func ClearTempData() {
 //var Curhandler ginnic = Process
 func ExitProcess(c *gin.Context) {
 	CurrentSession.Blocks = []CommentsReplyFront{}
-	CurrentSession.MyId = ""
-	c.Abort()
+	c.AbortWithStatus(200)
+	return
 	//Curhandler.AbortProcess()
 
 }
@@ -744,7 +741,7 @@ func main() {
 	route.POST("/api/hashtags/all-blocks", PostCommentReply)
 	route.GET("/api/hashtags/process", Process)
 	route.GET("/api/hashtags/process/status", StatusGet)
-	route.POST("/api/hashtags/process/exit", ExitProcess)
+	route.GET("/api/hashtags/process/exit", ExitProcess)
 	route.POST("/api/hashtags/exit", Exit)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
 	err := route.RunTLS(":8080", certfile, keyfile)
