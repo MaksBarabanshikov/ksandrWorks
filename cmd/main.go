@@ -606,7 +606,7 @@ func ClearTempData() {
 func ExitProcess(c *gin.Context) {
 	CurrentSession.Blocks = []CommentsReplyFront{}
 	CurrentSession.MyId = ""
-	c.Abort()
+	c.AbortWithStatus(418)
 	return
 }
 
