@@ -717,7 +717,7 @@ func Process(c *gin.Context) {
 		CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
-		CurrentSession.CurrentBlock = T
+		CurrentSession.CurrentBlock = T + 1
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", CurrentSession.StatusOfProcess)
