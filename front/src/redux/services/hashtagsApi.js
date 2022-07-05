@@ -66,12 +66,20 @@ export const hashtagsApi = createApi({
             })
         }),
         // Отправляем хештеги
-        sendFavorites: build.mutation( {
+        sendFavorites: build.mutation({
             query:(data) => ({
                 url: 'all-blocks',
                 method: 'POST',
                 body: data
             })
+        }),
+        // отправляем текущий пост
+        sendCurrentPostId: build.mutation({
+           query: (data) => ({
+               url: 'post-id',
+               method: 'POST',
+               body: data
+           })
         }),
         // выход fb
         exitFb: build.mutation({
@@ -95,5 +103,6 @@ export const {
     useSendCurrentPageMutation,
     useSendFileMutation,
     useSendFavoritesMutation,
+    useSendCurrentPostIdMutation,
     useExitFbMutation
 } = hashtagsApi

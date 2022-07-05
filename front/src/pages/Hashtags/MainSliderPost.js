@@ -1,42 +1,27 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 import Slider from "react-slick";
 import NewNextArrow from "../../Components/common/NewNextArrow";
 import NewPrevArrow from "../../Components/common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
-import axios from "axios";
 import Loader from "../../Components/common/Loader";
-import {useLazyGetInstagramPostsQuery} from "../../redux/services/hashtagsApi";
-import {createFbPage} from "../../redux/modules/facebookSlice";
+import {useLazyGetInstagramPostsQuery, useSendCurrentPostIdMutation} from "../../redux/services/hashtagsApi";
 
 const MainSliderPost = () => {
     const fbPage = useSelector(state => state.facebook.user.fbPage)
     const [activeSlide, setActiveSlide] = useState(0)
-    const [getInstagramPosts, {data: posts, isLoading, error, isSuccess}] = useLazyGetInstagramPostsQuery('Post')
+    const [getInstagramPosts, {data: posts, isLoading, error}] = useLazyGetInstagramPostsQuery('Post')
+    const [sendCurrentPostId, {}] = useSendCurrentPostIdMutation()
 
     useEffect(() => {
-        if (posts?.length && fbPage && !error) {
-            axios.post('/api/hashtags/post-id', {
-                    id: posts[activeSlide].id
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => {
-                    console.log(res)
-                })
-                .catch(e => {
-                    console.log(e)
-                })
+        if (posts?.length && fbPage) {
+            sendCurrentPostId({id: posts[activeSlide].id})
         }
-    }, [activeSlide, posts, isSuccess])
+    }, [activeSlide, posts, fbPage])
 
     useEffect(() => {
             getInstagramPosts()
     }, [fbPage])
-
 
     let settings = {
         dots: false,

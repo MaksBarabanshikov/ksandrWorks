@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
+import {useEffect, useMemo} from "react";
 
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
@@ -47,18 +48,9 @@ const ProcessBarModal = () => {
 }
 export const RepeatGetStatus = () => {
     const {data, refetch} = useRepeatGetProcessQuery()
-    const refetching = () => {
-        const interval = setInterval(() => {
-            refetch()
-            if (data) {
-                if (data.status) {
-                    clearInterval(interval)
-                }
-            }
-        }, 30000)
-    }
-
-    refetching()
+    const interval = setInterval(() => {
+        refetch()
+    }, 30000)
 
     if (data) {
         if (data.status !== 204) {
@@ -76,7 +68,10 @@ export const RepeatGetStatus = () => {
                 />
             </>
         }
-        return <span>Посты успешно обработаны</span>
+        else {
+            clearInterval(interval)
+            return <span>Посты успешно обработаны</span>
+        }
     } else {
         return <p>Подготовка к обработке</p>
     }

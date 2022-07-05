@@ -2,7 +2,6 @@ import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
-import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalFB, nextStep} from "../../redux/modules/modalSlice";
@@ -42,12 +41,6 @@ const HelloModal = () => {
                             Убедитесь что выполняются следующие требования:
                         </span>
                         </div>
-                        <button
-                            className="modal__body_close"
-                            onClick={() => dispatch(closeModalFB())}
-                        >
-                            <FontAwesomeIcon icon={faTimesCircle}/>
-                        </button>
                     </div>
                     <div className="modal__body_main">
                         <div className="modal__body_main-tab border-bottom">
@@ -104,12 +97,6 @@ const HelloModal = () => {
                                 Подключите свой бизнес-аккаунт Instagram к ipostX
                             </span>
                         </div>
-                        <button
-                            className="modal__body_close"
-                            onClick={() => dispatch(closeModalFB())}
-                        >
-                            <FontAwesomeIcon icon={faTimesCircle}/>
-                        </button>
                     </div>
                     <div className="modal__body_main">
                         <div className="modal__body_main-tab">
@@ -161,12 +148,6 @@ const HelloModal = () => {
                                 Преимущества подключения
                             </span>
                         </div>
-                        <button
-                            className="modal__body_close"
-                            onClick={() => dispatch(closeModalFB())}
-                        >
-                            <FontAwesomeIcon icon={faTimesCircle}/>
-                        </button>
                     </div>
                     <div className="modal__body_main">
                         <div className="modal__body_main-tab border-bottom">
