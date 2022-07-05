@@ -358,6 +358,7 @@ func PostId(c *gin.Context) {
 		return
 	}
 	ClearTempData()
+	CurrentSession.CurrentBlock = 0
 	c.IndentedJSON(200, CurrentSession.MyId)
 	log.Println("Post ID", CurrentSession.MyId)
 }
@@ -583,10 +584,10 @@ func PostCommentReply(c *gin.Context) {
 //}
 
 func StatusGet(cr *gin.Context) {
-	if cr.IsAborted() == true {
-		cr.JSON(200, gin.H{"message": "status func was aborted, but everything is ok"})
-		return
-	}
+	//if cr.IsAborted() == true {
+	//	cr.JSON(200, gin.H{"message": "status func was aborted, but everything is ok"})
+	//	return
+	//}
 	if CurrentSession.StatusOfProcess.IsEnd == true {
 		cr.JSON(204, CurrentSession.StatusOfProcess)
 		return
@@ -609,15 +610,13 @@ func ClearTempData() {
 		IsEnd:         false,
 	}
 	CurrentSession.Blocks = []CommentsReplyFront{}
-	CurrentSession.CurrentBlock = 0
-
 }
 
 func ExitProcess(c *gin.Context) {
-	CurrentSession.Blocks = []CommentsReplyFront{}
+	ClearTempData()
+	log.Println("делаю аборт из ExitProcess")
 	c.Next()
 	return
-
 }
 func Exit(c *gin.Context) {
 	var BodyUserIdLog IDtoLogout
@@ -643,6 +642,7 @@ func Exit(c *gin.Context) {
 			StatusPercent: 0,
 			IsEnd:         false,
 		}
+		ClearTempData()
 		c.IndentedJSON(200, gin.H{"message": CurrentSession})
 		return
 	}
@@ -705,6 +705,8 @@ func Process(c *gin.Context) {
 		if CurErrMsg.code != 200 {
 			c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
 			ClearTempData()
+			log.Println("выход из Process из-за ошибки")
+			//c.Redirect(CurErrMsg.code, "621")
 			return
 		}
 
@@ -715,13 +717,14 @@ func Process(c *gin.Context) {
 		CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
-		CurrentSession.CurrentBlock = T
+		CurrentSession.CurrentBlock = T + 1
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", CurrentSession.StatusOfProcess)
 			time.Sleep(15 * time.Second)
 			CurrentSession.CurrentBlock = 0
 			ClearTempData()
+			log.Println("выход из Process по окончанию")
 			c.JSON(200, gin.H{"status": "процесс окончен"})
 			return
 
@@ -731,7 +734,8 @@ func Process(c *gin.Context) {
 		}
 
 	}
-
+	ClearTempData()
+	log.Println("выход из process из-за аборта по кнопке?")
 	c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
 	return
 }
