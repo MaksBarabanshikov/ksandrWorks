@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"net/url"
 	"strings"
@@ -164,7 +165,7 @@ func ReadAccess(c *gin.Context) {
 		CurrentSession.UserId = ""
 		return
 	}
-	c.IndentedJSON(http.StatusCreated, BodyAccessId)
+	c.IndentedJSON(200, BodyAccessId)
 
 }
 
@@ -319,7 +320,7 @@ func GetPosts(c *gin.Context) {
 			c.IndentedJSON(IgEr.code, gin.H{"message": IgEr.msg})
 			return
 		} else {
-			c.IndentedJSON(204, gin.H{"message": "There is no B.Instagram account associated with this Page"})
+			c.IndentedJSON(424, gin.H{"message": "There is no B.Instagram account associated with this Page"})
 			return
 		}
 	}
@@ -678,7 +679,7 @@ func Process(c *gin.Context) {
 		CurrentSession.StatusOfProcess.StatusComment = CurrentComment.CommentId
 		CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
-		CurrentSession.StatusOfProcess.StatusPercent = Percent * 100
+		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
 		CurrentSession.CurrentBlock = T
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
