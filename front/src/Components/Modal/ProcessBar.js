@@ -11,7 +11,7 @@ import {useEffect, useState} from "react";
 
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
-    const [stopProcess, {data: message, isLoading, error}] = useLazyStopProcessQuery()
+    const [stopProcess, {data: message, isLoading, isSuccess , error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
 
     const dispatch = useDispatch()
@@ -24,8 +24,15 @@ const ProcessBarModal = () => {
 
     const handleStopProcess = async () => {
         await stopProcess()
-        dispatch(closeModalProcess())
     }
+
+    useEffect(() => {
+        console.log(status)
+        console.log(isSuccess)
+        if (isSuccess && status) {
+            dispatch(closeModalProcess())
+        }
+    },[status])
 
     return (
         <div className={`modal ${isOpenProcess ? "" : "hidden"}`}>
@@ -37,11 +44,13 @@ const ProcessBarModal = () => {
                 </div>
                 <div className="modal__body_main">
                     <GetStatus completed={handleComplete}/>
-                    <RepeatGetStatus completed={status}/>
+                    <RepeatGetStatus completed={status} isExit={isSuccess}/>
                     <div className="modal__body_main-btn flex">
                         <button
+                            style={{maxWidth: '200px'}}
                             className="btn blue-btn"
                             onClick={() => handleStopProcess()}
+                            disabled={isSuccess}
                         >
                             Остановить процесс
                         </button>
@@ -51,38 +60,31 @@ const ProcessBarModal = () => {
         </div>
     )
 }
-export const RepeatGetStatus = ({completed}) => {
+export const RepeatGetStatus = ({completed, isExit}) => {
     const {data, refetch, error} = useRepeatGetProcessQuery()
     const favorites = useSelector(state => state.favorites.favorites)
-
 
     useEffect(() => {
         const interval = setInterval(() => {
             refetch()
         }, 15000)
 
-        if (error) {
-            clearInterval(interval)
-        }
-
-        if (completed) {
+        if (completed || isExit || error) {
             clearInterval(interval)
         }
 
         return () => clearInterval(interval)
-    },[completed])
+    },[completed, isExit])
 
     if (error?.data?.message) {
         return <h3 className="error-message">{error.data.message}</h3>
     }
 
-    console.log("render")
-
     if (data) {
         if (data.status !== 204) {
             return <>
                 <p>
-                    Блок {data.process.status + 1} из {favorites.length}
+                    Блок {data.process.status} из {favorites.length}
                 </p>
                 <ProgressBar
                     completed={data.process.percent}
@@ -107,12 +109,15 @@ export const GetStatus = ({completed}) => {
     if (isLoading) {
         return <Loader width={50} height={50}/>
     }
+
     if (isSuccess) {
         completed(isSuccess)
     }
+
     if (data?.status === 200) {
         return <h1>Готово</h1>
     }
+
     if (error) {
         return <h3 className="error-message">{error.data.message}</h3>
     }
