@@ -60,6 +60,10 @@ type PageIdRecieve struct {
 	IdPageFb string `json:"fbpage"`
 }
 
+type IDtoLogout struct {
+	UserIdLog string `json:"userID"`
+}
+
 type CommentsReplyFront struct {
 	Com string `json:"text1"`
 	Rep string `json:"text2"`
@@ -614,25 +618,32 @@ func ExitProcess(c *gin.Context) {
 
 }
 func Exit(c *gin.Context) {
-	CurrentSession.AccessToken = ""
-	CurrentSession.UserId = ""
-	CurrentSession.MyPageId = ""
-	CurrentSession.MyInstagramAccount = ""
-	CurrentSession.Posts = []MediaToShow{}
-	CurrentSession.MyId = ""
-	CurrentSession.NewStore = []string{}
-	CurrentSession.Blocks = []CommentsReplyFront{}
-	CurrentSession.CurrentBlock = 0
-	CurrentSession.StatusOfProcess = Status{
-		StatusText:    0,
-		StatusComment: "",
-		StatusReply:   "",
-		StatusDelete:  false,
-		StatusPercent: 0,
-		IsEnd:         false,
+	var BodyUserIdLog IDtoLogout
+	if err := c.BindJSON(&BodyUserIdLog); err != nil {
+		c.IndentedJSON(424, gin.H{"message": "User ID не пришел"})
+		log.Println("userid перед выходом", BodyUserIdLog.UserIdLog)
+		return
+	} else {
+		CurrentSession.AccessToken = ""
+		CurrentSession.UserId = ""
+		CurrentSession.MyPageId = ""
+		CurrentSession.MyInstagramAccount = ""
+		CurrentSession.Posts = []MediaToShow{}
+		CurrentSession.MyId = ""
+		CurrentSession.NewStore = []string{}
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		CurrentSession.CurrentBlock = 0
+		CurrentSession.StatusOfProcess = Status{
+			StatusText:    0,
+			StatusComment: "",
+			StatusReply:   "",
+			StatusDelete:  false,
+			StatusPercent: 0,
+			IsEnd:         false,
+		}
+		c.IndentedJSON(200, gin.H{"message": CurrentSession})
+		return
 	}
-	c.IndentedJSON(200, gin.H{"message": CurrentSession})
-	return
 
 }
 
@@ -733,8 +744,8 @@ func main() {
 	route.POST("/api/hashtags/all-blocks", PostCommentReply)
 	route.GET("/api/hashtags/process", Process)
 	route.GET("/api/hashtags/process/status", StatusGet)
-	route.GET("/api/hashtags/process/exit", ExitProcess)
-	route.GET("/api/hashtags/exit", Exit)
+	route.POST("/api/hashtags/process/exit", ExitProcess)
+	route.POST("/api/hashtags/exit", Exit)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
 	err := route.RunTLS(":8080", certfile, keyfile)
 
