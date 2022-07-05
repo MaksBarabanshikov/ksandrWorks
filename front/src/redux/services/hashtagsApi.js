@@ -13,10 +13,12 @@ export const hashtagsApi = createApi({
             return headers
         }
     }),
+    tagTypes: ['Process'],
     endpoints: build => ({
         // Получаем / Начинаем процесс обработки постов
         getProcess: build.query({
             query: () =>  `process`,
+            providesTags: result => ['Process'],
             transformResponse(process, meta) {
                 return {status: Number(meta.response.status)}
             }
@@ -24,6 +26,7 @@ export const hashtagsApi = createApi({
         //Повторяющийся запрос на получение постов
         repeatGetProcess: build.query({
             query: () => 'process/status',
+            providesTags: result => ['Process'],
             transformResponse(process, meta) {
                 return {process, status: Number(meta.response.status)}
             }
@@ -74,7 +77,8 @@ export const hashtagsApi = createApi({
                 url: 'all-blocks',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['Process']
         }),
         // отправляем текущий пост
         sendCurrentPostId: build.mutation({
@@ -90,7 +94,7 @@ export const hashtagsApi = createApi({
                 url: 'exit',
                 method: 'POST',
                 body: data
-            })
+            }),
         }),
     })
 })

@@ -11,12 +11,10 @@ import {useEffect, useState} from "react";
 
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
-    const [stopProcess, {data: message, isLoading, isSuccess , error}] = useLazyStopProcessQuery()
+    const [stopProcess, {data: message, isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
 
     const dispatch = useDispatch()
-
-    const [myError, setError] = useState(null)
 
     const handleComplete = (bool) => {
         setStatus(bool)
@@ -32,10 +30,10 @@ const ProcessBarModal = () => {
         if (isSuccess && status) {
             dispatch(closeModalProcess())
         }
-    },[status])
+    }, [status])
 
     return (
-        <div className={`modal ${isOpenProcess ? "" : "hidden"}`}>
+        <div className={`modal`}>
             <div className={`modal__body ${isOpenProcess ? "open" : ''}`}>
                 <div className="modal__body_top flex justify-content-between align-center border-bottom">
                     <h1 className="title">
@@ -45,6 +43,7 @@ const ProcessBarModal = () => {
                 <div className="modal__body_main">
                     <GetStatus completed={handleComplete}/>
                     <RepeatGetStatus completed={status} isExit={isSuccess}/>
+                    {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
                         <button
                             style={{maxWidth: '200px'}}
@@ -74,7 +73,7 @@ export const RepeatGetStatus = ({completed, isExit}) => {
         }
 
         return () => clearInterval(interval)
-    },[completed, isExit])
+    }, [completed, isExit])
 
     if (error?.data?.message) {
         return <h3 className="error-message">{error.data.message}</h3>
@@ -104,13 +103,14 @@ export const RepeatGetStatus = ({completed, isExit}) => {
 }
 
 export const GetStatus = ({completed}) => {
-    const {data, isLoading, isSuccess, error} = useGetProcessQuery()
+    const {data, isLoading, isSuccess, error, refetch} = useGetProcessQuery()
 
     if (isLoading) {
         return <Loader width={50} height={50}/>
     }
 
     if (isSuccess) {
+        console.log(isSuccess)
         completed(isSuccess)
     }
 

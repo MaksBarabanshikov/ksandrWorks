@@ -54,12 +54,6 @@ const Hashtags = () => {
         }
     }
 
-    useEffect(() => {
-        if (favorites) {
-            dispatch(transformFavorites(favorites))
-        }
-    }, [favorites, dispatch])
-
     const onSubmit = data => {
         if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
             alert('Файловые API не полностью поддерживаются в этом браузере.')
@@ -100,10 +94,17 @@ const Hashtags = () => {
         }
     }
 
+    let processModal = isOpenProcess? <ProcessBarModal/> : null
+
+    useEffect(() => {
+        if (favorites) {
+            dispatch(transformFavorites(favorites))
+        }
+    }, [favorites, dispatch])
+
     useEffect(() => {
             checkForDisabled()
     }, [myFavorites, fbPage, postId]);
-
 
     return (
         <>
@@ -206,7 +207,7 @@ const Hashtags = () => {
                     <HashtagsSide/>
                 </div>
             </div>
-            {isOpenProcess && <ProcessBarModal/>}
+            {processModal}
             <HelloModal/>
 
         </>
