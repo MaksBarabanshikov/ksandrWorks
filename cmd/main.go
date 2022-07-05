@@ -330,7 +330,7 @@ func GetPosts(c *gin.Context) {
 			c.IndentedJSON(MediaEr.code, gin.H{"message": MediaEr.msg})
 			return
 		} else {
-			c.IndentedJSON(204, gin.H{"message": "There is no Posts in this Instagram account"})
+			c.IndentedJSON(424, gin.H{"message": "There is no Posts in this Instagram account"})
 			return
 		}
 	}
