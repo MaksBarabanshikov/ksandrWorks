@@ -619,6 +619,27 @@ func ExitProcess(c *gin.Context) {
 	//Curhandler.AbortProcess()
 
 }
+func Exit(c *gin.Context) {
+	CurrentSession.AccessToken = ""
+	CurrentSession.UserId = ""
+	CurrentSession.MyPageId = ""
+	CurrentSession.MyInstagramAccount = ""
+	CurrentSession.Posts = []MediaToShow{}
+	CurrentSession.MyId = ""
+	CurrentSession.NewStore = []string{}
+	CurrentSession.Blocks = []CommentsReplyFront{}
+	CurrentSession.CurrentBlock = 0
+	CurrentSession.StatusOfProcess = Status{
+		StatusText:    0,
+		StatusComment: "",
+		StatusReply:   "",
+		StatusDelete:  false,
+		StatusPercent: 0,
+		IsEnd:         false,
+	}
+	c.IndentedJSON(200, gin.H{"message": CurrentSession})
+
+}
 
 //Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
 func Process(c *gin.Context) {
@@ -718,6 +739,7 @@ func main() {
 	route.GET("/api/hashtags/process", Process)
 	route.GET("/api/hashtags/process/status", StatusGet)
 	route.GET("/api/hashtags/process/exit", ExitProcess)
+	route.GET("/api/hashtags/exit", Exit)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
 	err := route.RunTLS(":8080", certfile, keyfile)
 
