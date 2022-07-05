@@ -7,13 +7,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
-import {useEffect, useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const [stopProcess, {data: message, isLoading, error}] = useLazyStopProcessQuery()
 
     const dispatch = useDispatch()
+
+    const [myError, setError] = useState(null)
+
+    const handleSetError = (error) => {
+        setError(error)
+    }
 
     const handleStopProcess = async () => {
         await stopProcess()
@@ -47,16 +53,21 @@ const ProcessBarModal = () => {
     )
 }
 export const RepeatGetStatus = () => {
-    const {data, refetch} = useRepeatGetProcessQuery()
+    const {data, refetch, error} = useRepeatGetProcessQuery()
     const interval = setInterval(() => {
         refetch()
-    }, 30000)
+    }, 15000)
+
+    if (error) {
+        clearInterval(interval)
+        return <h3 className="error-message">{error.data.message}</h3>
+    }
 
     if (data) {
         if (data.status !== 204) {
             return <>
                 <p>
-                    {JSON.stringify(data, null, 2)}
+                    Блок #{data.process.status + 1}
                 </p>
                 <ProgressBar
                     completed={data.process.percent}
@@ -77,15 +88,17 @@ export const RepeatGetStatus = () => {
     }
 }
 
-
 export const GetStatus = () => {
-    const {data: status, isLoading} = useGetProcessQuery()
+    const {data: status, isLoading, error} = useGetProcessQuery()
 
     if (isLoading) {
         return <Loader width={50} height={50}/>
     }
     if (status) {
         return <h1>Готово</h1>
+    }
+    if (error) {
+        return <h3 className="error-message">{error.data.message}</h3>
     }
     return <h1>Что-то пошло не так</h1>
 }
