@@ -231,6 +231,10 @@ func PageId(c *gin.Context) {
 		return
 	}
 	CurrentSession.MyPageId = BodyPageIdRecieve.IdPageFb
+	if CurrentSession.MyPageId == "" {
+		c.IndentedJSON(424, gin.H{"message": "Ошибка при получении ID страницы, попробуйте снова используя VPN"})
+		return
+	}
 	c.IndentedJSON(200, CurrentSession.MyPageId)
 	log.Println(CurrentSession.MyPageId)
 }
@@ -268,6 +272,11 @@ func GetInstaId(Token string) string {
 
 	var responseIg RespIgAcconts
 	json.Unmarshal(bodyIgAccount, &responseIg)
+
+	//if responseIg.IgAccounts.MyInstagramId == "" {
+	//	IgEr = ErrMsg{code: 424, msg: "Ошибка при получении бизнесс-аккаунта Instagram, попробуйте снова используя VPN"}
+	//	return ""
+	//}
 
 	log.Println("inst id", responseIg.IgAccounts.MyInstagramId)
 
@@ -348,7 +357,7 @@ func PostId(c *gin.Context) {
 		c.IndentedJSON(424, gin.H{"message": "Выберите пост с которым хотите работать"})
 		return
 	}
-	CurrentSession.CurrentBlock = 0
+	ClearTempData()
 	c.IndentedJSON(200, CurrentSession.MyId)
 	log.Println("Post ID", CurrentSession.MyId)
 }
@@ -556,7 +565,7 @@ func PostCommentReply(c *gin.Context) {
 
 	//Blocks = append(Blocks, CurrentBlock)
 	if len(CurrentSession.Blocks) == 0 {
-		c.IndentedJSON(424, gin.H{"message": "Отсутствуют блоки"})
+		c.IndentedJSON(424, gin.H{"message": "Чтобы запустить процесс - загрузите список с хештегами или загрузите их вручную"})
 		return
 	}
 	c.IndentedJSON(200, CurrentSession.Blocks)
@@ -574,6 +583,10 @@ func PostCommentReply(c *gin.Context) {
 //}
 
 func StatusGet(cr *gin.Context) {
+	if cr.IsAborted() == true {
+		cr.JSON(200, gin.H{"message": "status func was aborted, but everything is ok"})
+		return
+	}
 	if CurrentSession.StatusOfProcess.IsEnd == true {
 		cr.JSON(204, CurrentSession.StatusOfProcess)
 		return
@@ -596,22 +609,14 @@ func ClearTempData() {
 		IsEnd:         false,
 	}
 	CurrentSession.Blocks = []CommentsReplyFront{}
-	CurrentSession.MyId = ""
+	CurrentSession.CurrentBlock = 0
 
 }
 
-//type ginnic gin.HandlerFunc
-//
-//func (Handler ginnic) AbortProcess() {
-//
-//	Handler
-//}
-//var Curhandler ginnic = Process
 func ExitProcess(c *gin.Context) {
 	CurrentSession.Blocks = []CommentsReplyFront{}
-	c.AbortWithStatus(200)
+	c.Next()
 	return
-	//Curhandler.AbortProcess()
 
 }
 func Exit(c *gin.Context) {
@@ -678,6 +683,12 @@ func Process(c *gin.Context) {
 		return
 	}
 
+	if len(CurrentSession.Blocks) == 0 {
+		c.JSON(424, gin.H{"message": "Для процесса нужны blocks "})
+		ClearTempData()
+		return
+	}
+
 	for T := CurrentSession.CurrentBlock; T < len(CurrentSession.Blocks); T = T + 1 {
 		if CurrentSession.Blocks[T].Rep == "" || CurrentSession.Blocks[T].Com == "" {
 			//log.Fatal("There is no comment or reply to use ")
@@ -721,6 +732,7 @@ func Process(c *gin.Context) {
 
 	}
 
+	c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
 	return
 }
 
