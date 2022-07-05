@@ -651,32 +651,32 @@ func Exit(c *gin.Context) {
 func Process(c *gin.Context) {
 
 	if CurrentSession.AccessToken == "" {
-		c.JSON(424, gin.H{"message": "There is no CurrentSession.AccessToken to use"})
+		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
 		ClearTempData()
 		return
 	}
 	if CurrentSession.UserId == "" {
-		c.JSON(424, gin.H{"message": "There is no CurrentSession.UserId to use"})
+		c.JSON(424, gin.H{"message": "Для процесса нужен UserId"})
 		ClearTempData()
 		return
 	}
 	if CurrentSession.MyPageId == "" {
-		c.JSON(424, gin.H{"message": "There is no CurrentSession.MyPageId to use"})
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyPageId"})
 		ClearTempData()
 		return
 	}
 	if CurrentSession.MyInstagramAccount == "" {
-		c.JSON(424, gin.H{"message": "There is no CurrentSession.MyInstagramAccount to use"})
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyInstagramAccount"})
 		ClearTempData()
 		return
 	}
 	if len(CurrentSession.Posts) == 0 {
-		c.JSON(424, gin.H{"message": "There is no CurrentSession.Posts to use"})
+		c.JSON(424, gin.H{"message": "Для процесса нужен Posts "})
 		ClearTempData()
 		return
 	}
 	if CurrentSession.MyId == "" {
-		c.JSON(424, gin.H{"message": "There is no CurrentSession.MyId to use"})
+		c.JSON(424, gin.H{"message": "Для процесса нужен Post Id"})
 		ClearTempData()
 		return
 	}
