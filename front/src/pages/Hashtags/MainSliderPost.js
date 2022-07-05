@@ -34,10 +34,8 @@ const MainSliderPost = () => {
     }, [activeSlide])
 
     useEffect(() => {
-        if (fbPage) {
             getInstagramPosts()
-        }
-    }, [fbPage]);
+    }, [fbPage])
 
 
     let settings = {
@@ -50,6 +48,14 @@ const MainSliderPost = () => {
         nextArrow: <NewNextArrow/>,
         prevArrow: <NewPrevArrow/>,
         afterChange: current => setActiveSlide(current)
+    }
+
+    if (!fbPage) {
+        return <span>Выполните вход в fb</span>
+    }
+
+    if (error) {
+        return <h4 className="error-message">{error.data.message}</h4>
     }
 
     return (
@@ -84,10 +90,7 @@ const MainSliderPost = () => {
                         Выберите нужный пост
                     </span>
                 </div>
-            </>
-            }
-            {error && <h4 className="error-message">{error.data.message}</h4>}
-            {(!posts && !error) && <span>Выполните вход в fb</span>}
+            </>}
         </>
     )
 
