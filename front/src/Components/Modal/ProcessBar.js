@@ -11,7 +11,7 @@ import {useEffect, useState} from "react";
 
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
-    const [stopProcess, {data: message, isSuccess, error}] = useLazyStopProcessQuery()
+    const [stopProcess, {isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
 
     const dispatch = useDispatch()

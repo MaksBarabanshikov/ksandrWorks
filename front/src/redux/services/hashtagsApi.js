@@ -23,7 +23,7 @@ export const hashtagsApi = createApi({
                 return {status: Number(meta.response.status)}
             }
         }),
-        //Повторяющийся запрос на получение постов
+        //Повторяющийся запрос на получение статуса
         repeatGetProcess: build.query({
             query: () => 'process/status',
             providesTags: result => ['Process'],

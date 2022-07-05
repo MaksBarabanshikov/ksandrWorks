@@ -10,6 +10,9 @@ const HashtagsComment = ({index, id, selected, text1, text2}) => {
     const inputRef = useRef()
     const textareaRef = useRef()
     const dispatch = useDispatch()
+    const textTwo = text2.join(" ")
+
+    console.log(text2)
 
     const saveFavorite = () => {
         const obj = {
@@ -62,7 +65,7 @@ const HashtagsComment = ({index, id, selected, text1, text2}) => {
                 <div className="input-field">
                     <textarea
                         ref={textareaRef}
-                        defaultValue={text2}
+                        defaultValue={textTwo}
                         className={"w-100"}
                     />
                     <label
