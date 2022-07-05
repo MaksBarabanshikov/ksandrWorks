@@ -125,12 +125,6 @@ var CurrentSession struct {
 	StatusOfProcess    Status
 }
 
-//var AccessToken = "" //AccessToken from File, see each request
-//var UserId = ""
-//var MyId string = ""
-//var MyPageId string = ""
-//var NewStore = []string{}
-
 var CurrentComment CommentR
 var currentReply ReplyR
 var currentDel DelR
@@ -638,6 +632,7 @@ func Exit(c *gin.Context) {
 		IsEnd:         false,
 	}
 	c.IndentedJSON(200, gin.H{"message": CurrentSession})
+	return
 
 }
 
