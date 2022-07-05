@@ -151,7 +151,7 @@ func ReadAccess(c *gin.Context) {
 
 	var BodyAccessId AcsessIdRecieve
 	if err := c.BindJSON(&BodyAccessId); err != nil {
-		c.IndentedJSON(424, gin.H{"message": "Try again"})
+		c.IndentedJSON(424, gin.H{"message": "Попробуйте снова, используя VPN"})
 		return
 	}
 
@@ -160,7 +160,7 @@ func ReadAccess(c *gin.Context) {
 
 	log.Println(CurrentSession.AccessToken, CurrentSession.UserId)
 	if CurrentSession.AccessToken == "" || CurrentSession.UserId == "" {
-		c.IndentedJSON(424, gin.H{"message": "There is no AccessToken or UserId, try login again using VPN"})
+		c.IndentedJSON(424, gin.H{"message": "Отсутствуют AccessToken или UserId, попробуйте войти используя VPN"})
 		CurrentSession.AccessToken = ""
 		CurrentSession.UserId = ""
 		return
@@ -172,15 +172,15 @@ func ReadAccess(c *gin.Context) {
 //GetPage Return the whole list of fb pages of current UserId
 func GetPage(Token string, UserId string) []Page {
 	if Token == "" || UserId == "" {
-		log.Println("There is no token or UserID to find Pages")
-		PageErr = ErrMsg{code: 424, msg: "There is no token or UserID to find Pages"}
+		log.Println("Отсутствуют AccessToken или UserId чтобы найти страницы")
+		PageErr = ErrMsg{code: 424, msg: "Отсутствуют AccessToken или UserId чтобы найти страницы"}
 		return nil
 	}
 	MyPage, err := MyClient.Get(Graph + UserId + "/accounts?access_token=" + Token)
 	//time.Sleep(15 * time.Second)
 	if err != nil {
 		log.Println(err)
-		PageErr = ErrMsg{code: 504, msg: "Fail to get Page, try proxy or refresh access token"}
+		PageErr = ErrMsg{code: 504, msg: "Ошибка при получении страниц, попробуйте снова используя VPN"}
 		return nil
 	}
 	defer func(Body io.ReadCloser) {
@@ -215,7 +215,7 @@ func GetListOfPages(c *gin.Context) {
 			c.IndentedJSON(PageErr.code, gin.H{"message": PageErr.msg})
 			return
 		} else {
-			c.IndentedJSON(424, gin.H{"message": "There is no Pages associated with this FB account"})
+			c.IndentedJSON(424, gin.H{"message": "Нет страниц, привязанных к этому аккаунту Facebook"})
 			return
 		}
 	}
@@ -229,7 +229,7 @@ func GetListOfPages(c *gin.Context) {
 func PageId(c *gin.Context) {
 	var BodyPageIdRecieve PageIdRecieve
 	if err := c.BindJSON(&BodyPageIdRecieve); err != nil {
-		c.IndentedJSON(424, gin.H{"message": "Cant get PageId"})
+		c.IndentedJSON(424, gin.H{"message": "Ошибка при получении ID страницы, попробуйте снова"})
 		return
 	}
 	CurrentSession.MyPageId = BodyPageIdRecieve.IdPageFb
@@ -241,15 +241,15 @@ func PageId(c *gin.Context) {
 func GetInstaId(Token string) string {
 
 	if Token == "" || CurrentSession.MyPageId == "" {
-		log.Println("there is no token or PageId to find instagram_business_account")
-		IgEr = ErrMsg{code: 424, msg: "there is no token or PageId to find instagram_business_account"}
+		log.Println("Отсутствуют AccessToken или UserId чтобы найти бизнесс-аккаунт Instagram")
+		IgEr = ErrMsg{code: 424, msg: "Отсутствуют AccessToken или UserId чтобы найти бизнесс-аккаунт Instagram"}
 		return ""
 	}
 
 	respIgAccount, err := MyClient.Get("https://graph.facebook.com/v14.0/" + CurrentSession.MyPageId + "?fields=instagram_business_account&access_token=" + Token)
 	if err != nil {
 		log.Println(err)
-		IgEr = ErrMsg{code: 504, msg: "Fail to get Instagram account, try proxy or refresh access token"}
+		IgEr = ErrMsg{code: 504, msg: "Ошибка при получении бизнесс-аккаунта Instagram, попробуйте снова используя VPN"}
 		return ""
 	}
 
@@ -281,14 +281,14 @@ func GetInstaId(Token string) string {
 //GetMediaToShow Return full data about user's current Post
 func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 	if IdIg == "" || Token == "" {
-		log.Println("There is no Id of Ig account or token to get media")
-		MediaEr = ErrMsg{code: 424, msg: "There is no Id of Ig account or token to get media"}
+		log.Println("Отсутствуют ID бизнесс-аккаунта Instagram или AccessToken to get media")
+		MediaEr = ErrMsg{code: 424, msg: "Отсутствуют ID бизнесс-аккаунта Instagram или AccessToken to get media"}
 		return nil
 	}
 	respMedias, err := MyClient.Get(Graph + IdIg + "/media?fields=id,caption,like_count,comments_count,username,media_url,timestamp,children{media_url}&access_token=" + Token)
 	if err != nil {
 		fmt.Println(err)
-		MediaEr = ErrMsg{code: 504, msg: "Fail to get Instagram account's media, try proxy or refresh access token"}
+		MediaEr = ErrMsg{code: 504, msg: "Ошибка при получении постов бизнесс-аккаунта Instagram, попробуйте снова используя VPN или обновите AccessToken"}
 		return nil
 	}
 	defer respMedias.Body.Close()
@@ -320,7 +320,7 @@ func GetPosts(c *gin.Context) {
 			c.IndentedJSON(IgEr.code, gin.H{"message": IgEr.msg})
 			return
 		} else {
-			c.IndentedJSON(424, gin.H{"message": "There is no B.Instagram account associated with this Page"})
+			c.IndentedJSON(424, gin.H{"message": "Привяжите свой бизнес-аккаунт Instagram к текущей странице, или выберите другую страницу"})
 			return
 		}
 	}
@@ -330,7 +330,7 @@ func GetPosts(c *gin.Context) {
 			c.IndentedJSON(MediaEr.code, gin.H{"message": MediaEr.msg})
 			return
 		} else {
-			c.IndentedJSON(424, gin.H{"message": "There is no Posts in this Instagram account"})
+			c.IndentedJSON(424, gin.H{"message": "В привязанном бизнес-аккаунте Instagram отсутсвуют посты"})
 			return
 		}
 	}
@@ -347,7 +347,7 @@ func PostId(c *gin.Context) {
 	}
 	CurrentSession.MyId = BodyMyId.Id
 	if CurrentSession.MyId == "" {
-		c.IndentedJSON(424, gin.H{"message": "Post was not selected"})
+		c.IndentedJSON(424, gin.H{"message": "Выберите пост с которым хотите работать"})
 		return
 	}
 	CurrentSession.CurrentBlock = 0
@@ -360,7 +360,7 @@ func GettingFile(c *gin.Context) {
 
 	var BodyFile FileRecieve
 	if err := c.BindJSON(&BodyFile); err != nil {
-		c.IndentedJSON(520, gin.H{"message": "something went wrong with delivery file of hashtags"})
+		c.IndentedJSON(520, gin.H{"message": "Ошибка при отправке файла, попробуйте снова"})
 		return
 	}
 
@@ -399,8 +399,8 @@ func GetSortedList(c *gin.Context) {
 func Hashtaging(ReplyBody string, CommentBody string) {
 
 	if ReplyBody == "" || CommentBody == "" {
-		log.Println("There is no Reply or Comment to do the process")
-		CurErrMsg = ErrMsg{code: 424, msg: "There is no Reply or Comment to do the process"}
+		log.Println("Отсутствуют Комментарий или Ответ чтобы начать процесс")
+		CurErrMsg = ErrMsg{code: 424, msg: "Отсутствуют Комментарий или Ответ чтобы начать процесс"}
 		return
 	}
 	CommentValues := url.Values{}
@@ -409,8 +409,8 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	//var ReallyPost = PostsIds[len(PostsIds)-1]
 	if CurrentSession.MyId == "" {
-		log.Println("There is no PostID to do the process")
-		CurErrMsg = ErrMsg{code: 424, msg: "There is no PostID to do the process"}
+		log.Println("Отсутствует ID поста чтобы начать процесс")
+		CurErrMsg = ErrMsg{code: 424, msg: "Отсутствует ID поста чтобы начать процесс"}
 		return
 	}
 	var CurrentIDPost = CurrentSession.MyId
@@ -422,14 +422,14 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Fail of creating comment, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать комментарий, попробуйте снова используя VPN или обновите AccessToken"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
 			log.Println(err)
-			CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with comment in hashtags"}
+			CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with comment in hashtags(1)"}
 			return
 		}
 	}(comment.Body)
@@ -437,7 +437,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	bodyComment, err := ioutil.ReadAll(comment.Body)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with comment in hashtags"}
+		CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with comment in hashtags(2)"}
 		return
 	}
 
@@ -445,9 +445,9 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	log.Println("post id", CurrentIDPost)
 	if CurrentComment.CommentId == "" {
-		log.Println("Fail of creating comment")
+		log.Println("Ошибка при попытке создать комментарий")
 		//CurrentComment.CommentId = "Fail of creating comment"
-		CurErrMsg = ErrMsg{code: 424, msg: "Fail of creating comment"}
+		CurErrMsg = ErrMsg{code: 424, msg: "Ошибка при попытке создать комментарий"}
 		return
 	} else {
 		log.Println("comment id", CurrentComment.CommentId)
@@ -466,7 +466,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Fail of creating reply, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN или обновите AccessToken"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -488,9 +488,9 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	json.Unmarshal(bodyReply, &currentReply)
 
 	if currentReply.ReplyId == "" {
-		log.Println("Fail of creating reply, try proxy or refresh access")
+		log.Println("Ошибка при попытке создать ответ")
 		//currentReply.ReplyId = "Fail of creating reply"
-		CurErrMsg = ErrMsg{code: 504, msg: "Fail of creating reply, try proxy or refresh access"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ"}
 		return
 	} else {
 		log.Println("Reply Id", currentReply.ReplyId)
@@ -506,14 +506,14 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Fail of deleting comment, try proxy or refresh access(1)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN или обновите AccessToken(1)"}
 		return
 	}
 
 	RespDelComment, err := http.DefaultClient.Do(DelComment)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Fail of deleting comment, try proxy or refresh access(2)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN или обновите AccessToken(2)"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -533,8 +533,8 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	json.Unmarshal(bodyDelComment, &currentDel)
 
 	if currentDel.DelStatus == false {
-		log.Println("There is no comment to delete")
-		CurErrMsg = ErrMsg{code: 504, msg: "There is no comment to delete, try proxy or refresh access"}
+		log.Println("Ошибка при удалении комментария")
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария"}
 		return
 	} else {
 		log.Println("status of delete", currentDel.DelStatus)
@@ -550,7 +550,7 @@ func PostCommentReply(c *gin.Context) {
 
 	var MyBlocks Allblocks
 	if err := c.BindJSON(&MyBlocks); err != nil {
-		c.IndentedJSON(424, gin.H{"message": "something went wrong in delivery blocks"})
+		c.IndentedJSON(424, gin.H{"message": "Произошла ошибка при отправке блоков"})
 		return
 	}
 
@@ -558,7 +558,7 @@ func PostCommentReply(c *gin.Context) {
 
 	//Blocks = append(Blocks, CurrentBlock)
 	if len(CurrentSession.Blocks) == 0 {
-		c.IndentedJSON(424, gin.H{"message": "There is no blocks to work with"})
+		c.IndentedJSON(424, gin.H{"message": "Отсутствуют блоки"})
 		return
 	}
 	c.IndentedJSON(200, CurrentSession.Blocks)
@@ -657,7 +657,7 @@ func Process(c *gin.Context) {
 	for T := CurrentSession.CurrentBlock; T < len(CurrentSession.Blocks); T = T + 1 {
 		if CurrentSession.Blocks[T].Rep == "" || CurrentSession.Blocks[T].Com == "" {
 			//log.Fatal("There is no comment or reply to use ")
-			c.JSON(424, gin.H{"message": "There is no comment or reply to use"})
+			c.JSON(424, gin.H{"message": "Блок пустой"})
 			ClearTempData()
 			return
 		}
