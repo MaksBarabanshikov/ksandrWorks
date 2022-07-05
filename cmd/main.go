@@ -708,8 +708,9 @@ func Process(c *gin.Context) {
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", CurrentSession.StatusOfProcess)
-			ClearTempData()
+			time.Sleep(15 * time.Second)
 			CurrentSession.CurrentBlock = 0
+			ClearTempData()
 			c.JSON(200, gin.H{"status": "процесс окончен"})
 			return
 
