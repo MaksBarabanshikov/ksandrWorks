@@ -6,14 +6,13 @@ import NewPrevArrow from "../../Components/common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
 import axios from "axios";
 import Loader from "../../Components/common/Loader";
-import {hashtagsApi, useGetInstagramPostsQuery} from "../../redux/services/hashtagsApi";
+import {useLazyGetInstagramPostsQuery} from "../../redux/services/hashtagsApi";
 import {createFbPage} from "../../redux/modules/facebookSlice";
 
 const MainSliderPost = () => {
     const fbPage = useSelector(state => state.facebook.user.fbPage)
     const [activeSlide, setActiveSlide] = useState(0)
-    const {data: posts, isLoading, error} = useGetInstagramPostsQuery('Post')
-    const dispatch = useDispatch()
+    const [getInstagramPosts, {data: posts, isLoading, error}] = useLazyGetInstagramPostsQuery('Post')
 
     useEffect(() => {
         if (posts?.length) {
@@ -32,11 +31,14 @@ const MainSliderPost = () => {
                     console.log(e)
                 })
         }
-    }, [activeSlide, posts])
+    }, [activeSlide])
 
     useEffect(() => {
-        console.log(fbPage)
+        if (fbPage) {
+            getInstagramPosts()
+        }
     }, [fbPage]);
+
 
     let settings = {
         dots: false,

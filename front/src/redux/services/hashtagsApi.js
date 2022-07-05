@@ -84,7 +84,7 @@ export const {
     useGetProcessQuery,
     useRepeatGetProcessQuery,
     useGetPagesQuery,
-    useGetInstagramPostsQuery,
+    useLazyGetInstagramPostsQuery,
     useGetFavoritesQuery,
     useSendTokenFbMutation,
     useSendCurrentPageMutation,
