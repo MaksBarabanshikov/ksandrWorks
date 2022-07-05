@@ -601,6 +601,13 @@ func ClearTempData() {
 	}
 	CurrentSession.Blocks = []CommentsReplyFront{}
 	CurrentSession.MyId = ""
+
+}
+func ExitProcess(c *gin.Context) {
+	CurrentSession.Blocks = []CommentsReplyFront{}
+	CurrentSession.MyId = ""
+	c.Abort()
+	return
 }
 
 //Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
@@ -700,7 +707,7 @@ func main() {
 	route.POST("/api/hashtags/all-blocks", PostCommentReply)
 	route.GET("/api/hashtags/process", Process)
 	route.GET("/api/hashtags/process/status", StatusGet)
-	//route.GET("/api/hashtags/process/exit", ExitProcess)
+	route.GET("/api/hashtags/process/exit", ExitProcess)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
 	err := route.RunTLS(":8080", certfile, keyfile)
 
