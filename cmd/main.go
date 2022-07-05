@@ -108,6 +108,7 @@ type Status struct {
 	StatusDelete  bool    `json:"deleteStatus"`
 	StatusPercent float64 `json:"percent"`
 	IsEnd         bool    `json:"isEnd"`
+	Done          bool
 }
 
 //var proxyUrl, _ = url.Parse("http://50.207.253.118:80")
@@ -584,10 +585,6 @@ func PostCommentReply(c *gin.Context) {
 //}
 
 func StatusGet(cr *gin.Context) {
-	//if cr.IsAborted() == true {
-	//	cr.JSON(200, gin.H{"message": "status func was aborted, but everything is ok"})
-	//	return
-	//}
 	if CurrentSession.StatusOfProcess.IsEnd == true {
 		cr.JSON(204, CurrentSession.StatusOfProcess)
 		return
@@ -608,14 +605,17 @@ func ClearTempData() {
 		StatusDelete:  false,
 		StatusPercent: 0,
 		IsEnd:         false,
+		Done:          false,
 	}
 	CurrentSession.Blocks = []CommentsReplyFront{}
 }
 
+var Done bool
+
 func ExitProcess(c *gin.Context) {
-	ClearTempData()
 	log.Println("делаю аборт из ExitProcess")
-	c.Next()
+	Done = true
+	ClearTempData()
 	return
 }
 func Exit(c *gin.Context) {
@@ -718,14 +718,24 @@ func Process(c *gin.Context) {
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
 		CurrentSession.CurrentBlock = T + 1
+		if CurrentSession.StatusOfProcess.Done == true {
+			if (T + 1) == len(CurrentSession.Blocks) {
+				CurrentSession.StatusOfProcess.IsEnd = true
+			}
+			log.Println("выход по кнопке")
+			c.JSON(200, gin.H{"status": "процесс окончен по кнопке"})
+			time.Sleep(5 * time.Second)
+			ClearTempData()
+			return
+		}
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", CurrentSession.StatusOfProcess)
 			time.Sleep(15 * time.Second)
-			CurrentSession.CurrentBlock = 0
-			ClearTempData()
 			log.Println("выход из Process по окончанию")
+			CurrentSession.CurrentBlock = 0
 			c.JSON(200, gin.H{"status": "процесс окончен"})
+			ClearTempData()
 			return
 
 		} else {
@@ -734,9 +744,9 @@ func Process(c *gin.Context) {
 		}
 
 	}
-	ClearTempData()
-	log.Println("выход из process из-за аборта по кнопке?")
+
 	c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
+	ClearTempData()
 	return
 }
 
