@@ -16,7 +16,10 @@ export const hashtagsApi = createApi({
     endpoints: build => ({
         // Получаем / Начинаем процесс обработки постов
         getProcess: build.query({
-            query: () =>  `process`
+            query: () =>  `process`,
+            transformResponse(process, meta) {
+                return {status: Number(meta.response.status)}
+            }
         }),
         //Повторяющийся запрос на получение постов
         repeatGetProcess: build.query({

@@ -20,7 +20,7 @@ const logger = createLogger()
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['favorites', 'instagramPosts', 'facebook']
+    whitelist: ['favorites','facebook']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

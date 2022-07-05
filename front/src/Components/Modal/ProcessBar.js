@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
@@ -54,11 +54,12 @@ const ProcessBarModal = () => {
 }
 export const RepeatGetStatus = () => {
     const {data, refetch, error} = useRepeatGetProcessQuery()
+    const favorites = useSelector(state => state.favorites.favorites)
     const interval = setInterval(() => {
         refetch()
     }, 15000)
 
-    if (error) {
+    if (error?.data?.message) {
         clearInterval(interval)
         return <h3 className="error-message">{error.data.message}</h3>
     }
@@ -67,7 +68,7 @@ export const RepeatGetStatus = () => {
         if (data.status !== 204) {
             return <>
                 <p>
-                    Блок #{data.process.status + 1}
+                    Блок {data.process.status + 1} из {favorites.length}
                 </p>
                 <ProgressBar
                     completed={data.process.percent}
@@ -89,12 +90,12 @@ export const RepeatGetStatus = () => {
 }
 
 export const GetStatus = () => {
-    const {data: status, isLoading, error} = useGetProcessQuery()
+    const {data, isLoading, error} = useGetProcessQuery()
 
     if (isLoading) {
         return <Loader width={50} height={50}/>
     }
-    if (status) {
+    if (data?.status === 200) {
         return <h1>Готово</h1>
     }
     if (error) {

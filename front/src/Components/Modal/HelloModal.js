@@ -5,28 +5,13 @@ import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalFB, nextStep} from "../../redux/modules/modalSlice";
-import {useSendCurrentPageMutation} from "../../redux/services/hashtagsApi";
-import {createFbPage} from "../../redux/modules/facebookSlice";
 
 const HelloModal = () => {
     const isOpen = useSelector(state => state.modalFb.isOpen)
     const step = useSelector(state => state.modalFb.step)
     const [sliderId, setSliderId] = useState(null)
-    const [sendCurrentPage] = useSendCurrentPageMutation()
 
     const dispatch = useDispatch()
-
-    const handlePostPage = async () => {
-        await sendCurrentPage({
-            fbPage: sliderId
-        })
-        dispatch(createFbPage({
-            fbPage: sliderId
-        }))
-        dispatch(nextStep())
-    }
-
-    const getId = id => setSliderId(id)
 
     return (
         <div className={`modal ${isOpen ? "" : "hidden"}`}>
@@ -125,17 +110,7 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <HelloModalSlider getId={getId}/>
-
-                        <div className="modal__body_main-btn flex">
-                            <button
-                                className="btn blue-btn"
-                                onClick={() => handlePostPage()}
-                            >
-                                Далее
-                            </button>
-                        </div>
+                        <HelloModalSlider/>
                     </div>
                 </div>}
                 {step === 3 && <div className="step-3">

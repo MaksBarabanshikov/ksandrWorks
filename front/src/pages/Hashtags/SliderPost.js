@@ -6,7 +6,7 @@ const SliderPost = () => {
       <>
           <div className="slider-post  flex flex-column">
               <div className="slider-post__main ">
-                  <MainSliderPost/>
+                  <MainSliderPost />
               </div>
           </div>
       </>

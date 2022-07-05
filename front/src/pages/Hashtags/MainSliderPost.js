@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from "react";
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Slider from "react-slick";
 import NewNextArrow from "../../Components/common/NewNextArrow";
 import NewPrevArrow from "../../Components/common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
 import Loader from "../../Components/common/Loader";
 import {useLazyGetInstagramPostsQuery, useSendCurrentPostIdMutation} from "../../redux/services/hashtagsApi";
+import {setCurrentPostId} from "../../redux/modules/instaPostsSlice";
 
 const MainSliderPost = () => {
     const fbPage = useSelector(state => state.facebook.user.fbPage)
     const [activeSlide, setActiveSlide] = useState(0)
     const [getInstagramPosts, {data: posts, isLoading, error}] = useLazyGetInstagramPostsQuery('Post')
-    const [sendCurrentPostId, {}] = useSendCurrentPostIdMutation()
+    const [sendCurrentPostId] = useSendCurrentPostIdMutation()
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (posts?.length && fbPage) {
             sendCurrentPostId({id: posts[activeSlide].id})
+            dispatch(setCurrentPostId({id: posts[activeSlide].id}))
         }
     }, [activeSlide, posts, fbPage])
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Header from "../../Components/header/Header";
 import RemainingPosts from "./RemainingPosts";
 import SliderPost from "./SliderPost";
@@ -26,10 +26,12 @@ const Hashtags = () => {
         null :
         skipToken)
     const [sendFavorites] = useSendFavoritesMutation()
-
+    const [isPostId, setIsPostId] = useState(true);
 
     const myFavorites = useSelector(state => state.favorites.favorites)
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
+    const fbPage = useSelector(state => state.facebook.user.fbPage)
+    const postId = useSelector(state => state.instagramPosts.currentPostId)
 
     const dispatch = useDispatch()
 
@@ -89,6 +91,19 @@ const Hashtags = () => {
         await sendFavorites({data})
         dispatch(openModalProcess())
     }
+
+    const checkForDisabled = () => {
+        if (!!fbPage && myFavorites.length && !!postId) {
+            setIsPostId(false)
+        } else {
+            setIsPostId(true)
+        }
+    }
+
+    useEffect(() => {
+            checkForDisabled()
+    }, [myFavorites, fbPage, postId]);
+
 
     return (
         <>
@@ -153,15 +168,18 @@ const Hashtags = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button className="blue-btn mb-20" onClick={() => sendForProcessing()}>Отправить в
-                                        обработку
+                                    <button className="blue-btn mb-20"
+                                            onClick={() => sendForProcessing()}
+                                            disabled={isPostId}
+                                    >
+                                        Отправить в обработку
                                     </button>
                                     <button className="gray-btn mb-20">Остановить обработку</button>
                                     <RemainingPosts number={30}/>
                                 </div>
                             </div>
                             <div className="hashtag__block_slider flex justify-content-end">
-                                <SliderPost/>
+                                <SliderPost checkId={checkForDisabled}/>
                             </div>
                         </div>
                     </div>
