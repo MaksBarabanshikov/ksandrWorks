@@ -605,6 +605,7 @@ func ClearTempData() {
 		StatusDelete:  false,
 		StatusPercent: 0,
 		IsEnd:         false,
+		Done:          false,
 	}
 	CurrentSession.Blocks = []CommentsReplyFront{}
 }
