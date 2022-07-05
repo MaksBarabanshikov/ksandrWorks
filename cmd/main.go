@@ -603,11 +603,20 @@ func ClearTempData() {
 	CurrentSession.MyId = ""
 
 }
+
+//type ginnic gin.HandlerFunc
+//
+//func (Handler ginnic) AbortProcess() {
+//
+//	Handler
+//}
+//var Curhandler ginnic = Process
 func ExitProcess(c *gin.Context) {
 	CurrentSession.Blocks = []CommentsReplyFront{}
 	CurrentSession.MyId = ""
-	c.AbortWithStatus(418)
-	return
+	c.Abort()
+	//Curhandler.AbortProcess()
+
 }
 
 //Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
