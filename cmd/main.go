@@ -111,9 +111,6 @@ type Status struct {
 	Done          bool
 }
 
-//var proxyUrl, _ = url.Parse("http://50.207.253.118:80")
-//Transport: &http.Transport{Proxy: http.ProxyURL(proxyUrl)}//Proxy
-
 var MyClient = http.Client{}                    //Client to do requests
 var Graph = "https://graph.facebook.com/v14.0/" //First part of each Request
 
@@ -150,7 +147,7 @@ func ReadAccess(c *gin.Context) {
 
 	var BodyAccessId AcsessIdRecieve
 	if err := c.BindJSON(&BodyAccessId); err != nil {
-		c.IndentedJSON(424, gin.H{"message": "Попробуйте снова, используя VPN"})
+		c.IndentedJSON(424, gin.H{"message": "Попробуйте снова"})
 		return
 	}
 
@@ -181,7 +178,6 @@ func RefreshAccess(c *gin.Context) {
 	log.Println("refreshed", CurrentSession.AccessToken)
 	if CurrentSession.AccessToken == "" {
 		c.IndentedJSON(424, gin.H{"message": "Отсутствует AccessToken, попробуйте обновить используя VPN"})
-		CurrentSession.AccessToken = ""
 		return
 	}
 	c.IndentedJSON(200, BodyAccessId)
@@ -257,11 +253,12 @@ func PageId(c *gin.Context) {
 	}
 	CurrentSession.MyPageId = BodyPageIdRecieve.IdPageFb
 	if CurrentSession.MyPageId == "" {
-		c.IndentedJSON(424, gin.H{"message": "Ошибка при получении ID страницы, попробуйте снова используя VPN"})
+		c.IndentedJSON(424, gin.H{"message": "Ошибка при получении ID страницы, попробуйте снова"})
 		return
 	}
 	c.IndentedJSON(200, CurrentSession.MyPageId)
 	log.Println(CurrentSession.MyPageId)
+	return
 }
 
 //GetInstaId Return ID os Instagram account
@@ -298,7 +295,7 @@ func GetInstaId(Token string) string {
 	var responseIg RespIgAcconts
 	marsher := json.Unmarshal(bodyIgAccount, &responseIg)
 	if marsher != nil {
-		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get instaID)"}
+		PageErr = ErrMsg{code: 401, msg: "Обновите свой AccessToken (перелогинтесь)"}
 		return ""
 	}
 
@@ -317,14 +314,14 @@ func GetInstaId(Token string) string {
 //GetMediaToShow Return full data about user's current Post
 func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 	if IdIg == "" || Token == "" {
-		log.Println("Отсутствуют ID бизнесс-аккаунта Instagram или AccessToken to get media")
-		MediaEr = ErrMsg{code: 424, msg: "Отсутствуют ID бизнесс-аккаунта Instagram или AccessToken to get media"}
+		log.Println("Отсутствуют ID бизнесс-аккаунта Instagram или AccessToken для получения постов")
+		MediaEr = ErrMsg{code: 424, msg: "Отсутствуют ID бизнесс-аккаунта Instagram или AccessToken для получения постов"}
 		return nil
 	}
 	respMedias, err := MyClient.Get(Graph + IdIg + "/media?fields=id,caption,like_count,comments_count,username,media_url,timestamp,children{media_url}&access_token=" + Token)
 	if err != nil {
 		fmt.Println(err)
-		MediaEr = ErrMsg{code: 504, msg: "Ошибка при получении постов бизнесс-аккаунта Instagram, попробуйте снова используя VPN или обновите AccessToken"}
+		MediaEr = ErrMsg{code: 504, msg: "Ошибка при получении постов бизнесс-аккаунта Instagram, попробуйте снова используя VPN"}
 		return nil
 	}
 	defer respMedias.Body.Close()
@@ -340,7 +337,7 @@ func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 	var responseMedia AllMediaToShow
 	marsher := json.Unmarshal(bodyMedias, &responseMedia)
 	if marsher != nil {
-		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get media)"}
+		PageErr = ErrMsg{code: 401, msg: "Обновите свой AccessToken (перелогинтесь)"}
 		return nil
 	}
 
@@ -382,7 +379,7 @@ func GetPosts(c *gin.Context) {
 func PostId(c *gin.Context) {
 	var BodyMyId CurrentPostType
 	if err := c.BindJSON(&BodyMyId); err != nil {
-		c.IndentedJSON(520, gin.H{"message": "something went wrong with delivery id of Post"})
+		c.IndentedJSON(520, gin.H{"message": "Попробуйте снова"})
 		return
 	}
 	CurrentSession.MyId = BodyMyId.Id
@@ -396,7 +393,7 @@ func PostId(c *gin.Context) {
 	log.Println("Post ID", CurrentSession.MyId)
 }
 
-//GettingFile Recieving an File with Hashtags from POST Method and save it on computer
+//GettingFile get file from frontend to sorting
 func GettingFile(c *gin.Context) {
 
 	var BodyFile FileRecieve
@@ -483,7 +480,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	marsher := json.Unmarshal(bodyComment, &CurrentComment)
 	if marsher != nil {
-		PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from comment)"}
+		PageErr = ErrMsg{code: 401, msg: "Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)"}
 		return
 	}
 
@@ -509,7 +506,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -530,27 +527,27 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	marsherR := json.Unmarshal(bodyReply, &currentReply)
 	if marsherR != nil {
-		PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply)"}
+		PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply). Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий"}
 		return
 	}
 
 	if currentReply.ReplyId == "" {
-		log.Println("Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов")
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов"}
+		log.Println("Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами и попробуйте снова")
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами и попробуйте снова"}
 		UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
 
 		//Delete method send request to delete a comment
 		DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
 		if err != nil {
 			log.Println(err)
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (1)"}
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария(1)"}
 			return
 		}
 
 		RespDelComment, err := http.DefaultClient.Do(DelComment)
 		if err != nil {
 			log.Println(err)
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (1)"}
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария(1)"}
 			return
 		}
 		defer func(Body io.ReadCloser) {
@@ -569,13 +566,13 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 		marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
 		if marsherDel != nil {
-			PageErr = ErrMsg{code: 401, msg: "Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем бновите AccessToken и процесс продолжится с  блока на котором остановился (from get Del)"}
+			PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply). Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий"}
 			return
 		}
 
 		if currentDel.DelStatus == false {
-			log.Println("Ошибка при удалении комментария")
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария"}
+			log.Println("Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий а затем попробуйте снова")
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий а затем попробуйте снова"}
 			return
 		} else {
 			log.Println("status of delete", currentDel.DelStatus)
@@ -595,14 +592,14 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (1)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите комментарий с хештегами, затем попробуйте снова используя VPN (1)"}
 		return
 	}
 
 	RespDelComment, err := http.DefaultClient.Do(DelComment)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "ООшибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (2)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "ООшибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите комментарий с хештегами, затем попробуйте снова используя VPN (2)"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -621,13 +618,13 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
 	if marsherDel != nil {
-		PageErr = ErrMsg{code: 401, msg: "Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем бновите AccessToken и процесс продолжится с блока на котором остановился (from get Del)"}
+		PageErr = ErrMsg{code: 401, msg: "Пожалуйста проверьте свой инстаграмм аккаунт и удалите комментарий с хештегами, затем бновите AccessToken (перелогиньтесь) и процесс продолжится с блока на котором остановился (from get Del)"}
 		return
 	}
 
 	if currentDel.DelStatus == false {
-		log.Println("Ошибка при удалении комментария")
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария"}
+		log.Println("Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами а затем попробуйте снова")
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами а затем попробуйте снова"}
 		return
 	} else {
 		log.Println("status of delete", currentDel.DelStatus)
