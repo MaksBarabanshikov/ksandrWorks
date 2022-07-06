@@ -35,9 +35,10 @@ const ProcessBarModal = ({refresh}) => {
         await stopProcess()
     }
 
-    const doubleHandler = () => {
+    const doubleHandler = async () => {
         if (status === "ErrorAuth") {
-            FacebookLoginClient.login(res => refreshToken(
+            console.log('refresh')
+            await FacebookLoginClient.login(res => refreshToken(
                 {
                     accessToken: res.authResponse.accessToken,
                     userId: res.authResponse.userID
