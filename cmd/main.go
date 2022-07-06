@@ -391,6 +391,8 @@ func PostId(c *gin.Context) {
 		return
 	}
 	ClearTempData()
+	CurrentSession.StatusOfProcess.StatusPercent = 0
+	CurrentSession.StatusOfProcess.StatusText = 0
 	CurrentSession.CurrentBlock = 0
 	c.IndentedJSON(200, CurrentSession.MyId)
 	log.Println("Post ID", CurrentSession.MyId)
@@ -683,11 +685,9 @@ func StatusGet(cr *gin.Context) {
 //
 func ClearTempData() {
 	CurrentSession.StatusOfProcess = Status{
-		StatusText:    0,
 		StatusComment: "",
 		StatusReply:   "",
 		StatusDelete:  false,
-		StatusPercent: 0,
 		IsEnd:         false,
 		Done:          false,
 	}
@@ -726,6 +726,8 @@ func Exit(c *gin.Context) {
 			IsEnd:         false,
 		}
 		ClearTempData()
+		CurrentSession.StatusOfProcess.StatusPercent = 0
+		CurrentSession.StatusOfProcess.StatusText = 0
 		c.IndentedJSON(200, gin.H{"message": CurrentSession})
 		return
 	}
@@ -734,34 +736,42 @@ func Exit(c *gin.Context) {
 
 //Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
 func Process(c *gin.Context) {
-	ClearTempData()
+	CurrentSession.StatusOfProcess.StatusPercent = 0
+	CurrentSession.StatusOfProcess.StatusText = 0
 
 	if CurrentSession.AccessToken == "" {
 		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
+		ClearTempData()
 		return
 	}
 	if CurrentSession.UserId == "" {
 		c.JSON(424, gin.H{"message": "Для процесса нужен UserId"})
+		ClearTempData()
 		return
 	}
 	if CurrentSession.MyPageId == "" {
 		c.JSON(424, gin.H{"message": "Для процесса нужен MyPageId"})
+		ClearTempData()
 		return
 	}
 	if CurrentSession.MyInstagramAccount == "" {
 		c.JSON(424, gin.H{"message": "Для процесса нужен MyInstagramAccount"})
+		ClearTempData()
 		return
 	}
 	if len(CurrentSession.Posts) == 0 {
 		c.JSON(424, gin.H{"message": "Для процесса нужен Posts "})
+		ClearTempData()
 		return
 	}
 	if CurrentSession.MyId == "" {
 		c.JSON(424, gin.H{"message": "Для процесса нужен Post Id"})
+		ClearTempData()
 		return
 	}
 	if len(CurrentSession.Blocks) == 0 {
 		c.JSON(424, gin.H{"message": "Для процесса нужны blocks "})
+		ClearTempData()
 		return
 	}
 
@@ -770,6 +780,7 @@ func Process(c *gin.Context) {
 		if CurrentSession.Blocks[T].Rep == "" || CurrentSession.Blocks[T].Com == "" {
 			//log.Fatal("There is no comment or reply to use ")
 			c.JSON(424, gin.H{"message": "Блок пустой"})
+			ClearTempData()
 			return
 		}
 		var CurrentReplyBody = ""
@@ -789,6 +800,7 @@ func Process(c *gin.Context) {
 		Hashtaging(CurrentReplyBody, CurrentCommentBody)
 		if CurErrMsg.code != 200 {
 			c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
+			ClearTempData()
 			log.Println("выход из Process из-за ошибки")
 			return
 		}
@@ -811,6 +823,7 @@ func Process(c *gin.Context) {
 			time.Sleep(20 * time.Second)
 			log.Println("выход по кнопке2")
 			c.JSON(200, gin.H{"status": "процесс окончен по кнопке2"})
+			ClearTempData()
 			return
 		}
 
@@ -821,6 +834,7 @@ func Process(c *gin.Context) {
 			log.Println("выход из Process по окончанию")
 			CurrentSession.CurrentBlock = 0
 			c.JSON(200, gin.H{"status": "процесс окончен"})
+			ClearTempData()
 			return
 
 		} else {
@@ -831,6 +845,7 @@ func Process(c *gin.Context) {
 	}
 
 	c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
+	ClearTempData()
 	return
 }
 
