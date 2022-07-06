@@ -17,6 +17,7 @@ const ProcessBarModal = ({refresh}) => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const [stopProcess, {isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
+    const [refreshToken, {error: errorRefresh}] = useRefreshFacebookTokenMutation()
 
     useEffect(() => {
         document.body.style.overflow = 'hidden'
@@ -32,6 +33,21 @@ const ProcessBarModal = ({refresh}) => {
 
     const handleStopProcess = async () => {
         await stopProcess()
+    }
+
+    const doubleHandler = () => {
+        if (status === "ErrorAuth") {
+            FacebookLoginClient.login(res => refreshToken(
+                {
+                    accessToken: res.authResponse.accessToken,
+                    userId: res.authResponse.userID
+                }
+            ), {
+                auth_type: 'rerequest',
+                scope: 'rerequest',
+            })
+            refresh()
+        }
     }
 
     useEffect(() => {
@@ -62,6 +78,15 @@ const ProcessBarModal = ({refresh}) => {
                                 <FontAwesomeIcon icon={faRefresh}/>
                             </button>
                         }
+                        {
+                            status === "ErrorAuth" && <button
+                                style={{maxWidth: '50px'}}
+                                className="btn blue-btn"
+                                onClick={() => doubleHandler() }
+                            >
+                                <FontAwesomeIcon icon={faRefresh}/>
+                            </button>
+                        }
                         {status === 'Loading' &&
                             <button
                                 style={{maxWidth: '200px'}}
@@ -80,6 +105,10 @@ const ProcessBarModal = ({refresh}) => {
                             >
                                 Выход
                             </button>
+                        }
+
+                        {
+                            !!errorRefresh && <h3 className="error-message">{errorRefresh.data.message}</h3>
                         }
                     </div>
                 </div>
@@ -134,33 +163,21 @@ export const RepeatGetStatus = ({status}) => {
 
 export const GetStatus = ({setStatus}) => {
     const {data, isLoading, isSuccess, error} = useGetProcessQuery()
-    const [refreshToken, {error: errorRefresh}] = useRefreshFacebookTokenMutation()
 
     useEffect(() => {
         isLoading ? setStatus('Loading') :
             isSuccess ? setStatus('Success') :
+                error.status === 504 ? setStatus("ErrorAuth") :
                 setStatus('Error')
     }, [isLoading, isSuccess, error])
 
     if (isLoading) {
         return <Loader width={50} height={50}/>
     }
-
     if (data?.status === 200) {
         return <h1 className="success-message mb-20 mt-20">Готово</h1>
     }
     if (error) {
-        if (error.status === 401) {
-            FacebookLoginClient.login(res => refreshToken(
-                {
-                    accessToken: res.authResponse.accessToken,
-                    userId: res.authResponse.userID
-                }
-            ), {
-                auth_type: 'rerequest',
-                scope: 'rerequest',
-            })
-        }
         return <h1 className="error-message mb-20 mt-20">{error.data.message}</h1>
     }
 
