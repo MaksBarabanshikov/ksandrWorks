@@ -168,6 +168,26 @@ func ReadAccess(c *gin.Context) {
 
 }
 
+func RefreshAccess(c *gin.Context) {
+
+	var BodyAccessId AcsessIdRecieve
+	if err := c.BindJSON(&BodyAccessId); err != nil {
+		c.IndentedJSON(424, gin.H{"message": "Попробуйте снова, используя VPN"})
+		return
+	}
+
+	CurrentSession.AccessToken = BodyAccessId.AccessBody
+
+	log.Println("refreshed", CurrentSession.AccessToken)
+	if CurrentSession.AccessToken == "" {
+		c.IndentedJSON(424, gin.H{"message": "Отсутствует AccessToken, попробуйте обновить используя VPN"})
+		CurrentSession.AccessToken = ""
+		return
+	}
+	c.IndentedJSON(200, BodyAccessId)
+
+}
+
 //GetPage Return the whole list of fb pages of current UserId
 func GetPage(Token string, UserId string) []Page {
 	if Token == "" || UserId == "" {
@@ -199,7 +219,11 @@ func GetPage(Token string, UserId string) []Page {
 	}
 
 	var responsePage RespAccounts
-	json.Unmarshal(bodyPage, &responsePage)
+	marsher := json.Unmarshal(bodyPage, &responsePage)
+	if marsher != nil {
+		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get pages)"}
+		return nil
+	}
 
 	PageErr = ErrMsg{code: 200, msg: "You got a pages"}
 
@@ -272,7 +296,11 @@ func GetInstaId(Token string) string {
 	}
 
 	var responseIg RespIgAcconts
-	json.Unmarshal(bodyIgAccount, &responseIg)
+	marsher := json.Unmarshal(bodyIgAccount, &responseIg)
+	if marsher != nil {
+		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get instaID)"}
+		return ""
+	}
 
 	//if responseIg.IgAccounts.MyInstagramId == "" {
 	//	IgEr = ErrMsg{code: 424, msg: "Ошибка при получении бизнесс-аккаунта Instagram, попробуйте снова используя VPN"}
@@ -310,7 +338,11 @@ func GetMediaToShow(IdIg string, Token string) []MediaToShow {
 	}
 
 	var responseMedia AllMediaToShow
-	json.Unmarshal(bodyMedias, &responseMedia)
+	marsher := json.Unmarshal(bodyMedias, &responseMedia)
+	if marsher != nil {
+		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get media)"}
+		return nil
+	}
 
 	log.Println("media", responseMedia)
 
@@ -450,7 +482,11 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 		return
 	}
 
-	json.Unmarshal(bodyComment, &CurrentComment)
+	marsher := json.Unmarshal(bodyComment, &CurrentComment)
+	if marsher != nil {
+		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from comment)"}
+		return
+	}
 
 	log.Println("post id", CurrentIDPost)
 	if CurrentComment.CommentId == "" {
@@ -475,7 +511,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN или обновите AccessToken"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN  (у текущего поста не должно быть хештегов)"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -494,12 +530,58 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 		return
 	}
 
-	json.Unmarshal(bodyReply, &currentReply)
+	marsherR := json.Unmarshal(bodyReply, &currentReply)
+	if marsherR != nil {
+		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from reply)"}
+		return
+	}
 
 	if currentReply.ReplyId == "" {
-		log.Println("Ошибка при попытке создать ответ")
-		//currentReply.ReplyId = "Fail of creating reply"
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ"}
+		log.Println("Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов")
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов"}
+		UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
+
+		//Delete method send request to delete a comment
+		DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
+		if err != nil {
+			log.Println(err)
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN (1)"}
+			return
+		}
+
+		RespDelComment, err := http.DefaultClient.Do(DelComment)
+		if err != nil {
+			log.Println(err)
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN(2)"}
+			return
+		}
+		defer func(Body io.ReadCloser) {
+			err := Body.Close()
+			if err != nil {
+				CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Delete in hashtags(2)"}
+				return
+			}
+		}(RespDelComment.Body)
+		bodyDelComment, err := ioutil.ReadAll(RespDelComment.Body)
+		if err != nil {
+			log.Println(err)
+			CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Delete in hashtags(2)"}
+			return
+		}
+
+		marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
+		if marsherDel != nil {
+			PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get Del), please check your instagram account and delete Reply with hashtags"}
+			return
+		}
+
+		if currentDel.DelStatus == false {
+			log.Println("Ошибка при удалении комментария")
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария"}
+			return
+		} else {
+			log.Println("status of delete", currentDel.DelStatus)
+		}
 		return
 	} else {
 		log.Println("Reply Id", currentReply.ReplyId)
@@ -515,14 +597,14 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN или обновите AccessToken(1)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN (1)"}
 		return
 	}
 
 	RespDelComment, err := http.DefaultClient.Do(DelComment)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN или обновите AccessToken(2)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN(2)"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -539,7 +621,11 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 		return
 	}
 
-	json.Unmarshal(bodyDelComment, &currentDel)
+	marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
+	if marsherDel != nil {
+		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get Del), please check your instagram account and delete Reply with hashtags"}
+		return
+	}
 
 	if currentDel.DelStatus == false {
 		log.Println("Ошибка при удалении комментария")
@@ -681,7 +767,6 @@ func Process(c *gin.Context) {
 		ClearTempData()
 		return
 	}
-
 	if len(CurrentSession.Blocks) == 0 {
 		c.JSON(424, gin.H{"message": "Для процесса нужны blocks "})
 		ClearTempData()
@@ -689,6 +774,7 @@ func Process(c *gin.Context) {
 	}
 
 	for T := CurrentSession.CurrentBlock; T < len(CurrentSession.Blocks); T = CurrentSession.CurrentBlock + 1 {
+		CurrentSession.CurrentBlock = T
 		if CurrentSession.Blocks[T].Rep == "" || CurrentSession.Blocks[T].Com == "" {
 			//log.Fatal("There is no comment or reply to use ")
 			c.JSON(424, gin.H{"message": "Блок пустой"})
@@ -701,14 +787,14 @@ func Process(c *gin.Context) {
 		CurrentCommentBody = CurrentSession.Blocks[T].Com
 
 		if CurrentSession.StatusOfProcess.Done == true {
-			if (T + 1) == len(CurrentSession.Blocks) {
-				CurrentSession.StatusOfProcess.IsEnd = true
-			}
-			log.Println("выход по кнопке")
-			c.JSON(200, gin.H{"status": "процесс окончен по кнопке"})
+			log.Println("выход по кнопке1")
+			time.Sleep(20 * time.Second)
+			c.JSON(200, gin.H{"status": "процесс окончен по кнопке1"})
 			ClearTempData()
 			return
 		}
+
+		log.Println(T, CurrentSession.CurrentBlock, "до hashtaging")
 
 		Hashtaging(CurrentReplyBody, CurrentCommentBody)
 		if CurErrMsg.code != 200 {
@@ -725,20 +811,23 @@ func Process(c *gin.Context) {
 		CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
-		CurrentSession.CurrentBlock = T
+
+		log.Println(T, CurrentSession.CurrentBlock, "после hashtaging")
 		if CurrentSession.StatusOfProcess.Done == true {
 			if (T + 1) == len(CurrentSession.Blocks) {
 				CurrentSession.StatusOfProcess.IsEnd = true
 			}
-			log.Println("выход по кнопке")
-			c.JSON(200, gin.H{"status": "процесс окончен по кнопке"})
+			CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
+			time.Sleep(20 * time.Second)
+			log.Println("выход по кнопке2")
+			c.JSON(200, gin.H{"status": "процесс окончен по кнопке2"})
 			ClearTempData()
 			return
 		}
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", CurrentSession.StatusOfProcess)
-
+			time.Sleep(16 * time.Second)
 			log.Println("выход из Process по окончанию")
 			CurrentSession.CurrentBlock = 0
 			c.JSON(200, gin.H{"status": "процесс окончен"})
@@ -766,6 +855,7 @@ func main() {
 
 	route := gin.Default()
 	route.POST("/api/hashtags/get-access-id", ReadAccess)
+	route.POST("/api/hashtags/refresh-access", RefreshAccess)
 	route.GET("/api/hashtags/get-pages", GetListOfPages)
 	route.POST("/api/hashtags/current-fb-page", PageId)
 	route.GET("/api/hashtags/all-instagram-posts", GetPosts)
