@@ -95,6 +95,7 @@ export const RepeatGetStatus = ({status}) => {
         }, 15000)
 
         if ((status !== 'Loading' && !!status) || error) {
+            refetch()
             clearInterval(interval)
         }
 
