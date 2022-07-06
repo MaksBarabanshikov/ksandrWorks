@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {openModalFB} from "../redux/modules/modalSlice";
 import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
 import {useExitFbMutation, useSendTokenFbMutation} from "../redux/services/hashtagsApi";
-import {clearPosts} from "../redux/modules/instaPostsSlice";
 
 
 const ReactFacebookLogin = () => {
@@ -17,7 +16,6 @@ const ReactFacebookLogin = () => {
     const FBLogout = () => {
         FacebookLoginClient.logout(() => {
             dispatch(logoutFb())
-            dispatch(clearPosts())
             exitFb({
                 userID: user.userID
             })
@@ -55,6 +53,7 @@ const ReactFacebookLogin = () => {
                     localStorage: true
                 }}
                 onSuccess={(response) => {
+                    console.log("onSuccess:",response)
                     dispatch(createTokenAndUserID({
                         token: response.accessToken,
                         userID: response.userID
@@ -65,10 +64,12 @@ const ReactFacebookLogin = () => {
                     })
                 }}
                 onFail={(error) => {
+                    console.log("onFail:",error)
                     console.log('Login Failed!', error);
                 }}
+
                 onProfileSuccess={(response) => {
-                    console.log('Get Profile Success!', response);
+                    console.log("onProfileSuccess:",response)
                     dispatch(createUser({
                         isLoggedIn: true,
                         userID: response.userID,

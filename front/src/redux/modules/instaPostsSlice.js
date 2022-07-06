@@ -8,14 +8,12 @@ const instaPostsSlice = createSlice({
     },
     reducers: {
         newPosts: (state, action) => state.posts = action.payload,
-        clearPosts: state => state.posts = [],
         setCurrentPostId: (state,action) => void(state.currentPostId = action.payload.id)
     },
 })
 
 export const {
     newPosts,
-    clearPosts,
     setCurrentPostId
 } = instaPostsSlice.actions
 

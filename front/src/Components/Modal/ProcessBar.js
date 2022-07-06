@@ -8,6 +8,8 @@ import {closeModalProcess} from "../../redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
 import {useEffect, useState} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faRefresh} from "@fortawesome/free-solid-svg-icons/faRefresh";
 
 //todo кнопка готово и выход при ошибке
 
@@ -17,7 +19,6 @@ const ProcessBarModal = () => {
     const [status, setStatus] = useState(null)
 
     useEffect(() => {
-        console.log('render ProcessBarModal')
         document.body.style.overflow = 'hidden'
 
         return () => document.body.style.overflow = 'auto'
@@ -26,7 +27,6 @@ const ProcessBarModal = () => {
     const dispatch = useDispatch()
 
     const handleComplete = (STATUS) => {
-        console.log('ProcessBarModal', STATUS)
         setStatus(STATUS)
     }
 
@@ -39,8 +39,6 @@ const ProcessBarModal = () => {
             dispatch(closeModalProcess())
         }
     }, [status])
-
-    console.log(status !== null)
 
     return (
         <div className={`modal`}>
@@ -55,7 +53,17 @@ const ProcessBarModal = () => {
                     {status !== null && <RepeatGetStatus status={status} isExit={isSuccess}/>}
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
-                        {status === null &&
+                        {
+                            status === "Error" && <button
+                                style={{maxWidth: '50px'}}
+                                className="btn blue-btn"
+                                onClick={() => dispatch(closeModalProcess())}
+                                disabled={isSuccess}
+                            >
+                                <FontAwesomeIcon icon={faRefresh}/>
+                            </button>
+                        }
+                        {status === 'Loading' &&
                             <button
                                 style={{maxWidth: '200px'}}
                                 className="btn blue-btn"
@@ -65,14 +73,16 @@ const ProcessBarModal = () => {
                                 Остановить процесс
                             </button>
                         }
-                        {status && <button
-                            style={{maxWidth: '200px'}}
-                            className="btn blue-btn"
-                            onClick={() => dispatch(closeModalProcess())}
-                            disabled={isSuccess}
-                        >
-                            Готово
-                        </button>}
+                        {
+                            status !== "Loading" && <button
+                                style={{maxWidth: '200px'}}
+                                className="btn blue-btn"
+                                onClick={() => dispatch(closeModalProcess())}
+                                disabled={isSuccess}
+                            >
+                                Готово
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
@@ -87,8 +97,6 @@ export const RepeatGetStatus = ({completed, isExit}) => {
         const interval = setInterval(() => {
             refetch()
         }, 15000)
-
-        console.log('RepeatGetStatus: ', completed)
 
         if (completed !== 'Loading' || isExit || error) {
             clearInterval(interval)
@@ -143,7 +151,7 @@ export const GetStatus = ({setStatus}) => {
     }
 
     if (error) {
-        return <h3 className="error-message">{error.data.message}</h3>
+        return <h1 className="error-message mb-20 mt-20">{error.data.message}</h1>
     }
     return <h1>Что-то пошло не так</h1>
 }
