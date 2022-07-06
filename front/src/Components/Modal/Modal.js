@@ -1,10 +1,17 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChartPie, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import "./Modal.scss"
 
 const Modal = () => {
     const [isOpen, setIsOpen] = useState(false)
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden'
+
+        return () => document.body.style.overflow = 'auto'
+    }, []);
+
     const handleClose = () => {
         setIsOpen(false)
     }

@@ -11,14 +11,10 @@ import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRefresh} from "@fortawesome/free-solid-svg-icons/faRefresh";
 
-//todo кнопка готово и выход при ошибке
-
 const ProcessBarModal = ({refresh}) => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const [stopProcess, {isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
-
-
 
     useEffect(() => {
         document.body.style.overflow = 'hidden'
@@ -75,12 +71,12 @@ const ProcessBarModal = ({refresh}) => {
                         }
                         {
                             status !== "Loading" && <button
-                                style={{maxWidth: '200px'}}
+                                style={{maxWidth: '100px'}}
                                 className="btn blue-btn"
                                 onClick={() => dispatch(closeModalProcess())}
                                 disabled={isSuccess}
                             >
-                                Готово
+                                Выход
                             </button>
                         }
                     </div>
@@ -98,7 +94,9 @@ export const RepeatGetStatus = ({completed, isExit}) => {
             refetch()
         }, 15000)
 
-        if (completed !== 'Loading' || isExit || error) {
+        if ((completed !== 'Loading' && !!completed) || isExit || error) {
+            console.log(completed)
+            console.log('clear')
             clearInterval(interval)
         }
 

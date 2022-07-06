@@ -6,12 +6,18 @@ import Loader from "../common/Loader";
 import {useGetPagesQuery, useSendCurrentPageMutation} from "../../redux/services/hashtagsApi";
 import {createFbPage} from "../../redux/modules/facebookSlice";
 import {nextStep} from "../../redux/modules/modalSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 const HelloModalSlider = () => {
     const [activeSlide, setActiveSlide] = useState(0)
     const {data: pages, isLoading,isSuccess, error} = useGetPagesQuery()
     const [sendCurrentPage] = useSendCurrentPageMutation()
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden'
+
+        return () => document.body.style.overflow = 'auto'
+    }, []);
 
     const settings = {
         dots: false,
