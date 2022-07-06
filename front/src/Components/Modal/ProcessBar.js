@@ -48,7 +48,7 @@ const ProcessBarModal = ({refresh}) => {
                 </div>
                 <div className="modal__body_main">
                     <GetStatus setStatus={handleComplete}/>
-                    {status !== null && <RepeatGetStatus status={status} isExit={isSuccess}/>}
+                    {status !== null && <RepeatGetStatus status={status}/>}
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
                         {
@@ -85,7 +85,7 @@ const ProcessBarModal = ({refresh}) => {
         </div>
     )
 }
-export const RepeatGetStatus = ({completed, isExit}) => {
+export const RepeatGetStatus = ({status}) => {
     const {data, refetch, error} = useRepeatGetProcessQuery()
     const favorites = useSelector(state => state.favorites.favorites)
 
@@ -94,14 +94,12 @@ export const RepeatGetStatus = ({completed, isExit}) => {
             refetch()
         }, 15000)
 
-        if ((completed !== 'Loading' && !!completed) || isExit || error) {
-            console.log(completed)
-            console.log('clear')
+        if ((status !== 'Loading' && !!status) || error) {
             clearInterval(interval)
         }
 
         return () => clearInterval(interval)
-    }, [completed, isExit, error])
+    }, [status, error])
 
     if (error?.data?.message) {
         return <h3 className="error-message">{error.data.message}</h3>
