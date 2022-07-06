@@ -175,7 +175,6 @@ const Hashtags = () => {
                                     >
                                         Отправить в обработку
                                     </button>
-                                    <button className="gray-btn mb-20">Остановить обработку</button>
                                     <RemainingPosts number={30}/>
                                 </div>
                             </div>

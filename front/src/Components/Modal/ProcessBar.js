@@ -14,6 +14,13 @@ const ProcessBarModal = () => {
     const [stopProcess, {isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
 
+    useEffect(() => {
+        document.body.style.overflow = 'hidden'
+
+        return () => document.body.style.overflow = 'auto'
+    }, []);
+
+
     const dispatch = useDispatch()
 
     const handleComplete = (bool) => {
