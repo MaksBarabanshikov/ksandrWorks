@@ -6,11 +6,11 @@ import "./Modal.scss"
 const Modal = () => {
     const [isOpen, setIsOpen] = useState(false)
 
-    useEffect(() => {
-        document.body.style.overflow = 'hidden'
-
-        return () => document.body.style.overflow = 'auto'
-    }, []);
+    // useEffect(() => {
+    //     document.body.style.overflow = 'hidden'
+    //
+    //     return () => document.body.style.overflow = 'auto'
+    // }, []);
 
     const handleClose = () => {
         setIsOpen(false)

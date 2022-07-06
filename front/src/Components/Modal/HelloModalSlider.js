@@ -13,11 +13,11 @@ const HelloModalSlider = () => {
     const {data: pages, isLoading,isSuccess, error} = useGetPagesQuery()
     const [sendCurrentPage] = useSendCurrentPageMutation()
 
-    useEffect(() => {
-        document.body.style.overflow = 'hidden'
-
-        return () => document.body.style.overflow = 'auto'
-    }, []);
+    // useEffect(() => {
+    //     document.body.style.overflow = 'hidden'
+    //
+    //     return () => document.body.style.overflow = 'auto'
+    // }, []);
 
     const settings = {
         dots: false,
