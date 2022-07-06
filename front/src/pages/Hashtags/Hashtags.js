@@ -84,7 +84,9 @@ const Hashtags = () => {
             }
         ))
         await sendFavorites({data})
-        dispatch(openModalProcess())
+        if (!isOpenProcess) {
+            dispatch(openModalProcess())
+        }
     }
 
     const checkForDisabled = () => {
@@ -94,8 +96,6 @@ const Hashtags = () => {
             setIsPostId(true)
         }
     }
-
-    let processModal = isOpenProcess? <ProcessBarModal/> : null
 
     useEffect(() => {
         if (favorites) {
@@ -207,7 +207,7 @@ const Hashtags = () => {
                     <HashtagsSide/>
                 </div>
             </div>
-            {processModal}
+            {isOpenProcess && <ProcessBarModal refresh={sendForProcessing} />}
             <HelloModal/>
 
         </>

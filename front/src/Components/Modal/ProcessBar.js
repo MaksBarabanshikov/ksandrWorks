@@ -13,10 +13,12 @@ import {faRefresh} from "@fortawesome/free-solid-svg-icons/faRefresh";
 
 //todo кнопка готово и выход при ошибке
 
-const ProcessBarModal = () => {
+const ProcessBarModal = ({refresh}) => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const [stopProcess, {isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
+
+
 
     useEffect(() => {
         document.body.style.overflow = 'hidden'
@@ -57,7 +59,7 @@ const ProcessBarModal = () => {
                             status === "Error" && <button
                                 style={{maxWidth: '50px'}}
                                 className="btn blue-btn"
-                                onClick={() => dispatch(closeModalProcess())}
+                                onClick={() => refresh()}
                             >
                                 <FontAwesomeIcon icon={faRefresh}/>
                             </button>
