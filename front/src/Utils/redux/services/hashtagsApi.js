@@ -50,10 +50,19 @@ export const hashtagsApi = createApi({
         // Отправляем токен fb
         sendTokenFb: build.mutation({
             query: (data) => ({
-                url: `/get-access-id`,
+                url: `get-access-id`,
                 method: 'POST',
                 body: data
             }),
+        }),
+        // Новый токен
+        refreshFacebookToken: build.mutation({
+            query: (data) => ({
+                url: `refresh-access`,
+                method: 'POST',
+                body: data
+            }),
+            invalidatesTags: ['Process']
         }),
         // Отправляем выбранный page fb
         sendCurrentPage: build.mutation({
@@ -108,6 +117,7 @@ export const {
     useLazyStopProcessQuery,
     useSendTokenFbMutation,
     useSendCurrentPageMutation,
+    useRefreshFacebookTokenMutation,
     useSendFileMutation,
     useSendFavoritesMutation,
     useSendCurrentPostIdMutation,

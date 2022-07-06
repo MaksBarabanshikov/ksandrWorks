@@ -10,14 +10,8 @@ import {useDispatch} from "react-redux";
 
 const HelloModalSlider = () => {
     const [activeSlide, setActiveSlide] = useState(0)
-    const {data: pages, isLoading,isSuccess, error} = useGetPagesQuery()
-    const [sendCurrentPage] = useSendCurrentPageMutation()
-
-    // useEffect(() => {
-    //     document.body.style.overflow = 'hidden'
-    //
-    //     return () => document.body.style.overflow = 'auto'
-    // }, []);
+    const {data: pages, isLoading, isSuccess, error} = useGetPagesQuery()
+    const [sendCurrentPage, {error: postPageError}] = useSendCurrentPageMutation()
 
     const settings = {
         dots: false,
@@ -65,6 +59,7 @@ const HelloModalSlider = () => {
                     ))}
                 </Slider>}
                 {error && <h3 className="error-message">${error.data.message}</h3>}
+                {postPageError && <h3 className="error-message">${postPageError.data.message}</h3>}
             </div>
             <div className="modal__body_main-btn flex">
                 <button
