@@ -221,7 +221,7 @@ func GetPage(Token string, UserId string) []Page {
 	var responsePage RespAccounts
 	marsher := json.Unmarshal(bodyPage, &responsePage)
 	if marsher != nil {
-		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get pages)"}
+		PageErr = ErrMsg{code: 401, msg: "Обновите Акссесс токен(from get page) "}
 		return nil
 	}
 
@@ -463,7 +463,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать комментарий, попробуйте снова используя VPN или обновите AccessToken"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать комментарий, попробуйте снова используя VPN "}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -484,7 +484,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	marsher := json.Unmarshal(bodyComment, &CurrentComment)
 	if marsher != nil {
-		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from comment)"}
+		PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from comment)"}
 		return
 	}
 
@@ -532,7 +532,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	marsherR := json.Unmarshal(bodyReply, &currentReply)
 	if marsherR != nil {
-		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from reply)"}
+		PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply)"}
 		return
 	}
 
@@ -571,7 +571,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 		marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
 		if marsherDel != nil {
-			PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get Del), please check your instagram account and delete Reply with hashtags"}
+			PageErr = ErrMsg{code: 401, msg: "Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем бновите AccessToken и процесс продолжится с  блока на котором остановился (from get Del)"}
 			return
 		}
 
@@ -623,7 +623,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
 	if marsherDel != nil {
-		PageErr = ErrMsg{code: 401, msg: "Refresh your Access Token (from get Del), please check your instagram account and delete Reply with hashtags"}
+		PageErr = ErrMsg{code: 401, msg: "Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем бновите AccessToken и процесс продолжится с блока на котором остановился (from get Del)"}
 		return
 	}
 
