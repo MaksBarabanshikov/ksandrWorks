@@ -1,6 +1,6 @@
 import {
     useGetProcessQuery,
-    useLazyStopProcessQuery,
+    useLazyStopProcessQuery, useRefreshFacebookTokenMutation,
     useRepeatGetProcessQuery,
 } from "../../Utils/redux/services/hashtagsApi";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +10,8 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRefresh} from "@fortawesome/free-solid-svg-icons/faRefresh";
+import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
+import logo from "../common/Logo";
 
 const ProcessBarModal = ({refresh}) => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
@@ -47,7 +49,7 @@ const ProcessBarModal = ({refresh}) => {
                     </h1>
                 </div>
                 <div className="modal__body_main">
-                    <GetStatus setStatus={handleComplete}/>//процесс
+                    <GetStatus setStatus={handleComplete}/>
                     {status !== null && <RepeatGetStatus status={status}/>}
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
@@ -132,6 +134,7 @@ export const RepeatGetStatus = ({status}) => {
 
 export const GetStatus = ({setStatus}) => {
     const {data, isLoading, isSuccess, error} = useGetProcessQuery()
+    const [refreshToken, {error: errorRefresh}] = useRefreshFacebookTokenMutation()
 
     useEffect(() => {
         isLoading ? setStatus('Loading') :
@@ -146,10 +149,21 @@ export const GetStatus = ({setStatus}) => {
     if (data?.status === 200) {
         return <h1 className="success-message mb-20 mt-20">Готово</h1>
     }
-
     if (error) {
+        if (error.status === 401) {
+            FacebookLoginClient.login(res => refreshToken(
+                {
+                    accessToken: res.authResponse.accessToken,
+                    userId: res.authResponse.userID
+                }
+            ), {
+                auth_type: 'rerequest',
+                scope: 'rerequest',
+            })
+        }
         return <h1 className="error-message mb-20 mt-20">{error.data.message}</h1>
     }
+
     return <h1 className="error-message mb-20 mt-20">Что-то пошло не так</h1>
 }
 

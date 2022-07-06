@@ -15,6 +15,7 @@ import ProcessBarModal from "../../Components/Modal/ProcessBar";
 import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} from "../../Utils/redux/services/hashtagsApi";
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 import './Hashtags.scss';
+import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
 
 // todo блокировать кнопку если нет постов инсты
 
@@ -105,10 +106,11 @@ const Hashtags = () => {
 
     useEffect(() => {
             checkForDisabled()
-    }, [myFavorites, fbPage, postId]);
+    }, [myFavorites, fbPage, postId])
 
     return (
         <>
+            {!window.FB ? <FacebookLogo hidden={true}/> : null}
             <Header title="Хештеги" icon={faHashtag}/>
             <div className="hashtag">
                 <div>

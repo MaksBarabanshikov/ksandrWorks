@@ -8,11 +8,11 @@ import {useExitFbMutation, useSendTokenFbMutation} from "../redux/services/hasht
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons/faDoorOpen";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
 
 
 const ReactFacebookLogin = () => {
     const user = useSelector(state => state.facebook.user)
-    const [sendTokenFb, {}] = useSendTokenFbMutation()
     const [exitFb] = useExitFbMutation()
     const dispatch = useDispatch()
     const { width } = useWindowDimensions()
@@ -46,40 +46,7 @@ const ReactFacebookLogin = () => {
             </div>
         )
     } else {
-        fbContent = (
-            <FacebookLogin
-                appId="553616932983819"
-                fields="name,email,picture"
-                className={"myFBButton"}
-                initParams={{
-                    cookie: true,
-                    xfbml: true,
-                }}
-                onSuccess={(response) => {
-                    dispatch(createTokenAndUserID({
-                        token: response.accessToken,
-                        userID: response.userID
-                    }))
-                    sendTokenFb({
-                        accessToken: response.accessToken,
-                        userID: response.userID
-                    })
-                }}
-
-                onProfileSuccess={(response) => {
-                    dispatch(createUser({
-                        isLoggedIn: true,
-                        userID: response.userID,
-                        name: response.name,
-                        email: response.email,
-                        picture: response.picture.data.url
-                    }))
-                    dispatch(openModalFB())
-                }}
-                render={({onClick}) => (
-                    <img onClick={onClick} className="logo-image" src={FBLogo} alt="logo"/>
-                )}
-            />)
+        fbContent = <FacebookLogo hidden={false}/>
     }
 
     return fbContent
