@@ -786,7 +786,6 @@ func Process(c *gin.Context) {
 
 		if CurrentSession.StatusOfProcess.Done == true {
 			log.Println("выход по кнопке1")
-			time.Sleep(20 * time.Second)
 			c.JSON(200, gin.H{"status": "процесс окончен по кнопке1"})
 			ClearTempData()
 			return
@@ -825,7 +824,6 @@ func Process(c *gin.Context) {
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", CurrentSession.StatusOfProcess)
-			time.Sleep(16 * time.Second)
 			log.Println("выход из Process по окончанию")
 			CurrentSession.CurrentBlock = 0
 			c.JSON(200, gin.H{"status": "процесс окончен"})
