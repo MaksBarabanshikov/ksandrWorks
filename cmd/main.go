@@ -390,6 +390,7 @@ func PostId(c *gin.Context) {
 		c.IndentedJSON(424, gin.H{"message": "Выберите пост с которым хотите работать"})
 		return
 	}
+	ClearTempData()
 	CurrentSession.CurrentBlock = 0
 	c.IndentedJSON(200, CurrentSession.MyId)
 	log.Println("Post ID", CurrentSession.MyId)
@@ -730,8 +731,9 @@ func Exit(c *gin.Context) {
 
 //Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
 func Process(c *gin.Context) {
-	CurrentSession.StatusOfProcess.StatusPercent = 0
-	CurrentSession.StatusOfProcess.StatusText = 0
+	if CurrentSession.CurrentBlock == 0 {
+		ClearTempData()
+	}
 
 	if CurrentSession.AccessToken == "" {
 		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
@@ -772,7 +774,6 @@ func Process(c *gin.Context) {
 	for T := CurrentSession.CurrentBlock; T < len(CurrentSession.Blocks); T = CurrentSession.CurrentBlock + 1 {
 		CurrentSession.CurrentBlock = T
 		if CurrentSession.Blocks[T].Rep == "" || CurrentSession.Blocks[T].Com == "" {
-			//log.Fatal("There is no comment or reply to use ")
 			c.JSON(424, gin.H{"message": "Блок пустой"})
 			CurrentSession.Blocks = []CommentsReplyFront{}
 			return
@@ -785,7 +786,7 @@ func Process(c *gin.Context) {
 		if CurrentSession.StatusOfProcess.Done == true {
 			log.Println("выход по кнопке1")
 			c.JSON(200, gin.H{"status": "процесс окончен по кнопке1"})
-			ClearTempData()
+			CurrentSession.Blocks = []CommentsReplyFront{}
 			return
 		}
 
@@ -839,7 +840,7 @@ func Process(c *gin.Context) {
 	}
 
 	c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
-
+	CurrentSession.Blocks = []CommentsReplyFront{}
 	return
 }
 
