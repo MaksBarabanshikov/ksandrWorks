@@ -497,7 +497,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	ReplyValues := url.Values{}
 	ReplyValues.Add("message", ReplyBody) //Body of Reply
-	ReplyValues.Add("access_token", CurrentSession.AccessToken)
+	ReplyValues.Add("access_token", CurrentSession.AccessToken+"Q")
 
 	time.Sleep(4 * time.Second)
 
