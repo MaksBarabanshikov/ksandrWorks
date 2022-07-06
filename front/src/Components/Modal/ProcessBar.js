@@ -47,7 +47,7 @@ const ProcessBarModal = ({refresh}) => {
                 auth_type: 'rerequest',
                 scope: 'rerequest',
             })
-            refresh()
+            setTimeout(() => refresh(), 2000)
         }
     }
 
@@ -168,7 +168,7 @@ export const GetStatus = ({setStatus}) => {
     useEffect(() => {
         isLoading ? setStatus('Loading') :
             isSuccess ? setStatus('Success') :
-                error.status === 504 ? setStatus("ErrorAuth") :
+                error.status === 401 ? setStatus('ErrorAuth') :
                 setStatus('Error')
     }, [isLoading, isSuccess, error])
 
