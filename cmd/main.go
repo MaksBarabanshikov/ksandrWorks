@@ -460,7 +460,6 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	//Post method send request to create a comment Params=CommentValues
 	comment, err := MyClient.PostForm(Graph+CurrentIDPost+"/comments?", CommentValues)
-
 	if err != nil {
 		log.Println(err)
 		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать комментарий, попробуйте снова используя VPN "}
@@ -491,7 +490,6 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	log.Println("post id", CurrentIDPost)
 	if CurrentComment.CommentId == "" {
 		log.Println("Ошибка при попытке создать комментарий")
-		//CurrentComment.CommentId = "Fail of creating comment"
 		CurErrMsg = ErrMsg{code: 424, msg: "Ошибка при попытке создать комментарий"}
 		return
 	} else {
@@ -511,7 +509,7 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN  (у текущего поста не должно быть хештегов)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -545,14 +543,14 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 		DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
 		if err != nil {
 			log.Println(err)
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN (1)"}
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (1)"}
 			return
 		}
 
 		RespDelComment, err := http.DefaultClient.Do(DelComment)
 		if err != nil {
 			log.Println(err)
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN(2)"}
+			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (1)"}
 			return
 		}
 		defer func(Body io.ReadCloser) {
@@ -597,14 +595,14 @@ func Hashtaging(ReplyBody string, CommentBody string) {
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN (1)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (1)"}
 		return
 	}
 
 	RespDelComment, err := http.DefaultClient.Do(DelComment)
 	if err != nil {
 		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, попробуйте снова используя VPN(2)"}
+		CurErrMsg = ErrMsg{code: 504, msg: "ООшибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите коммаентарий с хештегами, затем попробуйте снова используя VPN (2)"}
 		return
 	}
 	defer func(Body io.ReadCloser) {
