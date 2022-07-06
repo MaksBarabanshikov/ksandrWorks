@@ -58,7 +58,6 @@ const ProcessBarModal = () => {
                                 style={{maxWidth: '50px'}}
                                 className="btn blue-btn"
                                 onClick={() => dispatch(closeModalProcess())}
-                                disabled={isSuccess}
                             >
                                 <FontAwesomeIcon icon={faRefresh}/>
                             </button>
@@ -68,7 +67,6 @@ const ProcessBarModal = () => {
                                 style={{maxWidth: '200px'}}
                                 className="btn blue-btn"
                                 onClick={() => handleStopProcess()}
-                                disabled={isSuccess}
                             >
                                 Остановить процесс
                             </button>

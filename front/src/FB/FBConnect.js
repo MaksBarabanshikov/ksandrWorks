@@ -50,10 +50,8 @@ const ReactFacebookLogin = () => {
                 initParams={{
                     cookie: true,
                     xfbml: true,
-                    localStorage: true
                 }}
                 onSuccess={(response) => {
-                    console.log("onSuccess:",response)
                     dispatch(createTokenAndUserID({
                         token: response.accessToken,
                         userID: response.userID
@@ -63,13 +61,8 @@ const ReactFacebookLogin = () => {
                         userID: response.userID
                     })
                 }}
-                onFail={(error) => {
-                    console.log("onFail:",error)
-                    console.log('Login Failed!', error);
-                }}
 
                 onProfileSuccess={(response) => {
-                    console.log("onProfileSuccess:",response)
                     dispatch(createUser({
                         isLoggedIn: true,
                         userID: response.userID,

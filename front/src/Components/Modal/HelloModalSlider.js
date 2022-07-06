@@ -36,8 +36,6 @@ const HelloModalSlider = () => {
         dispatch(nextStep())
     }
 
-    console.log(isSuccess)
-
     return (
         <>
             <div className="modal__body_main-slider">
