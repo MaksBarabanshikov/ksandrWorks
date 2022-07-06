@@ -9,22 +9,25 @@ import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
 import {useEffect, useState} from "react";
 
+//todo кнопка готово и выход при ошибке
+
 const ProcessBarModal = () => {
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const [stopProcess, {isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
 
     useEffect(() => {
+        console.log('render ProcessBarModal')
         document.body.style.overflow = 'hidden'
 
         return () => document.body.style.overflow = 'auto'
     }, []);
 
-
     const dispatch = useDispatch()
 
-    const handleComplete = (bool) => {
-        setStatus(bool)
+    const handleComplete = (STATUS) => {
+        console.log('ProcessBarModal', STATUS)
+        setStatus(STATUS)
     }
 
     const handleStopProcess = async () => {
@@ -32,12 +35,12 @@ const ProcessBarModal = () => {
     }
 
     useEffect(() => {
-        console.log(status)
-        console.log(isSuccess)
-        if (isSuccess && status) {
+        if (isSuccess && status === 'Success') {
             dispatch(closeModalProcess())
         }
     }, [status])
+
+    console.log(status !== null)
 
     return (
         <div className={`modal`}>
@@ -48,19 +51,19 @@ const ProcessBarModal = () => {
                     </h1>
                 </div>
                 <div className="modal__body_main">
-                    <GetStatus completed={handleComplete}/>
-                    <RepeatGetStatus completed={status} isExit={isSuccess}/>
+                    <GetStatus setStatus={handleComplete}/>
+                    {status !== null && <RepeatGetStatus status={status} isExit={isSuccess}/>}
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
                         {status === null &&
                             <button
-                            style={{maxWidth: '200px'}}
-                            className="btn blue-btn"
-                            onClick={() => handleStopProcess()}
-                            disabled={isSuccess}
-                        >
-                            Остановить процесс
-                        </button>
+                                style={{maxWidth: '200px'}}
+                                className="btn blue-btn"
+                                onClick={() => handleStopProcess()}
+                                disabled={isSuccess}
+                            >
+                                Остановить процесс
+                            </button>
                         }
                         {status && <button
                             style={{maxWidth: '200px'}}
@@ -85,12 +88,14 @@ export const RepeatGetStatus = ({completed, isExit}) => {
             refetch()
         }, 15000)
 
-        if (completed || isExit || error) {
+        console.log('RepeatGetStatus: ', completed)
+
+        if (completed !== 'Loading' || isExit || error) {
             clearInterval(interval)
         }
 
         return () => clearInterval(interval)
-    }, [completed, isExit])
+    }, [completed, isExit, error])
 
     if (error?.data?.message) {
         return <h3 className="error-message">{error.data.message}</h3>
@@ -108,7 +113,8 @@ export const RepeatGetStatus = ({completed, isExit}) => {
                     baseBgColor={'#F3F3F3FF'}
                     bgColor={'#0066EAFF'}
                     height={'30px'}
-                    margin={'10px 0'}
+                    width={`90%`}
+                    margin={'10px auto'}
                 />
             </>
         } else {
@@ -119,16 +125,17 @@ export const RepeatGetStatus = ({completed, isExit}) => {
     }
 }
 
-export const GetStatus = ({completed}) => {
-    const {data, isLoading, isSuccess, error, refetch} = useGetProcessQuery()
+export const GetStatus = ({setStatus}) => {
+    const {data, isLoading, isSuccess, error} = useGetProcessQuery()
+
+    useEffect(() => {
+        isLoading ? setStatus('Loading') :
+            isSuccess ? setStatus('Success') :
+                setStatus('Error')
+    }, [isLoading, isSuccess, error])
 
     if (isLoading) {
         return <Loader width={50} height={50}/>
-    }
-
-    if (isSuccess) {
-        console.log(isSuccess)
-        completed(isSuccess)
     }
 
     if (data?.status === 200) {

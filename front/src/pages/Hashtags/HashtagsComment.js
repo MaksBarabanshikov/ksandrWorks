@@ -12,8 +12,6 @@ const HashtagsComment = ({index, id, selected, text1, text2}) => {
     const dispatch = useDispatch()
     const textTwo = text2.join(" ")
 
-    console.log(text2)
-
     const saveFavorite = () => {
         const obj = {
             id,

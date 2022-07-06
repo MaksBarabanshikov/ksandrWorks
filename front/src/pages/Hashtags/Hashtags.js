@@ -16,6 +16,7 @@ import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} fro
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 import './Hashtags.scss';
 
+// todo блокировать кнопку если нет постов инсты
 
 const Hashtags = () => {
     const refInput1 = useRef()
