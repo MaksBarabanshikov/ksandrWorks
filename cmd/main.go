@@ -608,16 +608,15 @@ func ClearTempData() {
 		Done:          false,
 	}
 	CurrentSession.Blocks = []CommentsReplyFront{}
-}
-
-var Done bool
-
-func ExitProcess(c *gin.Context) {
-	log.Println("делаю аборт из ExitProcess")
-	Done = true
-	ClearTempData()
 	return
 }
+
+func ExitProcess(c *gin.Context) {
+	log.Println("делаю Done из ExitProcess")
+	CurrentSession.StatusOfProcess.Done = true
+	return
+}
+
 func Exit(c *gin.Context) {
 	var BodyUserIdLog IDtoLogout
 	if err := c.BindJSON(&BodyUserIdLog); err != nil {
@@ -689,7 +688,7 @@ func Process(c *gin.Context) {
 		return
 	}
 
-	for T := CurrentSession.CurrentBlock; T < len(CurrentSession.Blocks); T = T + 1 {
+	for T := CurrentSession.CurrentBlock; T < len(CurrentSession.Blocks); T = CurrentSession.CurrentBlock + 1 {
 		if CurrentSession.Blocks[T].Rep == "" || CurrentSession.Blocks[T].Com == "" {
 			//log.Fatal("There is no comment or reply to use ")
 			c.JSON(424, gin.H{"message": "Блок пустой"})
@@ -701,12 +700,21 @@ func Process(c *gin.Context) {
 		CurrentReplyBody = CurrentSession.Blocks[T].Rep
 		CurrentCommentBody = CurrentSession.Blocks[T].Com
 
+		if CurrentSession.StatusOfProcess.Done == true {
+			if (T + 1) == len(CurrentSession.Blocks) {
+				CurrentSession.StatusOfProcess.IsEnd = true
+			}
+			log.Println("выход по кнопке")
+			c.JSON(200, gin.H{"status": "процесс окончен по кнопке"})
+			ClearTempData()
+			return
+		}
+
 		Hashtaging(CurrentReplyBody, CurrentCommentBody)
 		if CurErrMsg.code != 200 {
 			c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
 			ClearTempData()
 			log.Println("выход из Process из-за ошибки")
-			//c.Redirect(CurErrMsg.code, "621")
 			return
 		}
 
@@ -717,21 +725,20 @@ func Process(c *gin.Context) {
 		CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
-		CurrentSession.CurrentBlock = T + 1
+		CurrentSession.CurrentBlock = T
 		if CurrentSession.StatusOfProcess.Done == true {
 			if (T + 1) == len(CurrentSession.Blocks) {
 				CurrentSession.StatusOfProcess.IsEnd = true
 			}
 			log.Println("выход по кнопке")
 			c.JSON(200, gin.H{"status": "процесс окончен по кнопке"})
-			time.Sleep(5 * time.Second)
 			ClearTempData()
 			return
 		}
 		if (T + 1) == len(CurrentSession.Blocks) {
 			CurrentSession.StatusOfProcess.IsEnd = true
 			log.Println("статус процесса", CurrentSession.StatusOfProcess)
-			time.Sleep(15 * time.Second)
+
 			log.Println("выход из Process по окончанию")
 			CurrentSession.CurrentBlock = 0
 			c.JSON(200, gin.H{"status": "процесс окончен"})
