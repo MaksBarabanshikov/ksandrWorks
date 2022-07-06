@@ -1,15 +1,13 @@
-import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
 import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModalFB, nextStep} from "../../redux/modules/modalSlice";
+import {closeModalFB, nextStep} from "../../Utils/redux/modules/modalSlice";
 
 const HelloModal = () => {
     const isOpen = useSelector(state => state.modalFb.isOpen)
     const step = useSelector(state => state.modalFb.step)
-    const [sliderId, setSliderId] = useState(null)
 
     const dispatch = useDispatch()
 

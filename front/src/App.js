@@ -1,5 +1,5 @@
 import React from "react";
-import Routing from "./Routes/Route";
+import Routing from "./Components/Routes/Route";
 import Block from "./Components/common/Block";
 import Container from "./Components/common/Container";
 import NewSideBar from "./Components/newSideBar/newSideBar";

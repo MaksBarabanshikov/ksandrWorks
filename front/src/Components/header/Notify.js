@@ -1,6 +1,6 @@
 import "./Notify.scss"
-import inactiveLogo from "../../image/header/notify/info_light.svg"
-import recommendationLogo from "../../image/header/notify/lamp_light.svg"
+import inactiveLogo from "../../Assets/image/header/notify/info_light.svg"
+import recommendationLogo from "../../Assets/image/header/notify/lamp_light.svg"
 
 const Notify = ({notify, visibility, removeNotify}) => {
     const correctImage = status => {

@@ -4,7 +4,7 @@
 $gray: #919191;
 $black: #020614;
 $white: #fff;
-$red: #EF9B9B;
+$red: #dc3545;
 $purple: #6F3DDB;
 $green: #92D799;
 $blue: #0066EA;
@@ -24,28 +24,28 @@ html {
     font-family: "Gilroy";
     font-style: normal;
     font-weight: 400;
-    src: url("./fonts/gilroy-regular.ttf") format('ttf');
+    src: url("./Assets/fonts/gilroy-regular.ttf") format('ttf');
     font-display: swap;
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 500;
-    src: url("./fonts/gilroy-medium.ttf") format('ttf');
+    src: url("./Assets/fonts/gilroy-medium.ttf") format('ttf');
     font-display: swap;
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
-    src: url("./fonts/gilroy-semibold.ttf") format('ttf');
+    src: url("./Assets/fonts/gilroy-semibold.ttf") format('ttf');
     font-display: swap;
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 700;
-    src: url("./fonts/gilroy-bold.ttf") format('ttf');
+    src: url("./Assets/fonts/gilroy-bold.ttf") format('ttf');
     font-display: swap;
   }
 
@@ -113,6 +113,10 @@ body {
 
   @media (max-width: 992px) {
     gap: 10px;
+  }
+
+  @media (max-width: 400px) {
+    grid-template-rows: auto auto;
   }
 }
 
@@ -516,4 +520,53 @@ textarea {
   color: $red;
   font-weight: 700;
   font-size: 16px;
+}
+
+.success-message {
+  color: $blue;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.logo {
+  text-align: center;
+
+  &__title {
+    @media (max-width: 992px) {
+      display: none;
+    }
+
+    @media (max-width: 400px) {
+      display: block;
+    }
+  }
+  .facebook__account {
+    text-align: center;
+
+    @media (max-width: 400px) {
+      margin-top: 10px;
+    }
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+
+      @media (max-width: 992px) {
+        margin: 0 5px;
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    .blue-btn {
+      width: 100px;
+      padding: 10px 0;
+      margin: 10px auto;
+      @media (max-width: 992px) {
+        width: 42px;
+        height: 42px;
+        margin: 0 5px;
+      }
+    }
+  }
 }

@@ -9,10 +9,10 @@ import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useDispatch, useSelector} from "react-redux";
-import {addFavorites, transformFavorites} from "../../redux/modules/favoritesSlice";
-import {openModalProcess} from "../../redux/modules/modalSlice";
+import {addFavorites, transformFavorites} from "../../Utils/redux/modules/favoritesSlice";
+import {openModalProcess} from "../../Utils/redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
-import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} from "../../redux/services/hashtagsApi";
+import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} from "../../Utils/redux/services/hashtagsApi";
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 import './Hashtags.scss';
 
@@ -90,7 +90,7 @@ const Hashtags = () => {
     }
 
     const checkForDisabled = () => {
-        if (!!fbPage && myFavorites.length && !!postId) {
+        if (!!fbPage && myFavorites.length && postId !== null) {
             setIsPostId(false)
         } else {
             setIsPostId(true)
@@ -209,7 +209,6 @@ const Hashtags = () => {
             </div>
             {isOpenProcess && <ProcessBarModal refresh={sendForProcessing} />}
             <HelloModal/>
-
         </>
     )
 }

@@ -1,10 +1,13 @@
 import FacebookLogin, {FacebookLoginClient} from "@greatsumini/react-facebook-login";
-import FBLogo from "../image/Logotype-Facebook.svg";
-import Block from "../Components/common/Block";
+import FBLogo from "../../Assets/image/Logotype-Facebook.svg";
+import Block from "../../Components/common/Block";
 import {useDispatch, useSelector} from "react-redux";
 import {openModalFB} from "../redux/modules/modalSlice";
 import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
 import {useExitFbMutation, useSendTokenFbMutation} from "../redux/services/hashtagsApi";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faDoorOpen} from "@fortawesome/free-solid-svg-icons/faDoorOpen";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 
 const ReactFacebookLogin = () => {
@@ -12,6 +15,7 @@ const ReactFacebookLogin = () => {
     const [sendTokenFb, {}] = useSendTokenFbMutation()
     const [exitFb] = useExitFbMutation()
     const dispatch = useDispatch()
+    const { width } = useWindowDimensions()
 
     const FBLogout = () => {
         FacebookLoginClient.logout(() => {
@@ -37,7 +41,7 @@ const ReactFacebookLogin = () => {
                     </h6>
                 </Block>
                 <button className="blue-btn" onClick={() => FBLogout()}>
-                    Выйти
+                    {width <= 992 ? <FontAwesomeIcon icon={faDoorOpen}/> : 'Выйти'}
                 </button>
             </div>
         )
@@ -78,13 +82,7 @@ const ReactFacebookLogin = () => {
             />)
     }
 
-    return (
-        <>
-            <div>
-                {fbContent}
-            </div>
-        </>
-    )
+    return fbContent
 
 }
 

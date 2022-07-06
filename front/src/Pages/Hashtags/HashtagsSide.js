@@ -4,7 +4,7 @@ import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-sv
 import {faSave} from "@fortawesome/free-regular-svg-icons"
 import "./HashtagsSide.scss"
 import {useDispatch, useSelector} from "react-redux";
-import {removeAllSelect, selectAll} from "../../redux/modules/favoritesSlice";
+import {removeAllSelect, selectAll} from "../../Utils/redux/modules/favoritesSlice";
 
 const HashtagsSide = () => {
     const dispatch = useDispatch()

@@ -4,7 +4,7 @@ import {
     paymentRefillData,
     paymentRateData,
     paymentHistoryData
-} from "../../StorageData/paymentData"
+} from "../../Assets/StorageData/paymentData"
 import Balance from "./Balance"
 import History from "./History"
 import Refill from "./Refill"

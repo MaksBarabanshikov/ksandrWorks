@@ -5,8 +5,8 @@ import NewNextArrow from "../../Components/common/NewNextArrow";
 import NewPrevArrow from "../../Components/common/NewPrevArrow";
 import MiniSliderPost from "./MiniSliderPost";
 import Loader from "../../Components/common/Loader";
-import {useLazyGetInstagramPostsQuery, useSendCurrentPostIdMutation} from "../../redux/services/hashtagsApi";
-import {setCurrentPostId} from "../../redux/modules/instaPostsSlice";
+import {useLazyGetInstagramPostsQuery, useSendCurrentPostIdMutation} from "../../Utils/redux/services/hashtagsApi";
+import {setCurrentPostId} from "../../Utils/redux/modules/instaPostsSlice";
 
 const MainSliderPost = () => {
     const fbPage = useSelector(state => state.facebook.user.fbPage)
@@ -17,15 +17,19 @@ const MainSliderPost = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (posts?.length && fbPage) {
+        getInstagramPosts()
+    }, [fbPage])
+
+    useEffect(() => {
+        if (error) {
+            return dispatch(setCurrentPostId({id: null}))
+        }
+
+        if (posts?.length && fbPage && !!!error) {
             sendCurrentPostId({id: posts[activeSlide].id})
             dispatch(setCurrentPostId({id: posts[activeSlide].id}))
         }
-    }, [activeSlide, posts, fbPage])
-
-    useEffect(() => {
-            getInstagramPosts()
-    }, [fbPage])
+    }, [activeSlide, posts, fbPage, error])
 
     let settings = {
         dots: false,
@@ -40,7 +44,7 @@ const MainSliderPost = () => {
     }
 
     if (!fbPage) {
-        return <span>Выполните вход в fb</span>
+        return <h4 className="error-message mt-20 mb-20">Выполните вход в fb</h4>
     }
 
     if (error) {
@@ -50,7 +54,7 @@ const MainSliderPost = () => {
     return (
         <>
             {isLoading && <Loader width={50} height={50}/>}
-            {(posts && !posts.length) && <span>Постов нет, добавьте посты</span>}
+            {(posts && !posts.length) && <h4>Постов нет, добавьте посты</h4>}
             {posts?.length && <>
                 <Slider {...settings}>
                     {posts.map(post => (<div className="slider-post__item" key={post.id}>

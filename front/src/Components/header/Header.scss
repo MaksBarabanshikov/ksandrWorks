@@ -5,6 +5,10 @@
   width: 100%;
   justify-content: space-between;
 
+  @media (max-width: 400px) {
+    flex-direction: column;
+  }
+
   &-title {
     display: flex;
     font-weight: 600;
@@ -114,6 +118,32 @@
       @media (max-width: 992px) {
         display: none;
       }
+    }
+  }
+
+  .logo {
+    display: none;
+
+    @media (max-width: 992px) {
+      display: block;
+    }
+    .facebook__account {
+      @media (max-width: 992px) {
+        display: flex;
+        align-items: center;
+        h3,h6 {
+          display: none;
+        }
+      }
+
+      @media (max-width: 400px) {
+        display: flex;
+        align-items: center;
+        h3,h6 {
+          display: none;
+        }
+      }
+
     }
   }
 }

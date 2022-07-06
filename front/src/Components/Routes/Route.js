@@ -1,11 +1,11 @@
 import React from "react";
 import {Routes, Route, Navigate} from "react-router-dom";
-import Hashtags from "../pages/Hashtags/Hashtags";
-import Payment from "../pages/Payment/Payment";
-import Instruction from "../pages/Instruction/Instruction";
-import Faq from "../pages/Faq/Faq";
-import Help from "../pages/Help/Help";
-import Exit from "../pages/Exit/Exit";
+import Hashtags from "../../Pages/Hashtags/Hashtags";
+import Payment from "../../Pages/Payment/Payment";
+import Instruction from "../../Pages/Instruction/Instruction";
+import Faq from "../../Pages/Faq/Faq";
+import Help from "../../Pages/Help/Help";
+import Exit from "../../Pages/Exit/Exit";
 
 const Routing = () => {
     return (

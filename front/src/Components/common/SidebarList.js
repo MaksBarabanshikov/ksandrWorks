@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import {sidebarTop,sidebarMiddle,sidebarBottom} from "../../StorageData/sidebarData";
+import {sidebarTop,sidebarMiddle,sidebarBottom} from "../../Assets/StorageData/sidebarData";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const SidebarList = (props) => {

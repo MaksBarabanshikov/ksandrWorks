@@ -1,4 +1,4 @@
-import loader from "../../image/loader.png"
+import loader from "../../Assets/image/loader.png"
 import './loader.scss'
 
 const Loader = ({width, height}) => {

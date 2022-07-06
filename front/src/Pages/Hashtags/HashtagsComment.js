@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons"
 import {faCheckCircle, faSave} from "@fortawesome/free-regular-svg-icons"
 import {useDispatch} from "react-redux";
-import {removeHandler, saveHandler, selectHandler} from "../../redux/modules/favoritesSlice";
+import {removeHandler, saveHandler, selectHandler} from "../../Utils/redux/modules/favoritesSlice";
 
 
 const HashtagsComment = ({index, id, selected, text1, text2}) => {

@@ -2,9 +2,9 @@ import {
     useGetProcessQuery,
     useLazyStopProcessQuery,
     useRepeatGetProcessQuery,
-} from "../../redux/services/hashtagsApi";
+} from "../../Utils/redux/services/hashtagsApi";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModalProcess} from "../../redux/modules/modalSlice";
+import {closeModalProcess} from "../../Utils/redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
 import {useEffect, useState} from "react";
@@ -47,7 +47,7 @@ const ProcessBarModal = ({refresh}) => {
                     </h1>
                 </div>
                 <div className="modal__body_main">
-                    <GetStatus setStatus={handleComplete}/>
+                    <GetStatus setStatus={handleComplete}/>//процесс
                     {status !== null && <RepeatGetStatus status={status}/>}
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
@@ -123,7 +123,7 @@ export const RepeatGetStatus = ({status}) => {
                 />
             </>
         } else {
-            return <span>Посты успешно обработаны</span>
+            return <span className="success-message">Посты успешно обработаны</span>
         }
     } else {
         return <p>Подготовка к обработке</p>
@@ -144,13 +144,13 @@ export const GetStatus = ({setStatus}) => {
     }
 
     if (data?.status === 200) {
-        return <h1>Готово</h1>
+        return <h1 className="success-message mb-20 mt-20">Готово</h1>
     }
 
     if (error) {
         return <h1 className="error-message mb-20 mt-20">{error.data.message}</h1>
     }
-    return <h1>Что-то пошло не так</h1>
+    return <h1 className="error-message mb-20 mt-20">Что-то пошло не так</h1>
 }
 
 export default ProcessBarModal

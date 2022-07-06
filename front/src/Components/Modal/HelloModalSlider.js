@@ -3,9 +3,9 @@ import Slider from "react-slick"
 import NewPrevArrow from "../common/NewPrevArrow";
 import NewNextArrow from "../common/NewNextArrow";
 import Loader from "../common/Loader";
-import {useGetPagesQuery, useSendCurrentPageMutation} from "../../redux/services/hashtagsApi";
-import {createFbPage} from "../../redux/modules/facebookSlice";
-import {nextStep} from "../../redux/modules/modalSlice";
+import {useGetPagesQuery, useSendCurrentPageMutation} from "../../Utils/redux/services/hashtagsApi";
+import {createFbPage} from "../../Utils/redux/modules/facebookSlice";
+import {nextStep} from "../../Utils/redux/modules/modalSlice";
 import {useDispatch} from "react-redux";
 
 const HelloModalSlider = () => {

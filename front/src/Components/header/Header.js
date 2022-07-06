@@ -2,15 +2,16 @@ import {useState} from "react"
 import Block from "../common/Block"
 import Notify from "./Notify"
 import User from "./User"
-import {notifyData} from "../../StorageData/notifyData"
-import userImage from "../../image/header/User_light.svg"
-import BellImage from "../../image/header/Bell_light.svg"
+import {notifyData} from "../../Assets/StorageData/notifyData"
+import userImage from "../../Assets/image/header/User_light.svg"
+import BellImage from "../../Assets/image/header/Bell_light.svg"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faChartPie} from "@fortawesome/free-solid-svg-icons"
 import {faWallet} from "@fortawesome/free-solid-svg-icons"
 import "./Header.scss"
 import Modal from "../Modal/Modal";
 import {Link} from "react-router-dom";
+import ReactFacebookLogin from "../../Utils/FB/FBConnect";
+import Logo from "../common/Logo";
 
 const Header = (props) => {
     const [notify, setNotify] = useState([...notifyData])
@@ -19,8 +20,7 @@ const Header = (props) => {
         "userVisible": false
     })
 
-
-    const today = new Date()
+    const today = new Date();
     let date = today.getDate() + "." + (today.getMonth() + 2) + "." + today.getFullYear();
 
     const handleSetVisible = (key) => {
@@ -54,10 +54,7 @@ const Header = (props) => {
                 <h5>{props.title}</h5>
             </Block>
             <Block stylees="header-buttons">
-                {props.title === "Хештеги"?
-                    <Modal/> :
-                    null
-                }
+                {props.title === "Хештеги" && <Modal/>}
                 <button className="header-btn-notify" onClick={() => handleSetVisible("notifyVisible")}>
                     <img src={BellImage} alt=""/>
                     <span className="header-count">{notify.length}</span>
@@ -76,6 +73,7 @@ const Header = (props) => {
                     </Link>
                 </Block>
             </Block>
+            <Logo/>
             <Notify
                 notify={notify}
                 visibility={visibility.notifyVisible}

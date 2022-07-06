@@ -2,8 +2,8 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup";
 import Block from "../common/Block"
-import logo from "../../image/logo.png"
-import subtract from "../../image/header/user/Subtract.svg"
+import logo from "../../Assets/image/logo.png"
+import subtract from "../../Assets/image/header/user/Subtract.svg"
 import "./User.scss"
 import {parsePhoneNumber} from "libphonenumber-js";
 

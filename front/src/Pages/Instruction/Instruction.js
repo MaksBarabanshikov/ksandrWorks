@@ -1,5 +1,5 @@
 import "./Instruction.scss"
-import posterLogo from "../../image/video.jpg"
+import posterLogo from "../../Assets/image/video.jpg"
 import Header from "../../Components/header/Header";
 import React from "react";
 import {faBookOpen} from "@fortawesome/free-solid-svg-icons/faBookOpen";
@@ -24,7 +24,7 @@ const Instruction = () => {
                 </span>
                 </div>
                 <div className="instruction-video">
-                    <video poster={posterLogo} src="front/src/pages/Instruction/Instruction#"/>
+                    <video poster={posterLogo} src="front/src/Pages/Instruction/Instruction#"/>
 
                     <ul className="instruction-video-buttons">
 

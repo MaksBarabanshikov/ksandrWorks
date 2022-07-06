@@ -1,6 +1,6 @@
 import Accordion from "./Accordion";
 import "./Faq.scss"
-import {FaqData} from "../../StorageData/FaqData";
+import {FaqData} from "../../Assets/StorageData/FaqData";
 import Header from "../../Components/header/Header";
 import React from "react";
 import {faQuestionCircle} from "@fortawesome/free-regular-svg-icons";
