@@ -734,6 +734,7 @@ func Process(c *gin.Context) {
 	if CurrentSession.CurrentBlock == 0 {
 		ClearTempData()
 	}
+	CurrentSession.StatusOfProcess.Done = false
 
 	if CurrentSession.AccessToken == "" {
 		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
