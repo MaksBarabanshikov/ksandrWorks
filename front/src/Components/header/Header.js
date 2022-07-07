@@ -10,7 +10,6 @@ import {faWallet} from "@fortawesome/free-solid-svg-icons"
 import "./Header.scss"
 import Modal from "../Modal/Modal";
 import {Link} from "react-router-dom";
-import ReactFacebookLogin from "../../Utils/FB/FBConnect";
 import Logo from "../common/Logo";
 
 const Header = (props) => {

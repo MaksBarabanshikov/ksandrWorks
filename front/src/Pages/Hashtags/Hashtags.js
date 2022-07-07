@@ -12,12 +12,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, transformFavorites} from "../../Utils/redux/modules/favoritesSlice";
 import {openModalProcess} from "../../Utils/redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
-import {useGetFavoritesQuery, useSendFavoritesMutation, useSendFileMutation} from "../../Utils/redux/services/hashtagsApi";
+import {
+    useGetFavoritesQuery,
+    useSendFavoritesMutation,
+    useSendFileMutation
+} from "../../Utils/redux/services/hashtagsApi";
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 import './Hashtags.scss';
 import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
-
-// todo блокировать кнопку если нет постов инсты
 
 const Hashtags = () => {
     const refInput1 = useRef()
@@ -27,7 +29,6 @@ const Hashtags = () => {
     const {data: favorites} = useGetFavoritesQuery(isFulfilled.status === "fulfilled" ?
         null :
         skipToken)
-    const [sendFavorites] = useSendFavoritesMutation()
     const [isPostId, setIsPostId] = useState(true);
 
     const myFavorites = useSelector(state => state.favorites.favorites)
@@ -78,18 +79,6 @@ const Hashtags = () => {
         }
     }
 
-    const sendForProcessing = async () => {
-        const data = myFavorites.map(f => ({
-                text1: f.text1,
-                text2: f.text2.join(" "),
-            }
-        ))
-        await sendFavorites({data})
-        if (!isOpenProcess) {
-            dispatch(openModalProcess())
-        }
-    }
-
     const checkForDisabled = () => {
         if (!!fbPage && myFavorites.length && postId !== null) {
             setIsPostId(false)
@@ -105,7 +94,7 @@ const Hashtags = () => {
     }, [favorites, dispatch])
 
     useEffect(() => {
-            checkForDisabled()
+        checkForDisabled()
     }, [myFavorites, fbPage, postId])
 
     return (
@@ -173,7 +162,8 @@ const Hashtags = () => {
                                 </div>
                                 <div>
                                     <button className="blue-btn mb-20"
-                                            onClick={() => sendForProcessing()}
+                                            onClick={() => dispatch(openModalProcess())
+                                            }
                                             disabled={isPostId}
                                     >
                                         Отправить в обработку
@@ -209,7 +199,7 @@ const Hashtags = () => {
                     <HashtagsSide/>
                 </div>
             </div>
-            {isOpenProcess && <ProcessBarModal refresh={sendForProcessing} />}
+            {isOpenProcess && <ProcessBarModal/>}
             <HelloModal/>
         </>
     )

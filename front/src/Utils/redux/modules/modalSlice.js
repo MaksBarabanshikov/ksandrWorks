@@ -3,6 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 const modalSlice = createSlice({
     name: 'modalFbSlice',
     initialState: {
+        modalVisible: false,
         isOpen: false,
         isOpenProcess: false,
         step: 1,
@@ -21,6 +22,12 @@ const modalSlice = createSlice({
         },
         closeModalProcess: state => {
             state.isOpenProcess = false
+        },
+        openModal: state => {
+            state.modalVisible = true
+        },
+        closeModal: state => {
+            state.modalVisible = false
         },
         nextStep: state => {
             state.step++

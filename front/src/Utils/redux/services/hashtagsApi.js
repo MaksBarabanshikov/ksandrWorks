@@ -31,6 +31,23 @@ export const hashtagsApi = createApi({
                 return {process, status: Number(meta.response.status)}
             }
         }),
+        //GET STATUS NEW
+        getStatusProcess: build.query({
+           query: () => 'process/status',
+            providesTags: result => ['Process']
+        }),
+        // commenting
+        getCommenting: build.query({
+            query: () => 'process/comment',
+        }),
+        // commenting
+        getReply: build.query({
+            query: () => 'process/reply',
+        }),
+        // commenting
+        getDel: build.query({
+            query: () => 'process/delete',
+        }),
         // Получаем посты инстаграм
         getInstagramPosts: build.query({
             query: () => 'all-instagram-posts',
@@ -115,6 +132,10 @@ export const {
     useLazyGetInstagramPostsQuery,
     useGetFavoritesQuery,
     useLazyStopProcessQuery,
+    useGetStatusProcessQuery,
+    useLazyGetCommentingQuery,
+    useLazyGetReplyQuery,
+    useLazyGetDelQuery,
     useSendTokenFbMutation,
     useSendCurrentPageMutation,
     useRefreshFacebookTokenMutation,
