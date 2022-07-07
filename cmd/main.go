@@ -138,10 +138,14 @@ type ErrMsg struct {
 	msg  string
 }
 
-var CurErrMsg ErrMsg
 var PageErr ErrMsg
 var IgEr ErrMsg
 var MediaEr ErrMsg
+
+func roundFloat(val float64, precision uint) float64 {
+	ratio := math.Pow(10, float64(precision))
+	return math.Round(val*ratio) / ratio
+}
 
 //ReadAccess Read Access_token from file.
 func ReadAccess(c *gin.Context) {
@@ -511,11 +515,47 @@ func Exit(c *gin.Context) {
 }
 
 func Commenting(c *gin.Context) {
+	if CurrentSession.AccessToken == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.UserId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен UserId"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyPageId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyPageId"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyInstagramAccount == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyInstagramAccount"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if len(CurrentSession.Posts) == 0 {
+		c.JSON(424, gin.H{"message": "Для процесса нужен Posts "})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен Post Id"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if len(CurrentSession.Blocks) == 0 {
+		c.JSON(424, gin.H{"message": "Для процесса нужны blocks "})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.StatusOfProcess.Done = false
 	if CurrentSession.StatusOfProcess.IsEnd == true {
 		CurrentSession.StatusOfProcess.Method = ""
 		ClearTempData()
+		return
 	}
 	if CurrentSession.CurrentBlock == 0 {
 		ClearTempData()
@@ -564,7 +604,7 @@ func Commenting(c *gin.Context) {
 	marsher := json.Unmarshal(bodyComment, &CurrentComment)
 	if marsher != nil {
 		log.Println("Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)")
-		c.IndentedJSON(401, gin.H{"message": "Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)"})
+		c.IndentedJSON(401, gin.H{"message": "Обновите свой AccessToken и процесс продолжится с блока на котором остановился (from comment)"})
 		return
 	}
 
@@ -574,7 +614,10 @@ func Commenting(c *gin.Context) {
 		c.IndentedJSON(424, gin.H{"message": "Ошибка при попытке создать комментарий"})
 		return
 	}
+
 	log.Println("comment id", CurrentComment.CommentId)
+	log.Println("comment body", CommentBody)
+	log.Println("method", CurrentSession.StatusOfProcess.Method)
 	CurrentSession.StatusOfProcess.StatusComment = CurrentComment.CommentId
 
 	if CurrentSession.StatusOfProcess.Done == true {
@@ -584,15 +627,49 @@ func Commenting(c *gin.Context) {
 		return
 	}
 	log.Println("Выход по окончанию")
-	c.IndentedJSON(200, CurrentComment.CommentId)
 	CurrentSession.StatusOfProcess.Method = "Rep"
 	return
 
 }
 func Replying(c *gin.Context) {
+	if CurrentSession.AccessToken == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.UserId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен UserId"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyPageId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyPageId"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyInstagramAccount == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyInstagramAccount"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if len(CurrentSession.Posts) == 0 {
+		c.JSON(424, gin.H{"message": "Для процесса нужен Posts "})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен Post Id"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if len(CurrentSession.Blocks) == 0 {
+		c.JSON(424, gin.H{"message": "Для процесса нужны blocks "})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
 	CurrentSession.StatusOfProcess.Done = false
 
-	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
+	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Rep
 
 	if ReplyBody == "" {
 		log.Println("Отсутствует ответ чтобы начать процесс")
@@ -649,13 +726,14 @@ func Replying(c *gin.Context) {
 	}
 	log.Println("Reply Id", currentReply.ReplyId)
 	log.Println("Reply body", ReplyBody)
+	log.Println("method", CurrentSession.StatusOfProcess.Method)
 	if CurrentSession.StatusOfProcess.Done == true {
 		log.Println("Выход по кнопке")
 		c.IndentedJSON(200, gin.H{"message": "Комментарий не был удален, возобновите процесс чтобы закончить с текущим блоком"})
 		CurrentSession.StatusOfProcess.Method = "Del"
 		return
 	}
-	c.IndentedJSON(200, currentReply.ReplyId)
+
 	CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 	CurrentSession.StatusOfProcess.Method = "Del"
 	return
@@ -664,6 +742,41 @@ func Replying(c *gin.Context) {
 
 //If Replying is 200 ->
 func Deliting(c *gin.Context) {
+	if CurrentSession.AccessToken == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.UserId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен UserId"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyPageId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyPageId"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyInstagramAccount == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен MyInstagramAccount"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if len(CurrentSession.Posts) == 0 {
+		c.JSON(424, gin.H{"message": "Для процесса нужен Posts "})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if CurrentSession.MyId == "" {
+		c.JSON(424, gin.H{"message": "Для процесса нужен Post Id"})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
+	if len(CurrentSession.Blocks) == 0 {
+		c.JSON(424, gin.H{"message": "Для процесса нужны blocks "})
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		return
+	}
 	CurrentSession.StatusOfProcess.Done = false
 
 	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
@@ -710,6 +823,9 @@ func Deliting(c *gin.Context) {
 		return
 	}
 	log.Println("status of delete", currentDel.DelStatus)
+	log.Println("method", CurrentSession.StatusOfProcess.Method)
+
+	Percent = float64(CurrentSession.CurrentBlock+1) / float64(len(CurrentSession.Blocks))
 
 	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
 		c.IndentedJSON(201, currentDel.DelStatus)
@@ -719,16 +835,14 @@ func Deliting(c *gin.Context) {
 		return
 	}
 
-	Percent = float64(CurrentSession.CurrentBlock+1) / float64(len(CurrentSession.Blocks))
-
 	if CurrentSession.StatusOfProcess.Done == true {
-		c.IndentedJSON(200, currentReply.ReplyId)
-		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
+		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
+		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2)
 		CurrentSession.StatusOfProcess.Method = "Com"
 		return
 	}
-	c.IndentedJSON(200, currentReply.ReplyId)
-
+	CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
+	CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 	CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
