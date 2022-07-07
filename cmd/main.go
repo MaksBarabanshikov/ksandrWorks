@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"net/url"
 	"strings"
@@ -107,8 +108,8 @@ type Status struct {
 	StatusDelete  bool    `json:"deleteStatus"`
 	StatusPercent float64 `json:"percent"`
 	IsEnd         bool    `json:"isEnd"`
-	Done          bool
-	Method        string `json:"method"`
+	Done          bool    `json:"done"`
+	Method        string  `json:"method"`
 }
 
 var MyClient = http.Client{}                    //Client to do requests
@@ -513,19 +514,12 @@ func Commenting(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.StatusOfProcess.Done = false
 	if CurrentSession.StatusOfProcess.IsEnd == true {
+		CurrentSession.StatusOfProcess.Method = ""
 		ClearTempData()
 	}
 	if CurrentSession.CurrentBlock == 0 {
 		ClearTempData()
 	}
-
-	defer func() {
-		if CurrentSession.StatusOfProcess.Done == true {
-			c.IndentedJSON(201, CurrentComment.CommentId)
-			CurrentSession.StatusOfProcess.Method = "Rep"
-			return
-		}
-	}()
 
 	CommentBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
 
@@ -581,6 +575,15 @@ func Commenting(c *gin.Context) {
 		return
 	}
 	log.Println("comment id", CurrentComment.CommentId)
+	CurrentSession.StatusOfProcess.StatusComment = CurrentComment.CommentId
+
+	if CurrentSession.StatusOfProcess.Done == true {
+		log.Println("Выход по кнопке")
+		c.IndentedJSON(200, CurrentComment.CommentId)
+		CurrentSession.StatusOfProcess.Method = "Rep"
+		return
+	}
+	log.Println("Выход по окончанию")
 	c.IndentedJSON(200, CurrentComment.CommentId)
 	CurrentSession.StatusOfProcess.Method = "Rep"
 	return
@@ -588,13 +591,6 @@ func Commenting(c *gin.Context) {
 }
 func Replying(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Done = false
-	defer func() {
-		if CurrentSession.StatusOfProcess.Done == true {
-			c.IndentedJSON(201, currentReply.ReplyId)
-			CurrentSession.StatusOfProcess.Method = "Del"
-			return
-		}
-	}()
 
 	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
 
@@ -653,7 +649,14 @@ func Replying(c *gin.Context) {
 	}
 	log.Println("Reply Id", currentReply.ReplyId)
 	log.Println("Reply body", ReplyBody)
+	if CurrentSession.StatusOfProcess.Done == true {
+		log.Println("Выход по кнопке")
+		c.IndentedJSON(200, gin.H{"message": "Комментарий не был удален, возобновите процесс чтобы закончить с текущим блоком"})
+		CurrentSession.StatusOfProcess.Method = "Del"
+		return
+	}
 	c.IndentedJSON(200, currentReply.ReplyId)
+	CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 	CurrentSession.StatusOfProcess.Method = "Del"
 	return
 
@@ -662,13 +665,6 @@ func Replying(c *gin.Context) {
 //If Replying is 200 ->
 func Deliting(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Done = false
-	defer func() {
-		if CurrentSession.StatusOfProcess.Done == true {
-			c.IndentedJSON(201, currentReply.ReplyId)
-			CurrentSession.StatusOfProcess.Method = "Com"
-			return
-		}
-	}()
 
 	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
 	//Delete method send request to delete a comment
@@ -715,14 +711,25 @@ func Deliting(c *gin.Context) {
 	}
 	log.Println("status of delete", currentDel.DelStatus)
 
-	CurErrMsg = ErrMsg{code: 200, msg: "everything is ok with that block"}
-
 	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
+		c.IndentedJSON(201, currentDel.DelStatus)
 		CurrentSession.StatusOfProcess.IsEnd = true
 		CurrentSession.Blocks = []CommentsReplyFront{}
 		CurrentSession.CurrentBlock = 0
 		return
 	}
+
+	Percent = float64(CurrentSession.CurrentBlock+1) / float64(len(CurrentSession.Blocks))
+
+	if CurrentSession.StatusOfProcess.Done == true {
+		c.IndentedJSON(200, currentReply.ReplyId)
+		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
+		CurrentSession.StatusOfProcess.Method = "Com"
+		return
+	}
+	c.IndentedJSON(200, currentReply.ReplyId)
+
+	CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
 	return
