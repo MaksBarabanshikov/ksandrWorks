@@ -142,6 +142,11 @@ var PageErr ErrMsg
 var IgEr ErrMsg
 var MediaEr ErrMsg
 
+func roundFloat(val float64, precision uint) float64 {
+	ratio := math.Pow(10, float64(precision))
+	return math.Round(val*ratio) / ratio
+}
+
 //ReadAccess Read Access_token from file.
 func ReadAccess(c *gin.Context) {
 
@@ -599,7 +604,7 @@ func Commenting(c *gin.Context) {
 	marsher := json.Unmarshal(bodyComment, &CurrentComment)
 	if marsher != nil {
 		log.Println("Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)")
-		c.IndentedJSON(401, gin.H{"message": "Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)"})
+		c.IndentedJSON(401, gin.H{"message": "Обновите свой AccessToken и процесс продолжится с блока на котором остановился (from comment)"})
 		return
 	}
 
@@ -609,7 +614,10 @@ func Commenting(c *gin.Context) {
 		c.IndentedJSON(424, gin.H{"message": "Ошибка при попытке создать комментарий"})
 		return
 	}
+
 	log.Println("comment id", CurrentComment.CommentId)
+	log.Println("comment body", CommentBody)
+	log.Println("method", CurrentSession.StatusOfProcess.Method)
 	CurrentSession.StatusOfProcess.StatusComment = CurrentComment.CommentId
 
 	if CurrentSession.StatusOfProcess.Done == true {
@@ -718,6 +726,7 @@ func Replying(c *gin.Context) {
 	}
 	log.Println("Reply Id", currentReply.ReplyId)
 	log.Println("Reply body", ReplyBody)
+	log.Println("method", CurrentSession.StatusOfProcess.Method)
 	if CurrentSession.StatusOfProcess.Done == true {
 		log.Println("Выход по кнопке")
 		c.IndentedJSON(200, gin.H{"message": "Комментарий не был удален, возобновите процесс чтобы закончить с текущим блоком"})
@@ -814,6 +823,7 @@ func Deliting(c *gin.Context) {
 		return
 	}
 	log.Println("status of delete", currentDel.DelStatus)
+	log.Println("method", CurrentSession.StatusOfProcess.Method)
 
 	Percent = float64(CurrentSession.CurrentBlock+1) / float64(len(CurrentSession.Blocks))
 
@@ -827,7 +837,7 @@ func Deliting(c *gin.Context) {
 
 	if CurrentSession.StatusOfProcess.Done == true {
 		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
-		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
+		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2)
 		CurrentSession.StatusOfProcess.Method = "Com"
 		return
 	}
