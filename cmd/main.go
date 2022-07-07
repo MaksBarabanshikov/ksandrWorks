@@ -109,6 +109,7 @@ type Status struct {
 	StatusPercent float64 `json:"percent"`
 	IsEnd         bool    `json:"isEnd"`
 	Done          bool
+	Method        string `json:"method"`
 }
 
 var MyClient = http.Client{}                    //Client to do requests
@@ -434,206 +435,6 @@ func GetSortedList(c *gin.Context) {
 }
 
 //Hashtaging Creating: 1.Comment at current post from PostId method 2.Reply with ReplyBody parameter to current Id Comment  3.Deleting Comment
-func Hashtaging(ReplyBody string, CommentBody string) {
-
-	if ReplyBody == "" || CommentBody == "" {
-		log.Println("Отсутствуют Комментарий или Ответ чтобы начать процесс")
-		CurErrMsg = ErrMsg{code: 424, msg: "Отсутствуют Комментарий или Ответ чтобы начать процесс"}
-		return
-	}
-	CommentValues := url.Values{}
-	CommentValues.Add("message", CommentBody)                     //Body of first comment
-	CommentValues.Add("access_token", CurrentSession.AccessToken) //accesstoken
-
-	//var ReallyPost = PostsIds[len(PostsIds)-1]
-	if CurrentSession.MyId == "" {
-		log.Println("Отсутствует ID поста чтобы начать процесс")
-		CurErrMsg = ErrMsg{code: 424, msg: "Отсутствует ID поста чтобы начать процесс"}
-		return
-	}
-	var CurrentIDPost = CurrentSession.MyId
-
-	time.Sleep(4 * time.Second)
-
-	//Post method send request to create a comment Params=CommentValues
-	comment, err := MyClient.PostForm(Graph+CurrentIDPost+"/comments?", CommentValues)
-	if err != nil {
-		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать комментарий, попробуйте снова используя VPN "}
-		return
-	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			log.Println(err)
-			CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with comment in hashtags(1)"}
-			return
-		}
-	}(comment.Body)
-
-	bodyComment, err := ioutil.ReadAll(comment.Body)
-	if err != nil {
-		log.Println(err)
-		CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with comment in hashtags(2)"}
-		return
-	}
-
-	marsher := json.Unmarshal(bodyComment, &CurrentComment)
-	if marsher != nil {
-		PageErr = ErrMsg{code: 401, msg: "Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)"}
-		return
-	}
-
-	log.Println("post id", CurrentIDPost)
-	if CurrentComment.CommentId == "" {
-		log.Println("Ошибка при попытке создать комментарий")
-		CurErrMsg = ErrMsg{code: 424, msg: "Ошибка при попытке создать комментарий"}
-		return
-	} else {
-		log.Println("comment id", CurrentComment.CommentId)
-	}
-
-	//MyComment := CurrentComment.CommentId
-
-	ReplyValues := url.Values{}
-	ReplyValues.Add("message", ReplyBody) //Body of Reply
-	ReplyValues.Add("access_token", CurrentSession.AccessToken)
-
-	time.Sleep(4 * time.Second)
-
-	//Post method send request to create a Reply Params=ReplyValues
-	reply, err := MyClient.PostForm(Graph+CurrentComment.CommentId+"/replies", ReplyValues)
-
-	if err != nil {
-		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, попробуйте снова используя VPN. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий"}
-		return
-	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			log.Println(err)
-			CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Reply in hashtags(1)"}
-			return
-		}
-	}(reply.Body)
-
-	bodyReply, err := ioutil.ReadAll(reply.Body)
-	if err != nil {
-		log.Println(err)
-		CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Reply in hashtags(2)"}
-		return
-	}
-
-	marsherR := json.Unmarshal(bodyReply, &currentReply)
-	if marsherR != nil {
-		PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply). Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий"}
-		return
-	}
-
-	if currentReply.ReplyId == "" {
-		log.Println("Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами и попробуйте снова")
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами и попробуйте снова"}
-		UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
-
-		//Delete method send request to delete a comment
-		DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
-		if err != nil {
-			log.Println(err)
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария(1)"}
-			return
-		}
-
-		RespDelComment, err := http.DefaultClient.Do(DelComment)
-		if err != nil {
-			log.Println(err)
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария(1)"}
-			return
-		}
-		defer func(Body io.ReadCloser) {
-			err := Body.Close()
-			if err != nil {
-				CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Delete in hashtags(2)"}
-				return
-			}
-		}(RespDelComment.Body)
-		bodyDelComment, err := ioutil.ReadAll(RespDelComment.Body)
-		if err != nil {
-			log.Println(err)
-			CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Delete in hashtags(2)"}
-			return
-		}
-
-		marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
-		if marsherDel != nil {
-			PageErr = ErrMsg{code: 401, msg: "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply). Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий"}
-			return
-		}
-
-		if currentDel.DelStatus == false {
-			log.Println("Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий а затем попробуйте снова")
-			CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий а затем попробуйте снова"}
-			return
-		} else {
-			log.Println("status of delete", currentDel.DelStatus)
-		}
-		return
-	} else {
-		log.Println("Reply Id", currentReply.ReplyId)
-	}
-	//DelValues := url.Values{}
-	//ReplyValues.Add("message", "#swissdeam")
-	//ReplyValues.Add("access_token", accessToken)
-	time.Sleep(3 * time.Second)
-
-	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
-
-	//Delete method send request to delete a comment
-	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
-	if err != nil {
-		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите комментарий с хештегами, затем попробуйте снова используя VPN (1)"}
-		return
-	}
-
-	RespDelComment, err := http.DefaultClient.Do(DelComment)
-	if err != nil {
-		log.Println(err)
-		CurErrMsg = ErrMsg{code: 504, msg: "ООшибка при удалении комментария, Пожалуйста проверьте свой инстаграмм аккаунт и удалите комментарий с хештегами, затем попробуйте снова используя VPN (2)"}
-		return
-	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Delete in hashtags(2)"}
-			return
-		}
-	}(RespDelComment.Body)
-	bodyDelComment, err := ioutil.ReadAll(RespDelComment.Body)
-	if err != nil {
-		log.Println(err)
-		CurErrMsg = ErrMsg{code: 520, msg: "Something went wrong with Delete in hashtags(2)"}
-		return
-	}
-
-	marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
-	if marsherDel != nil {
-		PageErr = ErrMsg{code: 401, msg: "Пожалуйста проверьте свой инстаграмм аккаунт и удалите комментарий с хештегами, затем бновите AccessToken (перелогиньтесь) и процесс продолжится с блока на котором остановился (from get Del)"}
-		return
-	}
-
-	if currentDel.DelStatus == false {
-		log.Println("Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами а затем попробуйте снова")
-		CurErrMsg = ErrMsg{code: 504, msg: "Ошибка при удалении комментария. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами а затем попробуйте снова"}
-		return
-	} else {
-		log.Println("status of delete", currentDel.DelStatus)
-	}
-
-	CurErrMsg = ErrMsg{code: 200, msg: "everything is ok with that block"}
-
-	return
-}
 
 //PostCommentReply add all blocks in Blocks slice with CommentsReplyFront struct for Post method to use comment and reply in process
 func PostCommentReply(c *gin.Context) {
@@ -655,29 +456,11 @@ func PostCommentReply(c *gin.Context) {
 	log.Println(CurrentSession.Blocks)
 }
 
-//Random func for time-waiting between requests
-//func random(min, max int) int {
-//	rand.Seed(time.Now().Unix())
-//	if min > max {
-//		return min
-//	} else {
-//		return rand.Intn(max-min) + min
-//	}
-//}
-
 func StatusGet(cr *gin.Context) {
-	if CurrentSession.StatusOfProcess.IsEnd == true {
-		cr.JSON(204, CurrentSession.StatusOfProcess)
-		return
-	} else {
-		cr.JSON(200, CurrentSession.StatusOfProcess)
-		return
-	}
+	cr.JSON(200, CurrentSession.StatusOfProcess)
+	return
 }
 
-//type Exiter interface {
-//}
-//
 func ClearTempData() {
 	CurrentSession.StatusOfProcess.StatusText = 0
 	CurrentSession.StatusOfProcess.StatusComment = ""
@@ -686,6 +469,7 @@ func ClearTempData() {
 	CurrentSession.StatusOfProcess.StatusPercent = 0
 	CurrentSession.StatusOfProcess.IsEnd = false
 	CurrentSession.StatusOfProcess.Done = false
+	CurrentSession.StatusOfProcess.Method = ""
 	return
 }
 
@@ -726,7 +510,201 @@ func Exit(c *gin.Context) {
 
 }
 
-//Process main of Handling a slice of Hashtags and sending them by blocks to Hastaging to post in account
+func Commenting(c *gin.Context) {
+	CurrentSession.StatusOfProcess.Method = "Com"
+	CurrentSession.StatusOfProcess.Done = false
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		ClearTempData()
+	}
+	if CurrentSession.CurrentBlock == 0 {
+		ClearTempData()
+	}
+
+	CommentBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
+
+	if CommentBody == "" {
+		log.Println("Отсутствуют Комментарий чтобы начать процесс")
+		c.IndentedJSON(424, gin.H{"message": "Отсутствуют Комментарий или Ответ чтобы начать процесс"})
+		return
+	}
+	CommentValues := url.Values{}
+	CommentValues.Add("message", CommentBody)                     //Body of first comment
+	CommentValues.Add("access_token", CurrentSession.AccessToken) //accesstoken
+
+	if CurrentSession.MyId == "" {
+		log.Println("Отсутствует ID поста чтобы начать процесс")
+		c.IndentedJSON(424, gin.H{"message": "Отсутствует ID поста чтобы начать процесс"})
+		return
+	}
+
+	//Post method send request to create a comment Params=CommentValues
+	comment, err := MyClient.PostForm(Graph+CurrentSession.MyId+"/comments?", CommentValues)
+	if err != nil {
+		log.Println(err)
+		c.IndentedJSON(504, gin.H{"message": "Ошибка при попытке создать комментарий, попробуйте снова используя VPN "})
+		return
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Println(err)
+			c.IndentedJSON(520, gin.H{"message": "Something went wrong with comment in hashtags(1)"})
+			return
+		}
+	}(comment.Body)
+
+	bodyComment, err := ioutil.ReadAll(comment.Body)
+	if err != nil {
+		log.Println(err)
+		c.IndentedJSON(520, gin.H{"message": "Something went wrong with comment in hashtags(2)"})
+		return
+	}
+
+	marsher := json.Unmarshal(bodyComment, &CurrentComment)
+	if marsher != nil {
+		log.Println("Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)")
+		c.IndentedJSON(401, gin.H{"message": "Обновите свой AccessToken (перелогинтесь) и процесс продолжится с блока на котором остановился (from comment)"})
+		return
+	}
+
+	log.Println("post id", CurrentSession.MyId)
+	if CurrentComment.CommentId == "" {
+		log.Println("Ошибка при попытке создать комментарий")
+		c.IndentedJSON(424, gin.H{"message": "Ошибка при попытке создать комментарий"})
+		return
+	}
+	log.Println("comment id", CurrentComment.CommentId)
+	c.IndentedJSON(200, CurrentComment.CommentId)
+	CurrentSession.StatusOfProcess.Method = "Rep"
+	return
+
+}
+func Replying(c *gin.Context) {
+
+	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
+
+	if ReplyBody == "" {
+		log.Println("Отсутствует ответ чтобы начать процесс")
+		c.IndentedJSON(424, gin.H{"message": "Отсутствует ответ чтобы начать процесс"})
+		return
+	}
+
+	ReplyValues := url.Values{}
+	ReplyValues.Add("message", ReplyBody) //Body of Reply
+	ReplyValues.Add("access_token", CurrentSession.AccessToken)
+
+	time.Sleep(4 * time.Second)
+
+	//Post method send request to create a Reply Params=ReplyValues
+	reply, err := MyClient.PostForm(Graph+CurrentComment.CommentId+"/replies", ReplyValues)
+	if err != nil {
+		log.Println(err)
+		c.IndentedJSON(504, gin.H{"message": "Ошибка при попытке создать ответ, попробуйте снова используя VPN."})
+		return
+		//user turn on VPN and restart->Reply
+	}
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Println(err)
+			c.IndentedJSON(520, gin.H{"message": "Something went wrong with Reply in hashtags(1)"})
+			return
+			//restart->REPLY
+		}
+	}(reply.Body)
+
+	bodyReply, err := ioutil.ReadAll(reply.Body)
+	if err != nil {
+		log.Println(err)
+		c.IndentedJSON(520, gin.H{"message": "Something went wrong with Reply in hashtags(2)"})
+		return
+		//restart->REPLY
+	}
+
+	marsherR := json.Unmarshal(bodyReply, &currentReply)
+	if marsherR != nil {
+		log.Println("Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply).")
+		c.IndentedJSON(401, gin.H{"message": "Обновите AccessToken и процесс продолжится с  блока на котором остановился (from reply)."})
+		return
+		//User REFRESH Token and restart->REPLY
+	}
+
+	if currentReply.ReplyId == "" {
+		log.Println("Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами и нажмите <<Возобновить>>")
+		c.IndentedJSON(504, gin.H{"message": "Ошибка при попытке создать ответ, у текущего поста не должно быть хештегов. Пожалуйста, проверьте свой аккаунт инстаграмм и удалите комментарий с хештегами и попробуйте снова"})
+		return
+		//User delete hashtags and restart->REPLY
+	}
+	log.Println("Reply Id", currentReply.ReplyId)
+	log.Println("Reply body", ReplyBody)
+	c.IndentedJSON(200, currentReply.ReplyId)
+	CurrentSession.StatusOfProcess.Method = "Del"
+	return
+
+}
+
+//If Replying is 200 ->
+func Deliting(c *gin.Context) {
+
+	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
+	//Delete method send request to delete a comment
+	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
+	if err != nil {
+		log.Println("Ошибка при удалении комментария, попробуйте снова используя VPN (1)")
+		c.IndentedJSON(504, gin.H{"message": "Ошибка при удалении комментария, попробуйте снова используя VPN (1)"})
+		return
+	}
+
+	RespDelComment, err := http.DefaultClient.Do(DelComment)
+	if err != nil {
+		log.Println("Ошибка при удалении комментария, попробуйте снова используя VPN (2)")
+		c.IndentedJSON(504, gin.H{"message": "Ошибка при удалении комментария, попробуйте снова используя VPN (2)"})
+		return
+	}
+	defer func(Body io.ReadCloser) {
+		err = Body.Close()
+		if err != nil {
+			log.Println("Something went wrong with Delete in hashtags(2)")
+			c.IndentedJSON(520, gin.H{"message": "Something went wrong with Delete in hashtags(2)"})
+			return
+		}
+	}(RespDelComment.Body)
+
+	bodyDelComment, err := ioutil.ReadAll(RespDelComment.Body)
+	if err != nil {
+		log.Println("Something went wrong with Delete in hashtags(1)")
+		c.IndentedJSON(520, gin.H{"message": "Something went wrong with Delete in hashtags(1)"})
+		return
+	}
+
+	marsherDel := json.Unmarshal(bodyDelComment, &currentDel)
+	if marsherDel != nil {
+		log.Println("обновите AccessToken и нажмите <<Возобновить>> (from get Del)")
+		c.IndentedJSON(401, gin.H{"message": "обновите AccessToken и нажмите <<Возобновить>>"})
+		return
+	}
+
+	if currentDel.DelStatus == false {
+		log.Println("Ошибка при удалении комментария")
+		c.IndentedJSON(504, gin.H{"message": "Ошибка при удалении комментария"})
+		return
+	}
+	log.Println("status of delete", currentDel.DelStatus)
+
+	CurErrMsg = ErrMsg{code: 200, msg: "everything is ok with that block"}
+
+	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
+		CurrentSession.StatusOfProcess.IsEnd = true
+		CurrentSession.Blocks = []CommentsReplyFront{}
+		CurrentSession.CurrentBlock = 0
+		return
+	}
+	CurrentSession.StatusOfProcess.Method = "Com"
+	CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
+	return
+}
+
 func Process(c *gin.Context) {
 	if CurrentSession.CurrentBlock == 0 {
 		ClearTempData()
@@ -776,10 +754,6 @@ func Process(c *gin.Context) {
 			CurrentSession.Blocks = []CommentsReplyFront{}
 			return
 		}
-		var CurrentReplyBody = ""
-		var CurrentCommentBody = ""
-		CurrentReplyBody = CurrentSession.Blocks[T].Rep
-		CurrentCommentBody = CurrentSession.Blocks[T].Com
 
 		if CurrentSession.StatusOfProcess.Done == true {
 			log.Println("выход по кнопке1")
@@ -790,7 +764,7 @@ func Process(c *gin.Context) {
 
 		log.Println(T, CurrentSession.CurrentBlock, "до hashtaging")
 
-		Hashtaging(CurrentReplyBody, CurrentCommentBody)
+		//Hashtaging(CurrentReplyBody, CurrentCommentBody)*/
 		if CurErrMsg.code != 200 {
 			c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
 			CurrentSession.Blocks = []CommentsReplyFront{}
@@ -859,7 +833,9 @@ func main() {
 	route.GET("/api/hashtags/sorted-hashtags", GetSortedList)
 	route.POST("/api/hashtags/post-id", PostId)
 	route.POST("/api/hashtags/all-blocks", PostCommentReply)
-	route.GET("/api/hashtags/process", Process)
+	route.GET("/api/hashtags/process/comment", Commenting)
+	route.GET("/api/hashtags/process/reply", Replying)
+	route.GET("/api/hashtags/process/delete", Deliting)
 	route.GET("/api/hashtags/process/status", StatusGet)
 	route.GET("/api/hashtags/process/exit", ExitProcess)
 	route.POST("/api/hashtags/exit", Exit)
