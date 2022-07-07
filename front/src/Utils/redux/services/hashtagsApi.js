@@ -43,21 +43,21 @@ export const hashtagsApi = createApi({
         getCommenting: build.query({
             query: () => 'process/comment',
             transformResponse(data, meta) {
-                return {data, status: Number(meta.response.status)}
+                return {status: Number(meta.response.status)}
             }
         }),
         // commenting
         getReply: build.query({
             query: () => 'process/reply',
             transformResponse(data, meta) {
-                return {data, status: Number(meta.response.status)}
+                return {status: Number(meta.response.status)}
             }
         }),
         // commenting
         getDel: build.query({
             query: () => 'process/delete',
             transformResponse(data, meta) {
-                return {data, status: Number(meta.response.status)}
+                return {status: Number(meta.response.status)}
             }
         }),
         // Получаем посты инстаграм

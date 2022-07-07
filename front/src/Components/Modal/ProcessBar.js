@@ -19,13 +19,17 @@ import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 
 const ProcessBarModal = ({refresh}) => {
     const [status, setStatus] = useState(null)
-    const {data: dataStatus, isSuccess: isSuccessMethod, refetch} = useGetStatusProcessQuery()
+    const [message, setMessage] = useState(null)
+
+    const {data: dataStatus, isSuccess: isSuccessMethod, refetch} = useGetStatusProcessQuery() //process/status
+
     const [sendFavorites] = useSendFavoritesMutation()
     const [refreshToken, {error: errorRefresh,}] = useRefreshFacebookTokenMutation()
+
     const [stopProcess, {error, isSuccess}] = useLazyStopProcessQuery()
-    const [startCommenting, {data: dataCom, error: errorCom, isSuccess: isSuccessCom }] = useLazyGetCommentingQuery()
-    const [startReplying, {data: dataRep, error: errorRep, isSuccess: isSuccessRep }] = useLazyGetReplyQuery()
-    const [startDel, {data: dataDel, error: errorDel, isSuccess: isSuccessDel }] = useLazyGetDelQuery()
+    const [startCommenting, {data: statusCom, error: errorCom, isSuccess: isSuccessCom}] = useLazyGetCommentingQuery()
+    const [startReplying, {data: statusRep, error: errorRep, isSuccess: isSuccessRep}] = useLazyGetReplyQuery()
+    const [startDel, {data: statusDel, error: errorDel, isSuccess: isSuccessDel}] = useLazyGetDelQuery()
 
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const myFavorites = useSelector(state => state.favorites.favorites)
@@ -38,59 +42,69 @@ const ProcessBarModal = ({refresh}) => {
 
     useEffect(() => {
         if (isSuccessMethod) {
-            const methodRes = dataStatus.method.method
-            if (methodRes === "") {
-                const data = myFavorites.map(f => ({
-                        text1: f.text1,
-                        text2: f.text2.join(" "),
+            if (!dataStatus.method.isEnd && !dataStatus.method.done) {
+
+                const methodRes = dataStatus.method.method
+
+                if (status === 200) {
+                    if (methodRes === "") {
+                        const data = myFavorites.map(f => ({
+                                text1: f.text1,
+                                text2: f.text2.join(" "),
+                            }
+                        ))
+                        sendFavorites({data})
+                        return startCommenting()
                     }
-                ))
-                sendFavorites({data})
-                startCommenting()
-            }
 
-            if (methodRes === "Com") {
-                startCommenting()
-            }
+                    if (methodRes === "Com") {
+                        return startCommenting()
+                    }
 
-            if (methodRes === "Rep") {
-                startReplying()
-            }
+                    if (methodRes === "Rep") {
+                        return startReplying()
+                    }
 
-            if (methodRes === "Del") {
-                startDel()
+                    if (methodRes === "Del") {
+                        return startDel()
+                    }
+                }
+
+                if (status === 401) {
+
+                }
             }
         }
-    }, [isSuccessMethod])
+    }, [isSuccessMethod, status])
 
     useEffect(() => {
-        if (isSuccessCom) {
-            console.log(dataCom)
-            if (dataCom.status === 200) {
-                return refetch()
-            }
-        }
-        if (isSuccessRep) {
-            console.log(dataRep)
-            if (dataRep.status === 200) {
-                return refetch()
-            }
-        }
-        if (isSuccessDel) {
-            console.log(dataDel)
-            if (dataDel.status === 200) {
-                return refetch()
-            }
-        }
+        if (statusCom || statusRep || statusDel) {
+            statusCom ? setStatus(statusCom.status) :
+                statusRep ? setStatus(statusRep.status) :
+                    setStatus(statusDel.status)
 
-    }, [isSuccessCom, isSuccessRep, isSuccessDel]);
+            return refetch()
+        }
+    }, [
+        statusCom,
+        statusRep,
+        statusDel,
+    ]);
 
+    useEffect(() => {
+        if (!!errorCom || !!errorRep || !!errorDel) {
+            errorCom ? setMessage(errorCom.data.message) :
+                errorRep ? setMessage(errorRep.data.message) :
+                    setMessage(errorDel.data.message)
+            refetch()
+        }
+    }, [])
 
     const dispatch = useDispatch()
 
-    const handleComplete = (STATUS) => {
-        setStatus(STATUS)
-    }
+    // const handleComplete = (STATUS) => {
+    //     setStatus(STATUS)
+    // }
 
     const handleStopProcess = async () => {
         await stopProcess()
@@ -127,47 +141,71 @@ const ProcessBarModal = ({refresh}) => {
                     </h1>
                 </div>
                 <div className="modal__body_main">
-                    {/*<GetStatus setStatus={handleComplete}/>*/}
-                    {/*{(method.isEnd || method.done) && <Loader width={50} height={50}/>}*/}
-                    {errorCom?.data && <h3 className="error-message">{errorCom.data.message}</h3>}
+                    {(!dataStatus.method.isEnd && !dataStatus.method.done) && <Loader width={50} height={50}/>}
+                    {dataStatus.method.isEnd && <h1>Готово</h1>}
+                    {dataStatus.method.done && <h1>Пауза</h1>}
+
+                    {message && <h3 className="error-message">{message}</h3>}
+
+
+                    {/*{errorCom?.data && <h3 className="error-message">{errorCom.data.message}</h3>}*/}
+                    {/*{errorRep?.data && <h3 className="error-message">{errorRep.data.message}</h3>}*/}
+                    {/*{errorDel?.data && <h3 className="error-message">{errorDel.data.message}</h3>}*/}
+
+                    <p>
+                        Блок {dataStatus.method.status} из {myFavorites.length}
+                    </p>
+
+                    <ProgressBar
+                        completed={dataStatus.method.percent}
+                        animateOnRender={true}
+                        baseBgColor={'#F3F3F3FF'}
+                        bgColor={'#0066EAFF'}
+                        height={'30px'}
+                        width={`90%`}
+                        margin={'10px auto'}
+                    />
+
                     {status !== null && <RepeatGetStatus status={status}/>}
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
                         {
-                            status === "Error" && <button
-                                style={{maxWidth: '50px'}}
+                            dataStatus.method.isEnd && <button
+                                style={{maxWidth: '100px'}}
                                 className="btn blue-btn"
-                                onClick={() => refresh()}
+                                onClick={() => dispatch(closeModalProcess())}
                             >
-                                <FontAwesomeIcon icon={faRefresh}/>
+                                Выход
                             </button>
                         }
+
                         {
-                            status === "ErrorAuth" && <button
-                                style={{maxWidth: '50px'}}
-                                className="btn blue-btn"
-                                onClick={() => doubleHandler() }
-                            >
-                                <FontAwesomeIcon icon={faRefresh}/>
-                            </button>
+                            (dataStatus.method.done) || (status !== null && status !== 200) &&
+                            <>
+                                <button
+                                    style={{maxWidth: '100px'}}
+                                    className="btn blue-btn"
+                                    onClick={() => refetch()}
+                                >
+                                    <FontAwesomeIcon icon={faRefresh}/>
+                                </button>
+                                <button
+                                    style={{maxWidth: '100px'}}
+                                    className="btn blue-btn"
+                                    onClick={() => dispatch(closeModalProcess())}
+                                >
+                                    Закрыть
+                                </button>
+                            </>
                         }
-                        {status === 'Loading' &&
+
+                        {!dataStatus.method.done &&
                             <button
                                 style={{maxWidth: '200px'}}
                                 className="btn blue-btn"
                                 onClick={() => handleStopProcess()}
                             >
                                 Остановить процесс
-                            </button>
-                        }
-                        {
-                            status !== "Loading" && <button
-                                style={{maxWidth: '100px'}}
-                                className="btn blue-btn"
-                                onClick={() => dispatch(closeModalProcess())}
-                                disabled={isSuccess}
-                            >
-                                Выход
                             </button>
                         }
 
@@ -181,48 +219,10 @@ const ProcessBarModal = ({refresh}) => {
     )
 }
 export const RepeatGetStatus = ({status}) => {
-    const {data, refetch, error} = useRepeatGetProcessQuery()
-    const favorites = useSelector(state => state.favorites.favorites)
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            refetch()
-        }, 15000)
+    return <>
+    </>
 
-        if ((status !== 'Loading' && !!status) || error) {
-            refetch()
-            clearInterval(interval)
-        }
-
-        return () => clearInterval(interval)
-    }, [status, error])
-
-    if (error?.data?.message) {
-        return <h3 className="error-message">{error.data.message}</h3>
-    }
-
-    if (data) {
-        if (data.status !== 204) {
-            return <>
-                <p>
-                    Блок {data.process.status} из {favorites.length}
-                </p>
-                <ProgressBar
-                    completed={data.process.percent}
-                    animateOnRender={true}
-                    baseBgColor={'#F3F3F3FF'}
-                    bgColor={'#0066EAFF'}
-                    height={'30px'}
-                    width={`90%`}
-                    margin={'10px auto'}
-                />
-            </>
-        } else {
-            return <span className="success-message">Посты успешно обработаны</span>
-        }
-    } else {
-        return <p>Подготовка к обработке</p>
-    }
 }
 
 // export const GetStatus = ({setStatus}) => {
