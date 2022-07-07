@@ -42,11 +42,10 @@ const ProcessBarModal = ({refresh}) => {
 
     useEffect(() => {
         if (isSuccessMethod) {
-            if (!dataStatus.method.isEnd && !dataStatus.method.done) {
-
+            if (!dataStatus.method.isEnd && !dataStatus.method.Done) {
                 const methodRes = dataStatus.method.method
 
-                if (status === 200) {
+                if (status === 200 || status === null) {
                     if (methodRes === "") {
                         const data = myFavorites.map(f => ({
                                 text1: f.text1,
@@ -140,80 +139,83 @@ const ProcessBarModal = ({refresh}) => {
                         Статус
                     </h1>
                 </div>
-                <div className="modal__body_main">
-                    {(!dataStatus.method.isEnd && !dataStatus.method.done) && <Loader width={50} height={50}/>}
-                    {dataStatus.method.isEnd && <h1>Готово</h1>}
-                    {dataStatus.method.done && <h1>Пауза</h1>}
+                {
+                    dataStatus &&
+                    <div className="modal__body_main">
+                        {(!dataStatus.method?.isEnd && !dataStatus.method.Done) && <Loader width={50} height={50}/>}
+                        {dataStatus.method?.isEnd && <h1>Готово</h1>}
+                        {dataStatus.method?.Done && <h1>Пауза</h1>}
 
-                    {message && <h3 className="error-message">{message}</h3>}
+                        {message && <h3 className="error-message">{message}</h3>}
 
 
-                    {/*{errorCom?.data && <h3 className="error-message">{errorCom.data.message}</h3>}*/}
-                    {/*{errorRep?.data && <h3 className="error-message">{errorRep.data.message}</h3>}*/}
-                    {/*{errorDel?.data && <h3 className="error-message">{errorDel.data.message}</h3>}*/}
+                        {/*{errorCom?.data && <h3 className="error-message">{errorCom.data.message}</h3>}*/}
+                        {/*{errorRep?.data && <h3 className="error-message">{errorRep.data.message}</h3>}*/}
+                        {/*{errorDel?.data && <h3 className="error-message">{errorDel.data.message}</h3>}*/}
 
-                    <p>
-                        Блок {dataStatus.method.status} из {myFavorites.length}
-                    </p>
+                        <p>
+                            Блок {dataStatus.method?.status} из {myFavorites.length}
+                        </p>
 
-                    <ProgressBar
-                        completed={dataStatus.method.percent}
-                        animateOnRender={true}
-                        baseBgColor={'#F3F3F3FF'}
-                        bgColor={'#0066EAFF'}
-                        height={'30px'}
-                        width={`90%`}
-                        margin={'10px auto'}
-                    />
+                        <ProgressBar
+                            completed={dataStatus.method?.percent}
+                            animateOnRender={true}
+                            baseBgColor={'#F3F3F3FF'}
+                            bgColor={'#0066EAFF'}
+                            height={'30px'}
+                            width={`90%`}
+                            margin={'10px auto'}
+                        />
 
-                    {status !== null && <RepeatGetStatus status={status}/>}
-                    {error?.data && <h3 className="error-message">{error.data.message}</h3>}
-                    <div className="modal__body_main-btn flex">
-                        {
-                            dataStatus.method.isEnd && <button
-                                style={{maxWidth: '100px'}}
-                                className="btn blue-btn"
-                                onClick={() => dispatch(closeModalProcess())}
-                            >
-                                Выход
-                            </button>
-                        }
-
-                        {
-                            (dataStatus.method.done) || (status !== null && status !== 200) &&
-                            <>
-                                <button
-                                    style={{maxWidth: '100px'}}
-                                    className="btn blue-btn"
-                                    onClick={() => refetch()}
-                                >
-                                    <FontAwesomeIcon icon={faRefresh}/>
-                                </button>
-                                <button
+                        {status !== null && <RepeatGetStatus status={status}/>}
+                        {error?.data && <h3 className="error-message">{error.data.message}</h3>}
+                        <div className="modal__body_main-btn flex">
+                            {
+                                dataStatus.method?.isEnd && <button
                                     style={{maxWidth: '100px'}}
                                     className="btn blue-btn"
                                     onClick={() => dispatch(closeModalProcess())}
                                 >
-                                    Закрыть
+                                    Выход
                                 </button>
-                            </>
-                        }
+                            }
 
-                        {!dataStatus.method.done &&
-                            <button
-                                style={{maxWidth: '200px'}}
-                                className="btn blue-btn"
-                                onClick={() => handleStopProcess()}
-                            >
-                                Остановить процесс
-                            </button>
-                        }
+                            {
+                                (dataStatus.method?.Done) || (status !== null && status !== 200) &&
+                                <>
+                                    <button
+                                        style={{maxWidth: '100px'}}
+                                        className="btn blue-btn"
+                                        onClick={() => refetch()}
+                                    >
+                                        <FontAwesomeIcon icon={faRefresh}/>
+                                    </button>
+                                    <button
+                                        style={{maxWidth: '100px'}}
+                                        className="btn blue-btn"
+                                        onClick={() => dispatch(closeModalProcess())}
+                                    >
+                                        Закрыть
+                                    </button>
+                                </>
+                            }
 
-                        {
-                            !!errorRefresh && <h3 className="error-message">{errorRefresh.data.message}</h3>
-                        }
+                            {!dataStatus.method.Done &&
+                                <button
+                                    style={{maxWidth: '200px'}}
+                                    className="btn blue-btn"
+                                    onClick={() => handleStopProcess()}
+                                >
+                                    Остановить процесс
+                                </button>
+                            }
+
+                            {
+                                !!errorRefresh && <h3 className="error-message">{errorRefresh.data.message}</h3>
+                            }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     )
