@@ -19,13 +19,13 @@ import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 
 const ProcessBarModal = ({refresh}) => {
     const [status, setStatus] = useState(null)
-    const {data: method, isSuccess: isSuccessMethod} = useGetStatusProcessQuery()
+    const {data: dataStatus, isSuccess: isSuccessMethod, refetch} = useGetStatusProcessQuery()
     const [sendFavorites] = useSendFavoritesMutation()
     const [refreshToken, {error: errorRefresh,}] = useRefreshFacebookTokenMutation()
     const [stopProcess, {error, isSuccess}] = useLazyStopProcessQuery()
-    const [startCommenting, {data: dataCom,error: errorCom, }] = useLazyGetCommentingQuery()
-    const [startReplying, {data: dataRep,error: errorRep, }] = useLazyGetReplyQuery()
-    const [startDel, {data: dataDel,error: errorDel, }] = useLazyGetDelQuery()
+    const [startCommenting, {data: dataCom, error: errorCom, isSuccess: isSuccessCom }] = useLazyGetCommentingQuery()
+    const [startReplying, {data: dataRep, error: errorRep, isSuccess: isSuccessRep }] = useLazyGetReplyQuery()
+    const [startDel, {data: dataDel, error: errorDel, isSuccess: isSuccessDel }] = useLazyGetDelQuery()
 
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const myFavorites = useSelector(state => state.favorites.favorites)
@@ -38,28 +38,53 @@ const ProcessBarModal = ({refresh}) => {
 
     useEffect(() => {
         if (isSuccessMethod) {
-            if (method.method === "") {
+            const methodRes = dataStatus.method.method
+            if (methodRes === "") {
                 const data = myFavorites.map(f => ({
                         text1: f.text1,
                         text2: f.text2.join(" "),
                     }
                 ))
                 sendFavorites({data})
-            }
-
-            if (method.method === "Com") {
                 startCommenting()
             }
 
-            if (method.method === "Rep") {
+            if (methodRes === "Com") {
+                startCommenting()
+            }
+
+            if (methodRes === "Rep") {
                 startReplying()
             }
 
-            if (method.method === "Del") {
+            if (methodRes === "Del") {
                 startDel()
             }
         }
-    }, [isSuccessMethod]);
+    }, [isSuccessMethod])
+
+    useEffect(() => {
+        if (isSuccessCom) {
+            console.log(dataCom)
+            if (dataCom.status === 200) {
+                return refetch()
+            }
+        }
+        if (isSuccessRep) {
+            console.log(dataRep)
+            if (dataRep.status === 200) {
+                return refetch()
+            }
+        }
+        if (isSuccessDel) {
+            console.log(dataDel)
+            if (dataDel.status === 200) {
+                return refetch()
+            }
+        }
+
+    }, [isSuccessCom, isSuccessRep, isSuccessDel]);
+
 
     const dispatch = useDispatch()
 
@@ -102,7 +127,9 @@ const ProcessBarModal = ({refresh}) => {
                     </h1>
                 </div>
                 <div className="modal__body_main">
-                    <GetStatus setStatus={handleComplete}/>
+                    {/*<GetStatus setStatus={handleComplete}/>*/}
+                    {/*{(method.isEnd || method.done) && <Loader width={50} height={50}/>}*/}
+                    {errorCom?.data && <h3 className="error-message">{errorCom.data.message}</h3>}
                     {status !== null && <RepeatGetStatus status={status}/>}
                     {error?.data && <h3 className="error-message">{error.data.message}</h3>}
                     <div className="modal__body_main-btn flex">
@@ -198,27 +225,27 @@ export const RepeatGetStatus = ({status}) => {
     }
 }
 
-export const GetStatus = ({setStatus}) => {
-    const {data, isLoading, isSuccess, error} = useGetProcessQuery()
-
-    useEffect(() => {
-        isLoading ? setStatus('Loading') :
-            isSuccess ? setStatus('Success') :
-                error.status === 401 ? setStatus('ErrorAuth') :
-                setStatus('Error')
-    }, [isLoading, isSuccess, error])
-
-    if (isLoading) {
-        return <Loader width={50} height={50}/>
-    }
-    if (data?.status === 200) {
-        return <h1 className="success-message mb-20 mt-20">Готово</h1>
-    }
-    if (error) {
-        return <h1 className="error-message mb-20 mt-20">{error.data.message}</h1>
-    }
-
-    return <h1 className="error-message mb-20 mt-20">Что-то пошло не так</h1>
-}
+// export const GetStatus = ({setStatus}) => {
+//     const {data, isLoading, isSuccess, error} = useGetProcessQuery()
+//
+//     useEffect(() => {
+//         isLoading ? setStatus('Loading') :
+//             isSuccess ? setStatus('Success') :
+//                 error.status === 401 ? setStatus('ErrorAuth') :
+//                 setStatus('Error')
+//     }, [isLoading, isSuccess, error])
+//
+//     if (isLoading) {
+//         return <Loader width={50} height={50}/>
+//     }
+//     if (data?.status === 200) {
+//         return <h1 className="success-message mb-20 mt-20">Готово</h1>
+//     }
+//     if (error) {
+//         return <h1 className="error-message mb-20 mt-20">{error.data.message}</h1>
+//     }
+//
+//     return <h1 className="error-message mb-20 mt-20">Что-то пошло не так</h1>
+// }
 
 export default ProcessBarModal

@@ -34,19 +34,31 @@ export const hashtagsApi = createApi({
         //GET STATUS NEW
         getStatusProcess: build.query({
            query: () => 'process/status',
-            providesTags: result => ['Process']
+            providesTags: result => ['Process'],
+            transformResponse(method, meta) {
+                return {method, status: Number(meta.response.status)}
+            }
         }),
         // commenting
         getCommenting: build.query({
             query: () => 'process/comment',
+            transformResponse(data, meta) {
+                return {data, status: Number(meta.response.status)}
+            }
         }),
         // commenting
         getReply: build.query({
             query: () => 'process/reply',
+            transformResponse(data, meta) {
+                return {data, status: Number(meta.response.status)}
+            }
         }),
         // commenting
         getDel: build.query({
             query: () => 'process/delete',
+            transformResponse(data, meta) {
+                return {data, status: Number(meta.response.status)}
+            }
         }),
         // Получаем посты инстаграм
         getInstagramPosts: build.query({
