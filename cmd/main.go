@@ -591,7 +591,7 @@ func Commenting(c *gin.Context) {
 func Replying(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Done = false
 
-	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
+	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Rep
 
 	if ReplyBody == "" {
 		log.Println("Отсутствует ответ чтобы начать процесс")
@@ -727,6 +727,7 @@ func Deliting(c *gin.Context) {
 		return
 	}
 
+	CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 	CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
