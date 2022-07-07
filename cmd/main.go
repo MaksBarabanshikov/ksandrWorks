@@ -584,7 +584,6 @@ func Commenting(c *gin.Context) {
 		return
 	}
 	log.Println("Выход по окончанию")
-	c.IndentedJSON(200, CurrentComment.CommentId)
 	CurrentSession.StatusOfProcess.Method = "Rep"
 	return
 
@@ -655,7 +654,7 @@ func Replying(c *gin.Context) {
 		CurrentSession.StatusOfProcess.Method = "Del"
 		return
 	}
-	c.IndentedJSON(200, currentReply.ReplyId)
+
 	CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 	CurrentSession.StatusOfProcess.Method = "Del"
 	return
@@ -711,6 +710,8 @@ func Deliting(c *gin.Context) {
 	}
 	log.Println("status of delete", currentDel.DelStatus)
 
+	Percent = float64(CurrentSession.CurrentBlock+1) / float64(len(CurrentSession.Blocks))
+
 	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
 		c.IndentedJSON(201, currentDel.DelStatus)
 		CurrentSession.StatusOfProcess.IsEnd = true
@@ -719,15 +720,12 @@ func Deliting(c *gin.Context) {
 		return
 	}
 
-	Percent = float64(CurrentSession.CurrentBlock+1) / float64(len(CurrentSession.Blocks))
-
 	if CurrentSession.StatusOfProcess.Done == true {
-		c.IndentedJSON(200, currentReply.ReplyId)
+		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
 		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
 		CurrentSession.StatusOfProcess.Method = "Com"
 		return
 	}
-	c.IndentedJSON(200, currentReply.ReplyId)
 
 	CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
 	CurrentSession.StatusOfProcess.Method = "Com"
