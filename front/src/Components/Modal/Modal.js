@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChartPie, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import "./Modal.scss"
@@ -22,7 +22,7 @@ const Modal = () => {
                 <p>Статистика</p>
             </button>
 
-            {isOpen && <div className={`modal modal-stat ${isOpen ? "" : "hidden"}`}>
+            <div className={`modal modal-stat ${isOpen ? "" : "hidden"}`}>
                 <div className={`modal__body ${isOpen ? "open" : ''}`}>
                     <div className="modal__body_top flex justify-content-between align-center border-bottom">
                         <h1 className="title">
@@ -109,7 +109,7 @@ const Modal = () => {
                         </div>
                     </div>
                 </div>
-            </div>}
+            </div>
         </>
     )
 }

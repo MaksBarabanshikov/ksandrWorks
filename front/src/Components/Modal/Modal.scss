@@ -9,23 +9,12 @@
   align-items: center;
   z-index: 10000;
   display: flex;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
 
   &.hidden {
+    opacity: 0;
     visibility: hidden;
-  }
-
-  &.modal-stat {
-    .modal__body {
-      position: absolute;
-      top: -25%;
-      left: 40%;
-
-      &.open {
-        top: 50%;
-        left: 50%;
-        transform: scale(1) translate(-50%, -50%);
-      }
-    }
   }
 
   &__body {
@@ -35,43 +24,8 @@
     border-radius: 25px;
     background-color: #fff;
     box-shadow: 0 4px 16px rgba(36, 36, 36, 0.05);
-    transform: scale(0);
-    transition: 0.5s;
-    @media (max-width: 992px) {
-      min-width: auto;
-      width: 90%;
-      height: 90%;
-      padding: 10px;
-    }
-
-    &.open {
-      transform: scale(1);
-    }
-
-    &_top {
-      .title {
-        font-weight: 600;
-        font-size: 28px;
-        line-height: 33px;
-        color: #090909;
-
-        @media (max-width: 992px) {
-          font-size: 20px;
-        }
-      }
-    }
-
-    &_close {
-      max-width: 36px;
-      font-size: 36px;
-      color: #090909;
-      border: 1px solid transparent;
-
-      &:hover {
-        color: #0a66b7;
-        border-color: transparent !important;
-      }
-    }
+    transform: translateY(-200px);
+    transition: all 0.25s ease-in-out;
 
     &_main {
       &-cont {
@@ -114,6 +68,7 @@
         max-width: 170px;
         margin: 25px auto 0 auto;
       }
+
       &-tab {
         margin-top: 23px;
 
@@ -151,16 +106,54 @@
         }
       }
     }
-    &-slide-item {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background-position: center center;
-      background-size: 150%;
-      margin: auto;
-      overflow: hidden;
-      text-align: center;
+
+    &.open {
+      opacity: 1;
+      transform: translateY(0);
     }
+
+    @media (max-width: 992px) {
+      min-width: auto;
+      width: 90%;
+      height: 90%;
+      padding: 10px;
+    }
+  }
+
+  &_top {
+    .title {
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 33px;
+      color: #090909;
+
+      @media (max-width: 992px) {
+        font-size: 20px;
+      }
+    }
+  }
+
+  &_close {
+    max-width: 36px;
+    font-size: 36px;
+    color: #090909;
+    border: 1px solid transparent;
+
+    &:hover {
+      color: #0a66b7;
+      border-color: transparent !important;
+    }
+  }
+
+  &-slide-item {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-position: center center;
+    background-size: 150%;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
   }
 
   &__pane {

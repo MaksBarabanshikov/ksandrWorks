@@ -1,29 +1,65 @@
 import {
     useGetProcessQuery,
-    useLazyStopProcessQuery, useRefreshFacebookTokenMutation,
+    useGetStatusProcessQuery,
+    useLazyGetCommentingQuery, useLazyGetDelQuery,
+    useLazyGetReplyQuery,
+    useLazyStopProcessQuery,
+    useRefreshFacebookTokenMutation,
     useRepeatGetProcessQuery,
+    useSendFavoritesMutation,
 } from "../../Utils/redux/services/hashtagsApi";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModalProcess} from "../../Utils/redux/modules/modalSlice";
+import {closeModalProcess, openModalProcess} from "../../Utils/redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRefresh} from "@fortawesome/free-solid-svg-icons/faRefresh";
 import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
-import logo from "../common/Logo";
 
 const ProcessBarModal = ({refresh}) => {
-    const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
-    const [stopProcess, {isSuccess, error}] = useLazyStopProcessQuery()
     const [status, setStatus] = useState(null)
-    const [refreshToken, {error: errorRefresh}] = useRefreshFacebookTokenMutation()
+    const {data: method, isSuccess: isSuccessMethod} = useGetStatusProcessQuery()
+    const [sendFavorites] = useSendFavoritesMutation()
+    const [refreshToken, {error: errorRefresh,}] = useRefreshFacebookTokenMutation()
+    const [stopProcess, {error, isSuccess}] = useLazyStopProcessQuery()
+    const [startCommenting, {data: dataCom,error: errorCom, }] = useLazyGetCommentingQuery()
+    const [startReplying, {data: dataRep,error: errorRep, }] = useLazyGetReplyQuery()
+    const [startDel, {data: dataDel,error: errorDel, }] = useLazyGetDelQuery()
+
+    const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
+    const myFavorites = useSelector(state => state.favorites.favorites)
 
     useEffect(() => {
         document.body.style.overflow = 'hidden'
 
         return () => document.body.style.overflow = 'auto'
     }, []);
+
+    useEffect(() => {
+        if (isSuccessMethod) {
+            if (method.method === "") {
+                const data = myFavorites.map(f => ({
+                        text1: f.text1,
+                        text2: f.text2.join(" "),
+                    }
+                ))
+                sendFavorites({data})
+            }
+
+            if (method.method === "Com") {
+                startCommenting()
+            }
+
+            if (method.method === "Rep") {
+                startReplying()
+            }
+
+            if (method.method === "Del") {
+                startDel()
+            }
+        }
+    }, [isSuccessMethod]);
 
     const dispatch = useDispatch()
 
