@@ -13,12 +13,14 @@ export const hashtagsApi = createApi({
             return headers
         }
     }),
-    tagTypes: ['Process'],
+    tagTypes: ['Process, Com, Rep, Del'],
     endpoints: build => ({
+        //<---------------------------------------------------------------------->
+
         // Получаем / Начинаем процесс обработки постов
         getProcess: build.query({
             query: () =>  `process`,
-            providesTags: result => ['Process'],
+            keepUnusedDataFor: 8,
             transformResponse(process, meta) {
                 return {status: Number(meta.response.status)}
             }
@@ -27,38 +29,63 @@ export const hashtagsApi = createApi({
         repeatGetProcess: build.query({
             query: () => 'process/status',
             providesTags: result => ['Process'],
+            keepUnusedDataFor: 8,
             transformResponse(process, meta) {
                 return {process, status: Number(meta.response.status)}
             }
         }),
+        //<---------------------------------------------------------------------->
+
+
+
+
+
         //GET STATUS NEW
         getStatusProcess: build.query({
            query: () => 'process/status',
-            providesTags: result => ['Process'],
+            providesTags: result => ['Process','Com', 'Rep', 'Del'],
+            keepUnusedDataFor: 8,
             transformResponse(method, meta) {
                 return {method, status: Number(meta.response.status)}
             }
+
         }),
         // commenting
-        getCommenting: build.query({
-            query: () => 'process/comment',
+        getCommenting: build.mutation({
+            query: () => ({
+                url: 'process/comment',
+                method: 'GET'
+            }),
+            invalidatesTags: [{type: 'Com'}],
+            keepUnusedDataFor: 1,
             transformResponse(data, meta) {
                 return {status: Number(meta.response.status)}
-            }
+            },
+
         }),
         // commenting
-        getReply: build.query({
-            query: () => 'process/reply',
+        getReply: build.mutation({
+            query: () => ({
+                url: 'process/reply',
+                method: 'GET'
+            }),
+            invalidatesTags: [{type: 'Rep'}],
+            keepUnusedDataFor: 1,
             transformResponse(data, meta) {
                 return {status: Number(meta.response.status)}
-            }
+            },
         }),
         // commenting
-        getDel: build.query({
-            query: () => 'process/delete',
+        getDel: build.mutation({
+            query: () => ({
+                url: 'process/delete',
+                method: 'GET'
+            }),
+            invalidatesTags: [{type: 'Del'}],
+            keepUnusedDataFor: 1,
             transformResponse(data, meta) {
                 return {status: Number(meta.response.status)}
-            }
+            },
         }),
         // Получаем посты инстаграм
         getInstagramPosts: build.query({
@@ -115,8 +142,7 @@ export const hashtagsApi = createApi({
                 url: 'all-blocks',
                 method: 'POST',
                 body: data
-            }),
-            invalidatesTags: ['Process']
+            })
         }),
         // отправляем текущий пост
         sendCurrentPostId: build.mutation({
@@ -145,14 +171,14 @@ export const {
     useGetFavoritesQuery,
     useLazyStopProcessQuery,
     useGetStatusProcessQuery,
-    useLazyGetCommentingQuery,
-    useLazyGetReplyQuery,
-    useLazyGetDelQuery,
     useSendTokenFbMutation,
     useSendCurrentPageMutation,
     useRefreshFacebookTokenMutation,
     useSendFileMutation,
     useSendFavoritesMutation,
     useSendCurrentPostIdMutation,
-    useExitFbMutation
+    useExitFbMutation,
+    useGetCommentingMutation,
+    useGetReplyMutation,
+    useGetDelMutation,
 } = hashtagsApi
