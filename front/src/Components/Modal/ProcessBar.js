@@ -29,9 +29,9 @@ const ProcessBarModal = () => {
     const [stopProcess, {error, isSuccess}] = useLazyStopProcessQuery()
     const [startCommenting, {data: statusCom, error: errorCom, isSuccess: isSuccessCom}] = useGetCommentingMutation()
     const [startReplying, {data: statusRep, error: errorRep, isSuccess: isSuccessRep}] = useGetReplyMutation()
-/*
-    const [startDel, {data: statusDel, error: errorDel, isSuccess: isSuccessDel}] = useLazyGetDelQuery()
-*/
+    /*
+        const [startDel, {data: statusDel, error: errorDel, isSuccess: isSuccessDel}] = useLazyGetDelQuery()
+    */
     const [startDel, {data: statusDel, error: errorDel, isSuccess: isSuccessDel}] = useGetDelMutation()
 
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
@@ -45,7 +45,7 @@ const ProcessBarModal = () => {
         ))
 
         await sendFavorites({data})
-        return startCommenting()
+        return startCommenting().unwrap()
     }
 
     useEffect(() => {
@@ -56,14 +56,11 @@ const ProcessBarModal = () => {
 
     useEffect(() => {
         if (isSuccessMethod) {
-            if (!dataStatus.method.isEnd && !dataStatus.method.Done) {
-                if (
-                    status?.statusCom === 200 ||
-                    status?.statusRep === 200 ||
-                    status?.statusDel === 200 ||
-                    status === null
-                ) {
+            if (!dataStatus.method.isEnd && !dataStatus.method.done) {
+                if (status === 200 || status === null) {
+
                     const methodRes = dataStatus.method.method
+
                     console.log('methodRes: ', methodRes)
 
                     if (methodRes === "") {
@@ -71,15 +68,15 @@ const ProcessBarModal = () => {
                     }
 
                     if (methodRes === "Com") {
-                        return setTimeout(() => startCommenting(), 10000)
+                        return setTimeout(() => startCommenting().unwrap(), 10000)
                     }
 
                     if (methodRes === "Rep") {
-                        return setTimeout(() => startReplying(), 10000)
+                        return setTimeout(() => startReplying().unwrap(), 10000)
                     }
 
                     if (methodRes === "Del") {
-                        return setTimeout(() => startDel(), 10000)
+                        return setTimeout(() => startDel().unwrap(), 10000)
                     }
                 }
 
@@ -101,19 +98,24 @@ const ProcessBarModal = () => {
             console.log('statusRep', statusRep)
             console.log('statusDel', statusDel)
 
-            statusCom ? setStatus({statusCom: statusCom.status}) :
-                statusRep ? setStatus({statusRep: statusRep.status}) :
-                    setStatus({statusDel: statusDel.status})
+            statusCom ? setStatus(statusCom.status) :
+                statusRep ? setStatus(statusRep.status) :
+                    setStatus(statusDel.status)
         }
 
     }, [
-        isSuccessCom,
+        dataStatus,
         isSuccessRep,
         isSuccessDel,
     ]);
 
     useEffect(() => {
         if (errorCom || errorRep || errorDel) {
+
+            errorCom ? setStatus(errorCom.status) :
+                errorRep ? setStatus(statusRep.status) :
+                    setStatus(statusDel.status)
+
             errorCom ? setMessage(errorCom.data.message) :
                 errorRep ? setMessage(errorRep.data.message) :
                     setMessage(errorDel.data.message)
@@ -139,21 +141,27 @@ const ProcessBarModal = () => {
         await stopProcess()
     }
 
-    // const doubleHandler = async () => {
-    //     if (status === "ErrorAuth") {
-    //         console.log('refresh')
-    //         await FacebookLoginClient.login(res => refreshToken(
-    //             {
-    //                 accessToken: res.authResponse.accessToken,
-    //                 userId: res.authResponse.userID
-    //             }
-    //         ), {
-    //             auth_type: 'rerequest',
-    //             scope: 'rerequest',
-    //         })
-    //         setTimeout(() => refresh(), 2000)
-    //     }
-    // }
+    const handleRefresh = async () => {
+        // if (status === "ErrorAuth") {
+        //     console.log('refresh')
+        //
+        // }
+
+
+        if (status === 401) {
+            await FacebookLoginClient.login(res => refreshToken(
+                    {
+                        accessToken: res.authResponse.accessToken,
+                        userId: res.authResponse.userID
+                    }
+                ), {
+                    auth_type: 'rerequest',
+                    scope: 'rerequest',
+                })
+        }
+
+        return refetch()
+    }
 
     useEffect(() => {
         if (isSuccess && status === 'Success') {
@@ -172,11 +180,21 @@ const ProcessBarModal = () => {
                 {
                     dataStatus &&
                     <div className="modal__body_main">
-                        {(!dataStatus.method?.isEnd && !dataStatus.method.Done && !message) && <Loader width={50} height={50}/>}
-                        {dataStatus.method?.isEnd && <h1>Готово</h1>}
-                        {dataStatus.method?.Done && <h1>Пауза</h1>}
+                        {
+                            (!dataStatus.method?.isEnd && !dataStatus.method.done && !message)
+                            &&
+                            <Loader width={50} height={50}/>
+                        }
+                        {
+                            dataStatus.method?.isEnd && <h1 className="mt-20 mb-20">Готово</h1>
+                        }
+                        {
+                            dataStatus.method?.done && <h1 className="mt-20 mb-20">Пауза</h1>
+                        }
 
-                        {message && <h3 className="error-message">{message}</h3>}
+                        {
+                            message && <h3 className="error-message mt-20 mb-20">{message}</h3>
+                        }
 
 
                         {/*{errorCom?.data && <h3 className="error-message">{errorCom.data.message}</h3>}*/}
@@ -191,17 +209,27 @@ const ProcessBarModal = () => {
                             completed={dataStatus.method?.percent}
                             animateOnRender={true}
                             baseBgColor={'#F3F3F3FF'}
-                            bgColor={'#0066EAFF'}
+                            bgColor={message? '#0066EAFF' : '#dc3545'}
                             height={'30px'}
                             width={`90%`}
                             margin={'10px auto'}
                         />
 
                         {status !== null && <RepeatGetStatus status={status}/>}
-                        {error?.data && <h3 className="error-message">{error.data.message}</h3>}
+                        {error?.data && <h3 className="error-message mt-20 mb-20">{error.data.message}</h3>}
                         <div className="modal__body_main-btn flex">
+
                             {
-                                dataStatus.method?.isEnd && <button
+                                message && <button
+                                    style={{maxWidth: '100px'}}
+                                    className="btn blue-btn"
+                                    onClick={() => handleRefresh()}
+                                >
+                                    <FontAwesomeIcon icon={faRefresh}/>
+                                </button>
+                            }
+                            {
+                                (dataStatus.method?.isEnd || dataStatus.method?.done || message) && <button
                                     style={{maxWidth: '100px'}}
                                     className="btn blue-btn"
                                     onClick={() => dispatch(closeModalProcess())}
@@ -210,29 +238,7 @@ const ProcessBarModal = () => {
                                 </button>
                             }
 
-                            {
-                                (dataStatus.method?.done) ||
-                                (status !== null && status !== 200
-                                ) &&
-                                <>
-                                    <button
-                                        style={{maxWidth: '100px'}}
-                                        className="btn blue-btn"
-                                        onClick={() => refetch()}
-                                    >
-                                        <FontAwesomeIcon icon={faRefresh}/>
-                                    </button>
-                                    <button
-                                        style={{maxWidth: '100px'}}
-                                        className="btn blue-btn"
-                                        onClick={() => dispatch(closeModalProcess())}
-                                    >
-                                        Закрыть
-                                    </button>
-                                </>
-                            }
-
-                            {!dataStatus.method.done &&
+                            {(!dataStatus.method.done && !dataStatus.method.isEnd && !!!message) &&
                                 <button
                                     style={{maxWidth: '200px'}}
                                     className="btn blue-btn"
