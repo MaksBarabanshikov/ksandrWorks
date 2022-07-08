@@ -27,6 +27,18 @@
     transform: translateY(-200px);
     transition: all 0.25s ease-in-out;
 
+    &_close {
+      max-width: 36px;
+      font-size: 36px;
+      color: #090909;
+      border: 1px solid transparent;
+
+      &:hover {
+        color: #0a66b7;
+        border-color: transparent !important;
+      }
+    }
+
     &-process {
       max-width: 700px;
       height: 310px;
@@ -138,18 +150,6 @@
     }
   }
 
-  &_close {
-    max-width: 36px;
-    font-size: 36px;
-    color: #090909;
-    border: 1px solid transparent;
-
-    &:hover {
-      color: #0a66b7;
-      border-color: transparent !important;
-    }
-  }
-
   &-slide-item {
     width: 150px;
     height: 150px;
@@ -213,4 +213,61 @@
       color: #919191;
     }
   }
+}
+
+.modal-hashtags {
+  max-width: 773px;
+  max-height: 613px;
+
+  .slider-post {
+    margin-right: 20px;
+  }
+
+  .modal__body_main {
+    margin-top: 20px;
+
+    h2.title {
+      font-weight: 400;
+      font-size: 28px;
+      line-height: 32px;
+    }
+  }
+
+  &_your-hashtag {
+    display: inline-block;
+    padding: 7px 13px;
+    margin: 11px 0;
+    color: #090909;
+    border: 1px solid #1D69CB;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.24px;
+
+    strong {
+      color: #1D69CB;
+    }
+
+  }
+
+  &_top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  &_item {
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+    &:hover {
+      color: #0066EA;
+      border-color: #0066EA;
+    }
+
+    &.active {
+      background-color: #0066EA;
+      color: #fff;
+    }
+  }
+
 }

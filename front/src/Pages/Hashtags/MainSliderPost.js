@@ -8,7 +8,7 @@ import Loader from "../../Components/common/Loader";
 import {useLazyGetInstagramPostsQuery, useSendCurrentPostIdMutation} from "../../Utils/redux/services/hashtagsApi";
 import {setCurrentPostId} from "../../Utils/redux/modules/instaPostsSlice";
 
-const MainSliderPost = () => {
+const MainSliderPost = ({isSendId}) => {
     const fbPage = useSelector(state => state.facebook.user.fbPage)
     const [activeSlide, setActiveSlide] = useState(0)
     const [getInstagramPosts, {data: posts, isLoading, error}] = useLazyGetInstagramPostsQuery('Post')
@@ -24,10 +24,11 @@ const MainSliderPost = () => {
         if (error) {
             return dispatch(setCurrentPostId({id: null}))
         }
-
-        if (posts?.length && fbPage && !!!error) {
-            sendCurrentPostId({id: posts[activeSlide].id})
-            dispatch(setCurrentPostId({id: posts[activeSlide].id}))
+        if (isSendId) {
+            if (posts?.length && fbPage && !!!error) {
+                sendCurrentPostId({id: posts[activeSlide].id})
+                dispatch(setCurrentPostId({id: posts[activeSlide].id}))
+            }
         }
     }, [activeSlide, posts, fbPage, error])
 
