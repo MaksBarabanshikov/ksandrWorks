@@ -394,6 +394,7 @@ func PostId(c *gin.Context) {
 	}
 	ClearTempData()
 	CurrentSession.CurrentBlock = 0
+
 	c.IndentedJSON(200, CurrentSession.MyId)
 	log.Println("Post ID", CurrentSession.MyId)
 }
@@ -461,6 +462,9 @@ func PostCommentReply(c *gin.Context) {
 }
 
 func StatusGet(cr *gin.Context) {
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		ClearTempData()
+	}
 	cr.JSON(200, CurrentSession.StatusOfProcess)
 	return
 }
@@ -477,9 +481,10 @@ func ClearTempData() {
 	return
 }
 
-func ExitProcess(c *gin.Context) {
+func StopProcess(c *gin.Context) {
 	log.Println("делаю Done из ExitProcess")
 	CurrentSession.StatusOfProcess.Done = true
+	c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 	return
 }
 
@@ -514,15 +519,20 @@ func Exit(c *gin.Context) {
 
 }
 
-func Commenting(c *gin.Context) {
+func ExitProcess(c *gin.Context) {
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		ClearTempData()
+		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
+		return
+	} else {
+		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
+	}
 
+}
+
+func Commenting(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.StatusOfProcess.Done = false
-	if CurrentSession.StatusOfProcess.IsEnd == true {
-		CurrentSession.StatusOfProcess.Method = ""
-		ClearTempData()
-		return
-	}
 	if CurrentSession.CurrentBlock == 0 {
 		ClearTempData()
 	}
@@ -726,8 +736,10 @@ func Deliting(c *gin.Context) {
 	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
 		c.IndentedJSON(201, currentDel.DelStatus)
 		CurrentSession.StatusOfProcess.IsEnd = true
+		CurrentSession.StatusOfProcess.StatusText = len(CurrentSession.Blocks)
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
-		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
+		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
+		CurrentSession.StatusOfProcess.Method = "Com"
 		CurrentSession.Blocks = []CommentsReplyFront{}
 		CurrentSession.CurrentBlock = 0
 		return
@@ -735,13 +747,13 @@ func Deliting(c *gin.Context) {
 
 	if CurrentSession.StatusOfProcess.Done == true {
 		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
-		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2)
+		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
 		CurrentSession.StatusOfProcess.Method = "Com"
 		return
 	}
 	CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
 	CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
-	CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
+	CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
 	return
@@ -879,6 +891,7 @@ func main() {
 	route.GET("/api/hashtags/process/reply", Replying)
 	route.GET("/api/hashtags/process/delete", Deliting)
 	route.GET("/api/hashtags/process/status", StatusGet)
+	route.GET("/api/hashtags/process/stop", StopProcess)
 	route.GET("/api/hashtags/process/exit", ExitProcess)
 	route.POST("/api/hashtags/exit", Exit)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
