@@ -60,19 +60,19 @@ const ProcessBarModal = () => {
                     console.log('methodRes: ', methodRes)
 
                     if (methodRes === "") {
-                        return setTimeout(() => sendOnEmpty(), 10000)
+                        return setTimeout(() => sendOnEmpty(), 2000)
                     }
 
                     if (methodRes === "Com") {
-                        return setTimeout(() => startCommenting().unwrap(), 10000)
+                        return setTimeout(() => startCommenting().unwrap(), 2000)
                     }
 
                     if (methodRes === "Rep") {
-                        return setTimeout(() => startReplying().unwrap(), 10000)
+                        return setTimeout(() => startReplying().unwrap(), 2000)
                     }
 
                     if (methodRes === "Del") {
-                        return setTimeout(() => startDel().unwrap(), 10000)
+                        return setTimeout(() => startDel().unwrap(), 60000)
                     }
                 }
 
