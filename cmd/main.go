@@ -492,6 +492,7 @@ func StopProcess(cp *gin.Context) {
 		cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
 		return
 	} else {
+		CurrentSession.StatusOfProcess.Done = true
 		cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
 		return
 	}
