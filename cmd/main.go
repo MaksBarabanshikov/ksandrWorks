@@ -465,6 +465,10 @@ func StatusGet(cr *gin.Context) {
 	if CurrentSession.StatusOfProcess.IsEnd == true {
 		ClearTempData()
 	}
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		ClearTempData()
+	}
+
 	cr.JSON(200, CurrentSession.StatusOfProcess)
 	return
 }
@@ -521,13 +525,18 @@ func Exit(c *gin.Context) {
 
 func ExitProcess(c *gin.Context) {
 	if CurrentSession.StatusOfProcess.IsEnd == true {
+		if CurrentSession.StatusOfProcess.Done == true {
+			CurrentSession.StatusOfProcess.Done = false
+		}
 		ClearTempData()
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 		return
 	} else {
+		if CurrentSession.StatusOfProcess.Done == true {
+			CurrentSession.StatusOfProcess.Done = false
+		}
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 	}
-
 }
 
 func Commenting(c *gin.Context) {
