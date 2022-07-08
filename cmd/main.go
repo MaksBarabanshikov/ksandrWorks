@@ -394,6 +394,7 @@ func PostId(c *gin.Context) {
 	}
 	ClearTempData()
 	CurrentSession.CurrentBlock = 0
+
 	c.IndentedJSON(200, CurrentSession.MyId)
 	log.Println("Post ID", CurrentSession.MyId)
 }
@@ -515,11 +516,9 @@ func Exit(c *gin.Context) {
 }
 
 func Commenting(c *gin.Context) {
-
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.StatusOfProcess.Done = false
 	if CurrentSession.StatusOfProcess.IsEnd == true {
-		CurrentSession.StatusOfProcess.Method = ""
 		ClearTempData()
 		return
 	}
@@ -727,7 +726,7 @@ func Deliting(c *gin.Context) {
 		c.IndentedJSON(201, currentDel.DelStatus)
 		CurrentSession.StatusOfProcess.IsEnd = true
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
-		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
+		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2)
 		CurrentSession.Blocks = []CommentsReplyFront{}
 		CurrentSession.CurrentBlock = 0
 		return
@@ -741,7 +740,7 @@ func Deliting(c *gin.Context) {
 	}
 	CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
 	CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
-	CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
+	CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2)
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
 	return
