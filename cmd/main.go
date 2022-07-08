@@ -518,10 +518,6 @@ func Exit(c *gin.Context) {
 func Commenting(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.StatusOfProcess.Done = false
-	if CurrentSession.StatusOfProcess.IsEnd == true {
-		ClearTempData()
-		return
-	}
 	if CurrentSession.CurrentBlock == 0 {
 		ClearTempData()
 	}
@@ -725,8 +721,10 @@ func Deliting(c *gin.Context) {
 	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
 		c.IndentedJSON(201, currentDel.DelStatus)
 		CurrentSession.StatusOfProcess.IsEnd = true
+		CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2)
+		CurrentSession.StatusOfProcess.Method = "Com"
 		CurrentSession.Blocks = []CommentsReplyFront{}
 		CurrentSession.CurrentBlock = 0
 		return
