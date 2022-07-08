@@ -463,9 +463,14 @@ func PostCommentReply(c *gin.Context) {
 }
 
 func StatusGet(cr *gin.Context) {
-	if CurrentSession.StatusOfProcess.Done == true || (CurrentSession.StatusOfProcess.Done == true && Temp == true) {
+	if CurrentSession.StatusOfProcess.Done == true && Temp == true {
 		CurrentSession.StatusOfProcess.Done = true
 		Temp = false
+		log.Println("Реальная остановка")
+	} else {
+		CurrentSession.StatusOfProcess.Done = false
+		Temp = false
+		log.Println("уже была, идем дальше")
 	}
 	cr.JSON(200, CurrentSession.StatusOfProcess)
 	return
@@ -480,11 +485,12 @@ func ClearTempData() {
 	CurrentSession.StatusOfProcess.IsEnd = false
 	CurrentSession.StatusOfProcess.Done = false
 	CurrentSession.StatusOfProcess.Method = ""
+	CurrentSession.Blocks = []CommentsReplyFront{}
 	return
 }
 
 func StopProcess(cp *gin.Context) {
-	log.Println("делаю Done из ExitProcess")
+	log.Println("делаю Done из StopProcess")
 	CurrentSession.StatusOfProcess.Done = true
 	log.Println(CurrentSession.StatusOfProcess)
 	cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
