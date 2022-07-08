@@ -528,17 +528,14 @@ func Exit(c *gin.Context) {
 
 func ExitProcess(c *gin.Context) {
 	if CurrentSession.StatusOfProcess.IsEnd == true {
-		if CurrentSession.StatusOfProcess.Done == true {
-			CurrentSession.StatusOfProcess.Done = false
-		}
 		CurrentSession.CurrentBlock = 0
 		ClearTempData()
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 		return
 	} else {
-		if CurrentSession.StatusOfProcess.Done == true {
-			CurrentSession.StatusOfProcess.Done = false
-		}
+		log.Println("делаю Done из StopProcess")
+		CurrentSession.StatusOfProcess.Done = true
+		log.Println(CurrentSession.StatusOfProcess)
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 	}
 }
@@ -761,6 +758,9 @@ func Deliting(c *gin.Context) {
 		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
 		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
 		CurrentSession.StatusOfProcess.Method = "Com"
+		CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
+		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
+		CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
 		return
 	}
 	Temp = false
