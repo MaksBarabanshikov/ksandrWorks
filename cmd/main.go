@@ -141,6 +141,7 @@ type ErrMsg struct {
 var PageErr ErrMsg
 var IgEr ErrMsg
 var MediaEr ErrMsg
+var Temp bool
 
 func roundFloat(val float64, precision uint) float64 {
 	ratio := math.Pow(10, float64(precision))
@@ -462,6 +463,10 @@ func PostCommentReply(c *gin.Context) {
 }
 
 func StatusGet(cr *gin.Context) {
+	if CurrentSession.StatusOfProcess.Done == true || (CurrentSession.StatusOfProcess.Done == true && Temp == true) {
+		CurrentSession.StatusOfProcess.Done = true
+		Temp = false
+	}
 	cr.JSON(200, CurrentSession.StatusOfProcess)
 	return
 }
@@ -534,7 +539,7 @@ func ExitProcess(c *gin.Context) {
 }
 
 func Commenting(c *gin.Context) {
-
+	Temp = false
 	CurrentSession.StatusOfProcess.Method = "Com"
 
 	CommentBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
@@ -598,20 +603,19 @@ func Commenting(c *gin.Context) {
 
 	if CurrentSession.StatusOfProcess.Done == true {
 		log.Println("Выход по кнопке")
-		CurrentSession.StatusOfProcess.Done = false
+		Temp = true
 		c.IndentedJSON(200, CurrentComment.CommentId)
 		CurrentSession.StatusOfProcess.Method = "Rep"
 		return
 	}
+	Temp = false
 	log.Println("Выход по окончанию")
 	CurrentSession.StatusOfProcess.Method = "Rep"
 	return
 
 }
 func Replying(c *gin.Context) {
-	if CurrentSession.StatusOfProcess.Method == "Rep" && CurrentSession.StatusOfProcess.Done == true {
-		CurrentSession.StatusOfProcess.Done = false
-	}
+	Temp = false
 	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Rep
 
 	if ReplyBody == "" {
@@ -671,13 +675,13 @@ func Replying(c *gin.Context) {
 	log.Println("Reply body", ReplyBody)
 	log.Println("method", CurrentSession.StatusOfProcess.Method)
 	if CurrentSession.StatusOfProcess.Done == true {
-		CurrentSession.StatusOfProcess.Done = false
+		Temp = true
 		log.Println("Выход по кнопке")
 		c.IndentedJSON(200, gin.H{"message": "Комментарий не был удален, возобновите процесс чтобы закончить с текущим блоком"})
 		CurrentSession.StatusOfProcess.Method = "Del"
 		return
 	}
-
+	Temp = false
 	CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
 	CurrentSession.StatusOfProcess.Method = "Del"
 	return
@@ -686,9 +690,7 @@ func Replying(c *gin.Context) {
 
 //If Replying is 200 ->
 func Deliting(c *gin.Context) {
-	if CurrentSession.StatusOfProcess.Method == "Del" && CurrentSession.StatusOfProcess.Done == true {
-		CurrentSession.StatusOfProcess.Done = false
-	}
+	Temp = false
 	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
 	//Delete method send request to delete a comment
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
@@ -750,12 +752,13 @@ func Deliting(c *gin.Context) {
 	}
 
 	if CurrentSession.StatusOfProcess.Done == true {
-		CurrentSession.StatusOfProcess.Done = false
+		Temp = true
 		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
 		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
 		CurrentSession.StatusOfProcess.Method = "Com"
 		return
 	}
+	Temp = false
 	CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
 	CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 	CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
