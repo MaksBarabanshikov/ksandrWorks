@@ -462,9 +462,6 @@ func PostCommentReply(c *gin.Context) {
 }
 
 func StatusGet(cr *gin.Context) {
-	if CurrentSession.StatusOfProcess.IsEnd == true {
-		ClearTempData()
-	}
 	cr.JSON(200, CurrentSession.StatusOfProcess)
 	return
 }
@@ -481,11 +478,11 @@ func ClearTempData() {
 	return
 }
 
-func StopProcess(c *gin.Context) {
+func StopProcess(cp *gin.Context) {
 	log.Println("делаю Done из ExitProcess")
 	CurrentSession.StatusOfProcess.Done = true
-	c.IndentedJSON(200, CurrentSession.StatusOfProcess)
-	return
+	log.Println(CurrentSession.StatusOfProcess)
+	cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
 }
 
 func Exit(c *gin.Context) {
@@ -521,21 +518,24 @@ func Exit(c *gin.Context) {
 
 func ExitProcess(c *gin.Context) {
 	if CurrentSession.StatusOfProcess.IsEnd == true {
+		if CurrentSession.StatusOfProcess.Done == true {
+			CurrentSession.StatusOfProcess.Done = false
+		}
+		CurrentSession.CurrentBlock = 0
 		ClearTempData()
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 		return
 	} else {
+		if CurrentSession.StatusOfProcess.Done == true {
+			CurrentSession.StatusOfProcess.Done = false
+		}
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 	}
-
 }
 
 func Commenting(c *gin.Context) {
-	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.StatusOfProcess.Done = false
-	if CurrentSession.CurrentBlock == 0 {
-		ClearTempData()
-	}
+	CurrentSession.StatusOfProcess.Method = "Com"
 
 	CommentBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
 
@@ -609,7 +609,6 @@ func Commenting(c *gin.Context) {
 }
 func Replying(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Done = false
-
 	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Rep
 
 	if ReplyBody == "" {
@@ -684,7 +683,6 @@ func Replying(c *gin.Context) {
 //If Replying is 200 ->
 func Deliting(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Done = false
-
 	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
 	//Delete method send request to delete a comment
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
@@ -734,7 +732,7 @@ func Deliting(c *gin.Context) {
 	Percent = float64(CurrentSession.CurrentBlock+1) / float64(len(CurrentSession.Blocks))
 
 	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
-		c.IndentedJSON(201, currentDel.DelStatus)
+		c.IndentedJSON(200, currentDel.DelStatus)
 		CurrentSession.StatusOfProcess.IsEnd = true
 		CurrentSession.StatusOfProcess.StatusText = len(CurrentSession.Blocks)
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
@@ -757,6 +755,39 @@ func Deliting(c *gin.Context) {
 	CurrentSession.StatusOfProcess.Method = "Com"
 	CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
 	return
+}
+
+func main() {
+	logger := logging.GetLogger()
+	logger.Info("starting router")
+
+	certfile := ".cert/cert.pem"
+	keyfile := ".cert/key.pem"
+
+	route := gin.Default()
+	route.POST("/api/hashtags/get-access-id", ReadAccess)
+	route.POST("/api/hashtags/refresh-access", RefreshAccess)
+	route.GET("/api/hashtags/get-pages", GetListOfPages)
+	route.POST("/api/hashtags/current-fb-page", PageId)
+	route.GET("/api/hashtags/all-instagram-posts", GetPosts)
+	route.POST("/api/hashtags/file-of-hashtags", GettingFile)
+	route.GET("/api/hashtags/sorted-hashtags", GetSortedList)
+	route.POST("/api/hashtags/post-id", PostId)
+	route.POST("/api/hashtags/all-blocks", PostCommentReply)
+	route.GET("/api/hashtags/process/comment", Commenting)
+	route.GET("/api/hashtags/process/reply", Replying)
+	route.GET("/api/hashtags/process/delete", Deliting)
+	route.GET("/api/hashtags/process/status", StatusGet)
+	route.GET("/api/hashtags/process/stop", StopProcess)
+	route.GET("/api/hashtags/process/exit", ExitProcess)
+	route.POST("/api/hashtags/exit", Exit)
+	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
+	err := route.RunTLS(":8080", certfile, keyfile)
+
+	if err != nil {
+		return
+	}
+
 }
 
 //func Process(c *gin.Context) {
@@ -869,36 +900,3 @@ func Deliting(c *gin.Context) {
 //	CurrentSession.Blocks = []CommentsReplyFront{}
 //	return
 //}
-
-func main() {
-	logger := logging.GetLogger()
-	logger.Info("starting router")
-
-	certfile := ".cert/cert.pem"
-	keyfile := ".cert/key.pem"
-
-	route := gin.Default()
-	route.POST("/api/hashtags/get-access-id", ReadAccess)
-	route.POST("/api/hashtags/refresh-access", RefreshAccess)
-	route.GET("/api/hashtags/get-pages", GetListOfPages)
-	route.POST("/api/hashtags/current-fb-page", PageId)
-	route.GET("/api/hashtags/all-instagram-posts", GetPosts)
-	route.POST("/api/hashtags/file-of-hashtags", GettingFile)
-	route.GET("/api/hashtags/sorted-hashtags", GetSortedList)
-	route.POST("/api/hashtags/post-id", PostId)
-	route.POST("/api/hashtags/all-blocks", PostCommentReply)
-	route.GET("/api/hashtags/process/comment", Commenting)
-	route.GET("/api/hashtags/process/reply", Replying)
-	route.GET("/api/hashtags/process/delete", Deliting)
-	route.GET("/api/hashtags/process/status", StatusGet)
-	route.GET("/api/hashtags/process/stop", StopProcess)
-	route.GET("/api/hashtags/process/exit", ExitProcess)
-	route.POST("/api/hashtags/exit", Exit)
-	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	err := route.RunTLS(":8080", certfile, keyfile)
-
-	if err != nil {
-		return
-	}
-
-}
