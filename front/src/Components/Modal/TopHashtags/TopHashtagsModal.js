@@ -6,9 +6,11 @@ import MainSliderPost from "../../../Pages/Hashtags/MainSliderPost";
 import TopHashtags from "./TopHashtags";
 import "../Modal.scss"
 import SliderPost from "../../../Pages/Hashtags/SliderPost";
+import {useSelector} from "react-redux";
 
 const TopHashtagsModal = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const fbPage = useSelector(state => state.facebook.user.fbPage)
 
     const handleClose = () => {
         setIsOpen(false)
@@ -22,6 +24,7 @@ const TopHashtagsModal = () => {
             <button
                 className="header-statistics btn blue-btn"
                 onClick={() => handleOpen()}
+                disabled={!!fbPage}
             >
                 <FontAwesomeIcon icon={faHashtag}/>
                 <p>Топ Хештегов</p>
@@ -45,9 +48,9 @@ const TopHashtagsModal = () => {
                         </button>
                     </div>
                     <div className="modal__body_main">
-                        <div className="flex">
+                        <div className="modal__body_main-flex flex">
                             <SliderPost isSendId={false}/>
-                            <div>
+                            <div className="w-100">
                                 <h2 className="title">
                                     Статистика по хэштегу
                                 </h2>

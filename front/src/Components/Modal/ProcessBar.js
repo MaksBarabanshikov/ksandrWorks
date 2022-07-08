@@ -21,6 +21,7 @@ import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 const ProcessBarModal = () => {
     const [status, setStatus] = useState(null)
     const [message, setMessage] = useState(null)
+    const [isStop, setIsStop] = useState(true)
 
     const {data: dataStatus, isSuccess: isSuccessMethod, error: errorMethod, refetch} = useGetStatusProcessQuery() //process/status
 
@@ -49,22 +50,19 @@ const ProcessBarModal = () => {
     }
 
     const startQuery = () => {
-        console.log("")
         if (isSuccessMethod) {
             if (!dataStatus?.method?.isEnd && !dataStatus?.method?.done) {
                 if (status === 200 || status === null) {
-                    console.log('isSuccessMethod: ', status)
 
                     const methodRes = dataStatus.method.method
 
-                    console.log('methodRes: ', methodRes)
 
                     if (methodRes === "") {
                         return setTimeout(() => sendOnEmpty(), 2000)
                     }
 
                     if (methodRes === "Com") {
-                        return setTimeout(() => startCommenting().unwrap(), 2000)
+                        return setTimeout(() => startCommenting().unwrap(), 60000)
                     }
 
                     if (methodRes === "Rep") {
@@ -72,7 +70,7 @@ const ProcessBarModal = () => {
                     }
 
                     if (methodRes === "Del") {
-                        return setTimeout(() => startDel().unwrap(), 60000)
+                        return setTimeout(() => startDel().unwrap(), 2000)
                     }
                 }
 
@@ -90,15 +88,19 @@ const ProcessBarModal = () => {
         [dataStatus],
     );
 
-
     useEffect(() => {
         document.body.style.overflow = 'hidden'
-
         return () =>  {
-
             document.body.style.overflow = 'auto'
         }
     }, []);
+
+    useEffect(() => {
+            if (isSuccessStop && dataStatus.method.done) {
+                setIsStop(false)
+            }
+    }, [isSuccessStop, dataStatus]);
+
 
     useEffect(() => {
         startQuery()
@@ -108,14 +110,7 @@ const ProcessBarModal = () => {
     }, [dataStatus,errorMethod])
 
     useEffect(() => {
-        console.log("render")
         if (isSuccessCom || isSuccessRep || isSuccessDel) {
-
-            console.log('setStatus')
-            console.log('statusCom', statusCom)
-            console.log('statusRep', statusRep)
-            console.log('statusDel', statusDel)
-
             statusCom ? setStatus(statusCom.status) :
                 statusRep ? setStatus(statusRep.status) :
                     setStatus(statusDel.status)
@@ -144,11 +139,6 @@ const ProcessBarModal = () => {
         errorDel
     ])
 
-    useEffect(() => {
-        console.log('STATUS:', status)
-    }, [status]);
-
-
     const dispatch = useDispatch()
 
     // const handleComplete = (STATUS) => {
@@ -157,6 +147,7 @@ const ProcessBarModal = () => {
 
     const handleStopProcess = async () => {
         await stopProcess().unwrap()
+        setIsStop(true)
     }
 
     const handleClose = async () => {
@@ -181,7 +172,6 @@ const ProcessBarModal = () => {
         }
 
         if (status !== 401 && status !== 200) {
-            console.log(status)
             setStatus(200)
             setMessage(null)
         }
@@ -216,11 +206,6 @@ const ProcessBarModal = () => {
                             message && <h3 className="error-message mt-20 mb-20">{message}</h3>
                         }
 
-
-                        {/*{errorCom?.data && <h3 className="error-message">{errorCom.data.message}</h3>}*/}
-                        {/*{errorRep?.data && <h3 className="error-message">{errorRep.data.message}</h3>}*/}
-                        {/*{errorDel?.data && <h3 className="error-message">{errorDel.data.message}</h3>}*/}
-
                         <p>
                             Блок {dataStatus.method?.status} из {myFavorites.length}
                         </p>
@@ -231,14 +216,14 @@ const ProcessBarModal = () => {
                             baseBgColor={'#F3F3F3FF'}
                             bgColor={message === null ? '#0066EAFF' : '#6c757d'}
                             height={'30px'}
-                            width={`90%`}
+                            width={`100%`}
                             margin={'10px auto'}
                         />
 
                         <div className="modal__body_main-btn flex">
                             {
                                 (message || dataStatus.method.done) && <button
-                                    style={{maxWidth: '100px'}}
+                                    style={{maxWidth: '50px'}}
                                     className="btn blue-btn"
                                     onClick={() => handleRefresh()}
                                 >
@@ -260,9 +245,10 @@ const ProcessBarModal = () => {
                                     style={{maxWidth: '200px', justifyContent: 'center'}}
                                     className="btn blue-btn flex align-center"
                                     onClick={() => handleStopProcess()}
+                                    disabled={isSuccessStop && !dataStatus.method.done && isStop}
                                 >
                                     <span style={{display: "block", marginRight: 10}}>Остановить процесс</span>
-                                    {(isSuccessStop && !dataStatus.method.done) && <Loader width={20} height={20}/>}
+                                    {(isSuccessStop && !dataStatus.method.done && isStop) && <Loader width={20} height={20}/>}
                                 </button>
                             }
 

@@ -2,9 +2,11 @@ import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChartPie, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import "./Modal.scss"
+import {useSelector} from "react-redux";
 
 const Modal = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const fbPage = useSelector(state => state.facebook.user.fbPage)
 
     const handleClose = () => {
         setIsOpen(false)
@@ -17,6 +19,7 @@ const Modal = () => {
             <button
                 className="header-statistics btn blue-btn"
                 onClick={() => handleOpen()}
+                disabled={!!fbPage}
             >
                 <FontAwesomeIcon icon={faChartPie}/>
                 <p>Статистика</p>
