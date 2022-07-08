@@ -482,10 +482,19 @@ func ClearTempData() {
 }
 
 func StopProcess(cp *gin.Context) {
-	log.Println("делаю Done из ExitProcess")
-	CurrentSession.StatusOfProcess.Done = true
-	cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
-	return
+	//log.Println("делаю Done из ExitProcess")
+	//CurrentSession.StatusOfProcess.Done = true
+	//cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
+	//return
+
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		ClearTempData()
+		cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
+		return
+	} else {
+		cp.IndentedJSON(200, CurrentSession.StatusOfProcess)
+		return
+	}
 }
 
 func Exit(c *gin.Context) {
