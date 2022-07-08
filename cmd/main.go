@@ -462,6 +462,9 @@ func PostCommentReply(c *gin.Context) {
 }
 
 func StatusGet(cr *gin.Context) {
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		ClearTempData()
+	}
 	cr.JSON(200, CurrentSession.StatusOfProcess)
 	return
 }
@@ -478,7 +481,7 @@ func ClearTempData() {
 	return
 }
 
-func ExitProcess(c *gin.Context) {
+func StopProcess(c *gin.Context) {
 	log.Println("делаю Done из ExitProcess")
 	CurrentSession.StatusOfProcess.Done = true
 	return
@@ -513,6 +516,14 @@ func Exit(c *gin.Context) {
 		return
 	}
 
+}
+
+func ExitProcess(c *gin.Context) {
+	if CurrentSession.StatusOfProcess.IsEnd == true {
+		ClearTempData()
+		return
+	}
+	c.IndentedJSON(200, gin.H{"message": CurrentSession})
 }
 
 func Commenting(c *gin.Context) {
@@ -876,6 +887,7 @@ func main() {
 	route.GET("/api/hashtags/process/reply", Replying)
 	route.GET("/api/hashtags/process/delete", Deliting)
 	route.GET("/api/hashtags/process/status", StatusGet)
+	route.GET("/api/hashtags/process/stop", StopProcess)
 	route.GET("/api/hashtags/process/exit", ExitProcess)
 	route.POST("/api/hashtags/exit", Exit)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
