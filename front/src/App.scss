@@ -326,7 +326,13 @@ input[type="submit"] {
   border-bottom: 1px solid rgba(36, 36, 36, 0.05);
   padding-bottom: 27px;
 }
+.border-gray {
+  border: 1px solid rgba(24, 24, 24, 0.25);
+}
 
+.rounded-12 {
+  border-radius: 12px;
+}
 .mt-25 {
   margin-top: 25px !important;
 }

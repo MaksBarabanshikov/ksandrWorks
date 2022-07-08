@@ -1,12 +1,12 @@
 import MainSliderPost from "./MainSliderPost";
 import "./SliderPost.scss"
 
-const SliderPost = () => {
+const SliderPost = ({isSendId}) => {
   return(
       <>
           <div className="slider-post  flex flex-column">
               <div className="slider-post__main ">
-                  <MainSliderPost />
+                  <MainSliderPost isSendId={isSendId} />
               </div>
           </div>
       </>

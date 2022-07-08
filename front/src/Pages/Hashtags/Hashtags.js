@@ -172,7 +172,7 @@ const Hashtags = () => {
                                 </div>
                             </div>
                             <div className="hashtag__block_slider flex justify-content-end">
-                                <SliderPost checkId={checkForDisabled}/>
+                                <SliderPost isSendId={true}/>
                             </div>
                         </div>
                     </div>
