@@ -533,8 +533,9 @@ func ExitProcess(c *gin.Context) {
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 		return
 	} else {
-		log.Println("делаю Done из StopProcess")
+		log.Println("Пауза при закрытии")
 		CurrentSession.StatusOfProcess.Done = true
+		Temp = true
 		log.Println(CurrentSession.StatusOfProcess)
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 	}
