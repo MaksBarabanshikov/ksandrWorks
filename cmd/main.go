@@ -534,6 +534,7 @@ func ExitProcess(c *gin.Context) {
 }
 
 func Commenting(c *gin.Context) {
+	CurrentSession.StatusOfProcess.Done = false
 	CurrentSession.StatusOfProcess.Method = "Com"
 
 	CommentBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
@@ -607,6 +608,7 @@ func Commenting(c *gin.Context) {
 
 }
 func Replying(c *gin.Context) {
+	CurrentSession.StatusOfProcess.Done = false
 	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Rep
 
 	if ReplyBody == "" {
@@ -680,6 +682,7 @@ func Replying(c *gin.Context) {
 
 //If Replying is 200 ->
 func Deliting(c *gin.Context) {
+	CurrentSession.StatusOfProcess.Done = false
 	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
 	//Delete method send request to delete a comment
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
