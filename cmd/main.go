@@ -721,7 +721,7 @@ func Deliting(c *gin.Context) {
 	if CurrentSession.CurrentBlock == len(CurrentSession.Blocks)-1 {
 		c.IndentedJSON(201, currentDel.DelStatus)
 		CurrentSession.StatusOfProcess.IsEnd = true
-		CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
+		CurrentSession.StatusOfProcess.StatusText = len(CurrentSession.Blocks)
 		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
 		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2)
 		CurrentSession.StatusOfProcess.Method = "Com"
