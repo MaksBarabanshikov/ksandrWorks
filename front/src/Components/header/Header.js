@@ -11,6 +11,8 @@ import "./Header.scss"
 import Modal from "../Modal/Modal";
 import {Link} from "react-router-dom";
 import Logo from "../common/Logo";
+import TopHashtags from "../Modal/TopHashtags/TopHashtags";
+import TopHashtagsModal from "../Modal/TopHashtags/TopHashtagsModal";
 
 const Header = (props) => {
     const [notify, setNotify] = useState([...notifyData])
@@ -53,6 +55,7 @@ const Header = (props) => {
                 <h5>{props.title}</h5>
             </Block>
             <Block stylees="header-buttons">
+                {props.title === "Хештеги" && <TopHashtagsModal/>}
                 {props.title === "Хештеги" && <Modal/>}
                 <button className="header-btn-notify" onClick={() => handleSetVisible("notifyVisible")}>
                     <img src={BellImage} alt=""/>

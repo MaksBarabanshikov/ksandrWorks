@@ -239,7 +239,7 @@ func GetListOfPages(c *gin.Context) {
 			c.IndentedJSON(PageErr.code, gin.H{"message": PageErr.msg})
 			return
 		} else {
-			c.IndentedJSON(424, gin.H{"message": "Нет страниц, привязанных к этому аккаунту Facebook"})
+			c.IndentedJSON(424, gin.H{"message": "Нет страниц, привязанных к этому аккаунту FacebookLogo"})
 			return
 		}
 	}

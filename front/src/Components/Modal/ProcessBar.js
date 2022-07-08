@@ -27,7 +27,7 @@ const ProcessBarModal = () => {
     const [sendFavorites] = useSendFavoritesMutation()
     const [refreshToken, {error: errorRefresh}] = useRefreshFacebookTokenMutation()
 
-    const [stopProcess] = useLazyStopProcessQuery()
+    const [stopProcess, {isSuccess: isSuccessStop}] = useLazyStopProcessQuery()
     const [startCommenting, {data: statusCom, error: errorCom, isSuccess: isSuccessCom}] = useGetCommentingMutation()
     const [startReplying, {data: statusRep, error: errorRep, isSuccess: isSuccessRep}] = useGetReplyMutation()
 
@@ -156,7 +156,7 @@ const ProcessBarModal = () => {
     // }
 
     const handleStopProcess = async () => {
-        await stopProcess()
+        await stopProcess().unwrap()
     }
 
     const handleClose = async () => {
@@ -237,7 +237,7 @@ const ProcessBarModal = () => {
 
                         <div className="modal__body_main-btn flex">
                             {
-                                message && <button
+                                (message || dataStatus.method.done) && <button
                                     style={{maxWidth: '100px'}}
                                     className="btn blue-btn"
                                     onClick={() => handleRefresh()}
@@ -257,11 +257,12 @@ const ProcessBarModal = () => {
 
                             {(!dataStatus.method.done && !dataStatus.method.isEnd && !!!message) &&
                                 <button
-                                    style={{maxWidth: '200px'}}
-                                    className="btn blue-btn"
+                                    style={{maxWidth: '200px', justifyContent: 'center'}}
+                                    className="btn blue-btn flex align-center"
                                     onClick={() => handleStopProcess()}
                                 >
-                                    Остановить процесс
+                                    <span style={{display: "block", marginRight: 10}}>Остановить процесс</span>
+                                    {(isSuccessStop && !dataStatus.method.done) && <Loader width={20} height={20}/>}
                                 </button>
                             }
 
