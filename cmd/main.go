@@ -534,7 +534,7 @@ func ExitProcess(c *gin.Context) {
 }
 
 func Commenting(c *gin.Context) {
-	CurrentSession.StatusOfProcess.Done = false
+
 	CurrentSession.StatusOfProcess.Method = "Com"
 
 	CommentBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Com
@@ -598,6 +598,7 @@ func Commenting(c *gin.Context) {
 
 	if CurrentSession.StatusOfProcess.Done == true {
 		log.Println("Выход по кнопке")
+		CurrentSession.StatusOfProcess.Done = false
 		c.IndentedJSON(200, CurrentComment.CommentId)
 		CurrentSession.StatusOfProcess.Method = "Rep"
 		return
@@ -608,7 +609,9 @@ func Commenting(c *gin.Context) {
 
 }
 func Replying(c *gin.Context) {
-	CurrentSession.StatusOfProcess.Done = false
+	if CurrentSession.StatusOfProcess.Method == "Rep" && CurrentSession.StatusOfProcess.Done == true {
+		CurrentSession.StatusOfProcess.Done = false
+	}
 	ReplyBody := CurrentSession.Blocks[CurrentSession.CurrentBlock].Rep
 
 	if ReplyBody == "" {
@@ -668,6 +671,7 @@ func Replying(c *gin.Context) {
 	log.Println("Reply body", ReplyBody)
 	log.Println("method", CurrentSession.StatusOfProcess.Method)
 	if CurrentSession.StatusOfProcess.Done == true {
+		CurrentSession.StatusOfProcess.Done = false
 		log.Println("Выход по кнопке")
 		c.IndentedJSON(200, gin.H{"message": "Комментарий не был удален, возобновите процесс чтобы закончить с текущим блоком"})
 		CurrentSession.StatusOfProcess.Method = "Del"
@@ -682,7 +686,9 @@ func Replying(c *gin.Context) {
 
 //If Replying is 200 ->
 func Deliting(c *gin.Context) {
-	CurrentSession.StatusOfProcess.Done = false
+	if CurrentSession.StatusOfProcess.Method == "Del" && CurrentSession.StatusOfProcess.Done == true {
+		CurrentSession.StatusOfProcess.Done = false
+	}
 	UrlDel := Graph + CurrentComment.CommentId + "?access_token=" + CurrentSession.AccessToken
 	//Delete method send request to delete a comment
 	DelComment, err := http.NewRequest("DELETE", UrlDel, nil)
@@ -744,6 +750,7 @@ func Deliting(c *gin.Context) {
 	}
 
 	if CurrentSession.StatusOfProcess.Done == true {
+		CurrentSession.StatusOfProcess.Done = false
 		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
 		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
 		CurrentSession.StatusOfProcess.Method = "Com"
