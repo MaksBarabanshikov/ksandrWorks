@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"hashtags/pkg/logging"
 	"io"
 	"io/ioutil"
 	"log"
@@ -774,9 +773,6 @@ func Deliting(c *gin.Context) {
 }
 
 func main() {
-	logger := logging.GetLogger()
-	logger.Info("starting router")
-
 	certfile := ".cert/cert.pem"
 	keyfile := ".cert/key.pem"
 
