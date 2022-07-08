@@ -39,7 +39,6 @@ export const hashtagsApi = createApi({
 
 
 
-
         //GET STATUS NEW
         getStatusProcess: build.query({
            query: () => 'process/status',
@@ -88,6 +87,13 @@ export const hashtagsApi = createApi({
             },
         }),
         // Получаем посты инстаграм
+        exitProcess: build.mutation({
+            query: () => ({
+                url: 'process/exit',
+                method: 'GET'
+            }),
+            invalidatesTags: ['Process','Com', 'Rep', 'Del']
+        }),
         getInstagramPosts: build.query({
             query: () => 'all-instagram-posts',
         }),
@@ -101,7 +107,7 @@ export const hashtagsApi = createApi({
         }),
         // завершение сессии
         stopProcess: build.query({
-           query: () => 'process/exit'
+           query: () => 'process/stop'
         }),
         // Отправляем токен fb
         sendTokenFb: build.mutation({
@@ -150,7 +156,8 @@ export const hashtagsApi = createApi({
                url: 'post-id',
                method: 'POST',
                body: data
-           })
+           }),
+            invalidatesTags: ['Process','Com', 'Rep', 'Del']
         }),
         // выход fb
         exitFb: build.mutation({
@@ -177,6 +184,7 @@ export const {
     useSendFileMutation,
     useSendFavoritesMutation,
     useSendCurrentPostIdMutation,
+    useExitProcessMutation,
     useExitFbMutation,
     useGetCommentingMutation,
     useGetReplyMutation,

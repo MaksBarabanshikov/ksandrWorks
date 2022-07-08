@@ -1,18 +1,19 @@
 import {
+    useExitProcessMutation,
     useGetCommentingMutation,
     useGetDelMutation,
     useGetReplyMutation,
     useGetStatusProcessQuery,
     useLazyStopProcessQuery,
     useRefreshFacebookTokenMutation,
-    useRepeatGetProcessQuery,
     useSendFavoritesMutation,
 } from "../../Utils/redux/services/hashtagsApi";
+
 import {useDispatch, useSelector} from "react-redux";
-import {closeModalProcess, openModalProcess} from "../../Utils/redux/modules/modalSlice";
+import {closeModalProcess} from "../../Utils/redux/modules/modalSlice";
 import Loader from "../common/Loader";
 import ProgressBar from "@ramonak/react-progress-bar";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRefresh} from "@fortawesome/free-solid-svg-icons/faRefresh";
 import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
@@ -26,12 +27,11 @@ const ProcessBarModal = () => {
     const [sendFavorites] = useSendFavoritesMutation()
     const [refreshToken, {error: errorRefresh}] = useRefreshFacebookTokenMutation()
 
-    const [stopProcess, {error, isSuccess}] = useLazyStopProcessQuery()
+    const [stopProcess] = useLazyStopProcessQuery()
     const [startCommenting, {data: statusCom, error: errorCom, isSuccess: isSuccessCom}] = useGetCommentingMutation()
     const [startReplying, {data: statusRep, error: errorRep, isSuccess: isSuccessRep}] = useGetReplyMutation()
-    /*
-        const [startDel, {data: statusDel, error: errorDel, isSuccess: isSuccessDel}] = useLazyGetDelQuery()
-    */
+
+    const [exitProcess] = useExitProcessMutation()
     const [startDel, {data: statusDel, error: errorDel, isSuccess: isSuccessDel}] = useGetDelMutation()
 
     const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
@@ -48,16 +48,12 @@ const ProcessBarModal = () => {
         return startCommenting().unwrap()
     }
 
-    useEffect(() => {
-        document.body.style.overflow = 'hidden'
-
-        return () => document.body.style.overflow = 'auto'
-    }, []);
-
-    useEffect(() => {
+    const startQuery = () => {
+        console.log("")
         if (isSuccessMethod) {
-            if (!dataStatus.method.isEnd && !dataStatus.method.done) {
+            if (!dataStatus?.method?.isEnd && !dataStatus?.method?.done) {
                 if (status === 200 || status === null) {
+                    console.log('isSuccessMethod: ', status)
 
                     const methodRes = dataStatus.method.method
 
@@ -85,15 +81,37 @@ const ProcessBarModal = () => {
                 }
             }
         }
+    }
+
+    const startQueryCallback = useCallback(
+        () => {
+            startQuery()
+        },
+        [dataStatus],
+    );
+
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden'
+
+        return () =>  {
+
+            document.body.style.overflow = 'auto'
+        }
+    }, []);
+
+    useEffect(() => {
+        startQuery()
         if (errorMethod) {
             return setStatus(null)
         }
-    }, [dataStatus, errorMethod])
+    }, [dataStatus,errorMethod])
 
     useEffect(() => {
+        console.log("render")
         if (isSuccessCom || isSuccessRep || isSuccessDel) {
-            console.log('setStatus')
 
+            console.log('setStatus')
             console.log('statusCom', statusCom)
             console.log('statusRep', statusRep)
             console.log('statusDel', statusDel)
@@ -104,7 +122,7 @@ const ProcessBarModal = () => {
         }
 
     }, [
-        dataStatus,
+        isSuccessCom,
         isSuccessRep,
         isSuccessDel,
     ]);
@@ -112,9 +130,9 @@ const ProcessBarModal = () => {
     useEffect(() => {
         if (errorCom || errorRep || errorDel) {
 
-            errorCom ? setStatus(errorCom.status) :
-                errorRep ? setStatus(statusRep.status) :
-                    setStatus(statusDel.status)
+            errorCom ? setStatus(errorCom?.status) :
+                errorRep ? setStatus(errorRep?.status) :
+                    setStatus(errorDel?.status)
 
             errorCom ? setMessage(errorCom.data.message) :
                 errorRep ? setMessage(errorRep.data.message) :
@@ -141,37 +159,39 @@ const ProcessBarModal = () => {
         await stopProcess()
     }
 
-    const handleRefresh = async () => {
-        // if (status === "ErrorAuth") {
-        //     console.log('refresh')
-        //
-        // }
-
-
-        if (status === 401) {
-            await FacebookLoginClient.login(res => refreshToken(
-                    {
-                        accessToken: res.authResponse.accessToken,
-                        userId: res.authResponse.userID
-                    }
-                ), {
-                    auth_type: 'rerequest',
-                    scope: 'rerequest',
-                })
-        }
-
-        return refetch()
+    const handleClose = async () => {
+        await exitProcess()
+        return dispatch(closeModalProcess())
     }
 
-    useEffect(() => {
-        if (isSuccess && status === 'Success') {
-            dispatch(closeModalProcess())
-        }
-    }, [status])
+    const handleRefresh = async () => {
+        if (status === 401) {
+            await FacebookLoginClient.login(res => refreshToken(
+                {
+                    accessToken: res.authResponse.accessToken,
+                    userId: res.authResponse.userID
+                }
+            ), {
+                auth_type: 'rerequest',
+                scope: 'rerequest',
+            })
 
+            setStatus(200)
+            setMessage(null)
+        }
+
+        if (status !== 401 && status !== 200) {
+            console.log(status)
+            setStatus(200)
+            setMessage(null)
+        }
+
+        await refetch()
+        return startQueryCallback()
+    }
     return (
         <div className={`modal`}>
-            <div className={`modal__body ${isOpenProcess ? "open" : ''}`}>
+            <div className={`modal__body modal__body-process ${isOpenProcess ? "open" : ''}`}>
                 <div className="modal__body_top flex justify-content-between align-center border-bottom">
                     <h1 className="title">
                         Статус
@@ -209,16 +229,13 @@ const ProcessBarModal = () => {
                             completed={dataStatus.method?.percent}
                             animateOnRender={true}
                             baseBgColor={'#F3F3F3FF'}
-                            bgColor={message? '#0066EAFF' : '#dc3545'}
+                            bgColor={message === null ? '#0066EAFF' : '#6c757d'}
                             height={'30px'}
                             width={`90%`}
                             margin={'10px auto'}
                         />
 
-                        {status !== null && <RepeatGetStatus status={status}/>}
-                        {error?.data && <h3 className="error-message mt-20 mb-20">{error.data.message}</h3>}
                         <div className="modal__body_main-btn flex">
-
                             {
                                 message && <button
                                     style={{maxWidth: '100px'}}
@@ -232,7 +249,7 @@ const ProcessBarModal = () => {
                                 (dataStatus.method?.isEnd || dataStatus.method?.done || message) && <button
                                     style={{maxWidth: '100px'}}
                                     className="btn blue-btn"
-                                    onClick={() => dispatch(closeModalProcess())}
+                                    onClick={() => handleClose()}
                                 >
                                     Выход
                                 </button>
@@ -258,34 +275,4 @@ const ProcessBarModal = () => {
         </div>
     )
 }
-export const RepeatGetStatus = ({status}) => {
-
-    return <>
-    </>
-
-}
-
-// export const GetStatus = ({setStatus}) => {
-//     const {data, isLoading, isSuccess, error} = useGetProcessQuery()
-//
-//     useEffect(() => {
-//         isLoading ? setStatus('Loading') :
-//             isSuccess ? setStatus('Success') :
-//                 error.status === 401 ? setStatus('ErrorAuth') :
-//                 setStatus('Error')
-//     }, [isLoading, isSuccess, error])
-//
-//     if (isLoading) {
-//         return <Loader width={50} height={50}/>
-//     }
-//     if (data?.status === 200) {
-//         return <h1 className="success-message mb-20 mt-20">Готово</h1>
-//     }
-//     if (error) {
-//         return <h1 className="error-message mb-20 mt-20">{error.data.message}</h1>
-//     }
-//
-//     return <h1 className="error-message mb-20 mt-20">Что-то пошло не так</h1>
-// }
-
 export default ProcessBarModal
