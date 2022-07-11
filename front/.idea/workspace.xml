@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e348bb22-ba76-41ec-a5a4-d878c93f7dc0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.cert/cert.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.cert/key.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Layout/Layout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-Black.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-BlackItalic.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-Bold.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-BoldItalic.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-Italic.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-Medium.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-MediumItalic.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/Gunterz-Regular.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-BlackItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fonts/Gunterz/TTF/Gunterz-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/bookmark-dynamic-color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/bookmark-fav-dynamic-color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/fire.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/flash-dynamic-color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/grid.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/hash-front-color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/hero.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/ipostX.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/linear.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/locker-front-color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/phone.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/rocket-dynamic-gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/rocket-front-color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/setting-front-gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/landing/trophy-dynamic-gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Landing/Components/Header.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Landing/Landing.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Landing/Landing.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/setupProxy.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/setupProxy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/newSideBar/newSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/newSideBar/newSideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Routes/Route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Routes/Route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StorageData/navigateData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/StorageData/navigateData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StorageData/sidebarData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/StorageData/sidebarData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fonts/gilroy-bold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/src/fonts/Gilroy/gilroy-bold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fonts/gilroy-medium.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/src/fonts/Gilroy/gilroy-medium.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fonts/gilroy-regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/src/fonts/Gilroy/gilroy-regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fonts/gilroy-semibold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/src/fonts/Gilroy/gilroy-semibold.ttf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +63,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2Avpc4mwkYJL3m5YDPQWQKecJEj" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -24,18 +73,20 @@
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/work/AtWork/ksandrworks",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/work/AtWork/ksandrworks/front&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -45,6 +96,8 @@
       <option name="presentableId" value="Default" />
       <updated>1655899988777</updated>
       <workItem from="1655899989950" duration="12000" />
+      <workItem from="1656912555327" duration="407000" />
+      <workItem from="1656918375187" duration="112000" />
     </task>
     <servers />
   </component>
