@@ -528,17 +528,15 @@ func Exit(c *gin.Context) {
 
 func ExitProcess(c *gin.Context) {
 	if CurrentSession.StatusOfProcess.IsEnd == true {
-		if CurrentSession.StatusOfProcess.Done == true {
-			CurrentSession.StatusOfProcess.Done = false
-		}
 		CurrentSession.CurrentBlock = 0
 		ClearTempData()
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 		return
 	} else {
-		if CurrentSession.StatusOfProcess.Done == true {
-			CurrentSession.StatusOfProcess.Done = false
-		}
+		log.Println("Пауза при закрытии")
+		CurrentSession.StatusOfProcess.Done = true
+		Temp = true
+		log.Println(CurrentSession.StatusOfProcess)
 		c.IndentedJSON(200, CurrentSession.StatusOfProcess)
 	}
 }
@@ -761,6 +759,9 @@ func Deliting(c *gin.Context) {
 		c.IndentedJSON(200, gin.H{"message": "выход по кнопке из Deleting"})
 		CurrentSession.StatusOfProcess.StatusPercent = roundFloat(Percent, 2) * 100
 		CurrentSession.StatusOfProcess.Method = "Com"
+		CurrentSession.StatusOfProcess.StatusText = CurrentSession.CurrentBlock + 1
+		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
+		CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
 		return
 	}
 	Temp = false
@@ -773,9 +774,6 @@ func Deliting(c *gin.Context) {
 }
 
 func main() {
-	certfile := ".cert/cert.pem"
-	keyfile := ".cert/key.pem"
-
 	route := gin.Default()
 	route.POST("/api/hashtags/get-access-id", ReadAccess)
 	route.POST("/api/hashtags/refresh-access", RefreshAccess)
@@ -794,121 +792,10 @@ func main() {
 	route.GET("/api/hashtags/process/exit", ExitProcess)
 	route.POST("/api/hashtags/exit", Exit)
 	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	err := route.RunTLS(":8080", certfile, keyfile)
+	err := route.Run(":8080")
 
 	if err != nil {
 		return
 	}
 
 }
-
-//func Process(c *gin.Context) {
-//	if CurrentSession.CurrentBlock == 0 {
-//		ClearTempData()
-//	}
-//	CurrentSession.StatusOfProcess.Done = false
-//
-//	if CurrentSession.AccessToken == "" {
-//		c.JSON(424, gin.H{"message": "Для процесса нужен AccessToken"})
-//		CurrentSession.Blocks = []CommentsReplyFront{}
-//		return
-//	}
-//	if CurrentSession.UserId == "" {
-//		c.JSON(424, gin.H{"message": "Для процесса нужен UserId"})
-//		CurrentSession.Blocks = []CommentsReplyFront{}
-//		return
-//	}
-//	if CurrentSession.MyPageId == "" {
-//		c.JSON(424, gin.H{"message": "Для процесса нужен MyPageId"})
-//		CurrentSession.Blocks = []CommentsReplyFront{}
-//		return
-//	}
-//	if CurrentSession.MyInstagramAccount == "" {
-//		c.JSON(424, gin.H{"message": "Для процесса нужен MyInstagramAccount"})
-//		CurrentSession.Blocks = []CommentsReplyFront{}
-//		return
-//	}
-//	if len(CurrentSession.Posts) == 0 {
-//		c.JSON(424, gin.H{"message": "Для процесса нужен Posts "})
-//		CurrentSession.Blocks = []CommentsReplyFront{}
-//		return
-//	}
-//	if CurrentSession.MyId == "" {
-//		c.JSON(424, gin.H{"message": "Для процесса нужен Post Id"})
-//		CurrentSession.Blocks = []CommentsReplyFront{}
-//		return
-//	}
-//	if len(CurrentSession.Blocks) == 0 {
-//		c.JSON(424, gin.H{"message": "Для процесса нужны blocks "})
-//		CurrentSession.Blocks = []CommentsReplyFront{}
-//		return
-//	}
-//
-//	for T := CurrentSession.CurrentBlock; T < len(CurrentSession.Blocks); T = CurrentSession.CurrentBlock + 1 {
-//		CurrentSession.CurrentBlock = T
-//		if CurrentSession.Blocks[T].Rep == "" || CurrentSession.Blocks[T].Com == "" {
-//			c.JSON(424, gin.H{"message": "Блок пустой"})
-//			CurrentSession.Blocks = []CommentsReplyFront{}
-//			return
-//		}
-//
-//		if CurrentSession.StatusOfProcess.Done == true {
-//			log.Println("выход по кнопке1")
-//			c.JSON(200, gin.H{"status": "процесс окончен по кнопке1"})
-//			CurrentSession.Blocks = []CommentsReplyFront{}
-//			return
-//		}
-//
-//		log.Println(T, CurrentSession.CurrentBlock, "до hashtaging")
-//
-//		//Hashtaging(CurrentReplyBody, CurrentCommentBody)*/
-//		if CurErrMsg.code != 200 {
-//			c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
-//			CurrentSession.Blocks = []CommentsReplyFront{}
-//			log.Println("выход из Process из-за ошибки")
-//			return
-//		}
-//
-//		Percent = float64(T+1) / float64(len(CurrentSession.Blocks))
-//
-//		CurrentSession.StatusOfProcess.StatusText = T + 1
-//		CurrentSession.StatusOfProcess.StatusComment = CurrentComment.CommentId
-//		CurrentSession.StatusOfProcess.StatusReply = currentReply.ReplyId
-//		CurrentSession.StatusOfProcess.StatusDelete = currentDel.DelStatus
-//		CurrentSession.StatusOfProcess.StatusPercent = math.Round(Percent * 100)
-//
-//		log.Println(T, CurrentSession.CurrentBlock, "после hashtaging")
-//		/////BUTTON
-//		if CurrentSession.StatusOfProcess.Done == true {
-//			if (T + 1) == len(CurrentSession.Blocks) {
-//				CurrentSession.StatusOfProcess.IsEnd = true
-//			}
-//			CurrentSession.CurrentBlock = CurrentSession.CurrentBlock + 1
-//			time.Sleep(20 * time.Second)
-//			log.Println("выход по кнопке2")
-//			c.JSON(200, gin.H{"status": "процесс окончен по кнопке2"})
-//			CurrentSession.Blocks = []CommentsReplyFront{}
-//			return
-//		}
-//
-//		///IS END
-//		if (T + 1) == len(CurrentSession.Blocks) {
-//			CurrentSession.StatusOfProcess.IsEnd = true
-//			log.Println("статус процесса", CurrentSession.StatusOfProcess)
-//			log.Println("выход из Process по окончанию")
-//			CurrentSession.CurrentBlock = 0
-//			c.JSON(200, gin.H{"status": "процесс окончен"})
-//			CurrentSession.Blocks = []CommentsReplyFront{}
-//			return
-//
-//		} else {
-//			CurrentSession.StatusOfProcess.IsEnd = false
-//			time.Sleep(60 * time.Second)
-//		}
-//
-//	}
-//
-//	c.JSON(CurErrMsg.code, gin.H{"message": CurErrMsg.msg})
-//	CurrentSession.Blocks = []CommentsReplyFront{}
-//	return
-//}

@@ -187,6 +187,7 @@ const ProcessBarModal = () => {
                         Статус
                     </h1>
                 </div>
+<<<<<<< HEAD
                 {
                     dataStatus &&
                     <div className="modal__body_main">
@@ -201,6 +202,42 @@ const ProcessBarModal = () => {
                         {
                             dataStatus.method?.done && <h1 className="mt-20 mb-20">Пауза</h1>
                         }
+=======
+            </div>
+        </div>
+    )
+}
+export const RepeatGetStatus = () => {
+    const {data, refetch} = useRepeatGetProcessQuery()
+    const refetching = () => {
+     const interval = setInterval(() => {
+            refetch()
+            if (data.isEnd) {
+                clearInterval(interval)
+            }
+        }, 30000)
+    }
+
+    if (data) {
+        refetching()
+        return <>
+            <p>
+                {JSON.stringify(data, null, 2)}
+            </p>
+            <ProgressBar
+                completed={data.percent}
+                animateOnRender={true}
+                baseBgColor={'#F3F3F3FF'}
+                bgColor={'#0066EAFF'}
+                height={'30px'}
+                margin={'10px 0'}
+            />
+        </>
+    } else {
+        return <p>Подготовка к обработке</p>
+    }
+}
+>>>>>>> landing
 
                         {
                             message && <h3 className="error-message mt-20 mb-20">{message}</h3>

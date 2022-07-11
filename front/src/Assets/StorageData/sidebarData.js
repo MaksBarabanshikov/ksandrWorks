@@ -16,7 +16,8 @@ import {faKey} from "@fortawesome/free-solid-svg-icons";
 
 
 export const sidebarTop = [
-    {img: faHashtag, text: pathName.hashtag.state, path: pathName.home.path},
+    {img: faHome, text: pathName.home.state, path: pathName.home.path},
+    {img: faHashtag, text: pathName.hashtag.state, path: pathName.hashtag.path},
     {img: faWallet, text: pathName.payment.state, path: pathName.payment.path},
 ]
 
