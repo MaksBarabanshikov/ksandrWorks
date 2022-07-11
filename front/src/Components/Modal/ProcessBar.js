@@ -90,15 +90,15 @@ const ProcessBarModal = () => {
 
     useEffect(() => {
         document.body.style.overflow = 'hidden'
-        return () =>  {
+        return () => {
             document.body.style.overflow = 'auto'
         }
     }, []);
 
     useEffect(() => {
-            if (isSuccessStop && dataStatus.method.done) {
-                setIsStop(false)
-            }
+        if (isSuccessStop && dataStatus.method.done) {
+            setIsStop(false)
+        }
     }, [isSuccessStop, dataStatus]);
 
 
@@ -107,7 +107,7 @@ const ProcessBarModal = () => {
         if (errorMethod) {
             return setStatus(null)
         }
-    }, [dataStatus,errorMethod])
+    }, [dataStatus, errorMethod])
 
     useEffect(() => {
         if (isSuccessCom || isSuccessRep || isSuccessDel) {
@@ -187,116 +187,64 @@ const ProcessBarModal = () => {
                         Статус
                     </h1>
                 </div>
-<<<<<<< HEAD
+
                 {
-                    dataStatus &&
-                    <div className="modal__body_main">
-                        {
-                            (!dataStatus.method?.isEnd && !dataStatus.method.done && !message)
-                            &&
-                            <Loader width={50} height={50}/>
-                        }
-                        {
-                            dataStatus.method?.isEnd && <h1 className="mt-20 mb-20">Готово</h1>
-                        }
-                        {
-                            dataStatus.method?.done && <h1 className="mt-20 mb-20">Пауза</h1>
-                        }
-=======
-            </div>
-        </div>
-    )
-}
-export const RepeatGetStatus = () => {
-    const {data, refetch} = useRepeatGetProcessQuery()
-    const refetching = () => {
-     const interval = setInterval(() => {
-            refetch()
-            if (data.isEnd) {
-                clearInterval(interval)
-            }
-        }, 30000)
-    }
-
-    if (data) {
-        refetching()
-        return <>
-            <p>
-                {JSON.stringify(data, null, 2)}
-            </p>
-            <ProgressBar
-                completed={data.percent}
-                animateOnRender={true}
-                baseBgColor={'#F3F3F3FF'}
-                bgColor={'#0066EAFF'}
-                height={'30px'}
-                margin={'10px 0'}
-            />
-        </>
-    } else {
-        return <p>Подготовка к обработке</p>
-    }
-}
->>>>>>> landing
-
-                        {
-                            message && <h3 className="error-message mt-20 mb-20">{message}</h3>
-                        }
-
-                        <p>
-                            Блок {dataStatus.method?.status} из {myFavorites.length}
-                        </p>
-
-                        <ProgressBar
-                            completed={dataStatus.method?.percent}
-                            animateOnRender={true}
-                            baseBgColor={'#F3F3F3FF'}
-                            bgColor={message === null ? '#0066EAFF' : '#6c757d'}
-                            height={'30px'}
-                            width={`100%`}
-                            margin={'10px auto'}
-                        />
-
-                        <div className="modal__body_main-btn flex">
-                            {
-                                (message || dataStatus.method.done) && <button
-                                    style={{maxWidth: '50px'}}
-                                    className="btn blue-btn"
-                                    onClick={() => handleRefresh()}
-                                >
-                                    <FontAwesomeIcon icon={faRefresh}/>
-                                </button>
-                            }
-                            {
-                                (dataStatus.method?.isEnd || dataStatus.method?.done || message) && <button
-                                    style={{maxWidth: '100px'}}
-                                    className="btn blue-btn"
-                                    onClick={() => handleClose()}
-                                >
-                                    Выход
-                                </button>
-                            }
-
-                            {(!dataStatus.method.done && !dataStatus.method.isEnd && !!!message) &&
-                                <button
-                                    style={{maxWidth: '200px', justifyContent: 'center'}}
-                                    className="btn blue-btn flex align-center"
-                                    onClick={() => handleStopProcess()}
-                                    disabled={isSuccessStop && !dataStatus.method.done && isStop}
-                                >
-                                    <span style={{display: "block", marginRight: 10}}>Остановить процесс</span>
-                                    {(isSuccessStop && !dataStatus.method.done && isStop) && <Loader width={20} height={20}/>}
-                                </button>
-                            }
-
-                            {
-                                !!errorRefresh && <h3 className="error-message">{errorRefresh.data.message}</h3>
-                            }
-                        </div>
-                    </div>
+                    message && <h3 className="error-message mt-20 mb-20">{message}</h3>
                 }
+
+                <p>
+                    Блок {dataStatus.method?.status} из {myFavorites.length}
+                </p>
+
+                <ProgressBar
+                    completed={dataStatus.method?.percent}
+                    animateOnRender={true}
+                    baseBgColor={'#F3F3F3FF'}
+                    bgColor={message === null ? '#0066EAFF' : '#6c757d'}
+                    height={'30px'}
+                    width={`100%`}
+                    margin={'10px auto'}
+                />
+
+                <div className="modal__body_main-btn flex">
+                    {
+                        (message || dataStatus.method.done) && <button
+                            style={{maxWidth: '50px'}}
+                            className="btn blue-btn"
+                            onClick={() => handleRefresh()}
+                        >
+                            <FontAwesomeIcon icon={faRefresh}/>
+                        </button>
+                    }
+                    {
+                        (dataStatus.method?.isEnd || dataStatus.method?.done || message) && <button
+                            style={{maxWidth: '100px'}}
+                            className="btn blue-btn"
+                            onClick={() => handleClose()}
+                        >
+                            Выход
+                        </button>
+                    }
+
+                    {(!dataStatus.method.done && !dataStatus.method.isEnd && !!!message) &&
+                        <button
+                            style={{maxWidth: '200px', justifyContent: 'center'}}
+                            className="btn blue-btn flex align-center"
+                            onClick={() => handleStopProcess()}
+                            disabled={isSuccessStop && !dataStatus.method.done && isStop}
+                        >
+                            <span style={{display: "block", marginRight: 10}}>Остановить процесс</span>
+                            {(isSuccessStop && !dataStatus.method.done && isStop) && <Loader width={20} height={20}/>}
+                        </button>
+                    }
+
+                    {
+                        !!errorRefresh && <h3 className="error-message">{errorRefresh.data.message}</h3>
+                    }
+                </div>
             </div>
+            }
         </div>
-    )
+)
 }
 export default ProcessBarModal

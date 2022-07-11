@@ -24,48 +24,39 @@ html {
     font-family: "Gilroy";
     font-style: normal;
     font-weight: 400;
-<<<<<<< HEAD
     src: url("./Assets/fonts/gilroy-regular.ttf") format('ttf');
-=======
     src: local("Gilroy"),
     url("fonts/Gilroy/gilroy-regular.ttf") format('ttf');
->>>>>>> landing
     font-display: swap;
   }
+
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 500;
-<<<<<<< HEAD
     src: url("./Assets/fonts/gilroy-medium.ttf") format('ttf');
-=======
     src: local("Gilroy"),
     url("fonts/Gilroy/gilroy-medium.ttf") format('ttf');
->>>>>>> landing
     font-display: swap;
   }
+
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
-<<<<<<< HEAD
     src: url("./Assets/fonts/gilroy-semibold.ttf") format('ttf');
-=======
     src: local("Gilroy"),
     url("fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
->>>>>>> landing
     font-display: swap;
   }
+  
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 700;
-<<<<<<< HEAD
     src: url("./Assets/fonts/gilroy-bold.ttf") format('ttf');
-=======
     src: local("Gilroy"),
     url("fonts/Gilroy/gilroy-bold.ttf") format('ttf');
->>>>>>> landing
     font-display: swap;
   }
 
