@@ -13,7 +13,11 @@ const Routing = () => {
     return (
         <Routes>
             <Route path="/" element={<Layout/>}>
-                <Route index element={<Landing/>}/>
+                <Route index element={
+                    <Suspense fallback={<Loader width={50} height={50}/>}>
+                        <Landing/>
+                    </Suspense>
+                }/>
                 <Route path="/hashtags" element={
                     <Suspense fallback={<Loader width={50} height={50}/>}>
                         <Hashtags/>

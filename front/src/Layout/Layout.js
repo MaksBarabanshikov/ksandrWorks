@@ -7,25 +7,29 @@ import Container from "../Components/common/Container";
 const Layout = () => {
     const location = useLocation()
     if (location.pathname === '/') {
+        document.querySelector('body').classList.add('landing')
         return (
-            <div className="App">
+            <div className="App landing-wrapper">
                 <Outlet/>
             </div>
         )
-    }
-    return (
-        <>
-            <div className="App">
-                <NewSideBar/>
-                <Block stylees="content">
-                    <Container>
-                        <Outlet/>
-                    </Container>
-                </Block>
-            </div>
+    } else {
+        document.querySelector('body').classList.remove('landing')
+        return (
+            <>
+                <div className="App">
+                    <NewSideBar/>
+                    <Block stylees="content">
+                        <Container>
+                            <Outlet/>
+                        </Container>
+                    </Block>
+                </div>
 
-        </>
-    )
+            </>
+        )
+    }
+
 }
 
 export default Layout;

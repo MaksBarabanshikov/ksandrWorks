@@ -3,3 +3,119 @@
 div {
   font-family: 'Open Sans', sans-serif;
 }
+
+.landing {
+  background-color: #100F17;
+  padding: 0 10px;
+
+  .text-white {
+    color: #fff;
+  }
+
+  .text-white-op-15 {
+    color: rgba(255, 255, 255, 0.15);
+  }
+
+  .landing-grid-img {
+    position: absolute;
+  }
+
+  &-wrapper {
+    display: block;
+  }
+
+  &-btn {
+    background: #1E50FE;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
+    border-radius: 64px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+
+    img {
+      position: absolute;
+      left: -40px;
+    }
+  }
+
+  &-header {
+    max-height: 110px;
+    width: 100%;
+    padding: 33px 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+
+    img {
+      max-height: 22px;
+    }
+
+    li {
+      padding: 0 24px;
+      white-space: nowrap;
+    }
+
+    &__search {
+      position: relative;
+      max-width: 360px;
+      width: 100%;
+
+      input {
+        width: 100%;
+        height: 45px;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 64px;
+      }
+
+      &_btn {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        max-width: 24px;
+        max-height: 24px;
+        transform: translateY(-61%);
+      }
+    }
+  }
+
+  &-welcome {
+    margin-top: 76px;
+    position: relative;
+    h1 {
+      font-family: 'Gunterz';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 150%;
+      color: #FFFFFF;
+      opacity: 0.9;
+    }
+
+    h2 {
+      color: #1E50FE;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 152.5%;
+      text-shadow: 0 0 12px rgba(30, 80, 254, 0.25);
+    }
+
+    &__activate {
+      margin-top: 76px;
+      max-width: 415px;
+      margin-left: 55px;
+      text-align: left;
+      position: relative;
+
+      p {
+        margin-bottom: 22px;
+      }
+
+    }
+
+    &__content {
+      max-width: 700px;
+    }
+  }
+}

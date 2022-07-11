@@ -1,11 +1,14 @@
 import React from 'react';
-import "./Landing.scss"
+import HeaderLanding from "./Components/Header";
+import './Landing.scss'
+import Welcome from "./Components/Welcome";
 
 function Landing() {
     return (
-        <div>
-
-        </div>
+        <>
+            <HeaderLanding/>
+            <Welcome/>
+        </>
     );
 }
 
