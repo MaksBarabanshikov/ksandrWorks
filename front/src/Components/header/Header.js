@@ -1,4 +1,4 @@
-import {useState} from "react"
+import React, {useState, Suspense} from "react"
 import Block from "../common/Block"
 import Notify from "./Notify"
 import User from "./User"
@@ -8,10 +8,12 @@ import BellImage from "../../Assets/image/header/Bell_light.svg"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faWallet} from "@fortawesome/free-solid-svg-icons"
 import "./Header.scss"
-import Modal from "../Modal/Modal";
 import {Link} from "react-router-dom";
 import Logo from "../common/Logo";
-import TopHashtagsModal from "../Modal/TopHashtags/TopHashtagsModal";
+import Loader from "../common/Loader";
+
+const StatisticModal = React.lazy(() => import ("../Modal/Modal"))
+const TopHashtagsModal = React.lazy(() => import('../Modal/TopHashtags/TopHashtagsModal'))
 
 const Header = (props) => {
 
@@ -26,7 +28,7 @@ const Header = (props) => {
 
     const handleSetVisible = (key) => {
         if (key === "notifyVisible") {
-          return  setVisibility(prevState => {
+            return setVisibility(prevState => {
                 return {
                     ...prevState,
                     [key]: !visibility[key],
@@ -34,13 +36,13 @@ const Header = (props) => {
                 }
             })
         }
-         return setVisibility(prevState => {
-                return {
-                    ...prevState,
-                    [key]: !visibility[key],
-                    "notifyVisible": false
-                }
-            })
+        return setVisibility(prevState => {
+            return {
+                ...prevState,
+                [key]: !visibility[key],
+                "notifyVisible": false
+            }
+        })
     }
 
     const handleRemoveNotify = () => {
@@ -55,8 +57,15 @@ const Header = (props) => {
                 <h5>{props.title}</h5>
             </Block>
             <Block stylees="header-buttons">
-                {props.title === "Хештеги" && <TopHashtagsModal/>}
-                {props.title === "Хештеги" && <Modal/>}
+                {props.title === "Хештеги" &&
+                    <Suspense fallback={<Loader width={30} height={30}/>}>
+                        <TopHashtagsModal/>
+                    </Suspense>
+                }
+                {props.title === "Хештеги" &&
+                    <Suspense fallback={<Loader width={30} height={30}/>}>
+                        <StatisticModal/>
+                    </Suspense>}
                 <button className="header-btn-notify" onClick={() => handleSetVisible("notifyVisible")}>
                     <img src={BellImage} alt=""/>
                     <span className="header-count">{notify.length}</span>

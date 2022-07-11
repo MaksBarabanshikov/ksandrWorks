@@ -1,9 +1,6 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, Suspense} from "react";
 import Header from "../../Components/header/Header";
 import RemainingPosts from "./RemainingPosts";
-import SliderPost from "./SliderPost";
-import HashtagsSide from "./HashtagsSide";
-import HelloModal from "../../Components/Modal/HelloModal";
 import {useForm} from "react-hook-form";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {faHashtag} from "@fortawesome/free-solid-svg-icons";
@@ -14,12 +11,16 @@ import {openModalProcess} from "../../Utils/redux/modules/modalSlice";
 import ProcessBarModal from "../../Components/Modal/ProcessBar";
 import {
     useGetFavoritesQuery,
-    useSendFavoritesMutation,
     useSendFileMutation
 } from "../../Utils/redux/services/hashtagsApi";
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 import './Hashtags.scss';
 import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
+import Loader from "../../Components/common/Loader";
+
+const HelloModal = React.lazy(() => import('../../Components/Modal/HelloModal'))
+const HashtagsSide = React.lazy(() => import('./HashtagsSide'))
+const SliderPost = React.lazy(() => import('./SliderPost'))
 
 const Hashtags = () => {
     const refInput1 = useRef()
@@ -196,11 +197,15 @@ const Hashtags = () => {
                     </div>
                 </div>
                 <div>
-                    <HashtagsSide/>
+                    <Suspense fallback={<Loader width={50} height={50}/>}>
+                        <HashtagsSide/>
+                    </Suspense>
                 </div>
             </div>
             {isOpenProcess && <ProcessBarModal/>}
-            <HelloModal/>
+            <Suspense fallback={<Loader width={50} height={50}/>}>
+                <HelloModal/>
+            </Suspense>
         </>
     )
 }

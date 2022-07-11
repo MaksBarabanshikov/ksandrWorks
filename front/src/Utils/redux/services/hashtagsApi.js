@@ -15,31 +15,7 @@ export const hashtagsApi = createApi({
     }),
     tagTypes: ['Process, Com, Rep, Del'],
     endpoints: build => ({
-        //<---------------------------------------------------------------------->
-
-        // Получаем / Начинаем процесс обработки постов
-        getProcess: build.query({
-            query: () =>  `process`,
-            keepUnusedDataFor: 8,
-            transformResponse(process, meta) {
-                return {status: Number(meta.response.status)}
-            }
-        }),
-        //Повторяющийся запрос на получение статуса
-        repeatGetProcess: build.query({
-            query: () => 'process/status',
-            providesTags: result => ['Process'],
-            keepUnusedDataFor: 8,
-            transformResponse(process, meta) {
-                return {process, status: Number(meta.response.status)}
-            }
-        }),
-        //<---------------------------------------------------------------------->
-
-
-
-
-        //GET STATUS NEW
+        //GET STATUS
         getStatusProcess: build.query({
            query: () => 'process/status',
             providesTags: result => ['Process','Com', 'Rep', 'Del'],
@@ -171,8 +147,6 @@ export const hashtagsApi = createApi({
 })
 
 export const {
-    useGetProcessQuery,
-    useRepeatGetProcessQuery,
     useGetPagesQuery,
     useLazyGetInstagramPostsQuery,
     useGetFavoritesQuery,
