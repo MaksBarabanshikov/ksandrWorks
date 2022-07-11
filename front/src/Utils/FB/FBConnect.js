@@ -1,13 +1,11 @@
-import FacebookLogin, {FacebookLoginClient} from "@greatsumini/react-facebook-login";
-import FBLogo from "../../Assets/image/Logotype-Facebook.svg";
+import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 import Block from "../../Components/common/Block";
 import {useDispatch, useSelector} from "react-redux";
-import {openModalFB} from "../redux/modules/modalSlice";
-import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
-import {useExitFbMutation, useSendTokenFbMutation} from "../redux/services/hashtagsApi";
+import {logoutFb} from "../redux/modules/facebookSlice";
+import {useExitFbMutation} from "../redux/services/hashtagsApi";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons/faDoorOpen";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
 
 
