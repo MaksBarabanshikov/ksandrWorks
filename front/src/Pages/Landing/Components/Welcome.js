@@ -11,7 +11,7 @@ const Welcome = () => {
     </>
 
     const style1 = {
-        top: -100,
+        top: -145,
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: -10
@@ -23,8 +23,10 @@ const Welcome = () => {
     }
 
     const gradientStyle = {
-        width: '100%',
-        top: 0,
+        position: 'absolute',
+        width: '532.09px',
+        height: '484px',
+        top: 121,
         right: 0,
         zIndex: 10000
     }

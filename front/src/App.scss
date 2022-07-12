@@ -24,9 +24,9 @@ html {
     font-family: "Gilroy";
     font-style: normal;
     font-weight: 400;
-    src: url("./Assets/fonts/gilroy-regular.ttf") format('ttf');
+    src: url("./Assets/fonts/Gilroy/gilroy-regular.ttf") format('ttf');
     src: local("Gilroy"),
-    url("fonts/Gilroy/gilroy-regular.ttf") format('ttf');
+    url("Assets/fonts/Gilroy/gilroy-regular.ttf") format('ttf');
     font-display: swap;
   }
 
@@ -34,9 +34,9 @@ html {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 500;
-    src: url("./Assets/fonts/gilroy-medium.ttf") format('ttf');
+    src: url("./Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
     src: local("Gilroy"),
-    url("fonts/Gilroy/gilroy-medium.ttf") format('ttf');
+    url("Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
     font-display: swap;
   }
 
@@ -44,19 +44,37 @@ html {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
-    src: url("./Assets/fonts/gilroy-semibold.ttf") format('ttf');
+    src: url("./Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
     src: local("Gilroy"),
-    url("fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
+    url("Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
     font-display: swap;
   }
-  
+
   @font-face {
-    font-family: 'Gilroy';
+    font-family: 'Gunterz';
     font-style: normal;
     font-weight: 700;
-    src: url("./Assets/fonts/gilroy-bold.ttf") format('ttf');
-    src: local("Gilroy"),
-    url("fonts/Gilroy/gilroy-bold.ttf") format('ttf');
+    src: url("./Assets/fonts/Gunterz/TTF/Gunterz-Bold.ttf") format('ttf');
+    src: local("Gunterz"),
+    url("./Assets/fonts/Gunterz/TTF/Gunterz-Bold.ttf") format('ttf');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Gunterz';
+    font-style: normal;
+    font-weight: 500;
+    src: url("./Assets/fonts/Gunterz/TTF/Gunterz-Medium.ttf") format('ttf');
+    src: local("Gunterz"),
+    url("./Assets/fonts/Gunterz/TTF/Gunterz-Medium.ttf") format('ttf');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Gunterz';
+    font-style: normal;
+    font-weight: 400;
+    src: url("./Assets/fonts/Gunterz/TTF/Gunterz-Regular.ttf") format('ttf');
+    src: local("Gunterz"),
+    url("./Assets/fonts/Gunterz/TTF/Gunterz-Regular.ttf") format('ttf');
     font-display: swap;
   }
 
