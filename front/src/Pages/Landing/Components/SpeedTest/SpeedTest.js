@@ -1,6 +1,10 @@
 import Grid from "../Grid";
 import LandingButton from "../LandingButton";
 import fire from "../../../../Assets/image/landing/fire.svg";
+import rotateFace from "../../../../Assets/image/landing/Upside-Down-Face.png";
+import smileFace from "../../../../Assets/image/landing/Beaming-Face-Smiling.png";
+import {useEffect, useState} from "react";
+import Timer from "./Timer";
 
 const SpeedTest = () => {
     const btnChildren = <>
@@ -14,21 +18,23 @@ const SpeedTest = () => {
         transform: 'translate(-64%, -50%)',
         opacity: 0.4
     }
+
+    const dateEnd = new Date()
+
     return (
         <section className="landing-speed">
             <h1>
-                <strong>давай проверим</strong> <br />
-                 шустрик ты или мямлик?
+                <img className="landing-speed__rotate-face" src={rotateFace} alt="Эмодзи"/>
+                <strong>давай проверим</strong> <br/>
+                шустрик ты или мямлик?
+                <img className="landing-speed__smile-face" src={smileFace} alt="Эмодзи"/>
             </h1>
             <div className="landing-speed__content flex align-center">
                 <div className="landing-speed__text">
                     В течение 15 минут ты можешь забрать скидку на сервис в 10%
                     <Grid style={styleGrid}/>
                 </div>
-                <div className="landing-speed__timer">
-                    <span className='landing-speed__timer_min'>14:</span>
-                    <span className="landing-speed__timer_sec">59</span>
-                </div>
+            <Timer/>
             </div>
             <LandingButton width={'365px'} height={'70px'} children={btnChildren}/>
         </section>

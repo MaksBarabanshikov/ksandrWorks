@@ -71,7 +71,7 @@ const ReviewsList = () => {
     return (
         <Slider {...settings}>
             {
-                list.map(slide => <ReviewsItem item={slide}/>)
+                list.map(slide => <ReviewsItem key={slide.id} item={slide}/>)
             }
         </Slider>
     )

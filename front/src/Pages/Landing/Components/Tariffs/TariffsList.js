@@ -39,7 +39,7 @@ const TariffsList = () => {
 
     return (
         <div className='landing-tariffs__list'>
-            {tariffs.map(tariff => <TariffsItem tariff={tariff}/>)}
+            {tariffs.map(tariff => <TariffsItem key={tariff.id} tariff={tariff}/>)}
         </div>
     )
 }

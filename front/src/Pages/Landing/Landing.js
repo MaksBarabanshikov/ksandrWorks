@@ -10,6 +10,8 @@ import Video from "./Components/Video/Video";
 import Tariffs from "./Components/Tariffs/Tariffs";
 import Reviews from "./Components/Reviews/Reviews";
 import SpeedTest from "./Components/SpeedTest/SpeedTest";
+import Blogs from "./Components/Blogs/Blogs";
+import LandingFooter from "./Components/LandingFooter";
 
 function Landing() {
     return (
@@ -24,6 +26,8 @@ function Landing() {
             <Tariffs/>
             <Reviews/>
             <SpeedTest/>
+            <Blogs/>
+            <LandingFooter/>
         </>
     );
 }

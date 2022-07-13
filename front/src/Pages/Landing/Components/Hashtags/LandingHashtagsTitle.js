@@ -11,7 +11,7 @@ const LandingHashtagsTitle = () => {
   return (
       <div className='landing-hashtags__title'>
 
-        <h1>Хештеги</h1>
+        <h1><strong>Хештеги</strong></h1>
 
         <div className='landing-hashtags_tabs flex justify-content-between'>
           {tabs.map(tab => <div key={tab} className='landing-hashtags_tab text-white-op-15'>{tab}</div>)}
