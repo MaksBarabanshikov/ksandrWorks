@@ -6,7 +6,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "set HTTPS=true&&react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "newBuild": "react-scripts build && compress-cra -c ./compress-cra.json",
     "test": "react-scripts test",
@@ -76,6 +76,7 @@
   "devDependencies": {
     "compress-create-react-app": "^1.2.1",
     "gh-pages": "^4.0.0",
-    "json-server": "^0.17.0"
+    "json-server": "^0.17.0",
+    "react-image-webp": "^0.8.0"
   }
 }

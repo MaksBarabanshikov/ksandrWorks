@@ -1,11 +1,17 @@
 import MotionSectionX from "../Motion/MotionSectionX";
 import Gradient from "../Gradient";
 import img1 from "../../../../Assets/image/landing/for-businessman.png"
+import img1Webp from "../../../../Assets/image/landing/for-businessman.webp"
 import img2 from "../../../../Assets/image/landing/for-entrepreneurs.png"
+import img2Webp from "../../../../Assets/image/landing/for-entrepreneurs.webp"
 
 import img3 from "../../../../Assets/image/landing/for-bloggers.png"
+import img3Webp from "../../../../Assets/image/landing/for-bloggers.webp"
 import rocket from "../../../../Assets/image/landing/rocket-dynamic-gradient.png"
+import rocketWebp from "../../../../Assets/image/landing/rocket-dynamic-gradient.webp"
 import trophy from "../../../../Assets/image/landing/trophy-dynamic-gradient.png"
+import trophyWebp from "../../../../Assets/image/landing/trophy-dynamic-gradient.webp"
+import Image from "react-image-webp";
 
 const LandingHelp = () => {
 
@@ -23,8 +29,17 @@ const LandingHelp = () => {
     return (
         <MotionSectionX classNames="landing-help">
             <div className='landing-help__block'>
-                <img className="landing-help__block_rocket" src={rocket} alt=""/>
-                <img className="landing-help__block_trophy" src={trophy} alt=""/>
+                <Image
+                    className="landing-help__block_rocket"
+                    src={rocket}
+                    webp={rocketWebp}
+                    alt="rocket"
+                />
+                <Image
+                    className="landing-help__block_trophy"
+                    src={trophy}
+                    webp={trophyWebp}
+                    alt="trophy"/>
                 <h3 className="landing-help__block_title">
                     SMM-специалист
                 </h3>
@@ -40,9 +55,24 @@ const LandingHelp = () => {
                 </div>
             </div>
             <div className="landing-help__bg"/>
-            <img className="landing-help__img landing-help__img_one" src={img1} alt="владельцам бизнеса"/>
-            <img className="landing-help__img landing-help__img_two" src={img2} alt="предпринимателям"/>
-            <img className="landing-help__img landing-help__img_three" src={img3} alt="блогерам"/>
+            <Image
+                className="landing-help__img landing-help__img_one"
+                src={img1}
+                webp={img1Webp}
+                alt="владельцам бизнеса"
+            />
+            <Image
+                className="landing-help__img landing-help__img_two"
+                src={img2}
+                webp={img2Webp}
+                alt="предпринимателям"
+            />
+            <Image
+                className="landing-help__img landing-help__img_three"
+                src={img3}
+                webp={img3Webp}
+                alt="блогерам"
+            />
             <Gradient style={gradientStyle}/>
         </MotionSectionX>
     )

@@ -2,9 +2,12 @@ import Grid from "../Grid";
 import LandingButton from "../LandingButton";
 import fire from "../../../../Assets/image/landing/fire.svg";
 import rotateFace from "../../../../Assets/image/landing/Upside-Down-Face.png";
+import rotateFaceWebp from "../../../../Assets/image/landing/Upside-Down-Face.webp";
 import smileFace from "../../../../Assets/image/landing/Beaming-Face-Smiling.png";
+import smileFaceWebp from "../../../../Assets/image/landing/Beaming-Face-Smiling.webp";
 import Timer from "./Timer";
 import MotionSectionX from "../Motion/MotionSectionX";
+import Image from "react-image-webp";
 
 const SpeedTest = () => {
     const btnChildren = <>
@@ -22,10 +25,20 @@ const SpeedTest = () => {
     return (
         <MotionSectionX classNames="landing-speed">
             <h1>
-                <img className="landing-speed__rotate-face" src={rotateFace} alt="Эмодзи"/>
+                <Image
+                    className="landing-speed__rotate-face"
+                    src={rotateFace}
+                    webp={rotateFaceWebp}
+                    alt="Эмодзи"
+                />
                 <strong>давай проверим</strong> <br/>
                 шустрик ты или мямлик?
-                <img className="landing-speed__smile-face" src={smileFace} alt="Эмодзи"/>
+                <Image
+                    className="landing-speed__smile-face"
+                    src={smileFace}
+                    webp={smileFaceWebp}
+                    alt="Эмодзи"
+                />
             </h1>
             <div className="landing-speed__content flex align-center">
                 <div className="landing-speed__text">
