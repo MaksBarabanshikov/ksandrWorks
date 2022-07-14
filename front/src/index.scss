@@ -7,28 +7,28 @@ html {
     font-style: normal;
     font-weight: 400;
     src: local("Gilroy"),
-    url("/gilroy-regular.ttf") format('ttf');
+    url("./Assets/fonts/Gilroy/gilroy-regular.ttf") format('ttf');
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 500;
     src: local("Gilroy"),
-    url("/gilroy-medium.ttf") format('ttf');
+    url("./Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
     src: local("Gilroy"),
-    url("/gilroy-semibold.ttf") format('ttf');
+    url("./Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
   }
   @font-face {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 600;
     src: local("Gilroy"),
-    url("/gilroy-bold.ttf") format('ttf');
+    url("./Assets/fonts/Gilroy/gilroy-bold.ttf") format('ttf');
   }
 }
 

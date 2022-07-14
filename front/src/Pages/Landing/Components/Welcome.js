@@ -2,6 +2,7 @@ import LandingButton from "./LandingButton";
 import fire from '../../../Assets/image/landing/fire.svg'
 import Grid from "./Grid";
 import Gradient from "./Gradient";
+import MotionSectionX from "./Motion/MotionSectionX";
 
 const Welcome = () => {
 
@@ -32,7 +33,7 @@ const Welcome = () => {
     }
 
     return (
-        <section className="landing-welcome flex">
+        <MotionSectionX classNames='landing-welcome flex'>
             <div className="landing-welcome__content">
                 <h1>Получай горячих клиентов Instagram</h1>
                 <h2>24/7 уже в первую неделю</h2>
@@ -48,7 +49,8 @@ const Welcome = () => {
             </div>
             <Gradient style={gradientStyle}/>
             <Grid style={style2}/>
-        </section>
+        </MotionSectionX>
+
     )
 }
 

@@ -103,6 +103,11 @@ html {
   }
 }
 
+#root {
+  overflow: hidden;
+  width: 100vw;
+}
+
 body {
   background-color: #F7F9FD;
   color: $gray;

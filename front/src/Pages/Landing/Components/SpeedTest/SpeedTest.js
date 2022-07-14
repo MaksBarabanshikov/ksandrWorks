@@ -3,8 +3,8 @@ import LandingButton from "../LandingButton";
 import fire from "../../../../Assets/image/landing/fire.svg";
 import rotateFace from "../../../../Assets/image/landing/Upside-Down-Face.png";
 import smileFace from "../../../../Assets/image/landing/Beaming-Face-Smiling.png";
-import {useEffect, useState} from "react";
 import Timer from "./Timer";
+import MotionSectionX from "../Motion/MotionSectionX";
 
 const SpeedTest = () => {
     const btnChildren = <>
@@ -19,10 +19,8 @@ const SpeedTest = () => {
         opacity: 0.4
     }
 
-    const dateEnd = new Date()
-
     return (
-        <section className="landing-speed">
+        <MotionSectionX classNames="landing-speed">
             <h1>
                 <img className="landing-speed__rotate-face" src={rotateFace} alt="Эмодзи"/>
                 <strong>давай проверим</strong> <br/>
@@ -37,7 +35,7 @@ const SpeedTest = () => {
             <Timer/>
             </div>
             <LandingButton width={'365px'} height={'70px'} children={btnChildren}/>
-        </section>
+        </MotionSectionX>
     )
 }
 

@@ -1,4 +1,5 @@
 import Grid from "../Grid";
+import MotionSectionXPlus from "../Motion/MotionSectionXPlus";
 
 const Video = () => {
     const styleGrid = {
@@ -10,7 +11,7 @@ const Video = () => {
     }
 
     return (
-        <section className="landing-video">
+        <MotionSectionXPlus classNames="landing-video">
             <h1>Мы подготовили для вас короткий <strong>видео ролик</strong></h1>
             <div className="flex justify-content-between align-center">
                 <div className="landing-video__text">
@@ -22,7 +23,7 @@ const Video = () => {
 
                 </video>
             </div>
-        </section>
+        </MotionSectionXPlus>
     )
 }
 

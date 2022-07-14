@@ -67,6 +67,23 @@ const ReviewsList = () => {
         swipe: true,
         nextArrow: <LandingNextArrow/>,
         prevArrow: <LandingPrevArrow/>,
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    infinite: true,
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
+        ]
     }
     return (
         <Slider {...settings}>

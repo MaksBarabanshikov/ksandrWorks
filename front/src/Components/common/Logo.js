@@ -6,7 +6,7 @@ import {useLocation} from "react-router-dom";
 const Logo = () => {
     const location = useLocation()
 
-    if (location.pathname !== '/') {
+    if (location.pathname !== '/hashtags') {
         return (
             <Block stylees="logo">
                 <img className="logo-image" src={logo} alt="logo"/>

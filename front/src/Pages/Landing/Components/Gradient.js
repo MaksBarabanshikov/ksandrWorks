@@ -40,7 +40,7 @@ const Gradient = ({style}) => {
         left: 0
     }
     return (
-        <div style={style}>
+        <div className="landing-gradient" style={style}>
             <div style={ellipse1}></div>
             <div style={ellipse2}></div>
             <div style={ellipse3}></div>

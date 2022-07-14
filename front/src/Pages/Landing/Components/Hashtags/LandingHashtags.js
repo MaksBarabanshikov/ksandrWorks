@@ -2,6 +2,7 @@ import LandingHashtagsList from "./LandingHashtagsList";
 import LandingHashtagsTitle from "./LandingHashtagsTitle";
 import LandingButton from "../LandingButton";
 import img from "../../../../Assets/image/landing/bookmark-fav-dynamic-color.png";
+import MotionSectionX from "../Motion/MotionSectionX";
 
 const LandingHashtags = () => {
     const buttonChild = <>
@@ -9,11 +10,11 @@ const LandingHashtags = () => {
         <span>Перейти к регистрации</span>
     </>
     return (
-        <section className="landing-hashtags">
+        <MotionSectionX classNames="landing-hashtags">
             <LandingHashtagsTitle/>
             <LandingHashtagsList/>
             <LandingButton children={buttonChild} width='262px' height='70px'/>
-        </section>
+        </MotionSectionX>
     )
 }
 

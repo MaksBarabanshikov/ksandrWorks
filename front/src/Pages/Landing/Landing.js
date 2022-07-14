@@ -12,6 +12,7 @@ import Reviews from "./Components/Reviews/Reviews";
 import SpeedTest from "./Components/SpeedTest/SpeedTest";
 import Blogs from "./Components/Blogs/Blogs";
 import LandingFooter from "./Components/LandingFooter";
+import LandingHelp from "./Components/Help/LandingHelp";
 
 function Landing() {
     return (
@@ -21,6 +22,7 @@ function Landing() {
             <WhyIPostX/>
             <LandingHashtags/>
             <Phone/>
+            <LandingHelp/>
             <Form/>
             <Video/>
             <Tariffs/>
