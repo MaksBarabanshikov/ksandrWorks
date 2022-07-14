@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/647.8c05ea9f.chunk.js","mappings":"0IASA,UAPa,WACT,OACI","sources":["Pages/Help/Help.js"],"sourcesContent":["import React from \"react\";\r\n\r\nconst Help = () => {\r\n    return(\r\n        <>\r\n        </>\r\n    )\r\n}\r\n\r\nexport default Help"],"names":[],"sourceRoot":""}
