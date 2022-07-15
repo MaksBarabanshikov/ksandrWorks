@@ -17,7 +17,7 @@ const MotionSectionXPlus = ({classNames, children}) => {
             variants={sectionVariant}
             initial='hidden'
             whileInView='visible'
-            viewport={{ amount: 0.04, once: true}}
+            viewport={{ amount: 0.4, once: true}}
             transition={{
                 delay: 0.25,
             }}

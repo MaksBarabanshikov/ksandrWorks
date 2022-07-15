@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
-div {
-  font-family: 'Open Sans', sans-serif;
-}
-
 .landing {
   background-color: #100F17;
-  padding: 0!important;
+  padding: 0 !important;
   overflow-x: hidden;
+
+  div {
+    font-family: 'Open Sans', sans-serif;
+  }
 
   .text-white {
     color: #fff;
@@ -86,6 +86,9 @@ div {
   }
 
   button {
+    font-family: Gilroy, sans-serif;
+    font-weight: 300;
+
     @media screen and (max-width: 992px) {
       width: 100% !important;
       height: 50px !important;
@@ -110,8 +113,10 @@ div {
       color: #1E50FE;
       font-weight: 900;
       text-shadow: 0 0 21px rgb(30 80 254);
+    }
 
-
+    &.small_h1 {
+      font-size: 30px;
     }
 
     @media screen and (max-width: 992px) {
@@ -203,7 +208,7 @@ div {
     button {
       @media screen and (max-width: 992px) {
         margin-left: 10px;
-        max-width: 200px!important;
+        max-width: 200px !important;
       }
     }
 
@@ -383,6 +388,7 @@ div {
     padding: 65px 0 25px 0;
 
     h1 {
+      margin-right: 20px;
       @media screen and (max-width: 992px) {
         margin-bottom: 20px;
       }
@@ -403,9 +409,9 @@ div {
     }
 
     &_tabs {
-      max-height: 42px;
-
+      max-height: 62px;
       overflow-x: scroll;
+      padding: 10px 0;
     }
 
     &_tab {
@@ -413,18 +419,30 @@ div {
       padding: 10px 20px;
       font-family: "Open Sans", sans-serif;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.15);
       filter: drop-shadow(0px 0px 12px rgba(30, 80, 254, 0.25));
       border-radius: 64px;
-
       white-space: nowrap;
+      margin: 0 10px;
+
+      &:hover {
+        background-color: #1e50fe;
+        color: #fff;
+        box-shadow: 0 0 6px #1e50fe;
+      }
 
       @media screen and (max-width: 992px) {
         margin-right: 10px;
       }
     }
 
+    &__wrapper {
+      margin: 80px 0 39px 0;
+      padding-top: 40px;
+      overflow: hidden;
+    }
+
     &__border {
-      margin: 120px 0 39px 0;
       background: rgba(255, 255, 255, 0.02);
       border: 3px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
@@ -433,7 +451,7 @@ div {
     }
 
     &__list {
-      padding: 15px;
+      padding: 15px 0;
       background: linear-gradient(96.79deg, #3059E7 22.14%, #4C6AD6 77.68%);
       border: 3px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
@@ -443,8 +461,18 @@ div {
 
       grid-template-columns: 1fr 1fr 1fr 1fr;
 
+      &.mailing {
+        grid-template-columns:1fr 1fr;
+
+        .landing-hashtags__item.active {
+          &:after {
+            border-radius: 48px 48px 48px 0;
+          }
+        }
+      }
+
       @media screen and (max-width: 992px) {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
       }
 
       strong {
@@ -500,12 +528,12 @@ div {
           position: absolute;
           bottom: -18px;
           width: 100%;
-          height: 370px;
+          height: 130%;
           background: linear-gradient(76.93deg, #6933E4 2.43%, #8456EA 87.16%);
           border: 3px solid rgba(255, 255, 255, 0.05);
           box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
-          border-radius: 40px 40px 0 0;
-          z-index: 10;
+          border-radius: 48px 48px 0 0;
+          z-index: -1;;
         }
       }
 
@@ -567,10 +595,11 @@ div {
       font-family: 'Gilroy', sans-serif;
       font-style: normal;
       max-width: 450px;
-      max-height: 450px;
       margin: auto;
-      position: relative;
-      z-index: 100000;
+      position: absolute;
+      z-index: -1;
+      transition: background-color 0.25s ease-in-out;
+
 
       @media screen and (max-width: 992px) {
         max-width: 100%;
@@ -619,6 +648,73 @@ div {
         }
       }
 
+      & > div, & > h3 {
+        background: linear-gradient(96.79deg, #3059E7 22.14%, #4C6AD6 77.68%), linear-gradient(76.93deg, #6933E4 2.43%, #8456EA 87.16%);
+        border: 3px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
+        border-radius: 24px;
+      }
+
+      &:not(.active) {
+        cursor: pointer;
+
+        & > h3 {
+          z-index: 100;
+        }
+
+        & > div, & > h3 {
+          overflow: hidden;
+          position: relative;
+          &:before {
+            content: "";
+            display: block;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(16, 15, 23, 0.5);
+            position: absolute;
+          }
+
+        }
+
+        &:nth-child(1) {
+          //transform: rotate(12.48deg);
+          top: 300px;
+          right: 10px;
+          z-index: 1000;
+        }
+
+        &:nth-child(2) {
+          //transform: rotate(12.48deg);
+          top: 150px;
+          right: 0;
+        }
+
+        &:nth-child(3) {
+          top: 150px;
+          //transform: rotate(-12.48deg);
+        }
+
+        &:nth-child(4) {
+          bottom: 50px;
+          left: 30px;
+          //transform: rotate(-12.48deg);
+        }
+
+      }
+
+      &.active {
+        position: relative;
+        z-index: 100000;
+      }
+
+      &.active > div, &.active > h3 {
+        background: linear-gradient(76.93deg, #6933E4 2.43%, #8456EA 87.16%);
+        border: 3px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
+      }
+
       &_title {
         font-family: 'Gilroy', sans-serif;
         font-style: normal;
@@ -628,25 +724,17 @@ div {
         color: #fff;
         max-width: 80%;
         text-align: center;
-        background: linear-gradient(76.93deg, #6933E4 2.43%, #8456EA 87.16%);
-        border: 3px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
-        border-radius: 24px;
         margin: auto;
         padding: 24px 0;
         transform: translateY(50%);
       }
 
       &_content {
-        padding: 86px 22px 20px 22px;
+        padding: 70px 22px 20px 22px;
         font-weight: 500;
         font-size: 15px;
         line-height: 150%;
         color: #fff;
-        background: linear-gradient(76.93deg, #6933E4 2.43%, #8456EA 87.16%);
-        border: 3px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 0 12px rgba(30, 80, 254, 0.25), inset 0 0 22px rgba(255, 255, 255, 0.25);
-        border-radius: 24px;
 
         p:first-child {
           margin-bottom: 16px;
@@ -663,10 +751,10 @@ div {
       position: absolute;
       z-index: -1;
       background-color: rgba(16, 15, 23, 0.3);
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
+      top: -20%;
+      left: -20%;
+      bottom: -10%;
+      right: -20%;
     }
 
     &__img {
@@ -681,7 +769,7 @@ div {
 
     &__img_one {
       left: 66px;
-      bottom: 0px
+      bottom: 0
     }
 
     &__img_two {
@@ -697,7 +785,7 @@ div {
   }
 
   .landing-form {
-    padding: 103px 0 112px 0;
+    padding: 230px 0 112px 0;
 
     @media screen and (max-width: 992px) {
       padding: 30px 0 30px 0

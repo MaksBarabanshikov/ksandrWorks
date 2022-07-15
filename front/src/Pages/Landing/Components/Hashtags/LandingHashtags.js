@@ -7,6 +7,8 @@ import MotionSectionX from "../Motion/MotionSectionX";
 import Image from "react-image-webp";
 
 const LandingHashtags = () => {
+
+
     const buttonChild = <>
         <Image
             src={imgPng}

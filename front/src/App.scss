@@ -1,5 +1,6 @@
 @import "normalize-scss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url("./Assets/fonts/Gilroy/stylesheet.css");
 
 $gray: #919191;
 $black: #020614;
@@ -20,35 +21,44 @@ $black-opacity: #09090980;
 }
 
 html {
-  @font-face {
-    font-family: "Gilroy";
-    font-style: normal;
-    font-weight: 400;
-    src: url("./Assets/fonts/Gilroy/gilroy-regular.ttf") format('ttf');
-    src: local("Gilroy"),
-    url("Assets/fonts/Gilroy/gilroy-regular.ttf") format('ttf');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Gilroy';
-    font-style: normal;
-    font-weight: 500;
-    src: url("./Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
-    src: local("Gilroy"),
-    url("Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Gilroy';
-    font-style: normal;
-    font-weight: 600;
-    src: url("./Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
-    src: local("Gilroy"),
-    url("Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
-    font-display: swap;
-  }
+  //@font-face {
+  //  font-family: Gilroy;
+  //  font-style: normal;
+  //  font-weight: 300;
+  //  src: url("./Assets/fonts/Gilroy/Gilroy-Light.otf") format("otf");
+  //  src: local("Gilroy"),
+  //  url("./Assets/fonts/Gilroy/Gilroy-Light.otf") format('otf');
+  //  font-display: swap;
+  //}
+  //
+  //@font-face {
+  //  font-family: 'Gilroy';
+  //  font-style: normal;
+  //  font-weight: 500;
+  //  src: url("./Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
+  //  src: local("Gilroy"),
+  //  url("Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
+  //  font-display: swap;
+  //}
+  //
+  //@font-face {
+  //  font-family: 'Gilroy';
+  //  font-style: normal;
+  //  font-weight: 600;
+  //  src: url("./Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
+  //  src: local("Gilroy"),
+  //  url("Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
+  //  font-display: swap;
+  //}
+  //@font-face {
+  //  font-family: Gilroy;
+  //  font-style: normal;
+  //  font-weight: 900;
+  //  src: url("./Assets/fonts/Gilroy/Gilroy-ExtraBold.otf") format('truetype');
+  //  src: local("Gilroy"),
+  //  url("./Assets/fonts/Gilroy/Gilroy-ExtraBold.otf") format('truetype');
+  //  font-display: swap;
+  //}
 
   @font-face {
     font-family: 'Gunterz';

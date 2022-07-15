@@ -1,22 +1,30 @@
+import {useSelector} from "react-redux";
+import { motion } from "framer-motion"
+import LandingHashtagsTitleItem from "./LandingHashtagsTitleItem";
+
 const LandingHashtagsTitle = () => {
+    const tabsTitle = useSelector(state => state.landing.tabsTitle)
+    const activeTab = useSelector(state => state.landing.activeTab)
 
-  const tabs = [
-      'Парсинг аудитории',
-      'Рассылка сообщений',
-      'Лайкинг',
-      'Комментинг',
-      'Авторегистрация'
-  ]
+    return (
+        <div className='landing-hashtags__title'>
 
-  return (
-      <div className='landing-hashtags__title'>
+            <h1 className={activeTab.title.length >= 10 ? 'small_h1' : ''}><strong>{activeTab.title}</strong></h1>
 
-        <h1><strong>Хештеги</strong></h1>
-
-        <div className='landing-hashtags_tabs flex justify-content-between'>
-          {tabs.map(tab => <div key={tab} className='landing-hashtags_tab text-white-op-15'>{tab}</div>)}
+            <motion.div
+                layout
+                className='landing-hashtags_tabs flex'
+            >
+                {
+                    tabsTitle.filter(tab => tab.id !== activeTab.id).map(tab =>
+                        <LandingHashtagsTitleItem
+                            key={tab.id}
+                            tab={tab}
+                        />
+                    )
+                }
+            </motion.div>
         </div>
-      </div>
-  )
+    )
 }
 export default LandingHashtagsTitle

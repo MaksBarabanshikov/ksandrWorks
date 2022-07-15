@@ -3,6 +3,7 @@ import instaPostsReducer from "./modules/instaPostsSlice";
 import favoritesReducer from "./modules/favoritesSlice";
 import modalReducer from "./modules/modalSlice";
 import facebookReducer from "./modules/facebookSlice";
+import landingReducer from "./modules/landingSlice";
 import {hashtagsApi} from "./services/hashtagsApi";
 
 
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
     modalFb: modalReducer,
     instagramPosts: instaPostsReducer,
     favorites: favoritesReducer,
-    facebook: facebookReducer
+    facebook: facebookReducer,
+    landing: landingReducer
 })
