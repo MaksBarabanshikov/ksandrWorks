@@ -6,7 +6,7 @@ import Container from "../Components/common/Container";
 
 const Layout = () => {
     const location = useLocation()
-    if (location.pathname === '/') {
+    if (location.pathname === '/' || location.pathname === '/auth') {
         document.querySelector('body').classList.add('landing')
         return (
             <div className="App landing-wrapper">

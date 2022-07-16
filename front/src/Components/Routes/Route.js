@@ -9,6 +9,8 @@ const Payment = React.lazy(() => import('../../Pages/Payment/Payment'))
 const Instruction = React.lazy(() => import('../../Pages/Instruction/Instruction'))
 const Faq = React.lazy(() => import('../../Pages/Faq/Faq'))
 const Help = React.lazy(() => import('../../Pages/Help/Help'))
+const Auth = React.lazy(() => import('../../Pages/Auth/Auth'))
+
 const Routing = () => {
     return (
         <Routes>
@@ -41,6 +43,11 @@ const Routing = () => {
                 <Route path="/help" element={
                     <Suspense fallback={<Loader width={50} height={50}/> }>
                         <Help/>
+                    </Suspense>
+                }/>
+                <Route path="/auth" element={
+                    <Suspense fallback={<Loader width={50} height={50}/> }>
+                        <Auth/>
                     </Suspense>
                 }/>
             </Route>

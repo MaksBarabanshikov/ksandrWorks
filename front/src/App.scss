@@ -129,6 +129,12 @@ body {
   width: 100vw;
   min-height: 100vh;
 
+  &.landing {
+    background-color: #100F17;
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+
   @media (max-width: 992px) {
     padding: 10px;
   }
