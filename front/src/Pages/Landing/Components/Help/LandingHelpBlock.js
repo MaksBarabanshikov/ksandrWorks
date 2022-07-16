@@ -10,6 +10,26 @@ import {motion} from "framer-motion"
 const LandingHelpBlock = ({title, body, active, index}) => {
     const dispatch = useDispatch()
 
+    const styleRotateLeft = {
+        transform: 'rotate(-12deg)'
+    }
+
+    const styleRotateRight = {
+        transform: 'rotate(12deg)'
+    }
+
+    const blockVariant = {
+        notSelectedRight: {
+            rotate: 12
+        },
+        notSelectedLeft: {
+            rotate: -12
+        },
+        selected: {
+            rotate: 0
+        }
+    }
+
     const content =
         <>
             <h3 className='landing-help__block_title'>
@@ -24,6 +44,10 @@ const LandingHelpBlock = ({title, body, active, index}) => {
         return <motion.div
             className={`landing-help__block ${active ? 'active' : ''}`}
             layout
+            variants={blockVariant}
+            initial = {false}
+            animate={'Selected'}
+            style={{rotate: 0}}
         >
             <Image
                 className="landing-help__block_rocket"
@@ -42,7 +66,14 @@ const LandingHelpBlock = ({title, body, active, index}) => {
     return (
         <motion.div
             layout
+            variants={blockVariant}
+            initial = {false}
+            animate={index === 0 || index === 1 ? 'notSelectedRight' : 'notSelectedLeft'}
             className='landing-help__block'
+            style={index === 0 || index === 1 ? {rotate: -12} : {rotate: 12}}
+            whileHover={{
+                scale: 1.1,
+            }}
             onClick={() => dispatch(setActiveBlock(index))}
         >
             {content}

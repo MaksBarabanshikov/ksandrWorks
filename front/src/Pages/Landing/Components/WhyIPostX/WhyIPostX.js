@@ -1,6 +1,5 @@
 import WhyIPostXList from "./WhyIPostXList";
 import Gradient from "../Gradient";
-import MotionSectionXPlus from "../Motion/MotionSectionXPlus";
 
 const WhyIPostX = () => {
 
@@ -13,11 +12,11 @@ const WhyIPostX = () => {
     }
 
   return (
-      <MotionSectionXPlus classNames='why-ipostX'>
+      <section className='why-ipostX'>
           <h1>Зачем нужен <strong>ipostX</strong> ?</h1>
           <WhyIPostXList/>
           <Gradient style={gradientStyle}/>
-      </MotionSectionXPlus>
+      </section>
 
   )
 }

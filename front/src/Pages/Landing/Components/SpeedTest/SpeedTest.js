@@ -14,6 +14,7 @@ const SpeedTest = () => {
         <img src={fire} alt=""/>
         <span>Активировать предложение</span>
     </>
+
     const styleGrid = {
         position: 'absolute',
         top: '50%',
@@ -23,7 +24,7 @@ const SpeedTest = () => {
     }
 
     return (
-        <MotionSectionX classNames="landing-speed">
+        <section className="landing-speed">
             <h1>
                 <Image
                     className="landing-speed__rotate-face"
@@ -48,7 +49,7 @@ const SpeedTest = () => {
             <Timer/>
             </div>
             <LandingButton width={'365px'} height={'70px'} children={btnChildren}/>
-        </MotionSectionX>
+        </section>
     )
 }
 

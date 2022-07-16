@@ -4,12 +4,11 @@ import blurImg1 from '../../../../Assets/image/landing/bookmark-dynamic-color.pn
 import blurImg1Webp from '../../../../Assets/image/landing/bookmark-dynamic-color.webp'
 import blurImg2 from '../../../../Assets/image/landing/flash-dynamic-color.png'
 import blurImg2Webp from '../../../../Assets/image/landing/flash-dynamic-color.webp'
-import MotionSectionXPlus from "../Motion/MotionSectionXPlus";
 import Image from "react-image-webp";
 
 const Phone = () => {
     return (
-        <MotionSectionXPlus classNames="landing-phone">
+        <section className="landing-phone">
             <Image
                 src={phone}
                 webp={phoneWebp}
@@ -24,7 +23,7 @@ const Phone = () => {
                 src={blurImg2}
                 webp={blurImg2Webp}
                 alt=""/>
-        </MotionSectionXPlus>
+        </section>
     )
 }
 

@@ -1,6 +1,5 @@
 import testImage from '../../../../Assets/image/landing/test-image-blog.jpg'
 import LandingButton from "../LandingButton";
-import MotionSectionXPlus from "../Motion/MotionSectionXPlus";
 import Gradient from "../Gradient";
 
 const Blogs = () => {
@@ -22,7 +21,7 @@ const Blogs = () => {
     }
 
     return (
-        <MotionSectionXPlus classNames="landing-blogs">
+        <section className="landing-blogs">
             <h1><strong>Новые статьи</strong> из блога</h1>
             <div className="landing-blogs__row">
                 <div className="landing-blogs__big-card">
@@ -92,7 +91,7 @@ const Blogs = () => {
                 <Gradient style={gradientStyle}/>
                 <Gradient style={gradientStyle2}/>
             </div>
-        </MotionSectionXPlus>
+        </section>
     )
 }
 

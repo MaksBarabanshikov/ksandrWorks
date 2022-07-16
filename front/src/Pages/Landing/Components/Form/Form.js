@@ -1,6 +1,5 @@
 import LandingButton from "../LandingButton";
 import Grid from "../Grid";
-import MotionSectionX from "../Motion/MotionSectionX";
 
 const Form = () => {
 
@@ -13,7 +12,7 @@ const Form = () => {
     }
 
     return(
-        <MotionSectionX classNames="landing-form">
+        <section className="landing-form">
             <div className="landing-form__container">
                 <h1 style={{textAlign: 'center'}}>
                     Лучше <strong> 1 раз попробовать</strong>, чем долго читать.
@@ -27,7 +26,7 @@ const Form = () => {
                     </div>
                 </form>
             </div>
-        </MotionSectionX>
+        </section>
     )
 }
 

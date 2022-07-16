@@ -1,4 +1,3 @@
-import MotionSectionX from "../Motion/MotionSectionX";
 import Gradient from "../Gradient";
 import {useSelector} from "react-redux";
 import LandingHelpBlock from "./LandingHelpBlock";
@@ -18,7 +17,7 @@ const LandingHelp = () => {
 
 
     return (
-        <MotionSectionX classNames="landing-help">
+        <section className="landing-help">
             <AnimatePresence initial={false} exitBeforeEnter>
                 {helpBlocks.map((helpBlock, index) =>
                     <LandingHelpBlock
@@ -31,7 +30,7 @@ const LandingHelp = () => {
                 )}
             </AnimatePresence>
             <Gradient style={gradientStyle}/>
-        </MotionSectionX>
+        </section>
     )
 }
 
