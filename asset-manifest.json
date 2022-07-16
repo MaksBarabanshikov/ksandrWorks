@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/ksandrworks/static/css/main.54abafcc.css",
-    "main.js": "/ksandrworks/static/js/main.52f3b0e7.js",
+    "main.js": "/ksandrworks/static/js/main.78100480.js",
     "static/css/802.4a420727.chunk.css": "/ksandrworks/static/css/802.4a420727.chunk.css",
     "static/js/802.704368c2.chunk.js": "/ksandrworks/static/js/802.704368c2.chunk.js",
     "static/css/985.9bf6512a.chunk.css": "/ksandrworks/static/css/985.9bf6512a.chunk.css",
-    "static/js/985.fd3a21d0.chunk.js": "/ksandrworks/static/js/985.fd3a21d0.chunk.js",
+    "static/js/985.0ec46099.chunk.js": "/ksandrworks/static/js/985.0ec46099.chunk.js",
     "static/css/248.007ce877.chunk.css": "/ksandrworks/static/css/248.007ce877.chunk.css",
     "static/js/248.41d7d5b2.chunk.js": "/ksandrworks/static/js/248.41d7d5b2.chunk.js",
     "static/css/74.8fd691c5.chunk.css": "/ksandrworks/static/css/74.8fd691c5.chunk.css",
@@ -109,11 +109,11 @@
     "static/media/info_light.svg": "/ksandrworks/static/media/info_light.48d1dc86fc8e9716502f6422081a8257.svg",
     "static/media/line.svg": "/ksandrworks/static/media/line.5a7562a04d9d8924fdbb.svg",
     "main.54abafcc.css.map": "/ksandrworks/static/css/main.54abafcc.css.map",
-    "main.52f3b0e7.js.map": "/ksandrworks/static/js/main.52f3b0e7.js.map",
+    "main.78100480.js.map": "/ksandrworks/static/js/main.78100480.js.map",
     "802.4a420727.chunk.css.map": "/ksandrworks/static/css/802.4a420727.chunk.css.map",
     "802.704368c2.chunk.js.map": "/ksandrworks/static/js/802.704368c2.chunk.js.map",
     "985.9bf6512a.chunk.css.map": "/ksandrworks/static/css/985.9bf6512a.chunk.css.map",
-    "985.fd3a21d0.chunk.js.map": "/ksandrworks/static/js/985.fd3a21d0.chunk.js.map",
+    "985.0ec46099.chunk.js.map": "/ksandrworks/static/js/985.0ec46099.chunk.js.map",
     "248.007ce877.chunk.css.map": "/ksandrworks/static/css/248.007ce877.chunk.css.map",
     "248.41d7d5b2.chunk.js.map": "/ksandrworks/static/js/248.41d7d5b2.chunk.js.map",
     "74.8fd691c5.chunk.css.map": "/ksandrworks/static/css/74.8fd691c5.chunk.css.map",
@@ -137,6 +137,6 @@
   },
   "entrypoints": [
     "static/css/main.54abafcc.css",
-    "static/js/main.52f3b0e7.js"
+    "static/js/main.78100480.js"
   ]
 }
