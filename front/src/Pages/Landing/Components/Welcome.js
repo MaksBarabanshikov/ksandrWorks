@@ -1,9 +1,11 @@
-import LandingButton from "./LandingButton";
-import fire from '../../../Assets/image/landing/fire.svg'
-import Grid from "./Grid";
+import React, {Suspense } from 'react'
+import LandingButton from "./LandingButton"
+import {motion} from "framer-motion"
 import hero from '../../../Assets/image/landing/hero.png'
-import Gradient from "./Gradient";
-import {motion} from "framer-motion";
+import fire from '../../../Assets/image/landing/fire.svg'
+
+const Grid = React.lazy(() => import('./Grid'))
+const Gradient = React.lazy(() => import('./Gradient'))
 
 const Welcome = () => {
     const sentence = {
@@ -99,9 +101,15 @@ const Welcome = () => {
                         канал продаж в своем бизнесе и выйдешь но новый уровень дохода
                     </p>
                     <LandingButton width={'100%'} height={'70px'} children={btnChildren}/>
-                    <Grid style={style1}/>
+                    <Suspense fallback={null}>
+                        <Grid style={style1}/>
+                    </Suspense>
+
                 </div>
             </div>
+            <Suspense fallback={null}>
+
+            </Suspense>
             <img className="landing-welcome__hero" src={hero} alt="IpostX"/>
             <Gradient style={gradientStyle}/>
             <Grid style={style2}/>

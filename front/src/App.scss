@@ -21,44 +21,6 @@ $black-opacity: #09090980;
 }
 
 html {
-  //@font-face {
-  //  font-family: Gilroy;
-  //  font-style: normal;
-  //  font-weight: 300;
-  //  src: url("./Assets/fonts/Gilroy/Gilroy-Light.otf") format("otf");
-  //  src: local("Gilroy"),
-  //  url("./Assets/fonts/Gilroy/Gilroy-Light.otf") format('otf');
-  //  font-display: swap;
-  //}
-  //
-  //@font-face {
-  //  font-family: 'Gilroy';
-  //  font-style: normal;
-  //  font-weight: 500;
-  //  src: url("./Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
-  //  src: local("Gilroy"),
-  //  url("Assets/fonts/Gilroy/gilroy-medium.ttf") format('ttf');
-  //  font-display: swap;
-  //}
-  //
-  //@font-face {
-  //  font-family: 'Gilroy';
-  //  font-style: normal;
-  //  font-weight: 600;
-  //  src: url("./Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
-  //  src: local("Gilroy"),
-  //  url("Assets/fonts/Gilroy/gilroy-semibold.ttf") format('ttf');
-  //  font-display: swap;
-  //}
-  //@font-face {
-  //  font-family: Gilroy;
-  //  font-style: normal;
-  //  font-weight: 900;
-  //  src: url("./Assets/fonts/Gilroy/Gilroy-ExtraBold.otf") format('truetype');
-  //  src: local("Gilroy"),
-  //  url("./Assets/fonts/Gilroy/Gilroy-ExtraBold.otf") format('truetype');
-  //  font-display: swap;
-  //}
 
   @font-face {
     font-family: 'Gunterz';
@@ -625,4 +587,8 @@ textarea {
       }
     }
   }
+}
+
+.input-error {
+  border-bottom: 1px solid #EF9B9B;
 }
