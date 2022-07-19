@@ -4,16 +4,18 @@ import * as yup from "yup"
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup"
 import google from "../../Assets/image/landing/google.svg"
-import facebook from "../../Assets/image/landing/facebook.svg"
 import AuthLeft from "./AuthLeft";
+import ReactFacebookLogin from "../../Utils/FB/FBConnect";
 
 const Register = () => {
 
     useEffect(() => {
-        document.querySelector('.App').classList.add('auth-wrapper');
+        document.querySelector('body').classList.add('landing')
 
-        return () => document.querySelector('.auth-wrapper').classList.remove('auth-wrapper');
-    },[])
+        return () => {
+            document.querySelector('body').classList.remove('landing')
+        };
+    }, [])
 
     return (
         <section className="auth">
@@ -107,10 +109,7 @@ const AuthRight = () => {
                     <img src={google} alt="google"/>
                     <span>Регистрация с Google</span>
                 </button>
-                <button className='auth-btn auth-btn_2auth '>
-                    <img src={facebook} alt="facebook"/>
-                    <span>Регистрация с FaceBook</span>
-                </button>
+                <ReactFacebookLogin/>
             </div>
         </div>
     )

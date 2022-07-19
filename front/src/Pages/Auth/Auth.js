@@ -5,13 +5,15 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import google from "../../Assets/image/landing/google.svg";
-import facebook from "../../Assets/image/landing/facebook.svg";
+import ReactFacebookLogin from "../../Utils/FB/FBConnect";
 
 const Auth = () => {
     useEffect(() => {
-        document.querySelector('.App').classList.add('auth-wrapper');
+        document.querySelector('body').classList.add('landing')
 
-        return () => document.querySelector('.auth-wrapper').classList.remove('auth-wrapper');
+        return () => {
+            document.querySelector('body').classList.remove('landing')
+        };
     }, [])
 
     return (<section className="auth">
@@ -75,10 +77,7 @@ const AuthRight = () => {
                 <img src={google} alt="google"/>
                 <span>Войти с помощью Google</span>
             </button>
-            <button className='auth-btn auth-btn_2auth '>
-                <img src={facebook} alt="facebook"/>
-                <span>Войти с помощью FaceBook</span>
-            </button>
+            <ReactFacebookLogin/>
             <a href="#">Забыли пароль?</a>
         </div>
     </div>)

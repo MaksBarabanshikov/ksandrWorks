@@ -8,15 +8,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, transformFavorites} from "../../Utils/redux/modules/favoritesSlice";
 import {openModalProcess} from "../../Utils/redux/modules/modalSlice";
-import ProcessBarModal from "../../Components/Modal/ProcessBar";
 import {
     useGetFavoritesQuery,
+    useSendCurrentPostIdMutation,
     useSendFileMutation
 } from "../../Utils/redux/services/hashtagsApi";
 import {skipToken} from "@reduxjs/toolkit/dist/query/react";
 import './Hashtags.scss';
 import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
 import Loader from "../../Components/common/Loader";
+import HashtagProcess from "./HashtagProcess";
 
 const HelloModal = React.lazy(() => import('../../Components/Modal/HelloModal'))
 const HashtagsSide = React.lazy(() => import('./HashtagsSide'))
@@ -31,9 +32,10 @@ const Hashtags = () => {
         null :
         skipToken)
     const [isPostId, setIsPostId] = useState(true);
+    const [sendCurrentPostId] = useSendCurrentPostIdMutation()
+
 
     const myFavorites = useSelector(state => state.favorites.favorites)
-    const isOpenProcess = useSelector(state => state.modalFb.isOpenProcess)
     const fbPage = useSelector(state => state.facebook.user.fbPage)
     const postId = useSelector(state => state.instagramPosts.currentPostId)
 
@@ -86,6 +88,11 @@ const Hashtags = () => {
         } else {
             setIsPostId(true)
         }
+    }
+
+    const sendForProcessing = async () => {
+        await sendCurrentPostId(postId)
+        dispatch(openModalProcess())
     }
 
     useEffect(() => {
@@ -163,8 +170,7 @@ const Hashtags = () => {
                                 </div>
                                 <div>
                                     <button className="blue-btn mb-20"
-                                            onClick={() => dispatch(openModalProcess())
-                                            }
+                                            onClick={() => sendForProcessing()}
                                             disabled={isPostId}
                                     >
                                         Отправить в обработку
@@ -177,24 +183,7 @@ const Hashtags = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="hashtag__block">
-                        <div className="top border-bottom pb-25 mb-20">
-                            <h1 className="title">
-                                Процессы
-                            </h1>
-                        </div>
-                        <div className="main">
-                            <ul className="hashtag__list">
-                                <li>
-                                    <div>Необходимо переподключить токен. Сделайте это по соответствующей кнопке
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>Процесс находиться на паузе</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <HashtagProcess />
                 </div>
                 <div>
                     <Suspense fallback={<Loader width={50} height={50}/>}>
@@ -202,7 +191,6 @@ const Hashtags = () => {
                     </Suspense>
                 </div>
             </div>
-            {isOpenProcess && <ProcessBarModal/>}
             <Suspense fallback={<Loader width={50} height={50}/>}>
                 <HelloModal/>
             </Suspense>

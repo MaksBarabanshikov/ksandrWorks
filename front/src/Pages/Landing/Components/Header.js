@@ -38,7 +38,7 @@ const HeaderLanding = () => (
                     <FontAwesomeIcon icon={faSearch}/>
                 </button>
             </div>
-            <LandingButton width={'230px'} height={'45px'} children={<span>Личный кабинет</span>}/>
+            <LandingButton to="/hashtags" width={'230px'} height={'45px'} children={<span>Личный кабинет</span>}/>
         </div>
     </header>
 );

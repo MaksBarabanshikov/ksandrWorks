@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Outlet, useLocation} from 'react-router-dom'
 import NewSideBar from "../Components/newSideBar/newSideBar";
 import Block from "../Components/common/Block";
@@ -6,19 +6,23 @@ import Container from "../Components/common/Container";
 
 const Layout = () => {
     const location = useLocation()
-    if (location.pathname === '/' ||
-        location.pathname === '/auth' ||
-        location.pathname === '/register'
-    ) {
-        document.querySelector('body').classList.add('landing')
+
+    if (location.pathname === '/') {
         return (
             <div className="App landing-wrapper">
                 <Outlet/>
             </div>
         )
-    } else {
-        document.querySelector('body').classList.remove('landing')
-        document.querySelector('.landing-wrapper').classList.remove('auth-wrapper')
+    }
+
+    if (location.pathname === '/auth' || location.pathname === '/register') {
+        return (
+            <div className="App auth-wrapper">
+                <Outlet/>
+            </div>
+        )
+    }
+    else {
         return (
             <>
                 <div className="App">

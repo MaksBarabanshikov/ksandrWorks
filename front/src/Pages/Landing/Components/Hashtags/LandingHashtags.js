@@ -15,7 +15,7 @@ const LandingHashtags = () => {
         <MotionSectionX classNames="landing-hashtags">
             <LandingHashtagsTitle/>
             <LandingHashtagsList/>
-            <LandingButton children={buttonChild} width='262px' height='70px'/>
+            <LandingButton to='/register' children={buttonChild} width='262px' height='70px'/>
         </MotionSectionX>
     )
 }

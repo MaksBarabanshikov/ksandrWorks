@@ -65,7 +65,8 @@
 
       &-btn {
         margin-top: 25px;
-        justify-content: end;
+        justify-content: flex-start;
+        margin-bottom: 20px;
 
         button {
           width: 100%;

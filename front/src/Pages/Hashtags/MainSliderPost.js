@@ -26,7 +26,7 @@ const MainSliderPost = ({isSendId}) => {
         }
         if (isSendId) {
             if (posts?.length && fbPage && !!!error) {
-                sendCurrentPostId({id: posts[activeSlide].id})
+                // sendCurrentPostId({id: posts[activeSlide].id})
                 dispatch(setCurrentPostId({id: posts[activeSlide].id}))
             }
         }

@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import './Landing.scss'
 import HeaderLanding from "./Components/Header";
 import Welcome from "./Components/Welcome";
@@ -16,6 +16,11 @@ const Tariffs = React.lazy(() => import('./Components/Tariffs/Tariffs'))
 const Reviews = React.lazy(() => import('./Components/Reviews/Reviews'))
 
 function Landing() {
+    useEffect(() => {
+        document.querySelector('body').classList.add('landing')
+
+        return () => document.querySelector('body').classList.remove('landing')
+    },[])
     return (
         <>
             <HeaderLanding/>
