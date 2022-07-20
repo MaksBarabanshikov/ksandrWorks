@@ -7,7 +7,7 @@ import LandingButton from "./LandingButton";
 const HeaderLanding = () => (
     <header className="landing-header">
         <div className="flex justify-content-between align-center">
-            <img src={logo} alt="ipostX"/>
+            <img width="104" src={logo} alt="ipostX"/>
             <nav className="landing-header__nav flex align-center ">
                 <ul className="flex">
                     <li>

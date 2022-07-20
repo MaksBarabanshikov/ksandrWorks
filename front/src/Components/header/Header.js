@@ -67,11 +67,11 @@ const Header = (props) => {
                         <StatisticModal/>
                     </Suspense>}
                 <button className="header-btn-notify" onClick={() => handleSetVisible("notifyVisible")}>
-                    <img className="m-auto" src={BellImage} alt=""/>
+                    <img width="24" className="m-auto" src={BellImage} alt=""/>
                     <span className="header-count">{notify.length}</span>
                 </button>
                 <button className="header-btn-user" onClick={() => handleSetVisible("userVisible")}>
-                    <img className="m-auto" src={userImage} alt=""/>
+                    <img width='24' className="m-auto" src={userImage} alt=""/>
                 </button>
                 <Block stylees="header-date flex align-center">
                     <Link to="/payment">

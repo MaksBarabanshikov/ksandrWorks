@@ -24,11 +24,11 @@ const AuthLeft = () => {
         <div className="auth__left">
             <div>
                 <Link to="/">
-                    <img src={logo} alt="ipostX"/>
+                    <img width="107" src={logo} alt="ipostX"/>
                 </Link>
                 <div className="auth__hero">
-                    <img src={locker} alt="ipostX"/>
-                    <img src={key} alt="ipostX"/>
+                    <img width='590' src={locker} alt="ipostX"/>
+                    <img width='400' src={key} alt="ipostX"/>
                 </div>
                 <Gradient style={styleGradient1}/>
                 <Gradient style={styleGradient2}/>

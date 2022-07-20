@@ -29,13 +29,13 @@ const FacebookLogo = ({hidden}) => {
     const currentButton = (onClick) => {
         if (location.pathname === '/auth') {
             return <button onClick={onClick} className='auth-btn auth-btn_2auth '>
-                        <img src={facebook} alt="facebook"/>
+                        <img width="24" src={facebook} alt="facebook"/>
                         <span>Войти с помощью FaceBook</span>
                    </button>
         }
         if (location.pathname === '/register') {
             return <button onClick={onClick} className='auth-btn auth-btn_2auth '>
-                     <img src={facebook} alt="facebook"/>
+                     <img width='24' src={facebook} alt="facebook"/>
                      <span>Регистрация с помощью FaceBook</span>
                    </button>
         }

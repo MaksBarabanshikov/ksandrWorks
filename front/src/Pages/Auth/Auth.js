@@ -75,7 +75,7 @@ const AuthRight = () => {
                 </button>
             </form>
             <button className='auth-btn auth-btn_2auth '>
-                <img src={google} alt="google"/>
+                <img width='24' src={google} alt="google"/>
                 <span>Войти с помощью Google</span>
             </button>
             <ReactFacebookLogin/>

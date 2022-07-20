@@ -2,11 +2,12 @@ import Gradient from "../Gradient";
 import {useSelector} from "react-redux";
 import MLandingHelpBlock from "./MLandingHelpBlock";
 import {AnimatePresence} from "framer-motion";
-import {IsMobile} from "../../../../Utils/helpers/IsMobile";
 import LandingHelpBlock from "./LandingHelpBlock";
+import useWindowDimensions from "../../../../Utils/hooks/useWindowDimensions";
 
 const LandingHelp = () => {
     const helpBlocks = useSelector(state => state.landing.helpBlocks)
+    const { width } = useWindowDimensions()
     const gradientStyle = {
         position: 'absolute',
         width: '532.09px',
@@ -17,7 +18,7 @@ const LandingHelp = () => {
         transform: 'translateX(-45%)'
     }
 
-    if (IsMobile()) {
+    if (width <= 992) {
         return (
             <section className="landing-help">
                     {helpBlocks.map((helpBlock) =>

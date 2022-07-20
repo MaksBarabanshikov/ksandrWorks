@@ -11,7 +11,7 @@ import Image from "react-image-webp";
 
 const SpeedTest = () => {
     const btnChildren = <>
-        <img src={fire} alt=""/>
+        <img width='102' src={fire} alt=""/>
         <span>Активировать предложение</span>
     </>
 

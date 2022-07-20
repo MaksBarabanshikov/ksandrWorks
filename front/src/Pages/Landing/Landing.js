@@ -21,6 +21,7 @@ function Landing() {
 
         return () => document.querySelector('body').classList.remove('landing')
     },[])
+
     return (
         <>
             <HeaderLanding/>

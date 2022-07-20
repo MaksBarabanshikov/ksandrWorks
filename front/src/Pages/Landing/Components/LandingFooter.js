@@ -8,7 +8,7 @@ import {faVk} from "@fortawesome/free-brands-svg-icons"
 const LandingFooter = () => {
     return (
         <footer className="landing-footer flex align-center justify-content-between">
-            <img src={logo} alt="IpostX"/>
+            <img width='126' src={logo} alt="IpostX"/>
             <div className="landing-footer__social">
                 <a href="https://twitter.com/">
                     <FontAwesomeIcon icon={faInstagram}/>

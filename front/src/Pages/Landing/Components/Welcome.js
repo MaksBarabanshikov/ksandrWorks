@@ -42,7 +42,7 @@ const Welcome = () => {
     const line1 = 'Получай горячих клиентов в instagram'
 
     const btnChildren = <>
-        <img src={fire} alt=""/>
+        <img width='102' src={fire} alt=""/>
         <span>Активировать предложение</span>
     </>
 

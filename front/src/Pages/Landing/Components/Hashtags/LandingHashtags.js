@@ -8,7 +8,7 @@ const LandingHashtags = () => {
 
 
     const buttonChild = <>
-        <img src={imgSvg} alt="Кнопка"/>
+        <img width="102" src={imgSvg} alt="Кнопка"/>
         <span>Перейти к регистрации</span>
     </>
     return (

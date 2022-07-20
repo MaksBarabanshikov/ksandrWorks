@@ -166,13 +166,16 @@ input[type="submit"] {
   background: none;
   cursor: pointer;
   transition: all .25s ease-out;
-  display: block;
   box-shadow: none;
   padding: 7px 0;
   color: #fff;
   border-radius: 10px;
   border: 1px solid transparent;
   width: 100%;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &.purple-btn {
     background-color: $purple;
@@ -544,6 +547,25 @@ textarea
   color: $red;
   font-weight: 700;
   font-size: 16px;
+}
+
+.error-btn {
+  color: $red;
+  font-weight: 700;
+  font-size: 16px;
+  border-color: $red;
+  background-color: transparent;
+  transition: all .2s ease-in-out;
+
+  &:hover {
+    background-color: $red;
+    border-color: transparent;
+    span {color: $white !important};
+  }
+  &:focus {
+    border-color: $red;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+  }
 }
 
 .success-message {

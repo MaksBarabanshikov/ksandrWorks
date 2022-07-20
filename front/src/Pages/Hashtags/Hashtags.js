@@ -170,12 +170,12 @@ const Hashtags = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button className="blue-btn mb-20"
+                                    <button className={`mb-20 ${!!errorPostId ? 'error-btn' : 'blue-btn'}`}
                                             onClick={() => sendForProcessing()}
                                             disabled={isPostId}
                                     >
                                         {!!!errorPostId && <span>Отправить в обработку</span>}
-                                        {!!errorPostId && <span className="error-message">{errorPostId.message}</span>}
+                                        {!!errorPostId && <span className="error-message">{errorPostId.data.message}</span>}
                                         {IsLoadingPostId && <Loader width={20} height={20}/>}
                                     </button>
                                     <RemainingPosts number={30}/>
