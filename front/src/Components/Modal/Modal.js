@@ -19,7 +19,7 @@ const Modal = () => {
             <button
                 className="header-statistics btn blue-btn"
                 onClick={() => handleOpen()}
-                disabled={!!fbPage}
+                disabled={!!!fbPage}
             >
                 <FontAwesomeIcon icon={faChartPie}/>
                 <p>Статистика</p>

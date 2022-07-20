@@ -3,6 +3,7 @@ const HistoryItem = ({transaction, createStatus, createType, setChecked}) => {
       <div className={`payment-activity-transaction ${transaction.checked ? "checked" : "" }`}>
           <div className="payment-cell">
               <input type="checkbox"
+                     className="w-[24px] h-[24px]"
                      checked={transaction.checked}
                      onChange={() => setChecked(transaction.operation)}
               />

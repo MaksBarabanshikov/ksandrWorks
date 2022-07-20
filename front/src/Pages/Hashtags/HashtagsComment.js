@@ -38,11 +38,11 @@ const HashtagsComment = ({index, id, selected, text1, text2}) => {
                     >
                         <FontAwesomeIcon icon={faCheckCircle}/>
                     </button>
-                    <button className="hashtag__comment-control_btn hashtag__comment-control_save"
-                            onClick={() => saveFavorite()}
-                    >
-                        <FontAwesomeIcon icon={faSave}/>
-                    </button>
+                    {/*<button className="hashtag__comment-control_btn hashtag__comment-control_save"*/}
+                    {/*        onClick={() => saveFavorite()}*/}
+                    {/*>*/}
+                    {/*    <FontAwesomeIcon icon={faSave}/>*/}
+                    {/*</button>*/}
                 </div>
             </div>
             <div>

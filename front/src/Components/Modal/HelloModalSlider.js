@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Slider from "react-slick"
 import NewPrevArrow from "../common/NewPrevArrow";
 import NewNextArrow from "../common/NewNextArrow";
@@ -38,6 +38,8 @@ const HelloModalSlider = () => {
 
     return (
         <>
+            {error && <h3 className="error-message">${error.data.message}</h3>}
+            {postPageError && <h3 className="error-message">${postPageError.data.message}</h3>}
             <div className="modal__body_main-slider">
                 {isLoading && <Loader width={50} height={50}/>}
                 {pages && <Slider {...settings}>
@@ -58,8 +60,6 @@ const HelloModalSlider = () => {
                         </div>
                     ))}
                 </Slider>}
-                {error && <h3 className="error-message">${error.data.message}</h3>}
-                {postPageError && <h3 className="error-message">${postPageError.data.message}</h3>}
             </div>
             <div className="modal__body_main-btn flex">
                 <button

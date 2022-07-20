@@ -31,22 +31,6 @@
       position: relative;
       margin-bottom: 18px;
 
-      input[type='text'], textarea {
-        background-color: transparent;
-        border: 1px solid rgba(9, 9, 9, 0.15);
-        text-align: left;
-        padding: 10px;
-        outline: none;
-        resize: none;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 150%;
-
-        &:focus {
-          border-color: #1D69CB;
-        }
-      }
-
       textarea {
         padding: 15px;
         border-radius: 12px;

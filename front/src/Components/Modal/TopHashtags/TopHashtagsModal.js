@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChartPie, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import {faHashtag} from "@fortawesome/free-solid-svg-icons/faHashtag";
-import MainSliderPost from "../../../Pages/Hashtags/MainSliderPost";
 import TopHashtags from "./TopHashtags";
 import "../Modal.scss"
 import SliderPost from "../../../Pages/Hashtags/SliderPost";
@@ -24,7 +23,7 @@ const TopHashtagsModal = () => {
             <button
                 className="header-statistics btn blue-btn"
                 onClick={() => handleOpen()}
-                disabled={!!fbPage}
+                disabled={!!!fbPage}
             >
                 <FontAwesomeIcon icon={faHashtag}/>
                 <p>Топ Хештегов</p>

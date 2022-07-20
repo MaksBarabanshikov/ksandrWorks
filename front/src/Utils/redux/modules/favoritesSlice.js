@@ -1,41 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
-
-export const getFavoritesAPI = createAsyncThunk(
-    'favorites/getFavoritesAPI',
-    async function () {
-        let data
-        await axios.get('/api/hashtags/sorted-hashtags')
-            .then(res => {
-                return data = res.data
-            })
-            .catch(e => {
-                console.log(e)
-            })
-        return data
-    }
-)
-
-/*export const postFavoriteAPI = createAsyncThunk(
-    'favorites/postFavoriteAPI',
-    async function () {
-        const data = favoritesSlice.getInitialState.
-        axios.post('/api/hashtags/post-id', {
-            data
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => {
-                console.log(res)
-            })
-            .catch(e => {
-                console.log(e)
-            }).finally(() => console.log(data))
-    }
-)*/
+import {createSlice} from "@reduxjs/toolkit";
 
 export const uniqueId = () => (
     Math.random().toString(16).slice(2)
@@ -46,9 +9,6 @@ const favoritesSlice = createSlice({
     initialState: {
         favorites: [],
         selectAllBtn: false,
-        status: null,
-        error: null,
-        favoritesFromApi: []
     },
     reducers: {
         addFavorites: (state, action) => {

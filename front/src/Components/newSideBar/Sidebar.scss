@@ -18,11 +18,11 @@
     margin-bottom: 21px;
   }
 
-  &__main {
+  &__navigation {
     position: sticky;
     top: 30px;
     @media (max-width: 992px) {
-      display: flex;
+      display: flex !important;
       overflow: scroll;
       &::-webkit-scrollbar {
         width: 0;
