@@ -39,7 +39,7 @@ const ProcessBar = () => {
     const myFavorites = useSelector(state => state.favorites.favorites)
 
     const sendOnEmpty = async () => {
-        const data = myFavorites.map(f => ({
+        const data = myFavorites.filter((favorites) => favorites.selected).map(f => ({
                 text1: f.text1,
                 text2: f.text2.join(" "),
             }

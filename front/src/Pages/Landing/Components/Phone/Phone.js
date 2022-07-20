@@ -10,6 +10,7 @@ const Phone = () => {
     return (
         <section className="landing-phone">
             <Image
+                className="m-auto"
                 src={phone}
                 webp={phoneWebp}
                 alt="Помощник"/>

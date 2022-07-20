@@ -3,7 +3,7 @@ import {motion} from "framer-motion";
 const MotionSectionXPlus = ({classNames, children}) => {
     const sectionVariant = {
         hidden: {
-            x: 200,
+            x: 30,
             opacity: 0
         },
         visible: {

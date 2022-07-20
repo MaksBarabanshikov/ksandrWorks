@@ -1,11 +1,9 @@
 import React from "react"
 import {
-    paymentBalanceData,
     paymentRefillData,
     paymentRateData,
     paymentHistoryData
 } from "../../Assets/StorageData/paymentData"
-import Balance from "./Balance"
 import History from "./History"
 import Refill from "./Refill"
 import Rate from "./Rate"
@@ -18,7 +16,7 @@ const Payment = () => {
       <>
           <Header title="Оплата" icon={faWallet}/>
           <div className="payment">
-              <Balance balance={ paymentBalanceData } />
+              {/*<Balance balance={ paymentBalanceData } />*/}
               <Refill refill={ paymentRefillData } />
               <Rate rate={paymentRateData} />
               <History history={paymentHistoryData} />

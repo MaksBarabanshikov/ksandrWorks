@@ -1,4 +1,6 @@
-@import "normalize-scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import url("./Assets/fonts/Gilroy/stylesheet.css");
 
@@ -21,7 +23,8 @@ $black-opacity: #09090980;
 }
 
 html {
-
+  max-width: 100vw;
+  overflow-x: hidden;
   @font-face {
     font-family: 'Gunterz';
     font-style: normal;
@@ -75,11 +78,6 @@ html {
   }
 }
 
-#root {
-  overflow: hidden;
-  width: 100vw;
-}
-
 body {
   background-color: #F7F9FD;
   color: $gray;
@@ -90,6 +88,7 @@ body {
   padding: 20px;
   width: 100vw;
   min-height: 100vh;
+  overflow-x: hidden;
 
   &.landing {
     background-color: #100F17;
@@ -115,13 +114,13 @@ body {
   }
 }
 
-.container {
+.my-container {
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 42px auto;
   gap: 30px;
   position: relative;
-  min-height: 93vh;
+  max-width: 100%;
 
   @media (max-width: 992px) {
     gap: 10px;
@@ -146,7 +145,7 @@ a {
   width: 100%;
   padding: 35px 75px 0 70px;
   @media (max-width: 1300px) {
-    padding: 10px 0 0 20px;
+    padding: 20px;
   }
   @media (max-width: 992px) {
     padding: 0;
@@ -480,23 +479,30 @@ input[type="submit"] {
 .red {
   color: $red;
 }
-
-input[type="text"],
-textarea {
-  text-align: left !important;
-  padding: 10px;
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='tel'],
+textarea
+{
   background-color: transparent;
   border: 1px solid rgba(9, 9, 9, 0.15);
+  text-align: left;
+  padding: 10px;
+  outline: none;
+  resize: none;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
   transition: all 0.2s ease-in-out;
   border-radius: 12px;
 
   &:focus {
-    border-color: $blue;
+    border-color: #1D69CB;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(0, 122, 234, 0.25);
   }
 }
-
 .new-slider-btn {
   display: flex !important;
   align-items: center !important;
@@ -578,7 +584,6 @@ textarea {
 
     .blue-btn {
       width: 100px;
-      padding: 10px 0;
       margin: 10px auto;
       @media (max-width: 992px) {
         width: 42px;

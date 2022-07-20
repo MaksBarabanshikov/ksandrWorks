@@ -73,9 +73,10 @@ const MainSliderPost = ({isSendId}) => {
                             <span className="post-slider__item-like">
                                 <strong>Нравится: {post.like_count}</strong>
                             </span>
-                            <span className="post-slider__item-caption ">
-                                <strong>{post.username}</strong> {post.caption}
-                            </span>
+                            <div className="post-slider__item-caption ">
+                                <strong>{post.username}</strong>
+                                <span>{post.caption}</span>
+                            </div>
                         </div>
                     </div>))}
                 </Slider>

@@ -6,6 +6,7 @@ import {yupResolver} from "@hookform/resolvers/yup/dist/yup"
 import google from "../../Assets/image/landing/google.svg"
 import AuthLeft from "./AuthLeft";
 import ReactFacebookLogin from "../../Utils/FB/FBConnect";
+import {Link} from "react-router-dom";
 
 const Register = () => {
 
@@ -110,6 +111,9 @@ const AuthRight = () => {
                     <span>Регистрация с Google</span>
                 </button>
                 <ReactFacebookLogin/>
+                <div className="text-center flex flex-column">
+                    <Link to="/auth" className="">Есть аккаунт?</Link>
+                </div>
             </div>
         </div>
     )

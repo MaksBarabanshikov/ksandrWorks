@@ -10,7 +10,7 @@ const Balance = ({balance}) => {
                               <span>{card.text}</span>
                           </div>
                           <button className="card-button-circle">
-                              <img src={card.img} alt={card.type}/>
+                              <img className="m-auto" src={card.img} alt={card.type}/>
                           </button>
                       </div>
                   )

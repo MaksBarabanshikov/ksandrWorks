@@ -2,6 +2,7 @@ import logo from "../../Assets/image/landing/ipostX.svg";
 import locker from "../../Assets/image/landing/auth-locker.svg";
 import key from "../../Assets/image/landing/auth-key.svg";
 import Gradient from "../Landing/Components/Gradient";
+import {Link} from "react-router-dom";
 
 const AuthLeft = () => {
     const styleGradient1 = {
@@ -22,7 +23,9 @@ const AuthLeft = () => {
     return (
         <div className="auth__left">
             <div>
-                <img src={logo} alt="ipostX"/>
+                <Link to="/">
+                    <img src={logo} alt="ipostX"/>
+                </Link>
                 <div className="auth__hero">
                     <img src={locker} alt="ipostX"/>
                     <img src={key} alt="ipostX"/>

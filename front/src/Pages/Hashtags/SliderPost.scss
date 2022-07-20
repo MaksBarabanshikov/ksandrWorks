@@ -39,6 +39,16 @@
         margin-bottom: 10px;
 
       }
+
+      .post-slider__item-caption {
+        -webkit-line-clamp: 2; /* Число отображаемых строк */
+        display: -webkit-box; /* Включаем флексбоксы */
+        -webkit-box-orient: vertical; /* Вертикальная ориентация */
+        overflow: hidden; /* Обрезаем всё за пределами блока */
+        span {
+          margin-left: 5px;
+        }
+      }
     }
   }
 

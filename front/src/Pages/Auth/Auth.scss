@@ -8,10 +8,25 @@
   grid-template-columns: 1fr 1.15fr;
   width: 100vw;
 
+  @media screen and (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+
   &__left {
     padding: 64px 82px 84px 82px;
     position: relative;
     overflow: hidden;
+
+    @media screen and (max-width: 992px) {
+      padding: 30px;
+      max-height: 200px;
+    }
+
+    img {
+      position: relative;
+      z-index: 10000;
+    }
+
 
     .auth__hero {
       position: relative;
@@ -27,14 +42,27 @@
           top: 150px;
           left: 20px;
         }
+
+        @media screen and (max-width: 992px) {
+          z-index: 1000;
+          max-height: 200px;
+          top: -150px;
+          &:last-child {
+            top: -120px;
+            left: 35%;
+          }
+        }
       }
     }
   }
 
   &__right {
     padding: 64px 0 84px 0;
+    @media screen and (max-width: 992px) {
+      padding: 30px;
+    }
     &_cont {
-      max-width: 428px;
+      max-width: 320px;
       margin: auto;
     }
   }
@@ -50,6 +78,12 @@
     color: #fff;
     border-bottom: 1px solid rgba(245, 245, 245, 1);
 
+    @media screen and (max-width: 992px) {
+      font-size: 24px;
+      text-align: center;
+      line-height: 20px;
+    }
+
     span {
       color: #8692A6;
       font-family: 'Inter', sans-serif;
@@ -57,6 +91,12 @@
       font-weight: 400;
       font-size: 18px;
       line-height: 28px;
+
+      @media screen and (max-width: 992px) {
+        font-size: 12px;
+        line-height: 10px;
+      }
+
     }
   }
 
@@ -75,11 +115,19 @@
   &-label {
     margin-bottom: 24px;
 
+    @media screen and (max-width: 992px) {
+      margin-bottom: 12px;
+    }
+
     span {
       font-size: 16px;
       line-height: 19px;
       color: #696F79;
       margin-bottom: 14px;
+
+      @media screen and (max-width: 992px) {
+        font-size: 12px;
+      }
     }
 
     input {
@@ -91,11 +139,20 @@
       &:focus {
         background-color: #fff;
       }
+
+      @media screen and (max-width: 992px) {
+        padding: 10px 15px;
+        font-size: 12px;
+      }
     }
   }
 
   &-label_checkbox {
     margin-bottom: 24px;
+
+    @media screen and (max-width: 992px) {
+      margin-bottom: 12px;
+    }
     input {
       margin-right: 10px;
     }
@@ -109,6 +166,12 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
+
+    @media screen and (max-width: 992px) {
+      padding: 0;
+      height: 30px;
+      font-size: 14px;
+    }
 
     &_submit {
       background: #1565D8;
@@ -126,10 +189,21 @@
       color: #000;
       position: relative;
       margin: 15px 0;
+      padding: 0 30px;
+
+      @media screen and (max-width: 992px) {
+        height: 40px;
+      }
 
       img {
         position: absolute;
         left: 40px;
+
+        @media screen and (max-width: 992px) {
+          max-width: 30px;
+          max-height: 30px;
+          left: 5px !important;
+        }
       }
     }
   }

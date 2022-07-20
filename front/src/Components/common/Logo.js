@@ -9,7 +9,7 @@ const Logo = () => {
     if (location.pathname !== '/hashtags') {
         return (
             <Block stylees="logo">
-                <img className="logo-image" src={logo} alt="logo"/>
+                <img className="logo-image m-auto" src={logo} alt="logo"/>
                 <Block stylees="logo__text">
                     <h6 className="logo__title">
                         TeleSpace

@@ -10,7 +10,7 @@ import {parsePhoneNumber} from "libphonenumber-js";
 const schema = yup.object({
     fio: yup.string().required("Поле обязательно к заполнению").min(10, "Минимум 10 символов"),
     email: yup.string().email("Введите корректный email").required("Поле обязательно к заполнению"),
-    tel: yup.string().required("Поле обязательно к заполнению"),
+    tel: yup.string().required("Поле обязательно к заполнению").min(16, "Некорректный номер"),
     oldPassword: yup.string().required("Поле обязательно к заполнению").min(5, "Минимум 5 символов"),
     newPassword: yup.string().required("Поле обязательно к заполнению").min(5, "Минимум 5 символов")
 })

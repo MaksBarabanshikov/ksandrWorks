@@ -112,7 +112,7 @@ const History = ({history}) => {
                     <div className="payment-activity">
                         <div className="payment-activity-title">
                             <div className="payment-cell">
-                                <input type="checkbox" checked={mainChecked} onChange={ handleSetMainChecked }/>
+                                <input className="w-[24px] h-[24px]" type="checkbox" checked={mainChecked} onChange={ handleSetMainChecked }/>
                             </div>
                             <div className="payment-cell">
                                 <span>Операция</span>

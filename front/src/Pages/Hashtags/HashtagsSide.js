@@ -38,15 +38,15 @@ const HashtagsSide = () => {
                     </button>
                     <span>Удалить отмеченные</span>
                 </label>
-                <label className={'flex align-center'}>
-                    <button className="hashtag__side-control_select-all"
-                            type={"button"}
-                            onClick={() => console.log(123)}
-                    >
-                        <FontAwesomeIcon icon={faSave}/>
-                    </button>
-                    <span>Сохранить все</span>
-                </label>
+                {/*<label className={'flex align-center'}>*/}
+                {/*    <button className="hashtag__side-control_select-all"*/}
+                {/*            type={"button"}*/}
+                {/*            onClick={() => console.log(123)}*/}
+                {/*    >*/}
+                {/*        <FontAwesomeIcon icon={faSave}/>*/}
+                {/*    </button>*/}
+                {/*    <span>Сохранить все</span>*/}
+                {/*</label>*/}
             </div>
             <div className="hashtag__side_main">
                 <div className="hashtag__side_main-cont">

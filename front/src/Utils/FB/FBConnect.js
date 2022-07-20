@@ -29,7 +29,7 @@ const ReactFacebookLogin = () => {
     if (user.isLoggedIn) {
         fbContent = (
             <div className="facebook__account">
-                <img src={user.picture} alt=""/>
+                <img className="m-auto" src={user.picture} alt=""/>
                 <Block stylees="logo__text">
                     <h3>
                         {user.name}

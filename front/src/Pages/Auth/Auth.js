@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import google from "../../Assets/image/landing/google.svg";
 import ReactFacebookLogin from "../../Utils/FB/FBConnect";
+import {Link} from "react-router-dom";
 
 const Auth = () => {
     useEffect(() => {
@@ -78,7 +79,10 @@ const AuthRight = () => {
                 <span>Войти с помощью Google</span>
             </button>
             <ReactFacebookLogin/>
-            <a href="#">Забыли пароль?</a>
+            <div className="text-center flex flex-column">
+                <Link to="/register" className="">Нет аккаунта?</Link>
+                <a href="#">Забыли пароль?</a>
+            </div>
         </div>
     </div>)
 }

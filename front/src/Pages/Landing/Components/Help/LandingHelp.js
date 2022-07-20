@@ -1,7 +1,9 @@
 import Gradient from "../Gradient";
 import {useSelector} from "react-redux";
-import LandingHelpBlock from "./LandingHelpBlock";
+import MLandingHelpBlock from "./MLandingHelpBlock";
 import {AnimatePresence} from "framer-motion";
+import {IsMobile} from "../../../../Utils/helpers/IsMobile";
+import LandingHelpBlock from "./LandingHelpBlock";
 
 const LandingHelp = () => {
     const helpBlocks = useSelector(state => state.landing.helpBlocks)
@@ -11,8 +13,23 @@ const LandingHelp = () => {
         height: '484px',
         bottom: -60,
         left: '50%',
-        zIndex: 0,
+        zIndex: -1,
         transform: 'translateX(-45%)'
+    }
+
+    if (IsMobile()) {
+        return (
+            <section className="landing-help">
+                    {helpBlocks.map((helpBlock) =>
+                        <LandingHelpBlock
+                            key={helpBlock.title}
+                            title={helpBlock.title}
+                            body={helpBlock.body}
+                        />
+                    )}
+                <Gradient style={gradientStyle}/>
+            </section>
+        )
     }
 
 
@@ -20,7 +37,7 @@ const LandingHelp = () => {
         <section className="landing-help">
             <AnimatePresence initial={false} exitBeforeEnter>
                 {helpBlocks.map((helpBlock, index) =>
-                    <LandingHelpBlock
+                    <MLandingHelpBlock
                         key={helpBlock.title}
                         title={helpBlock.title}
                         body={helpBlock.body}

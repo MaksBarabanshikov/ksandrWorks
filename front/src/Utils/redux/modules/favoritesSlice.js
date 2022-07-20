@@ -9,9 +9,6 @@ const favoritesSlice = createSlice({
     initialState: {
         favorites: [],
         selectAllBtn: false,
-        status: null,
-        error: null,
-        favoritesFromApi: []
     },
     reducers: {
         addFavorites: (state, action) => {

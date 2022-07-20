@@ -32,7 +32,7 @@ const Hashtags = () => {
         null :
         skipToken)
     const [isPostId, setIsPostId] = useState(true);
-    const [sendCurrentPostId] = useSendCurrentPostIdMutation()
+    const [sendCurrentPostId, {isLoading: IsLoadingPostId, error: errorPostId} ] = useSendCurrentPostIdMutation()
 
 
     const myFavorites = useSelector(state => state.favorites.favorites)
@@ -83,7 +83,8 @@ const Hashtags = () => {
     }
 
     const checkForDisabled = () => {
-        if (!!fbPage && myFavorites.length && postId !== null) {
+        const selectedFavorites = !!myFavorites.filter(f => f.selected === true).length
+        if (!!fbPage && selectedFavorites && postId !== null) {
             setIsPostId(false)
         } else {
             setIsPostId(true)
@@ -91,7 +92,7 @@ const Hashtags = () => {
     }
 
     const sendForProcessing = async () => {
-        await sendCurrentPostId(postId)
+        await sendCurrentPostId(postId).unwrap()
         dispatch(openModalProcess())
     }
 
@@ -173,7 +174,9 @@ const Hashtags = () => {
                                             onClick={() => sendForProcessing()}
                                             disabled={isPostId}
                                     >
-                                        Отправить в обработку
+                                        {!!!errorPostId && <span>Отправить в обработку</span>}
+                                        {!!errorPostId && <span className="error-message">{errorPostId.message}</span>}
+                                        {IsLoadingPostId && <Loader width={20} height={20}/>}
                                     </button>
                                     <RemainingPosts number={30}/>
                                 </div>

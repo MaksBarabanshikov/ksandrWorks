@@ -3,6 +3,7 @@ import {Outlet, useLocation} from 'react-router-dom'
 import NewSideBar from "../Components/newSideBar/newSideBar";
 import Block from "../Components/common/Block";
 import Container from "../Components/common/Container";
+import {RequireAuth} from "../hoc/RequireAuth";
 
 const Layout = () => {
     const location = useLocation()
@@ -24,7 +25,7 @@ const Layout = () => {
     }
     else {
         return (
-            <>
+            <RequireAuth>
                 <div className="App">
                     <NewSideBar/>
                     <Block stylees="content">
@@ -33,8 +34,7 @@ const Layout = () => {
                         </Container>
                     </Block>
                 </div>
-
-            </>
+            </RequireAuth>
         )
     }
 
