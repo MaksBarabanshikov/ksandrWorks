@@ -1,5 +1,4 @@
 import TariffsList from "./TariffsList";
-import MotionSectionX from "../Motion/MotionSectionX";
 
 const Tariffs = () => {
     return (

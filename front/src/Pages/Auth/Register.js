@@ -1,12 +1,14 @@
-import {useEffect} from "react"
+import React, {useEffect, Suspense} from "react"
 import './Auth.scss'
 import * as yup from "yup"
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup"
 import google from "../../Assets/image/landing/google.svg"
 import AuthLeft from "./AuthLeft";
-import ReactFacebookLogin from "../../Utils/FB/FBConnect";
 import {Link} from "react-router-dom";
+import Loader from "../../Components/common/Loader";
+
+const ReactFacebookLogin = React.lazy(() => import("../../Utils/FB/FBConnect"))
 
 const Register = () => {
 
@@ -110,7 +112,9 @@ const AuthRight = () => {
                     <img src={google} alt="google"/>
                     <span>Регистрация с Google</span>
                 </button>
-                <ReactFacebookLogin/>
+                <Suspense fallback={<Loader width={20} height={20}/>}>
+                    <ReactFacebookLogin/>
+                </Suspense>
                 <div className="text-center flex flex-column">
                     <Link to="/auth" className="">Есть аккаунт?</Link>
                 </div>

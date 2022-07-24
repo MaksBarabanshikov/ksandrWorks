@@ -1,9 +1,10 @@
-import React from "react";
-import Slider from "react-slick";
+import React, { Suspense } from "react";
 import testImg from "../../../../Assets/image/landing/test-image-slide.png"
 import ReviewsItem from "./ReviewsItem";
 import LandingNextArrow from "../LandingNextArrow";
 import LandingPrevArrow from "../LandingPrevArrow";
+
+const Slider = React.lazy(() => import('react-slick'))
 
 const ReviewsList = () => {
     const list = [
@@ -86,11 +87,14 @@ const ReviewsList = () => {
         ]
     }
     return (
-        <Slider {...settings}>
-            {
-                list.map(slide => <ReviewsItem key={slide.id} item={slide}/>)
-            }
-        </Slider>
+        <Suspense fallback={null}>
+            <Slider {...settings}>
+                {
+                    list.map(slide => <ReviewsItem key={slide.id} item={slide}/>)
+                }
+            </Slider>
+        </Suspense>
+
     )
 
 }

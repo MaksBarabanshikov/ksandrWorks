@@ -5,7 +5,7 @@ import {
     useGetReplyMutation,
     useGetStatusProcessQuery,
     useLazyStopProcessQuery,
-    useRefreshFacebookTokenMutation, useSendCurrentPostIdMutation,
+    useRefreshFacebookTokenMutation,
     useSendFavoritesMutation,
 } from "../../Utils/redux/services/hashtagsApi";
 

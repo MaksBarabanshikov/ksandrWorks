@@ -1,9 +1,11 @@
-import Gradient from "../Gradient";
-import {useSelector} from "react-redux";
-import MLandingHelpBlock from "./MLandingHelpBlock";
-import {AnimatePresence} from "framer-motion";
-import LandingHelpBlock from "./LandingHelpBlock";
-import useWindowDimensions from "../../../../Utils/hooks/useWindowDimensions";
+import React from 'react';
+import Gradient from "../Gradient"
+import {useSelector} from "react-redux"
+import {AnimatePresence} from "framer-motion"
+import LandingHelpBlock from "./LandingHelpBlock"
+import useWindowDimensions from "../../../../Utils/hooks/useWindowDimensions"
+
+const MLandingHelpBlock = React.lazy(() => import('./MLandingHelpBlock'))
 
 const LandingHelp = () => {
     const helpBlocks = useSelector(state => state.landing.helpBlocks)

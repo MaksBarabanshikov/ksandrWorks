@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion'
+import {LazyMotion, domAnimation, m} from "framer-motion"
 
 const MotionSectionX = ({classNames, children}) => {
     const sectionVariant = {
         hidden: {
-            x: -30,
+            x: -10,
             opacity: 0
         },
         visible: {
@@ -12,18 +12,21 @@ const MotionSectionX = ({classNames, children}) => {
         }
     }
     return (
-        <motion.section
-            className={classNames}
-            variants={sectionVariant}
-            initial='hidden'
-            whileInView='visible'
-            viewport={{ amount: 0.4, once: true}}
-            transition={{
-                delay: 0.25,
-            }}
-        >
-            {children}
-        </motion.section>
+        <LazyMotion features={domAnimation}>
+            <m.section
+                className={classNames}
+                variants={sectionVariant}
+                initial='hidden'
+                whileInView='visible'
+                viewport={{ amount: 0.15, once: true}}
+                transition={{
+                    delay: 0.25,
+                }}
+            >
+                {children}
+            </m.section>
+        </LazyMotion>
+
     )
 }
 

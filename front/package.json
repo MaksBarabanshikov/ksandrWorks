@@ -13,7 +13,8 @@
     "eject": "react-scripts eject",
     "server": "json-server -w server/db.json -p 8080",
     "dev": "concurrently \"npm run server\" \"npm run start\"",
-    "optimize-svg": "svgo --config=.svgo.yml -f ./src/Assets/image"
+    "optimize-svg": "svgo --config=.svgo.yml -f ./src/Assets/image/landing",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -71,6 +72,7 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
+    "source-map-explorer": "^2.5.2",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },

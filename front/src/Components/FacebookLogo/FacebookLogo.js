@@ -44,7 +44,7 @@ const FacebookLogo = ({hidden}) => {
     if (location.pathname !== '/hashtags') {
         return (
             <FacebookLogin
-                appId="553616932983819"
+                appId="873904213313730"
                 fields="name,email,picture"
                 className={"myFBButton"}
                 initParams={{
@@ -82,7 +82,7 @@ const FacebookLogo = ({hidden}) => {
 
     return (
         <FacebookLogin
-            appId="553616932983819"
+            appId="873904213313730"
             fields="name,email,picture"
             className={"myFBButton"}
             initParams={{

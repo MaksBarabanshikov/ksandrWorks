@@ -8,6 +8,7 @@ import Video from "./Components/Video/Video";
 import SpeedTest from "./Components/SpeedTest/SpeedTest";
 import Blogs from "./Components/Blogs/Blogs";
 import LandingFooter from "./Components/LandingFooter";
+import Loader from "../../Components/common/Loader";
 
 const LandingHashtags = React.lazy(() => import('./Components/Hashtags/LandingHashtags'))
 const Helper = React.lazy(() => import('./Components/Phone/Phone'))
@@ -20,32 +21,24 @@ function Landing() {
         document.querySelector('body').classList.add('landing')
 
         return () => document.querySelector('body').classList.remove('landing')
-    },[])
+    }, [])
 
     return (
         <>
             <HeaderLanding/>
             <Welcome/>
             <WhyIPostX/>
-            <Suspense fallback={null}>
-                <LandingHashtags/>
-            </Suspense>
-            <Suspense fallback={null}>
+            <LandingHashtags/>
+            <Suspense fallback={<Loader width={50} height={50}/>}>
                 <Helper/>
-            </Suspense>
-            <Suspense fallback={null}>
                 <LandingHelp/>
-            </Suspense>
-            <Form/>
-            <Video/>
-            <Suspense fallback={null}>
+                <Form/>
+                <Video/>
                 <Tariffs/>
-            </Suspense>
-            <Suspense fallback={null}>
                 <Reviews/>
+                <SpeedTest/>
+                <Blogs/>
             </Suspense>
-            <SpeedTest/>
-            <Blogs/>
             <LandingFooter/>
         </>
     );

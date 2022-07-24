@@ -1,13 +1,17 @@
 import React, {Suspense } from 'react'
 import LandingButton from "./LandingButton"
-import {motion} from "framer-motion"
-import hero from '../../../Assets/image/landing/hero.png'
+import Image from "react-image-webp";
+import {LazyMotion, domAnimation, m} from "framer-motion"
+import heroPng from '../../../Assets/image/landing/hero.png'
+import heroWebp from '../../../Assets/image/landing/hero.webp'
 import fire from '../../../Assets/image/landing/fire.svg'
+import useWindowDimensions from "../../../Utils/hooks/useWindowDimensions";
 
 const Grid = React.lazy(() => import('./Grid'))
 const Gradient = React.lazy(() => import('./Gradient'))
 
 const Welcome = () => {
+    const {width} = useWindowDimensions()
     const sentence = {
         hidden: { opacity: 1 },
         visible: {
@@ -39,7 +43,7 @@ const Welcome = () => {
 
     }
 
-    const line1 = 'Получай горячих клиентов в instagram'
+    const title = 'Получай горячих клиентов в instagram'
 
     const btnChildren = <>
         <img width='102' src={fire} alt=""/>
@@ -67,34 +71,42 @@ const Welcome = () => {
         zIndex: 10000
     }
 
+    const desktop = <LazyMotion features={domAnimation}>
+        <m.h1
+            variants={sentence}
+            initial="hidden"
+            animate="visible"
+        >
+            {title.split('').map((char, index) => {
+                return (
+                    <m.span
+                        key={char + '-' + index}
+                        variants={letter}
+                    >
+                        {char}
+                    </m.span>
+                )
+            })}
+        </m.h1>
+
+        <m.h2
+            initial="hidden"
+            variants={h2Variant}
+            animate="visible"
+        >
+            24/7 уже в первую неделю
+        </m.h2>
+    </LazyMotion>
+
+    const mobile = <>
+        <h1>{title}</h1>
+        <h2>24/7 уже в первую неделю</h2>
+    </>
+
     return (
         <section className='landing-welcome flex'>
             <div className="landing-welcome__content">
-                <motion.h1
-                    variants={sentence}
-                    initial="hidden"
-                    animate="visible"
-                >
-                    {line1.split('').map((char, index) => {
-                        return (
-                            <motion.span
-                                key={char + '-' + index}
-                                variants={letter}
-                            >
-                                {char}
-                            </motion.span>
-                        )
-                    })}
-                </motion.h1>
-
-                <motion.h2
-                    initial="hidden"
-                    variants={h2Variant}
-                    animate="visible"
-                >
-                    24/7 уже в первую неделю
-                </motion.h2>
-
+                {width <= 992? mobile : desktop}
                 <div className='landing-welcome__activate'>
                     <p className="text-white">
                         Благодаря инструментам <strong>ipostX</strong> ты настроишь дополнительный
@@ -107,10 +119,12 @@ const Welcome = () => {
 
                 </div>
             </div>
-            <Suspense fallback={null}>
-
-            </Suspense>
-            <img className="landing-welcome__hero" src={hero} alt="IpostX"/>
+            <Image
+                className="landing-welcome__hero"
+                src={heroPng}
+                webp={heroWebp}
+                alt="IpostX"
+            />
             <Gradient style={gradientStyle}/>
             <Grid style={style2}/>
         </section>

@@ -1,7 +1,10 @@
+import React, {Suspense} from 'react';
 import Block from "./Block";
 import logo from "../../Assets/image/logo.png";
-import ReactFacebookLogin from "../../Utils/FB/FBConnect";
 import {useLocation} from "react-router-dom";
+import Loader from "./Loader";
+
+const ReactFacebookLogin = React.lazy(() => import("../../Utils/FB/FBConnect"))
 
 const Logo = () => {
     const location = useLocation()
@@ -20,9 +23,9 @@ const Logo = () => {
     } else {
         return (
             <div className="logo">
-                {
-                    ReactFacebookLogin()
-                }
+                <Suspense fallback={<Loader width={20} height={20}/>}>
+                    <ReactFacebookLogin/>
+                </Suspense>
             </div>
         )
     }
