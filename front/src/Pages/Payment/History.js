@@ -5,7 +5,7 @@ import outputLogo from "../../Assets/image/payment/ic_output.svg"
 import {useEffect, useState} from "react";
 import HistoryItem from "./HistoryItem";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDownload} from "@fortawesome/free-solid-svg-icons";
+import {faDownload} from "@fortawesome/free-solid-svg-icons/faDownload";
 
 const History = ({history}) => {
     const [mainChecked, setMainChecked] = useState(false)

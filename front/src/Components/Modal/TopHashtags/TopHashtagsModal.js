@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons/faTimesCircle";
 import {faHashtag} from "@fortawesome/free-solid-svg-icons/faHashtag";
 import TopHashtags from "./TopHashtags";
 import "../Modal.scss"

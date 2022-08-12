@@ -1,6 +1,5 @@
 const TopHashtagButton = ({text, index, activeIndex, setIndex}) => {
 
-
     return (
         <div
             className={`

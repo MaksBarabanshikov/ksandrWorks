@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChartPie, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {faChartPie} from "@fortawesome/free-solid-svg-icons/faChartPie";
+import {faTimesCircle} from "@fortawesome/free-solid-svg-icons/faTimesCircle";
 import "./Modal.scss"
 import {useSelector} from "react-redux";
 

@@ -5,7 +5,6 @@ import trophy from "../../../../Assets/image/landing/trophy-dynamic-gradient.png
 import trophyWebp from "../../../../Assets/image/landing/trophy-dynamic-gradient.webp";
 import {useDispatch} from "react-redux";
 import {setActiveBlock} from "../../../../Utils/redux/modules/landingSlice";
-import {motion} from "framer-motion"
 
 const MLandingHelpBlock = ({title, body, active, index}) => {
     const dispatch = useDispatch()
@@ -33,12 +32,8 @@ const MLandingHelpBlock = ({title, body, active, index}) => {
         </>
 
     if (active) {
-        return <motion.div
+        return <div
             className={`landing-help__block ${active ? 'active' : ''}`}
-            layout
-            variants={blockVariant}
-            initial = {false}
-            animate={'Selected'}
             style={{rotate: 0}}
         >
             <Image
@@ -53,23 +48,15 @@ const MLandingHelpBlock = ({title, body, active, index}) => {
                 src={trophy}
                 webp={trophyWebp}
                 alt="trophy"/>
-        </motion.div>
+        </div>
     }
     return (
-        <motion.div
-            layout
-            variants={blockVariant}
-            initial = {false}
-            animate={index === 0 || index === 1 ? 'notSelectedRight' : 'notSelectedLeft'}
+        <div
             className='landing-help__block'
-            style={index === 0 || index === 1 ? {rotate: -12} : {rotate: 12}}
-            whileHover={{
-                scale: 1.1,
-            }}
             onClick={() => dispatch(setActiveBlock(index))}
         >
             {content}
-        </motion.div>
+        </div>
     )
 }
 

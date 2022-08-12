@@ -2,8 +2,8 @@ import React, {useEffect, useRef, useState, Suspense} from "react";
 import Header from "../../Components/header/Header";
 import RemainingPosts from "./RemainingPosts";
 import {useForm} from "react-hook-form";
-import {faStar} from "@fortawesome/free-regular-svg-icons"
-import {faHashtag} from "@fortawesome/free-solid-svg-icons";
+import {faStar} from "@fortawesome/free-regular-svg-icons/faStar"
+import {faHashtag} from "@fortawesome/free-solid-svg-icons/faHashtag";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useDispatch, useSelector} from "react-redux";
 import {addFavorites, transformFavorites} from "../../Utils/redux/modules/favoritesSlice";

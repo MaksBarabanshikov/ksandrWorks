@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
-import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
-import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
+import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons/faCircleChevronRight";
+import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/faCheckCircle";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalFB, nextStep} from "../../Utils/redux/modules/modalSlice";
 

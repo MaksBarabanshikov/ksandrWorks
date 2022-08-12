@@ -3,16 +3,17 @@ import {pathName} from "./navigateData";
 import {faHome} from "@fortawesome/free-solid-svg-icons/faHome";
 import {faFileDownload} from "@fortawesome/free-solid-svg-icons/faFileDownload";
 import {faUserPlus} from "@fortawesome/free-solid-svg-icons/faUserPlus";
-import {faEnvelope, faHashtag} from "@fortawesome/free-solid-svg-icons";
-import {faComment} from "@fortawesome/free-solid-svg-icons";
-import {faCheckCircle} from "@fortawesome/free-regular-svg-icons";
-import {faStopwatch} from "@fortawesome/free-solid-svg-icons";
-import {faCog} from "@fortawesome/free-solid-svg-icons";
-import {faWallet} from "@fortawesome/free-solid-svg-icons";
-import {faBookOpen} from "@fortawesome/free-solid-svg-icons";
-import {faQuestionCircle} from "@fortawesome/free-regular-svg-icons";
-import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
-import {faKey} from "@fortawesome/free-solid-svg-icons";
+import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";
+import {faHashtag} from "@fortawesome/free-solid-svg-icons/faHashtag";
+import {faComment} from "@fortawesome/free-solid-svg-icons/faComment";
+import {faCheckCircle} from "@fortawesome/free-regular-svg-icons/faCheckCircle";
+import {faStopwatch} from "@fortawesome/free-solid-svg-icons/faStopwatch";
+import {faCog} from "@fortawesome/free-solid-svg-icons/faCog";
+import {faWallet} from "@fortawesome/free-solid-svg-icons/faWallet";
+import {faBookOpen} from "@fortawesome/free-solid-svg-icons/faBookOpen";
+import {faQuestionCircle} from "@fortawesome/free-regular-svg-icons/faQuestionCircle";
+import {faDoorOpen} from "@fortawesome/free-solid-svg-icons/faDoorOpen";
+import {faKey} from "@fortawesome/free-solid-svg-icons/faKey";
 
 
 export const sidebarTop = [

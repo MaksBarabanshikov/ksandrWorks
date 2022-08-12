@@ -5,7 +5,7 @@
 /server
 /.pnp
 .pnp.js
-.env
+.env.development
 ../.cert
 
 # testing

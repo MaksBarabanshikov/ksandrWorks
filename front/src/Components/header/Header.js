@@ -6,7 +6,7 @@ import {notifyData} from "../../Assets/StorageData/notifyData"
 import userImage from "../../Assets/image/header/User_light.svg"
 import BellImage from "../../Assets/image/header/Bell_light.svg"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faWallet} from "@fortawesome/free-solid-svg-icons"
+import {faWallet} from "@fortawesome/free-solid-svg-icons/faWallet"
 import "./Header.scss"
 import {Link} from "react-router-dom";
 import Logo from "../common/Logo";

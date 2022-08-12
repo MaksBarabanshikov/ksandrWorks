@@ -1,7 +1,8 @@
 import HashtagsComment from "./HashtagsComment";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faToggleOn, faToggleOff, faCircleXmark} from "@fortawesome/free-solid-svg-icons"
-import {faSave} from "@fortawesome/free-regular-svg-icons"
+import {faToggleOn} from "@fortawesome/free-solid-svg-icons/faToggleOn"
+import {faToggleOff} from "@fortawesome/free-solid-svg-icons/faToggleOff"
+import {faCircleXmark} from "@fortawesome/free-solid-svg-icons/faCircleXmark"
 import "./HashtagsSide.scss"
 import {useDispatch, useSelector} from "react-redux";
 import {removeAllSelect, selectAll} from "../../Utils/redux/modules/favoritesSlice";

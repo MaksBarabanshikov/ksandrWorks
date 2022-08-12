@@ -3,7 +3,7 @@ import "./Faq.scss"
 import {FaqData} from "../../Assets/StorageData/FaqData";
 import Header from "../../Components/header/Header";
 import React from "react";
-import {faQuestionCircle} from "@fortawesome/free-regular-svg-icons";
+import {faQuestionCircle} from "@fortawesome/free-regular-svg-icons/faQuestionCircle";
 
 
 const pagesNum = [

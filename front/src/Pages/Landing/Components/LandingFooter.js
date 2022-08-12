@@ -1,9 +1,9 @@
 import logo from '../../../Assets/image/landing/ipostX.svg'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInstagram} from "@fortawesome/free-brands-svg-icons"
-import {faTelegram} from "@fortawesome/free-brands-svg-icons"
-import {faTwitter} from "@fortawesome/free-brands-svg-icons"
-import {faVk} from "@fortawesome/free-brands-svg-icons"
+import {faInstagram} from "@fortawesome/free-brands-svg-icons/faInstagram"
+import {faTelegram} from "@fortawesome/free-brands-svg-icons/faTelegram"
+import {faTwitter} from "@fortawesome/free-brands-svg-icons/faTwitter"
+import {faVk} from "@fortawesome/free-brands-svg-icons/faVk"
 
 const LandingFooter = () => {
     return (

@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCircleXmark} from "@fortawesome/free-solid-svg-icons"
-import {faCheckCircle, faSave} from "@fortawesome/free-regular-svg-icons"
+import {faCircleXmark} from "@fortawesome/free-solid-svg-icons/faCircleXmark"
+import {faCheckCircle} from "@fortawesome/free-regular-svg-icons/faCheckCircle"
 import {useDispatch} from "react-redux";
 import {removeHandler, saveHandler, selectHandler} from "../../Utils/redux/modules/favoritesSlice";
 
@@ -11,15 +11,6 @@ const HashtagsComment = ({index, id, selected, text1, text2}) => {
     const textareaRef = useRef()
     const dispatch = useDispatch()
     const textTwo = text2.join(" ")
-
-    const saveFavorite = () => {
-        const obj = {
-            id,
-            text1: inputRef.current.value,
-            text2: textareaRef.current.value
-        }
-        return dispatch(saveHandler(obj))
-    }
 
     return (
         <div className={`hashtag__comment ${selected ? 'selected' : ''}`}>
@@ -38,11 +29,6 @@ const HashtagsComment = ({index, id, selected, text1, text2}) => {
                     >
                         <FontAwesomeIcon icon={faCheckCircle}/>
                     </button>
-                    {/*<button className="hashtag__comment-control_btn hashtag__comment-control_save"*/}
-                    {/*        onClick={() => saveFavorite()}*/}
-                    {/*>*/}
-                    {/*    <FontAwesomeIcon icon={faSave}/>*/}
-                    {/*</button>*/}
                 </div>
             </div>
             <div>

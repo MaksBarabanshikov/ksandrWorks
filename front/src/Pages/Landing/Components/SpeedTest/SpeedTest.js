@@ -6,7 +6,6 @@ import rotateFaceWebp from "../../../../Assets/image/landing/Upside-Down-Face.we
 import smileFace from "../../../../Assets/image/landing/Beaming-Face-Smiling.png";
 import smileFaceWebp from "../../../../Assets/image/landing/Beaming-Face-Smiling.webp";
 import Timer from "./Timer";
-import MotionSectionX from "../Motion/MotionSectionX";
 import Image from "react-image-webp";
 
 const SpeedTest = () => {

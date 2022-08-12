@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import './Landing.scss'
 import HeaderLanding from "./Components/Header";
 import Welcome from "./Components/Welcome";
@@ -8,13 +8,11 @@ import Video from "./Components/Video/Video";
 import SpeedTest from "./Components/SpeedTest/SpeedTest";
 import Blogs from "./Components/Blogs/Blogs";
 import LandingFooter from "./Components/LandingFooter";
-import Loader from "../../Components/common/Loader";
-
-const LandingHashtags = React.lazy(() => import('./Components/Hashtags/LandingHashtags'))
-const Helper = React.lazy(() => import('./Components/Phone/Phone'))
-const LandingHelp = React.lazy(() => import('./Components/Help/LandingHelp'))
-const Tariffs = React.lazy(() => import('./Components/Tariffs/Tariffs'))
-const Reviews = React.lazy(() => import('./Components/Reviews/Reviews'))
+import LandingHashtags from "./Components/Hashtags/LandingHashtags";
+import Helper from "./Components/Phone/Phone";
+import LandingHelp from './Components/Help/LandingHelp';
+import Tariffs from './Components/Tariffs/Tariffs';
+import Reviews from './Components/Reviews/Reviews';
 
 function Landing() {
     useEffect(() => {
@@ -29,16 +27,14 @@ function Landing() {
             <Welcome/>
             <WhyIPostX/>
             <LandingHashtags/>
-            <Suspense fallback={<Loader width={50} height={50}/>}>
-                <Helper/>
-                <LandingHelp/>
-                <Form/>
-                <Video/>
-                <Tariffs/>
-                <Reviews/>
-                <SpeedTest/>
-                <Blogs/>
-            </Suspense>
+            <Helper/>
+            <LandingHelp/>
+            <Form/>
+            <Video/>
+            <Tariffs/>
+            <Reviews/>
+            <SpeedTest/>
+            <Blogs/>
             <LandingFooter/>
         </>
     );
