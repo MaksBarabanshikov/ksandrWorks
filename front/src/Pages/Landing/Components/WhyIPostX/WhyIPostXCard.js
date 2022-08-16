@@ -25,11 +25,8 @@ const WhyIPostX = ({card}) =>
 
         {card.title === '04' &&
             <>
-                <LandingButton width={'220px'} height={'41px'} children={<span>{card.buttonText[0]}</span>}/>
-                <p>{card.text[0]}</p>
-                <strong>{card.textStrong}</strong>
-                <LandingButton width={'220px'} height={'41px'} children={<span>{card.buttonText[1]}</span>}/>
-                <p>{card.text[1]}</p>
+                <LandingButton width={'220px'} height={'41px'} children={<span>{card.buttonText}</span>}/>
+                <p>{card.text}</p>
             </>
         }
 

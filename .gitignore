@@ -1,5 +1,5 @@
 Filetst.txt
 access.txt
-front/.env
+front/.env.development
 logs/
 .cert/

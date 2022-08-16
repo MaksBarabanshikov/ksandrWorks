@@ -1,5 +1,4 @@
 import React from 'react';
-import Gradient from "../Gradient"
 import {useSelector} from "react-redux"
 import {AnimatePresence} from "framer-motion"
 import LandingHelpBlock from "./LandingHelpBlock"
@@ -10,15 +9,6 @@ const MLandingHelpBlock = React.lazy(() => import('./MLandingHelpBlock'))
 const LandingHelp = () => {
     const helpBlocks = useSelector(state => state.landing.helpBlocks)
     const { width } = useWindowDimensions()
-    const gradientStyle = {
-        position: 'absolute',
-        width: '532.09px',
-        height: '484px',
-        bottom: -60,
-        left: '50%',
-        zIndex: -1,
-        transform: 'translateX(-45%)'
-    }
 
     if (width <= 992) {
         return (
@@ -30,7 +20,6 @@ const LandingHelp = () => {
                             body={helpBlock.body}
                         />
                     )}
-                <Gradient style={gradientStyle}/>
             </section>
         )
     }
@@ -49,7 +38,6 @@ const LandingHelp = () => {
                     />
                 )}
             </AnimatePresence>
-            <Gradient style={gradientStyle}/>
         </section>
     )
 }

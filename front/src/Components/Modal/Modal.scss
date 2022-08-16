@@ -35,9 +35,9 @@
     overflow: hidden;
     max-height: 100vh;
 
-    .step-1,.step-2,.step-3,.step-4 {
-      height: 80vh;
-    }
+    //.step-1,.step-2,.step-3,.step-4 {
+    //  height: 80vh;
+    //}
 
     .step-2 {
       .modal__body_main-tab {
@@ -63,7 +63,7 @@
     }
 
     &_main {
-      height: 80vh;
+      //height: 80vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -81,38 +81,6 @@
           grid-template-columns: 1fr 1fr;
           max-height: 400px;
           overflow-y: scroll;
-        }
-      }
-
-      &-btn {
-        margin-top: 25px;
-        justify-content: flex-start;
-        margin-bottom: 20px;
-
-        @media screen and (max-width: 992px) {
-          margin: 5px 0;
-          font-size: 12px;
-        }
-
-        button {
-          width: 100%;
-
-          &:first-child {
-            max-width: 180px;
-            margin: 0 12px 0 0;
-
-            @media screen and (max-width: 992px) {
-              max-height: 30px;
-            }
-          }
-
-          &:last-child {
-            max-width: 100px;
-            margin: 0;
-            @media screen and (max-width: 992px) {
-              max-height: 30px;
-            }
-          }
         }
       }
 
@@ -170,6 +138,38 @@
 
         .modal__body_check {
           font-size: 24px !important;
+        }
+      }
+    }
+
+    &_btn {
+      margin-top: 25px;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+
+      @media screen and (max-width: 992px) {
+        margin: 5px 0;
+        font-size: 12px;
+      }
+
+      button {
+        width: 100%;
+
+        &:first-child {
+          max-width: 180px;
+          margin: 0 12px 0 0;
+
+          @media screen and (max-width: 992px) {
+            max-height: 30px;
+          }
+        }
+
+        &:last-child {
+          max-width: 100px;
+          margin: 0;
+          @media screen and (max-width: 992px) {
+            max-height: 30px;
+          }
         }
       }
     }

@@ -4,7 +4,7 @@ const facebookSlice = createSlice({
     name: 'facebookSlice',
     initialState: {
         user: {
-            isLoggedIn: false,
+            isLoggedIn: true,  //todo убрать на продакшене
             userID: "",
             name: "",
             email: "",

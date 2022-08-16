@@ -1,7 +1,8 @@
 import {LazyMotion, domAnimation, m} from "framer-motion"
 import x from '../../../../Assets/image/landing/X.svg'
+import {Link} from "react-router-dom";
 
-const HelperDialogMessage = ({text, buttons, setStep}) => {
+const HelperDialogMessage = ({text, buttons, step ,setStep}) => {
     const sectionVariant = {
         hidden: {
             y: 100,
@@ -12,6 +13,15 @@ const HelperDialogMessage = ({text, buttons, setStep}) => {
             opacity: 1
         }
     }
+
+    const endButton = (b) => (
+        <Link
+            to='/register'
+            className=" text-white text-sm lg:text-base text-center block w-100 lg:py-3.5 md:py-2 bg-landing-blue bg-opacity-60 border-2 border-white/10 rounded-xl font-bold hover:bg-opacity-100"
+        >
+            {b}
+        </Link>
+    )
 
     return (
         <LazyMotion features={domAnimation}>
@@ -26,10 +36,12 @@ const HelperDialogMessage = ({text, buttons, setStep}) => {
                     <img className="mt-1" width={30} height={30} src={x} alt="ipostX"/>
                 </div>
                 <div className="px-3 lg:px-0">
-                    <p className="text-left text-sm lg:text-base bg-landing-blue bg-opacity-60 border-2 border-white/10 mb-3 p-3 rounded-12 break-all">{text}</p>
+                    <p className="text-left text-sm lg:text-base bg-landing-blue bg-opacity-60 border-2 border-white/10 mb-3 p-3 rounded-12">{text}</p>
                     <div className="grid grid-cols-2 lg:gap-3.5 gap-2">
                         {
-                            buttons.map(b => (
+                            step === 2
+                                ? endButton(buttons[0])
+                                : buttons.map(b => (
                                     <button
                                         key={b}
                                         className="text-sm lg:text-base text-center block w-100 lg:py-3.5 md:py-2 bg-landing-blue bg-opacity-60 border-2 border-white/10 rounded-xl font-bold hover:bg-opacity-100"

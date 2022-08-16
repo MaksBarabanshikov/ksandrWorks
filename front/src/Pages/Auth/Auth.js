@@ -77,7 +77,7 @@ const AuthRight = () => {
                 </button>
             </form>
             <button className='auth-btn auth-btn_2auth '>
-                <img width='24' src={google} alt="google"/>
+                <img width='24px' height='24px' src={google} alt="google"/>
                 <span>Войти с помощью Google</span>
             </button>
             <Suspense fallback={<Loader width={20} height={20}/>}>

@@ -32,12 +32,6 @@ const HeaderLanding = () => (
                     </li>
                 </ul>
             </nav>
-            <div className="landing-header__search">
-                <input placeholder="Поиск" type="text"/>
-                <button className='landing-header__search_btn'>
-                    <FontAwesomeIcon icon={faSearch}/>
-                </button>
-            </div>
             <LandingButton to="/hashtags" width={'230px'} height={'45px'} children={<span>Личный кабинет</span>}/>
         </div>
     </header>

@@ -3,8 +3,37 @@ import testImg from "../../../../Assets/image/landing/test-image-slide.png"
 import ReviewsItem from "./ReviewsItem";
 import LandingNextArrow from "../LandingNextArrow";
 import LandingPrevArrow from "../LandingPrevArrow";
+import Slider from  "react-slick"
 
-const Slider = React.lazy(() => import('react-slick'))
+const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    swipe: true,
+    nextArrow: <LandingNextArrow/>,
+    prevArrow: <LandingPrevArrow/>,
+    responsive: [
+        {
+            breakpoint: 1200,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                infinite: true,
+            }
+        },
+        {
+            breakpoint: 992,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+            }
+        }
+    ]
+}
+
+const SliderMemo = React.memo(({ children }) => <Slider {...settings}>{ children }</Slider>)
 
 const ReviewsList = () => {
     const list = [
@@ -59,44 +88,15 @@ const ReviewsList = () => {
         },
     ]
 
-    const settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        swipe: true,
-        nextArrow: <LandingNextArrow/>,
-        prevArrow: <LandingPrevArrow/>,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    infinite: true,
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                }
-            }
-        ]
-    }
     return (
         <Suspense fallback={null}>
-            <Slider {...settings}>
+            <SliderMemo>
                 {
                     list.map(slide => <ReviewsItem key={slide.id} item={slide}/>)
                 }
-            </Slider>
+            </SliderMemo>
         </Suspense>
-
     )
-
 }
 
 export default ReviewsList

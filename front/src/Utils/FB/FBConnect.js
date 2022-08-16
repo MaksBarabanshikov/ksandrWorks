@@ -10,7 +10,7 @@ import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
 
 
 const ReactFacebookLogin = () => {
-    const user = useSelector(state => state.facebook.user)
+    const { userID,isLoggedIn, picture, name, email } = useSelector(state => state.facebook.user)
     const [exitFb] = useExitFbMutation()
     const dispatch = useDispatch()
     const { width } = useWindowDimensions()
@@ -19,23 +19,23 @@ const ReactFacebookLogin = () => {
         FacebookLoginClient.logout(() => {
             dispatch(logoutFb())
             exitFb({
-                userID: user.userID
+                userID
             })
         })
     }
 
     let fbContent
 
-    if (user.isLoggedIn) {
+    if (isLoggedIn) {
         fbContent = (
             <div className="facebook__account">
-                <img className="m-auto" src={user.picture} alt=""/>
+                <img className="m-auto" src={picture} alt=""/>
                 <Block stylees="logo__text">
                     <h3>
-                        {user.name}
+                        {name}
                     </h3>
                     <h6 className="logo__title">
-                        {user.email}
+                        {email}
                     </h6>
                 </Block>
                 <button className="blue-btn" onClick={() => FBLogout()}>

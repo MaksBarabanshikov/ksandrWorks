@@ -6,7 +6,7 @@ const modalSlice = createSlice({
         modalVisible: false,
         isOpen: false,
         isOpenProcess: false,
-        step: 1,
+        step: 3,
         id: null
     },
     reducers: {

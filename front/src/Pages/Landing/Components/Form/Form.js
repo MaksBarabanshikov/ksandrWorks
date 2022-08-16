@@ -18,8 +18,7 @@ const Form = () => {
                     Лучше <strong> 1 раз попробовать</strong>, чем долго читать.
                 </h1>
                 <form className="flex align-center">
-                    <input type="text" placeholder="Ваше имя"/>
-                    <LandingButton width={'203px'} height={'70px'} children={<span>Регистрация</span>}/>
+                    <LandingButton to='/register' width={'570px'} height={'70px'} children={<span>Регистрация</span>}/>
                     <div className="landing-form__text">
                         Регистрируйся и забирай свою бесплатную версию!
                         <Grid style={styleGrid}/>

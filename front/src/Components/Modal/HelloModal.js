@@ -60,14 +60,14 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="modal__body_main-btn flex">
-                            <button
-                                className="btn blue-btn"
-                                onClick={() => dispatch(nextStep())}
-                            >
-                                Далее
-                            </button>
-                        </div>
+                    </div>
+                    <div className="modal__body_btn flex">
+                        <button
+                            className="btn blue-btn"
+                            onClick={() => dispatch(nextStep())}
+                        >
+                            Далее
+                        </button>
                     </div>
                 </div>}
                 {step === 2 && <div className="step-2">
@@ -134,15 +134,16 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="modal__body_main-btn flex">
-                            <button
-                                className="btn blue-btn"
-                                onClick={() => dispatch(closeModalFB())}
-                            >
-                                Начать
-                            </button>
-                        </div>
                     </div>
+                    <div className="modal__body_btn flex">
+                        <button
+                            className="btn blue-btn"
+                            onClick={() => dispatch(closeModalFB())}
+                        >
+                            Начать
+                        </button>
+                    </div>
+
                 </div>}
             </div>
         </div>

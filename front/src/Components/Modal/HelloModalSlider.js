@@ -61,7 +61,7 @@ const HelloModalSlider = () => {
                     ))}
                 </Slider>}
             </div>
-            <div className="modal__body_main-btn flex">
+            <div className="modal__body_btn flex">
                 <button
                     className="btn blue-btn"
                     onClick={() => handlePostPage()}

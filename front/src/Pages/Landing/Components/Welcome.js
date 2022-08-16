@@ -43,7 +43,7 @@ const Welcome = () => {
 
     }
 
-    const title = 'Получай горячих клиентов в instagram'
+    const title = 'Получай горячих клиентов из instagram'
 
     const btnChildren = <>
         <img width='102' src={fire} alt=""/>
@@ -60,15 +60,6 @@ const Welcome = () => {
         top: 0,
         right: 0,
         zIndex: -10
-    }
-
-    const gradientStyle = {
-        position: 'absolute',
-        width: '532.09px',
-        height: '484px',
-        top: 270,
-        right: 0,
-        zIndex: 10000
     }
 
     const desktop = <LazyMotion features={domAnimation}>
@@ -125,7 +116,6 @@ const Welcome = () => {
                 webp={heroWebp}
                 alt="IpostX"
             />
-            <Gradient style={gradientStyle}/>
             <Grid style={style2}/>
         </section>
 
