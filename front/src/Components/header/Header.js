@@ -66,11 +66,11 @@ const Header = (props) => {
                     <Suspense fallback={<Loader width={30} height={30}/>}>
                         <StatisticModal/>
                     </Suspense>}
-                <button className="header-btn-notify" onClick={() => handleSetVisible("notifyVisible")}>
+                <button className="header-button header-btn-notify" onClick={() => handleSetVisible("notifyVisible")}>
                     <img width="24" className="m-auto" src={BellImage} alt=""/>
                     <span className="header-count">{notify.length}</span>
                 </button>
-                <button className="header-btn-user" onClick={() => handleSetVisible("userVisible")}>
+                <button className="header-button header-btn-user" onClick={() => handleSetVisible("userVisible")}>
                     <img width='24' className="m-auto" src={userImage} alt=""/>
                 </button>
                 <Block stylees="header-date flex align-center">

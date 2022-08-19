@@ -34,7 +34,6 @@ const Hashtags = () => {
     const [isPostId, setIsPostId] = useState(true);
     const [sendCurrentPostId, {isLoading: IsLoadingPostId, error: errorPostId} ] = useSendCurrentPostIdMutation()
 
-
     const myFavorites = useSelector(state => state.favorites.favorites)
     const fbPage = useSelector(state => state.facebook.user.fbPage)
     const postId = useSelector(state => state.instagramPosts.currentPostId)

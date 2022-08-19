@@ -33,13 +33,6 @@ const HelperDialog = () => {
 
 
     return (
-        <>
-            {/*<div className="flex align-middle mb-3">*/}
-            {/*    <span className="block w-[10px] h-[10px] bg-landing-blue rounded-full mr-1"></span>*/}
-            {/*    <span className="block w-[10px] h-[10px] bg-landing-blue rounded-full mr-1"></span>*/}
-            {/*    <span className="block w-[10px] h-[10px] bg-landing-blue rounded-full"></span>*/}
-            {/*</div>*/}
-
             <div className="phone-helper__main max-w-[90%] m-auto px-3.5">
                 {data?.filter(f => f.step === step).map(m => (
                     <HelperDialogMessage
@@ -51,7 +44,6 @@ const HelperDialog = () => {
                     />
                 ))}
             </div>
-        </>
     )
 }
 

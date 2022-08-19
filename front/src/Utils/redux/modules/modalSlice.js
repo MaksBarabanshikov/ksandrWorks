@@ -4,9 +4,9 @@ const modalSlice = createSlice({
     name: 'modalFbSlice',
     initialState: {
         modalVisible: false,
-        isOpen: false,
+        isOpen: true,
         isOpenProcess: false,
-        step: 3,
+        step: 1,
         id: null
     },
     reducers: {

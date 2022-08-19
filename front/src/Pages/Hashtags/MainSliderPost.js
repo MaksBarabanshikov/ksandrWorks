@@ -45,7 +45,7 @@ const MainSliderPost = ({isSendId}) => {
     }
 
     if (!fbPage) {
-        return <h4 className="error-message mt-20 mb-20">Выполните вход в fb</h4>
+        return <h4 className="error-message mt-20 mb-20">Выполните вход в facebook</h4>
     }
 
     if (error) {

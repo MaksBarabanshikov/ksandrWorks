@@ -11,7 +11,7 @@
 
   &-container {
     display: grid;
-    gap: 40px;
+    gap: 20px;
     position: relative;
   }
 
@@ -30,7 +30,7 @@
     &-title {
       display: flex;
       justify-content: space-between;
-      padding: 38px 0;
+      padding: 20px 0;
 
       @media (max-width: 992px) {
         padding: 20px 0;

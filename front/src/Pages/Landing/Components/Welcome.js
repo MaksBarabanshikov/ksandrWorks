@@ -1,30 +1,27 @@
-import React, {Suspense } from 'react'
+import React, {Suspense} from 'react'
 import LandingButton from "./LandingButton"
-import Image from "react-image-webp";
 import {LazyMotion, domAnimation, m} from "framer-motion"
 import heroPng from '../../../Assets/image/landing/hero.png'
-import heroWebp from '../../../Assets/image/landing/hero.webp'
 import fire from '../../../Assets/image/landing/fire.svg'
 import useWindowDimensions from "../../../Utils/hooks/useWindowDimensions";
 
 const Grid = React.lazy(() => import('./Grid'))
-const Gradient = React.lazy(() => import('./Gradient'))
 
 const Welcome = () => {
     const {width} = useWindowDimensions()
     const sentence = {
-        hidden: { opacity: 1 },
+        hidden: {opacity: 1},
         visible: {
             opacity: 1,
             transition: {
-                delay:0.5,
+                delay: 0.5,
                 staggerChildren: 0.08
             }
         }
     }
 
     const letter = {
-        hidden: { opacity: 0, y: 50 },
+        hidden: {opacity: 0, y: 50},
         visible: {
             opacity: 1,
             y: 0,
@@ -32,12 +29,12 @@ const Welcome = () => {
     }
 
     const h2Variant = {
-        hidden: { opacity: 0, y: -50 },
+        hidden: {opacity: 0, y: -50},
         visible: {
             opacity: 1,
             y: 0,
             transition: {
-                delay:2.7,
+                delay: 2.7,
             }
         }
 
@@ -97,7 +94,7 @@ const Welcome = () => {
     return (
         <section className='landing-welcome flex'>
             <div className="landing-welcome__content">
-                {width <= 992? mobile : desktop}
+                {width <= 992 ? mobile : desktop}
                 <div className='landing-welcome__activate'>
                     <p className="text-white">
                         Благодаря инструментам <strong>ipostX</strong> ты настроишь дополнительный
@@ -110,11 +107,9 @@ const Welcome = () => {
 
                 </div>
             </div>
-            <Image
-                className="landing-welcome__hero"
-                src={heroPng}
-                webp={heroWebp}
-                alt="IpostX"
+            <img className="landing-welcome__hero"
+                 src={heroPng}
+                 alt="IpostX"
             />
             <Grid style={style2}/>
         </section>

@@ -111,7 +111,7 @@ const FacebookLogo = ({hidden}) => {
                 dispatch(openModalFB())
             }}
             render={({onClick}) => (
-                <img onClick={onClick} style={style()} className="logo-image" src={FBLogo} alt="logo"/>
+                <img onClick={onClick} style={style()} className="logo-image m-auto" src={FBLogo} alt="logo"/>
             )}
         />
     )

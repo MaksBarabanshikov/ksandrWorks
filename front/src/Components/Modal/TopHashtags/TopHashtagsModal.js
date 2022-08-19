@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faHashtag} from "@fortawesome/free-solid-svg-icons/faHashtag";
 import TopHashtags from "./TopHashtags";
 import "../Modal.scss"
 import SliderPost from "../../../Pages/Hashtags/SliderPost";
 import {useSelector} from "react-redux";
+import CloseModalBtn from "../CloseModalBtn";
 
 const TopHashtagsModal = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -23,7 +24,7 @@ const TopHashtagsModal = () => {
             <button
                 className="header-statistics btn blue-btn"
                 onClick={() => handleOpen()}
-                disabled={!!!fbPage}
+                // disabled={!!!fbPage}
             >
                 <FontAwesomeIcon icon={faHashtag}/>
                 <p>Топ Хештегов</p>
@@ -31,20 +32,14 @@ const TopHashtagsModal = () => {
 
             <div className={`modal ${isOpen ? "" : "hidden"}`}>
                 <div className={`modal__body modal-hashtags ${isOpen ? "open" : ''}`}>
-                    <div className="modal__body_top flex justify-content-between align-center border-bottom">
+                    <div className="modal__body_top border-bottom">
                         <div>
-                            <h1 style={{marginBottom: 11}} className="title">
+                            <h1 style={{marginBottom: 11}} className="title flex justify-between align-middle">
                                 Ваш пост и хештег
+                                <CloseModalBtn handleClose={handleClose}/>
                             </h1>
                             <span>Посмотрите статистику к вашему хештегу</span>
                         </div>
-
-                        <button
-                            className="modal__body_close"
-                            onClick={() => handleClose()}
-                        >
-                            <FontAwesomeIcon icon={faTimesCircle}/>
-                        </button>
                     </div>
                     <div className="modal__body_main">
                         <div className="modal__body_main-flex flex">

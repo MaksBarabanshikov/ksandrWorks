@@ -19,7 +19,6 @@ $black-opacity: #09090980;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  user-select: none;
 }
 
 html {
@@ -172,7 +171,6 @@ input[type="submit"] {
   border-radius: 10px;
   border: 1px solid transparent;
   width: 100%;
-  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -545,7 +543,7 @@ textarea
 
 .error-message {
   color: $red;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 16px;
 }
 

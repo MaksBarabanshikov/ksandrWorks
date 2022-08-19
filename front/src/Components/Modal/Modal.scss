@@ -45,18 +45,6 @@
       }
     }
 
-    &_close {
-      max-width: 36px;
-      font-size: 36px;
-      color: #090909;
-      border: 1px solid transparent;
-
-      &:hover {
-        color: #0a66b7;
-        border-color: transparent !important;
-      }
-    }
-
     &-process {
       max-width: 700px;
       height: 310px;
@@ -94,7 +82,6 @@
         display: grid;
         grid-template-rows: 1fr 1fr 1fr;
         grid-template-columns: 1fr;
-        height: 100%;
 
         & > div {
           border: 1px solid #0a66b7;
@@ -250,6 +237,10 @@
     min-width: auto;
     width: 99%;
     height: 99%;
+  }
+
+  & > div {
+    height: 100%;
   }
 
   .modal__body_top {

@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChartPie, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import "./Modal.scss"
 import {useSelector} from "react-redux";
+import CloseModalBtn from "./CloseModalBtn";
 
 const Modal = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -19,7 +20,7 @@ const Modal = () => {
             <button
                 className="header-statistics btn blue-btn"
                 onClick={() => handleOpen()}
-                disabled={!!!fbPage}
+                // disabled={!!!fbPage}
             >
                 <FontAwesomeIcon icon={faChartPie}/>
                 <p>Статистика</p>
@@ -31,12 +32,7 @@ const Modal = () => {
                         <h1 className="title">
                             Статистика блоков по статусам
                         </h1>
-                        <button
-                            className="modal__body_close"
-                            onClick={() => handleClose()}
-                        >
-                            <FontAwesomeIcon icon={faTimesCircle}/>
-                        </button>
+                        <CloseModalBtn handleClose={handleClose}/>
                     </div>
                     <div className="modal__body_main">
                         <div className="modal__body_main-cont border-bottom">
@@ -101,10 +97,10 @@ const Modal = () => {
                                 <span>Сохраненных</span>
                             </div>
                         </div>
-                        <div className="modal__body_main-btn flex">
-                            <button className="btn blue-btn">Обновить статусы</button>
+                        <div className="modal__body_main-btn flex pt-2">
+                            <button className="btn blue-btn mr-4">Обновить статусы</button>
                             <button
-                                className="btn blue-btn"
+                                className="btn blue-btn ml-4"
                                 onClick={() => handleClose()}
                             >
                                 Выйти

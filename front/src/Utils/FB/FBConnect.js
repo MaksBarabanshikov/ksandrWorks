@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons/faDoorOpen";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
+import {useLocation} from "react-router-dom";
 
 
 const ReactFacebookLogin = () => {
@@ -14,6 +15,7 @@ const ReactFacebookLogin = () => {
     const [exitFb] = useExitFbMutation()
     const dispatch = useDispatch()
     const { width } = useWindowDimensions()
+    const location = useLocation()
 
     const FBLogout = () => {
         FacebookLoginClient.logout(() => {
@@ -26,7 +28,7 @@ const ReactFacebookLogin = () => {
 
     let fbContent
 
-    if (isLoggedIn) {
+    if (isLoggedIn && location.pathname === "/hashtags") {
         fbContent = (
             <div className="facebook__account">
                 <img className="m-auto" src={picture} alt=""/>
