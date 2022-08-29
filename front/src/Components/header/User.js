@@ -1,8 +1,6 @@
 import * as yup from "yup";
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup";
-import Block from "../common/Block"
-import logo from "../../Assets/image/logo.png"
 import subtract from "../../Assets/image/header/user/Subtract.svg"
 import "./User.scss"
 import {parsePhoneNumber} from "libphonenumber-js";
@@ -115,14 +113,6 @@ const User = ({visible}) => {
                     </div>
                 </div>
                 <div className="user-column">
-                    <Block stylees="logo">
-                        <img className="logo-image" src={logo} alt="logo"/>
-                        <Block stylees="logo__text">
-                            <h6 className="logo__title">
-                                TeleSpace
-                            </h6>
-                        </Block>
-                    </Block>
                     <img src={subtract} alt=""/>
                     <input type="submit" className="blue-btn" value="Подтвердить"/>
                 </div>

@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import Block from "./Block";
-import logo from "../../Assets/image/logo.png";
+import logo from "../../Assets/image/landing/ipostX.svg";
 import {useLocation} from "react-router-dom";
 import Loader from "./Loader";
 
@@ -11,13 +11,8 @@ const Logo = () => {
 
     if (location.pathname !== '/hashtags') {
         return (
-            <Block stylees="logo">
-                <img className="logo-image m-auto" src={logo} alt="logo"/>
-                <Block stylees="logo__text">
-                    <h6 className="logo__title">
-                        TeleSpace
-                    </h6>
-                </Block>
+            <Block stylees="logo logo-another">
+                <img style={{ filter: "invert(100%)", height: "100px"}} className="logo-image m-auto" src={logo} alt="logo"/>
             </Block>
         )
     } else {

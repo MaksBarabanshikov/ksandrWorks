@@ -93,6 +93,9 @@
 
   .logo {
     min-height: 124px;
+    &.logo-another {
+      min-height: 70px;
+    }
     @media (max-width: 992px) {
       display: none;
       margin-bottom: 0;
