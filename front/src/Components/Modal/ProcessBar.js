@@ -18,7 +18,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRefresh} from "@fortawesome/free-solid-svg-icons/faRefresh";
 import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 
-const ProcessBarModal = () => {
+const ProcessBar = () => {
     const [status, setStatus] = useState(null)
     const [message, setMessage] = useState(null)
     const [isStop, setIsStop] = useState(true)
@@ -39,7 +39,7 @@ const ProcessBarModal = () => {
     const myFavorites = useSelector(state => state.favorites.favorites)
 
     const sendOnEmpty = async () => {
-        const data = myFavorites.map(f => ({
+        const data = myFavorites.filter((favorites) => favorites.selected).map(f => ({
                 text1: f.text1,
                 text2: f.text2.join(" "),
             }
@@ -89,18 +89,10 @@ const ProcessBarModal = () => {
     );
 
     useEffect(() => {
-        document.body.style.overflow = 'hidden'
-        return () => {
-            document.body.style.overflow = 'auto'
-        }
-    }, []);
-
-    useEffect(() => {
         if (isSuccessStop && dataStatus.method.done) {
             setIsStop(false)
         }
     }, [isSuccessStop, dataStatus]);
-
 
     useEffect(() => {
         startQuery()
@@ -141,10 +133,6 @@ const ProcessBarModal = () => {
 
     const dispatch = useDispatch()
 
-    // const handleComplete = (STATUS) => {
-    //     setStatus(STATUS)
-    // }
-
     const handleStopProcess = async () => {
         await stopProcess().unwrap()
         setIsStop(true)
@@ -179,25 +167,32 @@ const ProcessBarModal = () => {
         await refetch()
         return startQueryCallback()
     }
-    return (
-        <div className={`modal`}>
-            <div className={`modal__body modal__body-process ${isOpenProcess ? "open" : ''}`}>
-                <div className="modal__body_top flex justify-content-between align-center border-bottom">
-                    <h1 className="title">
-                        Статус
-                    </h1>
-                </div>
+
+    if (dataStatus) {
+        return (
+            <div className="modal__body_main">
+                {
+                    (!dataStatus.method?.isEnd && !dataStatus.method.done && !message)
+                    &&
+                    <Loader width={50} height={50}/>
+                }
+                {
+                    dataStatus.method?.isEnd && <h1 className="mt-20 mb-20">Готово</h1>
+                }
+                {
+                    dataStatus.method?.done && <h1 className="mt-20 mb-20">Пауза</h1>
+                }
 
                 {
                     message && <h3 className="error-message mt-20 mb-20">{message}</h3>
                 }
 
                 <p>
-                    Блок {dataStatus.method?.status} из {myFavorites.length}
+                    Блок {dataStatus?.method?.status} из {myFavorites.length}
                 </p>
 
                 <ProgressBar
-                    completed={dataStatus.method?.percent}
+                    completed={dataStatus?.method?.percent}
                     animateOnRender={true}
                     baseBgColor={'#F3F3F3FF'}
                     bgColor={message === null ? '#0066EAFF' : '#6c757d'}
@@ -243,8 +238,12 @@ const ProcessBarModal = () => {
                     }
                 </div>
             </div>
-            }
-        </div>
-)
+        )
+    }
+
+    if (!dataStatus) {
+        return <p className="error-message">Что-то пошло не так</p>
+    }
+
 }
-export default ProcessBarModal
+export default ProcessBar

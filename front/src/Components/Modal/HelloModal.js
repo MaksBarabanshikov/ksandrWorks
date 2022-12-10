@@ -1,9 +1,10 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HelloModalSlider from "./HelloModalSlider";
-import {faCircleChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {faCircleChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalFB, nextStep} from "../../Utils/redux/modules/modalSlice";
+import CloseModalBtn from "./CloseModalBtn";
 
 const HelloModal = () => {
     const isOpen = useSelector(state => state.modalFb.isOpen)
@@ -14,6 +15,9 @@ const HelloModal = () => {
     return (
         <div className={`modal ${isOpen ? "" : "hidden"}`}>
             <div className={`modal__body hello-modal ${isOpen ? "open" : ''}`}>
+                <span className="text-right block">
+                    <CloseModalBtn handleClose={() => dispatch(closeModalFB())}/>
+                </span>
                 {step === 1 && <div className="step-1">
                     <div className="modal__body_top flex justify-content-between align-center border-bottom">
                         <div>
@@ -60,14 +64,14 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="modal__body_main-btn flex">
-                            <button
-                                className="btn blue-btn"
-                                onClick={() => dispatch(nextStep())}
-                            >
-                                Далее
-                            </button>
-                        </div>
+                    </div>
+                    <div className="modal__body_btn flex">
+                        <button
+                            className="btn blue-btn"
+                            onClick={() => dispatch(nextStep())}
+                        >
+                            Далее
+                        </button>
                     </div>
                 </div>}
                 {step === 2 && <div className="step-2">
@@ -134,15 +138,16 @@ const HelloModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="modal__body_main-btn flex">
-                            <button
-                                className="btn blue-btn"
-                                onClick={() => dispatch(closeModalFB())}
-                            >
-                                Начать
-                            </button>
-                        </div>
                     </div>
+                    <div className="modal__body_btn flex">
+                        <button
+                            className="btn blue-btn"
+                            onClick={() => dispatch(closeModalFB())}
+                        >
+                            Начать
+                        </button>
+                    </div>
+
                 </div>}
             </div>
         </div>

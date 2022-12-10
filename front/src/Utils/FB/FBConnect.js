@@ -1,43 +1,43 @@
-import FacebookLogin, {FacebookLoginClient} from "@greatsumini/react-facebook-login";
-import FBLogo from "../../Assets/image/Logotype-Facebook.svg";
+import {FacebookLoginClient} from "@greatsumini/react-facebook-login";
 import Block from "../../Components/common/Block";
 import {useDispatch, useSelector} from "react-redux";
-import {openModalFB} from "../redux/modules/modalSlice";
-import {createTokenAndUserID, createUser, logoutFb} from "../redux/modules/facebookSlice";
-import {useExitFbMutation, useSendTokenFbMutation} from "../redux/services/hashtagsApi";
+import {logoutFb} from "../redux/modules/facebookSlice";
+import {useExitFbMutation} from "../redux/services/hashtagsApi";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons/faDoorOpen";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 import FacebookLogo from "../../Components/FacebookLogo/FacebookLogo";
+import {useLocation} from "react-router-dom";
 
 
 const ReactFacebookLogin = () => {
-    const user = useSelector(state => state.facebook.user)
+    const { userID,isLoggedIn, picture, name, email } = useSelector(state => state.facebook.user)
     const [exitFb] = useExitFbMutation()
     const dispatch = useDispatch()
     const { width } = useWindowDimensions()
+    const location = useLocation()
 
     const FBLogout = () => {
         FacebookLoginClient.logout(() => {
             dispatch(logoutFb())
             exitFb({
-                userID: user.userID
+                userID
             })
         })
     }
 
     let fbContent
 
-    if (user.isLoggedIn) {
+    if (isLoggedIn && location.pathname === "/hashtags") {
         fbContent = (
             <div className="facebook__account">
-                <img src={user.picture} alt=""/>
+                <img className="m-auto" src={picture} alt=""/>
                 <Block stylees="logo__text">
                     <h3>
-                        {user.name}
+                        {name}
                     </h3>
                     <h6 className="logo__title">
-                        {user.email}
+                        {email}
                     </h6>
                 </Block>
                 <button className="blue-btn" onClick={() => FBLogout()}>

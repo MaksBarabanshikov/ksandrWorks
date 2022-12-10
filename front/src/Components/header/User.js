@@ -1,8 +1,6 @@
 import * as yup from "yup";
 import {useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup";
-import Block from "../common/Block"
-import logo from "../../Assets/image/logo.png"
 import subtract from "../../Assets/image/header/user/Subtract.svg"
 import "./User.scss"
 import {parsePhoneNumber} from "libphonenumber-js";
@@ -10,7 +8,7 @@ import {parsePhoneNumber} from "libphonenumber-js";
 const schema = yup.object({
     fio: yup.string().required("Поле обязательно к заполнению").min(10, "Минимум 10 символов"),
     email: yup.string().email("Введите корректный email").required("Поле обязательно к заполнению"),
-    tel: yup.string().required("Поле обязательно к заполнению"),
+    tel: yup.string().required("Поле обязательно к заполнению").min(16, "Некорректный номер"),
     oldPassword: yup.string().required("Поле обязательно к заполнению").min(5, "Минимум 5 символов"),
     newPassword: yup.string().required("Поле обязательно к заполнению").min(5, "Минимум 5 символов")
 })
@@ -115,14 +113,6 @@ const User = ({visible}) => {
                     </div>
                 </div>
                 <div className="user-column">
-                    <Block stylees="logo">
-                        <img className="logo-image" src={logo} alt="logo"/>
-                        <Block stylees="logo__text">
-                            <h6 className="logo__title">
-                                TeleSpace
-                            </h6>
-                        </Block>
-                    </Block>
                     <img src={subtract} alt=""/>
                     <input type="submit" className="blue-btn" value="Подтвердить"/>
                 </div>

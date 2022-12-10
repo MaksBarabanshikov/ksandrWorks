@@ -1,14 +1,15 @@
 import React from 'react';
-import logo from '../../../image/landing/ipostX.svg'
+import logo from '../../../Assets/image/landing/ipostX.svg'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons/faSearch";
+import LandingButton from "./LandingButton";
 
-const Header = () => (
+const HeaderLanding = () => (
     <header className="landing-header">
-        <div className="container">
-            <img src={logo} alt="ipostX"/>
-            <nav className="landing-header__nav">
-                <ul>
+        <div className="flex justify-content-between align-center">
+            <img width="104" src={logo} alt="ipostX"/>
+            <nav className="landing-header__nav flex align-center ">
+                <ul className="flex">
                     <li>
                         <a href="#">
                             Главная
@@ -31,15 +32,9 @@ const Header = () => (
                     </li>
                 </ul>
             </nav>
-            <div className="landing-header__search">
-                <input placeholder="Поиск" type="text"/>
-                <FontAwesomeIcon icon={faSearch}/>
-            </div>
-            <button>
-                <span></span>
-            </button>
+            <LandingButton to="/hashtags" width={'230px'} height={'45px'} children={<span>Личный кабинет</span>}/>
         </div>
     </header>
 );
 
-export default Header;
+export default HeaderLanding;

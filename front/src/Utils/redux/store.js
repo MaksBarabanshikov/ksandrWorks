@@ -12,7 +12,6 @@ import {
 import storage from 'redux-persist/lib/storage'
 import {createLogger} from "redux-logger"
 import {rootReducer} from "./reducer";
-import {postsApi} from "./services/postsApi";
 import {hashtagsApi} from "./services/hashtagsApi";
 
 const logger = createLogger()
@@ -31,7 +30,7 @@ const store = configureStore({
         serializableCheck: {
             ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
         }
-    }).concat(postsApi.middleware, hashtagsApi.middleware, logger),
+    }).concat(hashtagsApi.middleware, logger),
 })
 
 export const persistor = persistStore(store)

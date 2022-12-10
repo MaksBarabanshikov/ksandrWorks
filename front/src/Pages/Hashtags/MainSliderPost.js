@@ -26,7 +26,7 @@ const MainSliderPost = ({isSendId}) => {
         }
         if (isSendId) {
             if (posts?.length && fbPage && !!!error) {
-                sendCurrentPostId({id: posts[activeSlide].id})
+                // sendCurrentPostId({id: posts[activeSlide].id})
                 dispatch(setCurrentPostId({id: posts[activeSlide].id}))
             }
         }
@@ -45,7 +45,7 @@ const MainSliderPost = ({isSendId}) => {
     }
 
     if (!fbPage) {
-        return <h4 className="error-message mt-20 mb-20">Выполните вход в fb</h4>
+        return <h4 className="error-message mt-20 mb-20">Выполните вход в facebook</h4>
     }
 
     if (error) {
@@ -73,9 +73,10 @@ const MainSliderPost = ({isSendId}) => {
                             <span className="post-slider__item-like">
                                 <strong>Нравится: {post.like_count}</strong>
                             </span>
-                            <span className="post-slider__item-caption ">
-                                <strong>{post.username}</strong> {post.caption}
-                            </span>
+                            <div className="post-slider__item-caption ">
+                                <strong>{post.username}</strong>
+                                <span>{post.caption}</span>
+                            </div>
                         </div>
                     </div>))}
                 </Slider>

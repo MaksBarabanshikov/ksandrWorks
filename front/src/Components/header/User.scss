@@ -53,7 +53,7 @@
       display: block;
       margin-bottom: 34px;
       @media (max-width: 992px) {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
       }
 
       span {
@@ -67,18 +67,12 @@
       input {
         width: 100%;
         max-width: 100%;
-        background-color: transparent;
-        border-bottom: 1px solid #929292;
-        border-radius: 0;
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 12px;
-        text-align: left;
-        padding-top: 0;
-      }
-
-      .input-error {
-        border-bottom: 1px solid #EF9B9B;
+        //background-color: transparent;
+        //font-weight: 400;
+        //font-size: 12px;
+        //line-height: 12px;
+        //text-align: left;
+        //padding-top: 0;
       }
 
       .user-errors {
@@ -122,6 +116,12 @@
         .logo__title {
           text-align: center;
           font-size: 14px;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .blue-btn {
+          margin-top: 20px;
         }
       }
     }
