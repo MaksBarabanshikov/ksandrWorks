@@ -141,6 +141,8 @@ var PageErr ErrMsg
 var IgEr ErrMsg
 var MediaEr ErrMsg
 var Temp bool
+var DB connection
+var DB Client
 
 func roundFloat(val float64, precision uint) float64 {
 	ratio := math.Pow(10, float64(precision))
@@ -791,8 +793,8 @@ func main() {
 	route.GET("/api/hashtags/process/stop", StopProcess)
 	route.GET("/api/hashtags/process/exit", ExitProcess)
 	route.POST("/api/hashtags/exit", Exit)
-	//route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
-	err := route.Run(":8080")
+	route.Run("localhost:3000") // listen and serve on 0.0.0.0:8080
+	//err := route.Run(":8080")
 
 	if err != nil {
 		return
